@@ -1,3 +1,8 @@
-from django.contrib import admin  # noqa: F401
+from django.contrib import admin
 
-# Register your models here.
+from langcorrect.challenges.models import Challenge
+
+
+@admin.register(Challenge)
+class ChallengeAdmin(admin.ModelAdmin):
+    list_display = ["title", "is_active", "description", "start_date", "end_date"]
