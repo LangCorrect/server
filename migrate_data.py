@@ -7,8 +7,11 @@ from django.contrib.auth import get_user_model
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
 
+from taggit.models import Tag  # noqa: E402
+
 from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
+from langcorrect.prompts.models import Prompt  # noqa: E402
 
 User = get_user_model()
 
@@ -151,11 +154,49 @@ def migrate_challenges():
     Challenge.objects.bulk_create(chal_objects)
 
 
+def migrate_prompts():
+    print("migrating prompts...")
+
+    with open("./temp_data/prompt_data.json") as file:
+        data = json.load(file)
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["updated"]
+        user_pk = entry["fields"]["user"]
+        content = entry["fields"]["content"]
+        difficulty_level = entry["fields"]["difficulty_level"]
+        language_pk = entry["fields"]["language"]
+        slug = entry["fields"]["slug"]
+        chal_pk = entry["fields"]["challenge"]
+        tag_ids = entry["fields"]["tag_ids"]
+
+        prompt = Prompt.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            user=User.objects.get(pk=user_pk),
+            content=content,
+            difficulty_level=difficulty_level,
+            language=Language.objects.get(pk=language_pk),
+            slug=slug,
+            challenge=Challenge.objects.get(pk=chal_pk) if chal_pk else None,
+        )
+
+        for tag_id in tag_ids:
+            tag = Tag.objects.get(id=tag_id)
+            prompt.tags.add(tag)
+
+        prompt.save()
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
     # migrate_language_levels()
-    migrate_challenges()
+    # migrate_challenges()
+    migrate_prompts()
 
 
 main()
