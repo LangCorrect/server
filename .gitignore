@@ -275,3 +275,5 @@ dump.rdb
 langcorrect/media/
 
 .pytest_cache/
+
+temp_data/
