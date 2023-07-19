@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
 
-from langcorrect.languages.models import Language  # noqa: E402
+from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
 
 User = get_user_model()
 
@@ -92,9 +92,34 @@ def migrate_languages():
     Language.objects.bulk_create(lang_objects)
 
 
+def migrate_language_levels():
+    print("migrating language levels...")
+
+    with open("./temp_data/language_levels_data.json") as file:
+        data = json.load(file)
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        user_pk = entry["fields"]["user"]
+        language_pk = entry["fields"]["language"]
+        level = entry["fields"]["level"]
+
+        LanguageLevel.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            user=User.objects.get(pk=user_pk),
+            language=Language.objects.get(pk=language_pk),
+            level=level,
+        )
+
+
 def main():
     # migrate_users()
-    migrate_languages()
+    # migrate_languages()  # load fixture instead
+    migrate_language_levels()
 
 
 main()
