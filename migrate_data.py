@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
 
+from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
 
 User = get_user_model()
@@ -116,10 +117,45 @@ def migrate_language_levels():
         )
 
 
+def migrate_challenges():
+    print("migrating challenges...")
+
+    with open("./temp_data/challenge_data.json") as file:
+        data = json.load(file)
+
+    chal_objects = []
+
+    for entry in data:
+        pk = entry["pk"]
+        start_date = entry["fields"]["start_date"]
+        end_date = entry["fields"]["end_date"]
+        title = entry["fields"]["title"]
+        description = entry["fields"]["description"]
+        url = entry["fields"]["url"]
+        slug = entry["fields"]["slug"]
+        is_active = entry["fields"]["is_active"]
+
+        chal_objects.append(
+            Challenge(
+                pk=pk,
+                start_date=start_date,
+                end_date=end_date,
+                title=title,
+                description=description,
+                url=url,
+                slug=slug,
+                is_active=is_active,
+            )
+        )
+
+    Challenge.objects.bulk_create(chal_objects)
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
-    migrate_language_levels()
+    # migrate_language_levels()
+    migrate_challenges()
 
 
 main()
