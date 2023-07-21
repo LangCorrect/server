@@ -1,3 +1,25 @@
-from django.db import models  # noqa: 401
+from django.conf import settings
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+from model_utils.models import SoftDeletableModel, TimeStampedModel
 
-# Create your models here.
+
+class CorrectionType(SoftDeletableModel, TimeStampedModel):
+    class Meta:
+        verbose_name = _("Correction Type")
+        verbose_name_plural = _("Correction Types")
+
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class CorrectedRow(SoftDeletableModel, TimeStampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey("posts.Post", on_delete=models.CASCADE, null=True, blank=True)
+    post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE, null=True, default=None)
+    correction = models.TextField()
+    note = models.TextField(default=None, null=True, blank=True)
+    correction_types = models.ManyToManyField(CorrectionType)
