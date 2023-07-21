@@ -50,3 +50,11 @@ class Post(TimeStampedModel, SoftDeletableModel):
             self.slug = generated_slug
 
         super().save(*args, **kwargs)
+
+
+class PostRow(TimeStampedModel, SoftDeletableModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    sentence = models.TextField()
+    is_actual = models.BooleanField(default=True)
+    order = models.IntegerField(default=None, null=True)

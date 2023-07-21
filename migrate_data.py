@@ -11,7 +11,7 @@ from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
-from langcorrect.posts.models import Post  # noqa: E402
+from langcorrect.posts.models import Post, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
 
 User = get_user_model()
@@ -243,13 +243,55 @@ def migrate_posts():
         post.save()
 
 
+def migrate_post_rows():
+    print("migrating post rows...")
+
+    with open("./temp_data/postrows_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        sentence = entry["fields"]["sentence"]
+        is_actual = entry["fields"]["is_actual"]
+        order = entry["fields"]["order"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk) if post_pk else None
+        except Post.DoesNotExist:
+            post = None
+
+        PostRow.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            is_removed=is_removed,
+            user=User.objects.get(pk=user_pk),
+            post=post,
+            sentence=sentence,
+            is_actual=is_actual,
+            order=order,
+        )
+
+        curr_count += 1
+        print(f"Finished importing postrow {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
     # migrate_language_levels()
     # migrate_challenges()
     # migrate_prompts()
-    migrate_posts()
+    # migrate_posts()
+    migrate_post_rows()
 
 
 main()
