@@ -320,27 +320,27 @@ def migrate_corrected_rows():
 
         try:
             post_row = PostRow.all_objects.get(pk=post_row_pk) if post_row_pk else None
+
+            correction = CorrectedRow.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                user=User.objects.get(pk=user_pk),
+                post=post,
+                post_row=post_row,
+                correction=correction,
+                note=note,
+            )
+
+            for correction_type in pretty_corrections:
+                c_type = CORRECTION_TYPES_MAPPING.get(correction_type)
+                ctype = CorrectionType.objects.get(name=c_type)
+                correction.correction_types.add(ctype)
+
+            correction.save()
         except PostRow.DoesNotExist:
-            post_row = None
-
-        correction = CorrectedRow.objects.create(
-            pk=pk,
-            created=created,
-            modified=modified,
-            is_removed=is_removed,
-            user=User.objects.get(pk=user_pk),
-            post=post,
-            post_row=post_row,
-            correction=correction,
-            note=note,
-        )
-
-        for correction_type in pretty_corrections:
-            c_type = CORRECTION_TYPES_MAPPING.get(correction_type)
-            ctype = CorrectionType.objects.get(name=c_type)
-            correction.correction_types.add(ctype)
-
-        correction.save()
+            pass
 
         curr_count += 1
         print(f"Finished importing correctedrow {curr_count}/{total_count}")
