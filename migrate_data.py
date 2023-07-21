@@ -11,6 +11,7 @@ from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
+from langcorrect.posts.models import Post, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
 
 User = get_user_model()
@@ -191,12 +192,106 @@ def migrate_prompts():
         prompt.save()
 
 
+def migrate_posts():
+    print("migrating posts...")
+
+    with open("./temp_data/post_data.json") as file:
+        data = json.load(file)
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        title = entry["fields"]["title"]
+        text = entry["fields"]["text"]
+        native_text = entry["fields"]["native_text"]
+        language_pk = entry["fields"]["language"]
+        gender_of_narration = entry["fields"]["gender_of_narration"]
+        permission = entry["fields"]["permission"]
+        is_draft = entry["fields"]["is_draft"]
+        prompt_pk = entry["fields"]["prompt"]
+        slug = entry["fields"]["slug"]
+        language_level = entry["fields"]["language_level"]
+        is_corrected = entry["fields"]["is_corrected"]
+        tag_ids = entry["fields"]["tag_ids"]
+
+        post = Post.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            is_removed=is_removed,
+            user=User.objects.get(pk=user_pk),
+            title=title,
+            text=text,
+            native_text=native_text,
+            language=Language.objects.get(pk=language_pk),
+            gender_of_narration=gender_of_narration,
+            permission=permission,
+            is_draft=is_draft,
+            prompt=Prompt.objects.get(pk=prompt_pk) if prompt_pk else None,
+            slug=slug,
+            language_level=language_level,
+            is_corrected=is_corrected,
+        )
+
+        for tag_id in tag_ids:
+            tag = Tag.objects.get(id=tag_id)
+            post.tags.add(tag)
+
+        post.save()
+
+
+def migrate_post_rows():
+    print("migrating post rows...")
+
+    with open("./temp_data/postrows_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        sentence = entry["fields"]["sentence"]
+        is_actual = entry["fields"]["is_actual"]
+        order = entry["fields"]["order"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk) if post_pk else None
+        except Post.DoesNotExist:
+            post = None
+
+        PostRow.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            is_removed=is_removed,
+            user=User.objects.get(pk=user_pk),
+            post=post,
+            sentence=sentence,
+            is_actual=is_actual,
+            order=order,
+        )
+
+        curr_count += 1
+        print(f"Finished importing postrow {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
     # migrate_language_levels()
     # migrate_challenges()
-    migrate_prompts()
+    # migrate_prompts()
+    # migrate_posts()
+    migrate_post_rows()
 
 
 main()
