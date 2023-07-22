@@ -11,6 +11,7 @@ from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow  # noqa: E402
+from langcorrect.follows.models import Follower  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
 from langcorrect.posts.models import Post, PostReply, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
@@ -488,6 +489,36 @@ def migrate_post_replies():
         print(f"Finished importing PostReply {curr_count}/{total_count}")
 
 
+def migrate_followers():
+    print("Migrating followers...")
+
+    with open("./temp_data/follower_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        user_pk = entry["fields"]["user"]
+        follow_to_pk = entry["fields"]["follow_to"]
+        get_notification = entry["fields"]["get_notification"]
+
+        Follower.objects.create(
+            pk=pk,
+            created=created,
+            modified=modified,
+            user=User.objects.get(pk=user_pk),
+            follow_to=User.objects.get(pk=follow_to_pk),
+            get_notification=get_notification,
+        )
+
+        curr_count += 1
+        print(f"Finished importing Followers {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -499,7 +530,8 @@ def main():
     # migrate_corrected_rows()
     # migrate_perfect_rows()
     # migrate_overall_feedback()
-    migrate_post_replies()
+    # migrate_post_replies()
+    migrate_followers()
 
 
 main()
