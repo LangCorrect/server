@@ -9,34 +9,49 @@
           <img src="{{ post.user.avatar }}" alt="{{ post.user.username }}'s avatar" />
         </a>
         <div>
-          <div class="d-flex align-items-center gap-2">
-            <a href="#" class="card-title mb-0 fw-bold text-decoration-none">{{ post.user.username }}</a>
-            <!-- <span class="text-muted">- {{ post.created|naturaltime }}</span> -->
-          </div>
-          <!-- <p class="mb-0">Learning: En, Ja, Fr</p> -->
-          <p class="mb-0 small text-muted">{{ post.created|naturaltime }}</p>
+          <a href="{% url 'users:detail' post.user.username %}"
+             class="card-title mb-0 fw-bold text-decoration-none {% if post.user.is_premium %}text-premium{% endif %}">{{ post.user.username }}</a>
+          <p class="mb-0 small text-muted">{{ post.created|naturalday }}</p>
         </div>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span class="d-flex align-items-center">
+          <span class="fa-stack small">
+            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+            <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
+          </span>
+          99
+        </span>
+        <span class="fa-stack small">
+          <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+          <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
+        </span>
+        <span class="fa-stack small">
+          <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+          <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
+        </span>
       </div>
     </div>
   </div>
-  <div class="card-body border-top">
-    <h5>{{ post.title }}</h5>
-    <p class="mb-0">{{ post.text|linebreaks }}</p>
+  <div class="card-body border-top hoverable">
+    <div class="position-relative">
+      <h5>{{ post.title }}</h5>
+      <p class="mb-0">{{ post.text|linebreaks }}</p>
+      <a href="{# {% url 'posts:detail' post.get_absolute_url %} #}"
+         class="stretched-link link-secondary"></a>
+    </div>
   </div>
-  <div class="card-footer">
+  <div class="card-footer bg-transparent">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex gap-2">
-        <p class="mb-0">
-          <span class="badge rounded-pill text-bg-secondary">
-            <i class="fa-solid fa-globe me-1"></i>
-            {{ post.language.code }}
+        <div class="d-flex align-items-center gap-1">
+          <span class="chip">
+            <i class="fa-solid fa-globe pe-1"></i>  {{ post.language.code }}
           </span>
-        </p>
-        <p class="mb-0">
-          <span class="badge rounded-pill text-bg-secondary">
-            <i class="fa-regular fa-circle-check me-1"></i> 3
+          <span class="chip">
+            <i class="fa-regular fa-circle-check pe-1"></i> 3
           </span>
-        </p>
+        </div>
       </div>
       <a class="btn btn-sm btn-outline-primary">
         <i class="fa-regular fa-circle-check"></i>

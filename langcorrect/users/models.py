@@ -50,7 +50,7 @@ class User(AbstractUser):
 
     @property
     def avatar(self):
-        return self._build_avatar_url(size=42)
+        return self._build_avatar_url(size=40)
 
     @property
     def following_users(self):
