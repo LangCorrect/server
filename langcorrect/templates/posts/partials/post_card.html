@@ -1,0 +1,47 @@
+{% load i18n %}
+{% load humanize %}
+
+<div class="card">
+  <div class="card-header border-0 bg-transparent">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a href="{% url 'users:detail' post.user.username %}">
+          <img src="{{ post.user.avatar }}" alt="{{ post.user.username }}'s avatar" />
+        </a>
+        <div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="#" class="card-title mb-0 fw-bold text-decoration-none">{{ post.user.username }}</a>
+            <!-- <span class="text-muted">- {{ post.created|naturaltime }}</span> -->
+          </div>
+          <!-- <p class="mb-0">Learning: En, Ja, Fr</p> -->
+          <p class="mb-0 small text-muted">{{ post.created|naturaltime }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body border-top">
+    <h5>{{ post.title }}</h5>
+    <p class="mb-0">{{ post.text|linebreaks }}</p>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex gap-2">
+        <p class="mb-0">
+          <span class="badge rounded-pill text-bg-secondary">
+            <i class="fa-solid fa-globe me-1"></i>
+            {{ post.language.code }}
+          </span>
+        </p>
+        <p class="mb-0">
+          <span class="badge rounded-pill text-bg-secondary">
+            <i class="fa-regular fa-circle-check me-1"></i> 3
+          </span>
+        </p>
+      </div>
+      <a class="btn btn-sm btn-outline-primary">
+        <i class="fa-regular fa-circle-check"></i>
+        Correct
+      </a>
+    </div>
+  </div>
+</div>

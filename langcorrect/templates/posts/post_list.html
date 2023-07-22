@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}
+  {% translate "Journals" %} · LangCorrect
+{% endblock title %}
+{% block content %}
+  <h1 class="mb-4">Latest posts</h1>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="d-grid gap-3">
+        {% for post in object_list %}
+          {% include "posts/partials/post_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header border-0 bg-transparent">
+          <h5 class="card-title mb-0 text-large">Posts from following</h5>
+        </div>
+        <div class="card-body border-top">
+          <div class="d-grid gap-3">
+            {% for post in following_feed %}
+              <div>
+                <h6>
+                  <a href="" class="text-decoration-none fs-5 fw-bold">{{ post.title }}</a>
+                </h6>
+                <p class="mb-0">{{ post.text|truncatechars:120 }}</p>
+                <ul class="nav">
+                  <li class="nav-item px-1">{{ post.user.username }}</li>
+                  <li class="nav-item px-1">
+                    <i class="fa-regular fa-circle-check me-1"></i> 9999
+                  </li>
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a href="#" class="text-decoration-none">View all posts from following users</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
