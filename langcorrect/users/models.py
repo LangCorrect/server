@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from config.settings.base import AVATAR_BASE_URL
+
 
 class GenderChoices(models.TextChoices):
     MALE = "M", _("Male")
@@ -37,3 +39,19 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    def _build_avatar_url(self, size=None):
+        base_url = f"{AVATAR_BASE_URL}{self.username}"
+        if size:
+            base_url += f"&size={size}"
+        if self.is_premium:
+            base_url += "&background=FF9066&color=ffffff"
+        return base_url
+
+    @property
+    def avatar(self):
+        return self._build_avatar_url(size=42)
+
+    @property
+    def following_users(self):
+        return User.objects.filter(follow_to__user=self)
