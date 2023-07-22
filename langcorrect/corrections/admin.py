@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from langcorrect.corrections.models import CorrectedRow, CorrectionType, PerfectRow
+from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow
 
 
 @admin.register(CorrectionType)
@@ -47,3 +47,19 @@ class PerfectRowAdmin(admin.ModelAdmin):
 
     def original_sentence(self, obj):
         return obj.post_row.sentence
+
+
+@admin.register(OverallFeedback)
+class OverallFeedbackAdmin(admin.ModelAdmin):
+    readonly_fields = ["post", "user", "comment"]
+    list_display = ["receiver", "corrector", "comment", "is_draft"]
+    search_fields = ["post__user__username"]
+
+    def receiver(self, obj):
+        if obj.post:
+            return obj.post.user
+        else:
+            return None
+
+    def corrector(self, obj):
+        return obj.user
