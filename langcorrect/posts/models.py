@@ -58,3 +58,19 @@ class PostRow(TimeStampedModel, SoftDeletableModel):
     sentence = models.TextField()
     is_actual = models.BooleanField(default=True)
     order = models.IntegerField(default=None, null=True)
+
+
+class PostReply(TimeStampedModel, SoftDeletableModel):
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    recipient = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="which_user",
+        null=True,
+    )
+    text = models.TextField()
+    corrected_row = models.ForeignKey("corrections.CorrectedRow", on_delete=models.SET_NULL, null=True)
+    perfect_row = models.ForeignKey("corrections.PerfectRow", on_delete=models.SET_NULL, null=True)
+    reply = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="reply_to_comment")
+    dislike = models.BooleanField(default=False)

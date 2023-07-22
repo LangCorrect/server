@@ -12,7 +12,7 @@ from taggit.models import Tag  # noqa: E402
 from langcorrect.challenges.models import Challenge  # noqa: E402
 from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
-from langcorrect.posts.models import Post, PostRow  # noqa: E402
+from langcorrect.posts.models import Post, PostReply, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
 
 User = get_user_model()
@@ -426,6 +426,68 @@ def migrate_overall_feedback():
         print(f"Finished importing OverallFeedback {curr_count}/{total_count}")
 
 
+def migrate_post_replies():
+    print("Migrate post replies...")
+
+    with open("./temp_data/replies_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        recipient_pk = entry["fields"]["recipient"]
+        text = entry["fields"]["text"]
+        corrected_row_pk = entry["fields"]["corrected_row"]
+        perfect_row_pk = entry["fields"]["perfect_row"]
+        reply_pk = entry["fields"]["reply"]
+        dislike = entry["fields"]["dislike"]
+
+        try:
+            corrected_row = CorrectedRow.all_objects.get(pk=corrected_row_pk) if corrected_row_pk else None
+        except CorrectedRow.DoesNotExist:
+            corrected_row = None
+
+        try:
+            perfect_row = PerfectRow.all_objects.get(pk=perfect_row_pk) if perfect_row_pk else None
+        except PerfectRow.DoesNotExist:
+            perfect_row = None
+
+        try:
+            reply = PostReply.all_objects.get(pk=reply_pk) if reply_pk else None
+        except PostReply.DoesNotExist:
+            reply = None
+
+        try:
+            post = Post.all_objects.get(pk=post_pk)
+
+            PostReply.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                post=post,
+                user=User.objects.get(pk=user_pk),
+                recipient=User.objects.get(pk=recipient_pk),
+                text=text,
+                reply=reply,
+                corrected_row=corrected_row,
+                perfect_row=perfect_row,
+                dislike=dislike,
+            )
+        except Post.DoesNotExist:
+            pass
+
+        curr_count += 1
+        print(f"Finished importing PostReply {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -436,7 +498,8 @@ def main():
     # migrate_post_rows()
     # migrate_corrected_rows()
     # migrate_perfect_rows()
-    migrate_overall_feedback()
+    # migrate_overall_feedback()
+    migrate_post_replies()
 
 
 main()
