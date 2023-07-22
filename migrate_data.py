@@ -10,7 +10,7 @@ django.setup()
 from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
-from langcorrect.corrections.models import CorrectedRow, CorrectionType  # noqa: E402
+from langcorrect.corrections.models import CorrectedRow, CorrectionType, PerfectRow  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
 from langcorrect.posts.models import Post, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
@@ -346,6 +346,47 @@ def migrate_corrected_rows():
         print(f"Finished importing correctedrow {curr_count}/{total_count}")
 
 
+def migrate_perfect_rows():
+    print("Migrating perfect rows...")
+
+    with open("./temp_data/perfects_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        post_row_pk = entry["fields"]["post_row"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk) if post_pk else None
+        except Post.DoesNotExist:
+            post = None
+
+        try:
+            post_row = PostRow.all_objects.get(pk=post_row_pk) if post_row_pk else None
+            PerfectRow.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                user=User.objects.get(pk=user_pk),
+                post=post,
+                post_row=post_row,
+            )
+        except PostRow.DoesNotExist:
+            pass
+
+        curr_count += 1
+        print(f"Finished importing PerfectRow {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -354,7 +395,8 @@ def main():
     # migrate_prompts()
     # migrate_posts()
     # migrate_post_rows()
-    migrate_corrected_rows()
+    # migrate_corrected_rows()
+    migrate_perfect_rows()
 
 
 main()

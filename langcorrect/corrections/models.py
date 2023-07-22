@@ -23,3 +23,9 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     correction = models.TextField()
     note = models.TextField(default=None, null=True, blank=True)
     correction_types = models.ManyToManyField(CorrectionType)
+
+
+class PerfectRow(SoftDeletableModel, TimeStampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey("posts.Post", on_delete=models.CASCADE, null=True, blank=True)
+    post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
