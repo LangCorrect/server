@@ -10,11 +10,19 @@ django.setup()
 from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
+from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
 from langcorrect.posts.models import Post, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
 
 User = get_user_model()
+
+CORRECTION_TYPES_MAPPING = {
+    "Grammar": "Grammar",
+    "Spelling": "Spelling",
+    "Stylistic": "Style and Tone",
+    "Usage": "Word Choice",
+}
 
 
 def migrate_users():
@@ -284,6 +292,140 @@ def migrate_post_rows():
         print(f"Finished importing postrow {curr_count}/{total_count}")
 
 
+def migrate_corrected_rows():
+    print("Migrating CorrectedRows...")
+
+    with open("./temp_data/correctedrow_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        post_row_pk = entry["fields"]["post_row"]
+        correction = entry["fields"]["correction"]
+        note = entry["fields"]["note"]
+        pretty_corrections = entry["fields"]["pretty_corrections"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk) if post_pk else None
+        except Post.DoesNotExist:
+            post = None
+
+        try:
+            post_row = PostRow.all_objects.get(pk=post_row_pk) if post_row_pk else None
+
+            correction = CorrectedRow.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                user=User.objects.get(pk=user_pk),
+                post=post,
+                post_row=post_row,
+                correction=correction,
+                note=note,
+            )
+
+            for correction_type in pretty_corrections:
+                c_type = CORRECTION_TYPES_MAPPING.get(correction_type)
+                ctype = CorrectionType.objects.get(name=c_type)
+                correction.correction_types.add(ctype)
+
+            correction.save()
+        except PostRow.DoesNotExist:
+            pass
+
+        curr_count += 1
+        print(f"Finished importing correctedrow {curr_count}/{total_count}")
+
+
+def migrate_perfect_rows():
+    print("Migrating perfect rows...")
+
+    with open("./temp_data/perfects_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        post_row_pk = entry["fields"]["post_row"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk) if post_pk else None
+        except Post.DoesNotExist:
+            post = None
+
+        try:
+            post_row = PostRow.all_objects.get(pk=post_row_pk) if post_row_pk else None
+            PerfectRow.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                user=User.objects.get(pk=user_pk),
+                post=post,
+                post_row=post_row,
+            )
+        except PostRow.DoesNotExist:
+            pass
+
+        curr_count += 1
+        print(f"Finished importing PerfectRow {curr_count}/{total_count}")
+
+
+def migrate_overall_feedback():
+    print("Migrating overall feedback...")
+
+    with open("./temp_data/overall_feedback_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        is_removed = entry["fields"]["is_removed"]
+        user_pk = entry["fields"]["user"]
+        post_pk = entry["fields"]["post"]
+        comment = entry["fields"]["comment"]
+        is_draft = entry["fields"]["is_draft"]
+
+        try:
+            post = Post.all_objects.get(pk=post_pk)
+
+            OverallFeedback.objects.create(
+                pk=pk,
+                created=created,
+                modified=modified,
+                is_removed=is_removed,
+                user=User.objects.get(pk=user_pk),
+                post=post,
+                comment=comment,
+                is_draft=is_draft,
+            )
+        except Post.DoesNotExist:
+            pass
+
+        curr_count += 1
+        print(f"Finished importing OverallFeedback {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -291,7 +433,10 @@ def main():
     # migrate_challenges()
     # migrate_prompts()
     # migrate_posts()
-    migrate_post_rows()
+    # migrate_post_rows()
+    # migrate_corrected_rows()
+    # migrate_perfect_rows()
+    migrate_overall_feedback()
 
 
 main()

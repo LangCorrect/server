@@ -5,6 +5,34 @@ Master grammar, spelling, and syntax in the language(s) you’re learning throug
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
+## Installation
+
+### Create the environment
+
+- To create a new virtual environment, run the following command:
+
+        $ python -m venv venv
+
+- Install the project dependencies by running the following command:
+
+        $ pip install -r requirements/local.txt
+
+- Create the database:
+
+        createdb --username=postgres langcorrect
+
+- Set up your environment variables in .env (check .env example)
+
+### Install the fixtures
+
+- To install the supported languages, run the following command:
+
+        python manage.py loaddata fixtures/languages.json
+
+- To install the correction types, run the following command:
+
+        python manage.py loaddata fixtures/correction_types.json
+
 ## Settings
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
