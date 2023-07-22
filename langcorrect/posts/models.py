@@ -51,6 +51,12 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
         super().save(*args, **kwargs)
 
+    @property
+    def corrected_by_count(self):
+        corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
+        perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
+        return len(set(corrected_user_ids).union(perfect_user_ids))
+
 
 class PostRow(TimeStampedModel, SoftDeletableModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
