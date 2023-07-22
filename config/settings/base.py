@@ -87,6 +87,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "taggit",
+    "rosetta",
 ]
 
 LOCAL_APPS = [
@@ -348,3 +349,7 @@ SPECTACULAR_SETTINGS = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 TAGGIT_CASE_INSENSITIVE = True
+
+ROSETTA_MESSAGES_PER_PAGE = 25
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+ROSETTA_SHOW_OCCURRENCES = False
