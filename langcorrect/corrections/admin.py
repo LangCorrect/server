@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from langcorrect.corrections.models import CorrectedRow, CorrectionType
+from langcorrect.corrections.models import CorrectedRow, CorrectionType, PerfectRow
 
 
 @admin.register(CorrectionType)
@@ -28,3 +28,22 @@ class CorrectedRowAdmin(admin.ModelAdmin):
 
     def get_correction_types(self, obj):
         return [t.name for t in obj.correction_types.all()]
+
+
+@admin.register(PerfectRow)
+class PerfectRowAdmin(admin.ModelAdmin):
+    readonly_fields = ["post", "user", "post_row"]
+    list_display = ["author", "corrector", "original_sentence"]
+    search_fields = ["post__user__username"]
+
+    def author(self, obj):
+        if obj.post:
+            return obj.post.user
+        else:
+            return None
+
+    def corrector(self, obj):
+        return obj.user
+
+    def original_sentence(self, obj):
+        return obj.post_row.sentence
