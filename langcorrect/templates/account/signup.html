@@ -7,7 +7,7 @@
   {% translate "Signup" %}
 {% endblock head_title %}
 {% block inner %}
-  <h1>{% translate "Sign Up" %}</h1>
+  <h1 class="text-center text-primary fw-bold">{% translate "Sign Up" %}</h1>
   <p>
     {% blocktranslate %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktranslate %}
   </p>
@@ -16,12 +16,49 @@
         method="post"
         action="{% url 'account_signup' %}">
     {% csrf_token %}
-    {{ form|crispy }}
+    <div class="d-grid gap-4">
+      <div class="card">
+        <div class="card-header">{% translate "Create an account" %}</div>
+        <div class="card-body">
+          <p class="card-title">{% translate "Enter some basic account information so you can log in." %}</p>
+          {{ form.username|as_crispy_field }}
+          {{ form.email|as_crispy_field }}
+          {{ form.password1|as_crispy_field }}
+          {{ form.password2|as_crispy_field }}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">{% translate "Select your languages" %}</div>
+        <div class="card-body">
+          <p class="card-title">{% translate "Select your languages so that we can match you to the right speakers." %}</p>
+          <h6 class="card-subtitle mb-2 text-muted">
+            {% translate "You can add additional languages in your profile settings" %}
+          </h6>
+          {{ form.native_language|as_crispy_field }}
+          {{ form.studying_language|as_crispy_field }}
+          {{ form.studying_language_level|as_crispy_field }}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">{% translate "Select your grammatical gender" %}</div>
+        <div class="card-body">
+          <p class="card-title">
+            {% translate "Setting a gender of narrator will help native speakers correct any gender errors. Please note that this is about the narrating-I of a given text, and not necessarily about you." %}
+          </p>
+          <h6 class="card-subtitle mb-2 text-muted">
+            {% translate "This can be changed at any time and on a per journal basis." %}
+          </h6>
+          {{ form.gender_of_narration|as_crispy_field }}
+        </div>
+      </div>
+      <div class="d-grid">
+        <button class="btn btn-primary" type="submit">{% translate "Create my account" %}</button>
+      </div>
+    </div>
     {% if redirect_field_value %}
       <input type="hidden"
              name="{{ redirect_field_name }}"
              value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="btn btn-primary" type="submit">{% translate "Sign Up" %} »</button>
   </form>
 {% endblock inner %}
