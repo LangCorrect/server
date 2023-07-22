@@ -26,10 +26,12 @@
           <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
           <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
         </span>
-        <span class="fa-stack small">
-          <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-          <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
-        </span>
+        {% if post.user.is_premium %}
+          <span class="fa-stack small">
+            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+            <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
+          </span>
+        {% endif %}
       </div>
     </div>
   </div>
