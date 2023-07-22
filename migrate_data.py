@@ -10,6 +10,7 @@ django.setup()
 from taggit.models import Tag  # noqa: E402
 
 from langcorrect.challenges.models import Challenge  # noqa: E402
+from langcorrect.contributions.models import Contribution  # noqa: E402
 from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow  # noqa: E402
 from langcorrect.follows.models import Follower  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
@@ -519,6 +520,34 @@ def migrate_followers():
         print(f"Finished importing Followers {curr_count}/{total_count}")
 
 
+def migrate_contributions():
+    print("Migrating contributions...")
+
+    with open("./temp_data/contributions_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        user_pk = entry["fields"]["user"]
+        total_points = entry["fields"]["total_points"]
+        post_count = entry["fields"]["post_count"]
+        correction_count = entry["fields"]["correction_count"]
+
+        Contribution.objects.create(
+            pk=pk,
+            user=User.objects.get(pk=user_pk),
+            total_points=total_points,
+            post_count=post_count,
+            correction_count=correction_count,
+        )
+
+        curr_count += 1
+        print(f"Finished importing Contribution {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -531,7 +560,8 @@ def main():
     # migrate_perfect_rows()
     # migrate_overall_feedback()
     # migrate_post_replies()
-    migrate_followers()
+    # migrate_followers()
+    migrate_contributions()
 
 
 main()
