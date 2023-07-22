@@ -587,6 +587,24 @@ def migrate_memberships():
         print(f"Finished importing Membership {curr_count}/{total_count}")
 
 
+def reset_sequences():
+    from django.apps import apps
+    from django.conf import settings
+    from django.db import connection
+
+    with connection.cursor() as cursor:
+        for app_name in settings.LOCAL_APPS:
+            app_config = apps.get_app_config(app_name.split(".")[-1])
+            for model in app_config.get_models():
+                table = model._meta.db_table
+                cursor.execute(
+                    f"""
+                    SELECT setval(pg_get_serial_sequence('{table}', 'id'),
+                    (SELECT MAX(id) FROM "{table}")+1, false)
+                """
+                )
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -601,7 +619,8 @@ def main():
     # migrate_post_replies()
     # migrate_followers()
     # migrate_contributions()
-    migrate_memberships()
+    # migrate_memberships()
+    reset_sequences()
 
 
 main()
