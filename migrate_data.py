@@ -14,6 +14,7 @@ from langcorrect.contributions.models import Contribution  # noqa: E402
 from langcorrect.corrections.models import CorrectedRow, CorrectionType, OverallFeedback, PerfectRow  # noqa: E402
 from langcorrect.follows.models import Follower  # noqa: E402
 from langcorrect.languages.models import Language, LanguageLevel  # noqa: E402
+from langcorrect.memberships.models import Membership  # noqa: E402
 from langcorrect.posts.models import Post, PostReply, PostRow  # noqa: E402
 from langcorrect.prompts.models import Prompt  # noqa: E402
 
@@ -548,6 +549,44 @@ def migrate_contributions():
         print(f"Finished importing Contribution {curr_count}/{total_count}")
 
 
+def migrate_memberships():
+    print("Migrating memberships...")
+
+    with open("./temp_data/membership_data.json") as file:
+        data = json.load(file)
+
+    total_count = len(data)
+    curr_count = 0
+
+    for entry in data:
+        pk = entry["pk"]
+        created = entry["fields"]["created"]
+        modified = entry["fields"]["modified"]
+        user_pk = entry["fields"]["user"]
+        customer_code = entry["fields"]["customer_code"]
+        subscription_code = entry["fields"]["subscription_code"]
+        plan_type = entry["fields"]["plan_type"]
+        billing_cycle_ends = entry["fields"]["billing_cycle_ends"]
+        is_cancelled = entry["fields"]["is_cancelled"]
+        cancelled_date = entry["fields"]["cancelled_date"]
+
+        Membership.objects.create(
+            pk=pk,
+            user=User.objects.get(pk=user_pk),
+            created=created,
+            modified=modified,
+            customer_code=customer_code,
+            subscription_code=subscription_code,
+            plan_type=plan_type,
+            billing_cycle_ends=billing_cycle_ends,
+            is_cancelled=is_cancelled,
+            cancelled_date=cancelled_date,
+        )
+
+        curr_count += 1
+        print(f"Finished importing Membership {curr_count}/{total_count}")
+
+
 def main():
     # migrate_users()
     # migrate_languages()  # load fixture instead
@@ -561,7 +600,8 @@ def main():
     # migrate_overall_feedback()
     # migrate_post_replies()
     # migrate_followers()
-    migrate_contributions()
+    # migrate_contributions()
+    migrate_memberships()
 
 
 main()
