@@ -1,4 +1,3 @@
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
 
 from langcorrect.posts.helpers import get_post_counts_by_language
@@ -11,6 +10,12 @@ class PostListView(ListView):
     slug_url_kwarg = "slug"
     paginate_by = 25
 
+    def get_mode(self):
+        return self.request.GET.get("mode", "teach")
+
+    def get_lang_code(self):
+        return self.request.GET.get("lang_code", None)
+
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -19,56 +24,42 @@ class PostListView(ListView):
         if current_user.is_anonymous:
             return qs.filter(permission=PostVisibility.PUBLIC, is_corrected=1)
 
-        native_languages = current_user.native_languages
-        studying_languages = current_user.studying_languages
-
-        mode = self.request.GET.get("mode", "teach")
-        lang_code = self.request.GET.get("lang_code", None)
+        mode = self.get_mode()
+        lang_code = self.get_lang_code()
 
         if mode == "following":
-            following_users = current_user.following_users
-            qs = qs.filter(user__in=following_users)
+            qs = qs.filter(user__in=current_user.following_users)
         elif mode == "learn":
-            studying_languages = current_user.studying_languages
-            qs = qs.filter(language__in=studying_languages)
+            qs = qs.filter(language__in=current_user.studying_languages)
         else:
-            native_languages = current_user.native_languages
-            qs = qs.filter(language__in=native_languages)
+            qs = qs.filter(language__in=current_user.native_languages)
 
-        if lang_code:
-            if not lang_code == "all":
-                qs = qs.filter(language__code=lang_code)
+        if lang_code and lang_code != "all":
+            qs = qs.filter(language__code=lang_code)
 
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_user = self.request.user
-        # page_heading = None
+
+        mode = self.get_mode()
+        selected_lang_code = self.get_lang_code()
+
         language_filter_choices = None
 
-        mode = self.request.GET.get("mode", "teach")
-        print(self.request.GET)
-        selected_lang_code = self.request.GET.get("lang_code", None)
-
-        if mode == "following":
-            # page_heading = _("Journals from users you are following")
-            pass
-        elif mode == "learn":
-            # page_heading = _("Journals in the languages you’re studying...")
+        if mode == "learn":
             language_filter_choices = get_post_counts_by_language(current_user.studying_languages, corrected=True)
-        else:
-            if current_user.is_authenticated:
-                #  page_heading = _("Journals awaiting your correction...")
-                language_filter_choices = get_post_counts_by_language(current_user.native_languages)
-            else:
-                # page_heading = _("Recently corrected journals...")
-                pass
+        elif mode == "teach" and current_user.is_authenticated:
+            language_filter_choices = get_post_counts_by_language(current_user.native_languages)
 
-        # context["page_heading"] = page_heading
-        context["mode"] = mode
-        context["language_filters"] = language_filter_choices
-        context["selected_lang_code"] = selected_lang_code
+        context.update(
+            {
+                "mode": mode,
+                "language_filters": language_filter_choices,
+                "selected_lang_code": selected_lang_code,
+            }
+        )
 
         if current_user.is_authenticated:
             context["following_feed"] = Post.available_objects.filter(user__in=current_user.following_users)[:5]
