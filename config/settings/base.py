@@ -71,7 +71,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.humanize",
     "django.contrib.admin",
     "django.forms",
 ]
@@ -353,3 +353,5 @@ TAGGIT_CASE_INSENSITIVE = True
 ROSETTA_MESSAGES_PER_PAGE = 25
 ROSETTA_SHOW_AT_ADMIN_PANEL = True
 ROSETTA_SHOW_OCCURRENCES = False
+
+AVATAR_BASE_URL = "https://ui-avatars.com/api/rounded=true&length=1&name="
