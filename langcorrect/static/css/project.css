@@ -30,3 +30,10 @@
   box-sizing: border-box;
   border: 1px solid rgb(97, 97, 97);
 }
+
+.truncate-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
