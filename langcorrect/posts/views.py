@@ -1,3 +1,7 @@
+from urllib.parse import urlencode
+
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import ListView
 
 from langcorrect.posts.helpers import get_post_counts_by_language
@@ -9,6 +13,13 @@ class PostListView(ListView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
     paginate_by = 25
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and self.get_mode() in ["following", "learn"]:
+            url = reverse("account_login")
+            params = urlencode({"next": request.get_full_path()})
+            return redirect(f"{url}?{params}")
+        return super().dispatch(request, *args, **kwargs)
 
     def get_mode(self):
         return self.request.GET.get("mode", "teach")
