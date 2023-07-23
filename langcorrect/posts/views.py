@@ -1,8 +1,9 @@
 from urllib.parse import urlencode
 
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post, PostVisibility
@@ -79,3 +80,19 @@ class PostListView(ListView):
 
 
 post_list_view = PostListView.as_view()
+
+
+class PostDetailView(DetailView):
+    model = Post
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+
+        if self.request.user.is_anonymous and obj.permission != PostVisibility.PUBLIC:
+            raise PermissionDenied()
+        return obj
+
+
+post_detail_view = PostDetailView.as_view()
