@@ -39,12 +39,14 @@
       </div>
     </div>
   </div>
-  <div class="card-body border-top hoverable">
+  <div class="card-body border-top {% if not disable_stretched_link %}hoverable{% endif %}">
     <div class="position-relative">
       <h5>{{ post.title }}</h5>
       <p class="mb-0">{{ post.text|linebreaks }}</p>
-      <a href="{{ post.get_absolute_url }}"
-         class="stretched-link link-secondary"></a>
+      {% if not disable_stretched_link %}
+        <a href="{{ post.get_absolute_url }}"
+           class="stretched-link link-secondary"></a>
+      {% endif %}
     </div>
   </div>
   <div class="card-footer bg-transparent">

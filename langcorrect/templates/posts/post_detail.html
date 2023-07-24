@@ -9,7 +9,7 @@
 {% endblock title %}
 {% block content %}
   <div class="py-4 d-grid gap-3">
-    {% include "posts/partials/post_card.html" with card_obj=post card_user=user %}
+    {% include "posts/partials/post_card.html" with disable_stretched_link=True %}
     <div class="d-flex align-items-center justify-content-end gap-2">
       <span>Corrections</span>
       <div class="btn-group" role="group" aria-label="Basic example">
@@ -91,4 +91,3 @@
     </div>
   </div>
 {% endblock content %}
-
