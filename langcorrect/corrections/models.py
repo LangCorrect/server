@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 
+from langcorrect.corrections import diff_match_patch
+
 
 class CorrectionType(SoftDeletableModel, TimeStampedModel):
     class Meta:
@@ -23,6 +25,14 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     correction = models.TextField()
     note = models.TextField(default=None, null=True, blank=True)
     correction_types = models.ManyToManyField(CorrectionType)
+
+    @property
+    def display_correction(self):
+        dmp = diff_match_patch.diff_match_patch()
+        diffs = dmp.diff_main(self.post_row.sentence, self.correction)
+        dmp.diff_cleanupSemantic(diffs)
+        html = dmp.diff_prettyHtml(diffs)
+        return html
 
 
 class PerfectRow(SoftDeletableModel, TimeStampedModel):
