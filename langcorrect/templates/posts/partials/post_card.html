@@ -43,7 +43,7 @@
     <div class="position-relative">
       <h5>{{ post.title }}</h5>
       <p class="mb-0">{{ post.text|linebreaks }}</p>
-      <a href="{# {% url 'posts:detail' post.get_absolute_url %} #}"
+      <a href="{{ post.get_absolute_url }}"
          class="stretched-link link-secondary"></a>
     </div>
   </div>

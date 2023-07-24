@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel, TimeStampedModel
@@ -33,6 +34,9 @@ class Post(TimeStampedModel, SoftDeletableModel):
     tags = TaggableManager(blank=True)
     language_level = models.CharField(max_length=30, null=True, blank=True)
     is_corrected = models.IntegerField(default=0)  # 0-False 1-True
+
+    def get_absolute_url(self) -> str:
+        return reverse("posts:detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug and not self.is_draft:
