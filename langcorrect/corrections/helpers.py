@@ -8,7 +8,7 @@ def order_user_corrections_by_post_row(user_corrections):
     return user_corrections
 
 
-def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows):
+def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows, postreply_rows):
     user_corrections = {}
 
     for row in perfect_rows:
@@ -16,8 +16,7 @@ def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows):
         user = row.user
 
         if user not in user_corrections:
-            user_corrections[user] = {"corrections": [], "overall_feedback": ""}
-
+            user_corrections[user] = {"corrections": [], "overall_feedback": "", "replies": []}
         user_corrections[user]["corrections"].append(data)
 
     for row in corrected_rows:
@@ -25,18 +24,22 @@ def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows):
         user = row.user
 
         if user not in user_corrections:
-            user_corrections[user] = {"corrections": [], "overall_feedback": ""}
-
+            user_corrections[user] = {"corrections": [], "overall_feedback": "", "replies": []}
         user_corrections[user]["corrections"].append(data)
 
     for feedback in feedback_rows:
         user = feedback.user
 
         if user not in user_corrections:
-            user_corrections[user] = {"corrections": [], "overall_feedback": ""}
-
+            user_corrections[user] = {"corrections": [], "overall_feedback": "", "replies": []}
         user_corrections[user]["overall_feedback"] = feedback.comment
 
-    sorted_corrections = order_user_corrections_by_post_row(user_corrections)
+    for reply in postreply_rows:
+        recipient = reply.recipient
 
+        if user not in user_corrections:
+            user_corrections[recipient] = {"corrections": [], "overall_feedback": "", "replies": []}
+        user_corrections[recipient]["replies"].append(reply)
+
+    sorted_corrections = order_user_corrections_by_post_row(user_corrections)
     return sorted_corrections

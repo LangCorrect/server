@@ -8,7 +8,7 @@ from django.views.generic import DetailView, ListView
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.helpers import get_post_counts_by_language
-from langcorrect.posts.models import Post, PostVisibility
+from langcorrect.posts.models import Post, PostReply, PostVisibility
 from langcorrect.users.models import User
 
 
@@ -110,6 +110,7 @@ class PostDetailView(DetailView):
         corrector_user_ids.update(
             list(OverallFeedback.available_objects.filter(post=this_post).values_list("user__id", flat=True))
         )
+
         correctors = User.objects.filter(id__in=corrector_user_ids)
 
         corrected_rows = (
@@ -126,7 +127,11 @@ class PostDetailView(DetailView):
 
         feedback_rows = OverallFeedback.available_objects.filter(user__in=correctors, post=this_post)
 
-        context["user_corrections"] = populate_user_corrections(perfect_rows, corrected_rows, feedback_rows)
+        postreply_rows = PostReply.available_objects.filter(post=this_post)
+
+        context["user_corrections"] = populate_user_corrections(
+            perfect_rows, corrected_rows, feedback_rows, postreply_rows
+        )
         return context
 
 
