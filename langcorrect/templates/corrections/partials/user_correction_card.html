@@ -1,0 +1,80 @@
+{% load humanize %}
+
+<div class="card">
+  <div class="card-header border-0 bg-transparent">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a href="{% url 'users:detail' user.username %}">
+          <img src="{{ user.avatar }}" alt="{{ user.username }}'s avatar" />
+        </a>
+        <div>
+          <a href="{% url 'users:detail' user.username %}"
+             class="card-title mb-0 fw-bold text-decoration-none {% if user.is_premium %}text-premium{% endif %}">{{ user.username }}</a>
+          <p class="mb-0 small text-muted">{{ post.created|naturalday }}</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span class="d-flex align-items-center">
+          <span class="fa-stack small">
+            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+            <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
+          </span>
+          99
+        </span>
+        {% for studying_language in user.studying_languages %}
+          {% if studying_language in user.native_languages %}
+            <span class="fa-stack small">
+              <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+              <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
+            </span>
+          {% endif %}
+        {% endfor %}
+        {% if user.is_premium %}
+          <span class="fa-stack small">
+            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+            <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
+          </span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% for correction in data.corrections %}
+    <div class="border-top">
+      <div class="d-flex justify-content-between border-bottom">
+        <div class="p-3">
+          <p class="{% if correction.type == 'perfect' %} text-success {% endif %}">
+            <i class="fa-solid {% if correction.type == 'perfect' %} fa-check {% else %} fa-xmark text-danger {% endif %}"></i> {{ correction.correction|safe }}
+          </p>
+          {% if correction.note %}<p class="mb-0 text-secondary">{{ correction.note|linebreaksbr }}</p>{% endif %}
+        </div>
+        <button class="btn">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+      </div>
+    </div>
+  {% endfor %}
+  {% if data.overall_feedback %}
+    <div class="p-3">
+      <p class="fw-bold">Feedback</p>
+      <p>{{ data.overall_feedback|linebreaks }}</p>
+    </div>
+  {% endif %}
+  <div class="card-footer bg-transparent">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex gap-2">
+        <div class="d-flex align-items-center gap-1">
+          <span class="chip">
+            <i class="fa-solid fa-globe pe-1"></i>  {{ post.language.code }}
+          </span>
+          <span class="chip">
+            <i class="fa-regular fa-circle-check pe-1"></i> {{ post.corrected_by_count }}
+          </span>
+        </div>
+      </div>
+      <a class="btn btn-sm btn-outline-primary">
+        <i class="fa-regular fa-circle-check"></i>
+        Correct
+      </a>
+    </div>
+  </div>
+</div>
