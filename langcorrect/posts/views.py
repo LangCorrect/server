@@ -5,8 +5,11 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
 
+from langcorrect.corrections.helpers import populate_user_corrections
+from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post, PostVisibility
+from langcorrect.users.models import User
 
 
 class PostListView(ListView):
@@ -93,6 +96,38 @@ class PostDetailView(DetailView):
         if self.request.user.is_anonymous and obj.permission != PostVisibility.PUBLIC:
             raise PermissionDenied()
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_post = self.get_object()
+
+        corrector_user_ids = set(
+            CorrectedRow.available_objects.filter(post=this_post).values_list("user__id", flat=True)
+        )
+        corrector_user_ids.update(
+            list(PerfectRow.available_objects.filter(post=this_post).values_list("user__id", flat=True))
+        )
+        corrector_user_ids.update(
+            list(OverallFeedback.available_objects.filter(post=this_post).values_list("user__id", flat=True))
+        )
+        correctors = User.objects.filter(id__in=corrector_user_ids)
+
+        corrected_rows = (
+            CorrectedRow.available_objects.filter(user__in=correctors, post=this_post)
+            .select_related("post_row", "post", "user")
+            .prefetch_related("post_row", "post", "user")
+        )
+
+        perfect_rows = (
+            PerfectRow.available_objects.filter(user__in=correctors, post=this_post)
+            .select_related("post_row", "post", "user")
+            .prefetch_related("post_row", "post", "user")
+        )
+
+        feedback_rows = OverallFeedback.available_objects.filter(user__in=correctors, post=this_post)
+
+        context["user_corrections"] = populate_user_corrections(perfect_rows, corrected_rows, feedback_rows)
+        return context
 
 
 post_detail_view = PostDetailView.as_view()

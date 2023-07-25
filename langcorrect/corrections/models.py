@@ -27,6 +27,16 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     correction_types = models.ManyToManyField(CorrectionType)
 
     @property
+    def serialize(self):
+        return {
+            "type": "corrected",
+            "correction": self.display_correction,
+            "note": self.note,
+            "correction_types": self.correction_types,
+            "ordering": self.post_row.order,
+        }
+
+    @property
     def display_correction(self):
         dmp = diff_match_patch.diff_match_patch()
         diffs = dmp.diff_main(self.post_row.sentence, self.correction)
@@ -39,6 +49,10 @@ class PerfectRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey("posts.Post", on_delete=models.CASCADE, null=True, blank=True)
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
+
+    @property
+    def serialize(self):
+        return {"type": "perfect", "correction": self.post_row.sentence, "ordering": self.post_row.order}
 
 
 class OverallFeedback(SoftDeletableModel, TimeStampedModel):
