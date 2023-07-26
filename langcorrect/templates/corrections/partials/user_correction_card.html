@@ -32,7 +32,9 @@
         <div class="accordion-body">
           <div id="reply-list-{{ user }}" class="d-grid gap-3 mb-3">
             {% for reply in replies %}
-              {% render_post_reply_card instance=reply %}
+              {% with user=user current_user=current_user %}
+                {% render_post_reply_card instance=reply current_user=current_user %}
+              {% endwith %}
             {% endfor %}
           </div>
           <form data-replies-count-target="reply-count-{{ user }}"

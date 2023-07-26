@@ -25,9 +25,13 @@
           </span>
         </div>
       </div>
-      <a class="btn btn-sm btn-outline-primary">
+      <a class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
         <i class="fa-regular fa-circle-check"></i>
-        Correct
+        {% if already_corrected %}
+          {% translate "Corrected" %}
+        {% else %}
+          {% translate "Correct" %}
+        {% endif %}
       </a>
     </div>
   </div>

@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 from taggit.managers import TaggableManager
 
-from langcorrect.users.models import GenderChoices
+from langcorrect.users.models import GenderChoices, User
 
 
 class PostVisibility(models.TextChoices):
@@ -56,10 +56,15 @@ class Post(TimeStampedModel, SoftDeletableModel):
         super().save(*args, **kwargs)
 
     @property
-    def corrected_by_count(self):
+    def get_correctors(self):
         corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
         perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
-        return len(set(corrected_user_ids).union(perfect_user_ids))
+        user_ids = set(corrected_user_ids).union(perfect_user_ids)
+        return User.objects.filter(user__in=user_ids)
+
+    @property
+    def corrected_by_count(self):
+        return len(self.get_correctors)
 
 
 class PostRow(TimeStampedModel, SoftDeletableModel):
