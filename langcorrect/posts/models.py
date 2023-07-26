@@ -84,3 +84,6 @@ class PostReply(TimeStampedModel, SoftDeletableModel):
     perfect_row = models.ForeignKey("corrections.PerfectRow", on_delete=models.SET_NULL, null=True)
     reply = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="reply_to_comment")
     dislike = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created"]

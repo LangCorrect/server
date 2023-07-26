@@ -1,123 +1,60 @@
+{% load i18n %}
 {% load humanize %}
+{% load post_tags %}
 
 <div class="card">
-  <div class="card-header border-0 bg-transparent">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center gap-3">
-        <a href="{% url 'users:detail' user.username %}">
-          <img src="{{ user.avatar }}" alt="{{ user.username }}'s avatar" />
-        </a>
-        <div>
-          <a href="{% url 'users:detail' user.username %}"
-             class="card-title mb-0 fw-bold text-decoration-none {% if user.is_premium %}text-premium{% endif %}">{{ user.username }}</a>
-          <p class="mb-0 small text-muted">{{ post.created|naturalday }}</p>
-        </div>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <span class="d-flex align-items-center">
-          <span class="fa-stack small">
-            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-            <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
-          </span>
-          99
-        </span>
-        {% for studying_language in request.user.studying_languages %}
-          {% if studying_language in user.native_languages %}
-            <span class="fa-stack small">
-              <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-              <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
-            </span>
-          {% endif %}
-        {% endfor %}
-        {% if user.is_premium %}
-          <span class="fa-stack small">
-            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-            <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
-          </span>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-  {% for correction in data.corrections %}
-    <div class="border-top">
-      <div class="d-flex justify-content-between border-bottom">
-        <div class="p-3">
-          <p class="{% if correction.type == 'perfect' %} text-success {% endif %}">
-            <i class="fa-solid {% if correction.type == 'perfect' %} fa-check {% else %} fa-xmark text-danger {% endif %}"></i> {{ correction.correction|safe }}
-          </p>
-          {% if correction.note %}<p class="mb-0 text-secondary">{{ correction.note|linebreaksbr }}</p>{% endif %}
-        </div>
-        <button class="btn">
-          <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button>
-      </div>
-    </div>
+  {% include "posts/partials/card_header.html" %}
+  {% for correction in corrections %}
+    {% include "corrections/partials/correction.html" %}
   {% endfor %}
-  {% if data.overall_feedback %}
+  {% if overall_feedback %}
     <div class="p-3">
       <p class="fw-bold">Feedback</p>
-      <p>{{ data.overall_feedback|linebreaks }}</p>
+      <p>{{ overall_feedback|linebreaks }}</p>
     </div>
   {% endif %}
-  <div class="card-footer bg-transparent">
-    <div class="d-grid gap-3 py-3">
-      {% for reply in data.replies %}
-        <div class="card">
-          <div class="card-header border-0 bg-transparent">
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center gap-3">
-                <a href="{{ reply.user.get_absolute_url }}">
-                  <img src="{{ reply.user.avatar }}"
-                       alt="{{ reply.user.username }}'s avatar" />
-                </a>
-                <div>
-                  <a href="{{ reply.user.get_absolute_url }}"
-                     class="card-title mb-0 fw-bold text-decoration-none {% if reply.user.is_premium %}text-premium{% endif %}">{{ reply.user.username }}</a>
-                  <p class="mb-0 small text-muted">{{ reply.created|naturalday }}</p>
-                </div>
-              </div>
-              <div class="d-flex align-items-center gap-1">
-                <span class="d-flex align-items-center">
-                  <span class="fa-stack small">
-                    <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-                    <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
-                  </span>
-                  99
-                </span>
-                {% for studying_language in request.user.studying_languages %}
-                  {% if studying_language in reply.native_languages %}
-                    <span class="fa-stack small">
-                      <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-                      <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
-                    </span>
-                  {% endif %}
-                {% endfor %}
-                {% if reply.user.is_premium %}
-                  <span class="fa-stack small">
-                    <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-                    <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
-                  </span>
-                {% endif %}
-              </div>
+  <div class="accordion accordion-flush border-top"
+       id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne-{{ user }}"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne-{{ user }}">
+          Replies (<span id="reply-count-{{ user }}">{{ replies|length }}</span>)
+        </button>
+      </h2>
+      <div id="flush-collapseOne-{{ user }}"
+           class="accordion-collapse collapse"
+           data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          <div id="reply-list-{{ user }}" class="d-grid gap-3 mb-3">
+            {% for reply in replies %}
+              {% render_post_reply_card instance=reply %}
+            {% endfor %}
+          </div>
+          <form data-replies-count-target="reply-count-{{ user }}"
+                hx-post="{% url 'posts:create-update-reply' %}"
+                hx-trigger="submit"
+                hx-target="#reply-list-{{ user }}"
+                hx-swap="beforeend"
+                hx-on="htmx:afterRequest: this.reset()">
+            <input type="hidden" name="recipient" value="{{ user.username }}" />
+            <input type="hidden" name="post" value="{{ post.slug }}" />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+            <div class="mb-3">
+              <label for="validationTextarea" class="form-label">{% translate "Write a message..." %}</label>
+              <textarea class="form-control" id="textarea-{{user}}" name="text" required></textarea>
+              <div id="error-message-{{ user }}" class="invalid-feedback"></div>
             </div>
-          </div>
-          <div class="card-body">
-            {% if reply.perfect_row or reply.corrected_row or reply.reply %}
-              <div class="border-start border-5 py-2 px-3">
-                {% if reply.perfect_row %}
-                  <p class="text-success">{{ reply.perfect_row }}</p>
-                {% elif reply.corrected_row %}
-                  <p>{{ reply.corrected_row.display_correction|safe }}</p>
-                  <p class="text-muted">{{ reply.corrected_row.note|linebreaksbr }}</p>
-                {% elif reply.reply %}
-                  <p class="text-muted">{{ reply.reply.text }}</p>
-                {% endif %}
-              </div>
-            {% endif %}
-            <p class="mb-0">{{ reply.text }}</p>
-          </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-outline-secondary">{% translate "Submit" %}</button>
+            </div>
+          </form>
         </div>
-      {% endfor %}
+      </div>
     </div>
   </div>
 </div>

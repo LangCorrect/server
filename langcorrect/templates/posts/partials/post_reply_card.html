@@ -1,0 +1,20 @@
+{% load humanize %}
+
+<div class="card">
+  {% include "posts/partials/card_header.html" %}
+  <div class="card-body">
+    {% if instance.perfect_row or instance.corrected_row or instance.reply %}
+      <div class="border-start border-5 py-2 px-3">
+        {% if instance.perfect_row %}
+          <p class="text-success">{{ instance.perfect_row }}</p>
+        {% elif instance.corrected_row %}
+          <p>{{ instance.corrected_row.display_correction|safe }}</p>
+          <p class="text-muted">{{ instance.corrected_row.note|linebreaksbr }}</p>
+        {% elif instance.reply %}
+          <p class="text-muted">{{ instance.reply.text }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    <p class="mb-0">{{ instance.text|linebreaksbr }}</p>
+  </div>
+</div>

@@ -43,8 +43,19 @@
               crossorigin="anonymous"
               referrerpolicy="no-referrer"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.3/htmx.min.js"
+              integrity="sha512-+tp2z7fiP5/7Q3DZZkHXaV1BjgtkLuV4vX7khfzKqVJ+/55LWr7Ulz0cqIS1AlB+wmZW6oAkE64VN2sjFXs6dA=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"></script>
       <!-- place project specific Javascript in this file -->
       <script defer src="{% static 'js/project.js' %}"></script>
+      <script>
+        window.addEventListener('DOMContentLoaded', () => {
+          document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+          })
+        });
+      </script>
     {% endblock javascript %}
   </head>
   <body>

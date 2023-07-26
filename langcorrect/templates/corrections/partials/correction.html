@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-between border-bottom">
+  <div class="p-3">
+    <p class="{% if correction.type == 'perfect' %} text-success {% endif %}">
+      <i class="fa-solid {% if correction.type == 'perfect' %} fa-check {% else %} fa-xmark text-danger {% endif %}"></i> {{ correction.correction|safe }}
+    </p>
+    {% if correction.note %}<p class="mb-0 text-secondary">{{ correction.note|linebreaksbr }}</p>{% endif %}
+  </div>
+  <button class="btn">
+    <i class="fa-solid fa-ellipsis-vertical"></i>
+  </button>
+</div>
