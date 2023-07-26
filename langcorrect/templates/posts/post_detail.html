@@ -6,7 +6,7 @@
 
 {% block content %}
   <div class="py-4 d-grid gap-3">
-    {% render_post_card instance=post current_user=current_user disable_stretched_link=True %}
+    {% render_post_card instance=post current_user=request.user disable_stretched_link=True %}
     <div class="d-flex align-items-center justify-content-end gap-2">
       <span>Corrections</span>
       <div class="btn-group" role="group" aria-label="Basic example">
@@ -19,7 +19,7 @@
       </div>
     </div>
     {% for corrector, data in user_corrections.items %}
-      {% render_user_correction_card user=corrector post=post correction_data=data %}
+      {% render_user_correction_card user=corrector current_user=request.user post=post correction_data=data %}
     {% endfor %}
   </div>
 {% endblock content %}

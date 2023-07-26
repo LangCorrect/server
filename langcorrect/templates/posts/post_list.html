@@ -40,7 +40,7 @@
       </div>
       <div class="d-grid gap-3">
         {% for post in object_list %}
-          {% render_post_card instance=post current_user=current_user %}
+          {% render_post_card instance=post current_user=request.user %}
         {% endfor %}
         {% include "pagination.html" %}
       </div>
