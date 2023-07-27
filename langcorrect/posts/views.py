@@ -1,9 +1,12 @@
 from urllib.parse import urlencode
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import DetailView, ListView
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import DetailView, ListView, UpdateView
 
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
@@ -136,3 +139,15 @@ class PostDetailView(DetailView):
 
 
 post_detail_view = PostDetailView.as_view()
+
+
+class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Post
+    fields = ["title", "text", "native_text", "permission", "tags"]
+    success_message = _("Post successfully updated")
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(user=self.request.user)
+
+
+post_update_view = PostUpdateView.as_view()
