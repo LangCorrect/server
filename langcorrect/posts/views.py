@@ -1,17 +1,20 @@
 from urllib.parse import urlencode
 
+from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
+from langcorrect.posts.forms import CustomPostForm
 from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post, PostReply, PostVisibility
+from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
 
 
@@ -143,11 +146,57 @@ post_detail_view = PostDetailView.as_view()
 
 class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Post
-    fields = ["title", "text", "native_text", "permission", "tags"]
+    form_class = CustomPostForm
     success_message = _("Post successfully updated")
+
+    def get_form_kwargs(self):
+        user = self.get_object().user
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = user
+        return kwargs
 
     def get_queryset(self, *args, **kwargs):
         return super().get_queryset(*args, **kwargs).filter(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_edit"] = True
+        return context
+
 
 post_update_view = PostUpdateView.as_view()
+
+
+class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Post
+    form_class = CustomPostForm
+    success_message = _("Post successfully added")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        self.object = form.save()
+
+        context = self.get_context_data()
+        prompt = context.get("prompt", None)
+        if prompt:
+            self.object.prompt = prompt
+
+        self.object.save()
+        return http.HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        prompt_slug = self.kwargs.get("prompt_slug", None)
+        if prompt_slug:
+            context["prompt"] = get_object_or_404(Prompt, slug=prompt_slug)
+
+        return context
+
+
+post_create_view = PostCreateView.as_view()
