@@ -2,49 +2,15 @@
 {% load humanize %}
 
 <div class="card">
-  <div class="card-header border-0 bg-transparent">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center gap-3">
-        <a href="{% url 'users:detail' post.user.username %}">
-          <img src="{{ post.user.avatar }}" alt="{{ post.user.username }}'s avatar" />
-        </a>
-        <div>
-          <a href="{% url 'users:detail' post.user.username %}"
-             class="card-title mb-0 fw-bold text-decoration-none {% if post.user.is_premium %}text-premium{% endif %}">{{ post.user.username }}</a>
-          <p class="mb-0 small text-muted">{{ post.created|naturalday }}</p>
-        </div>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <span class="d-flex align-items-center">
-          <span class="fa-stack small">
-            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-            <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
-          </span>
-          99
-        </span>
-        {% for studying_language in user.studying_languages %}
-          {% if studying_language in post.user.native_languages %}
-            <span class="fa-stack small">
-              <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-              <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
-            </span>
-          {% endif %}
-        {% endfor %}
-        {% if post.user.is_premium %}
-          <span class="fa-stack small">
-            <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-            <i class="fa-solid fa-crown fa-stack-1x fa-inverse color-premium"></i>
-          </span>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-  <div class="card-body border-top hoverable">
+  {% include "posts/partials/card_header.html" %}
+  <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
     <div class="position-relative">
       <h5>{{ post.title }}</h5>
       <p class="mb-0">{{ post.text|linebreaks }}</p>
-      <a href="{# {% url 'posts:detail' post.get_absolute_url %} #}"
-         class="stretched-link link-secondary"></a>
+      {% if not disable_stretched_link %}
+        <a href="{{ post.get_absolute_url }}"
+           class="stretched-link link-secondary"></a>
+      {% endif %}
     </div>
   </div>
   <div class="card-footer bg-transparent">
@@ -59,10 +25,19 @@
           </span>
         </div>
       </div>
-      <a class="btn btn-sm btn-outline-primary">
-        <i class="fa-regular fa-circle-check"></i>
-        Correct
-      </a>
+      {% if current_user.id == user.id %}
+        <a href="{% url 'posts:update' post.slug %}"
+           class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+      {% else %}
+        <a class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
+          <i class="fa-regular fa-circle-check"></i>
+          {% if already_corrected %}
+            {% translate "Corrected" %}
+          {% else %}
+            {% translate "Correct" %}
+          {% endif %}
+        </a>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% load i18n %}
 {% load humanize %}
+{% load post_tags %}
 
 {% block title %}
   {% translate "Journals" %} · LangCorrect
 {% endblock title %}
 {% block content %}
-  <div class="row g-4 py-4">
+  <div class="row">
     <div class="col-lg-8">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap border py-2 mb-3 px-3">
         <div class="d-flex gap-2">
@@ -38,7 +40,7 @@
       </div>
       <div class="d-grid gap-3">
         {% for post in object_list %}
-          {% include "posts/partials/post_card.html" %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
         {% endfor %}
         {% include "pagination.html" %}
       </div>
@@ -75,14 +77,5 @@
   </div>
 {% endblock content %}
 {% block inline_javascript %}
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const languageSelect = document.getElementById("language-select");
-      languageSelect.addEventListener("change", function(evt) {
-        const selectedOption = evt.target.options[evt.target.selectedIndex];
-        const link = selectedOption.dataset.link;
-        window.location = link;
-      })
-    });
-  </script>
+  <script src="{% static 'js/post_list.js' %}"></script>
 {% endblock inline_javascript %}

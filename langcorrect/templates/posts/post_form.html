@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+{% block content %}
+  <div class="alert alert-warning">
+    Please be aware that the system for automatically saving drafts of your content is currently
+    unavailable. If you navigate away from the page before publishing your content, you will lose any
+    unsaved changes.
+    We apologize for the inconvenience and appreciate your patience while we work to re-implement the
+    auto-save feature.
+  </div>
+  {% if post.prompt %}
+    <p>
+      <strong>{{ post.prompt.content }}</strong>
+    </p>
+  {% endif %}
+  <form method="post" action="{% url 'posts:update' post.slug %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </form>
+{% endblock content %}

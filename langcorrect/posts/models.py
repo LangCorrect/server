@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 from taggit.managers import TaggableManager
 
-from langcorrect.users.models import GenderChoices
+from langcorrect.users.models import GenderChoices, User
 
 
 class PostVisibility(models.TextChoices):
@@ -34,6 +35,9 @@ class Post(TimeStampedModel, SoftDeletableModel):
     language_level = models.CharField(max_length=30, null=True, blank=True)
     is_corrected = models.IntegerField(default=0)  # 0-False 1-True
 
+    def get_absolute_url(self) -> str:
+        return reverse("posts:detail", kwargs={"slug": self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug and not self.is_draft:
             new_slug = generated_slug = slugify(self.title, allow_unicode=True)
@@ -52,10 +56,15 @@ class Post(TimeStampedModel, SoftDeletableModel):
         super().save(*args, **kwargs)
 
     @property
-    def corrected_by_count(self):
+    def get_correctors(self):
         corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
         perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
-        return len(set(corrected_user_ids).union(perfect_user_ids))
+        user_ids = set(corrected_user_ids).union(perfect_user_ids)
+        return User.objects.filter(user__in=user_ids)
+
+    @property
+    def corrected_by_count(self):
+        return len(self.get_correctors)
 
 
 class PostRow(TimeStampedModel, SoftDeletableModel):
@@ -80,3 +89,6 @@ class PostReply(TimeStampedModel, SoftDeletableModel):
     perfect_row = models.ForeignKey("corrections.PerfectRow", on_delete=models.SET_NULL, null=True)
     reply = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="reply_to_comment")
     dislike = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created"]
