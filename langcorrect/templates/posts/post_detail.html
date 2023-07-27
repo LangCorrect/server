@@ -5,7 +5,7 @@
 {% load correction_tags %}
 
 {% block content %}
-  <div class="py-4 d-grid gap-3">
+  <div class="d-grid gap-3">
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True %}
     <div class="d-flex align-items-center justify-content-end gap-2">
       <span>Corrections</span>
