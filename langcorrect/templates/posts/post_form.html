@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block title %}
@@ -13,16 +14,22 @@
     We apologize for the inconvenience and appreciate your patience while we work to re-implement the
     auto-save feature.
   </div>
-  {% if post.prompt %}
+  {% if prompt or post.prompt %}
     <p>
-      <strong>{{ post.prompt.content }}</strong>
+      <strong>{{ prompt.content }}{{ post.prompt.content }}</strong>
     </p>
   {% endif %}
-  <form method="post" action="{% url 'posts:update' post.slug %}">
+  <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">
+        {% if is_edit %}
+          {% translate "Update" %}
+        {% else %}
+          {% translate "Submit" %}
+        {% endif %}
+      </button>
     </div>
   </form>
 {% endblock content %}
