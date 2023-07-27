@@ -15,6 +15,7 @@ repos:
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
+        exclude: langcorrect/corrections/diff_match_patch.py
       - id: detect-private-key
 
   - repo: https://github.com/adamchainz/django-upgrade
