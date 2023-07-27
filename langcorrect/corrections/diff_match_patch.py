@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# flake8: noqa
+
 """Diff Match and Patch
 Copyright 2018 The diff-match-patch Authors.
 https://github.com/google/diff-match-patch
