@@ -7,10 +7,11 @@
       <img src="{% static 'images/logo/logo.svg' %}" alt="logo" width="38" />
     </a>
     <div class="d-flex gap-2 align-items-center">
-      <button class="btn btn-primary d-md-none px-2">
+      <a href="{% url 'posts:create' %}"
+         class="btn btn-primary d-md-none px-2">
         <i class="fa-solid fa-pen px-1"></i>
         Write
-      </button>
+      </a>
       <button class="navbar-toggler p-2"
               type="button"
               data-bs-toggle="collapse"
@@ -66,7 +67,7 @@
             <ul class="dropdown-menu create-dropdown"
                 aria-labelledby="navbarDropdownMenuLink">
               <li>
-                <a class="dropdown-item" href=""><i class="fas fa-pen fa-fw"></i> {% trans "New Journal" %}</a>
+                <a class="dropdown-item" href="{% url 'posts:create' %}"><i class="fas fa-pen fa-fw"></i> {% trans "New Journal" %}</a>
               </li>
               {% if request.user.is_moderator or request.user.is_staff %}
                 <li>
@@ -83,7 +84,7 @@
       <ul class="navbar-nav">
         {% if request.user.is_anonymous %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url "account_login" %}">
+            <a class="nav-link" href="{% url 'account_login' %}">
               {% trans "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
             </a>
           </li>
@@ -146,7 +147,7 @@
                   <hr class="dropdown-divider m-0" />
                 </li>
                 <li>
-                  <a class="dropdown-item py-2" href="{% url "account_logout" %}">
+                  <a class="dropdown-item py-2" href="{% url 'account_logout' %}">
                     <i class="fas fa-cog fa-fw"></i>
                     {% trans "Logout" %}
                   </a>
