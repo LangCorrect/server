@@ -47,3 +47,7 @@ del {
   padding: 0 3px;
   font-weight: 600;
 }
+
+.pointer {
+  cursor: pointer;
+}

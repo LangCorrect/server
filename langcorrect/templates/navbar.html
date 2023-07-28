@@ -1,0 +1,161 @@
+{% load i18n %}
+{% load static %}
+
+<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
+  <div class="container  align-items-center">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'images/logo/logo.svg' %}" alt="logo" width="38" />
+    </a>
+    <div class="d-flex gap-2 align-items-center">
+      <button class="btn btn-primary d-md-none px-2">
+        <i class="fa-solid fa-pen px-1"></i>
+        Write
+      </button>
+      <button class="navbar-toggler p-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+              aria-controls="navbarCollapse"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold{% endif %}"
+             href="{% url 'posts:list' %}"
+             data-bs-toggle="tooltip"
+             data-bs-placement="bottom"
+             title="{% trans 'Correct journals written in your native language(s).' %}">{% trans "My Feed" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if mode == 'prompts' %}active fw-bold{% endif %}"
+             href="#"
+             data-bs-toggle="tooltip"
+             data-bs-placement="bottom"
+             title="{% trans 'Browse and create writing prompts.' %}">{% trans "Writing Prompts" %}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="https://community.langcorrect.com/"
+             role="button"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">{% trans "Community" %}</a>
+          <ul class="dropdown-menu create-dropdown"
+              aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <a class="dropdown-item" href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% trans "Forums" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% trans "Challenges" %}</a>
+            </li>
+          </ul>
+        </li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               id="navbarDropdownMenuLink"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+              <i class="fas fa-plus"></i> {% trans "Create" %}
+            </a>
+            <ul class="dropdown-menu create-dropdown"
+                aria-labelledby="navbarDropdownMenuLink">
+              <li>
+                <a class="dropdown-item" href=""><i class="fas fa-pen fa-fw"></i> {% trans "New Journal" %}</a>
+              </li>
+              {% if request.user.is_moderator or request.user.is_staff %}
+                <li>
+                  <a class="dropdown-item" href=""><i class="fas fa-signature fa-fw"></i> {% trans "New Prompt" %}</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href=""><i class="fas fa-bullseye fa-fw"></i> {% trans "New Challenge" %}</a>
+                </li>
+              {% endif %}
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav">
+        {% if request.user.is_anonymous %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "account_login" %}">
+              {% trans "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
+            </a>
+          </li>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          <li>
+            <button id="notification-button"
+                    class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#mobileNotifications">
+              <i class="fas fa-bell fa-fw"></i>
+              {{ unread_count }}
+            </button>
+          </li>
+          <li class="dropdown d-inline-block">
+            <div class="pointer" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="{{ request.user.avatar }}" alt="profile" height="38" />
+            </div>
+            <div class="dropdown-menu dropdown-menu-end py-0">
+              <a class="dropdown-item py-2" href="#">
+                <div class="d-flex align-items-center">
+                  <img src="{{ request.user.avatar }}" alt="profile" height="38" />
+                  <div class="ms-3">
+                    <p class="mb-0 {% if request.user.is_premium or request.user.is_lifetime_vip %}text-premium{% else %}text-muted{% endif %}">
+                      <strong>{{ request.user.username }}</strong>
+                    </p>
+                    <p class="mb-0 text-muted">
+                      <small>{{ request.user.email }}</small>
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-divider m-0"></div>
+              <ul class="list-unstyled">
+                <li>
+                  <a class="dropdown-item py-2" href="#">
+                    <i class="fas fa-file-alt fa-fw"></i>
+                    {% trans "My Journals" %}
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2" href="#">
+                    <i class="fas fa-signature fa-fw"></i>
+                    {% trans "My Prompts" %}
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2" href="#">
+                    <i class="fas fa-trophy fa-fw"></i>
+                    {% trans "Rankings" %}
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item py-2" href="#">
+                    <i class="fas fa-cog fa-fw"></i>
+                    {% trans "Settings" %}
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider m-0" />
+                </li>
+                <li>
+                  <a class="dropdown-item py-2" href="{% url "account_logout" %}">
+                    <i class="fas fa-cog fa-fw"></i>
+                    {% trans "Logout" %}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
