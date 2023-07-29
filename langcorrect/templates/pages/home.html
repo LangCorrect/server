@@ -1,1 +1,139 @@
 {% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row d-flex align-items-center">
+        <div class="col-12 col-md-5 col-lg-6 order-md-2">
+          <img fetchpriority="high"
+               src="{% static 'images/illustrations/classroom.svg' %}"
+               class="img-fluid"
+               alt="Hero image" />
+        </div>
+        <div class="col-12 col-md-7 col-lg-6 order-md-1">
+          <h1 class="text-center text-md-start fw-bold fs-1">{% translate "Write.  Learn.  Grow." %}</h1>
+          <p class="fs-5 text-center text-md-start">
+            {% translate "Master grammar, spelling, and syntax in the language(s) you’re learning through direct feedback on your writing from fluent, native speakers." %}
+          </p>
+          <div class="text-center text-md-start">
+            <a href="{% url "account_signup" %}" class="btn btn-primary shadow">
+              {% translate "Start learning" %} <i class="fas fa-arrow-right d-none d-md-inline ml-3"></i>
+            </a>
+            <a href="{% url "posts:list" %}" class="btn lift">
+              <small>{% translate "Browse as guest" %}</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-5 bg-primary">
+    <div class="container">
+      <div class="row justify-content-between align-items-center mb-5">
+        <div class="col-12 col-md-4 order-md-2 text-center">
+          <img class="img-fluid w-75 w-md-100 mb-6 mb-md-0"
+               src="{% static 'images/illustrations/explore.webp' %}"
+               alt="..." />
+        </div>
+        <div class="col-12 col-md-7 order-md-1">
+          <h2 class="text-white fw-bold index-heading-width">
+            {% translate "Getting corrections on your writing is really easy." %}
+          </h2>
+          <div class="lead text-white mb-0">
+            {% translate "Once you're done writing in your studying language, we will automatically match it with native speakers." %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <h3 class="fw-bold text-white stepper">{% translate "Register an account" %}</h3>
+          <p class="text-white lead">
+            {% trans "We start with a short 3-step registration process to help us determine users you should be match with." %}
+          </p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h3 class="fw-bold text-white stepper">{% translate "Write a journal entry" %}</h3>
+          <p class="text-white lead">
+            {% trans "Browse a wide variety of writing prompts or simply create a journal from scratch." %}
+          </p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h3 class="fw-bold text-white stepper">{% translate "Review corrections" %}</h3>
+          <p class="text-white lead">
+            {% translate "Native speakers will correct your writing and provide constructive feedback." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-5">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-3 gx-1">
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Built for serious learners" %}</h3>
+          <p>
+            {% translate "Ditch all the unnecessary distractions on other language-learning platforms and spend more time focusing on your new language(s)." %}
+          </p>
+        </div>
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Straight to the point" %}</h3>
+          <p>
+            {% translate "Get corrections on your writing quickly – Simply write a journal in your target language, publish it, and let the LangCorrect community do their thing to provide corrections for you." %}
+          </p>
+        </div>
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Constantly improving" %}</h3>
+          <p>
+            {% translate "The LangCorrect platform is getting better all the time.  Consistent, direct feedback from our user base and frequent updates allow us to keep things fresh and interesting for our users." %}
+          </p>
+        </div>
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Learn with friends" %}</h3>
+          <p>
+            {% translate "Invite your friends to join LangCorrect and challenge one another to see who can earn the highest Rankings and Streaks." %}
+          </p>
+        </div>
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Functionality with learning in mind" %}</h3>
+          <p>
+            {% translate "From writing prompts to automatic, color-coded correction highlighting, learning to write in another language has never been this easy." %}
+          </p>
+        </div>
+        <div class="col">
+          <h3 class="fw-bold">{% translate "Built-in messaging" %}</h3>
+          <p>
+            {% translate "Take a break to relax and chat with other learners using the messaging feature. This is a great way to make new friends and meet people from around the globe." %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-primary py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-8">
+          <h3 class="fw-bold text-white">{% translate "Join today and experience language-learning, redefined." %}</h3>
+          <p class="text-white">
+            {% blocktrans %}
+                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the
+                            LangCorrect community.
+                            We’re all learners and we understand that in order to reach fluency and confidence in a new
+                            language, it’s important to make mistakes.
+                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your
+                            burning questions so that you can reach the level you want to be at in your new language.
+                        {% endblocktrans %}
+          </p>
+          <a href="{% url 'account_signup' %}" class="btn btn-outline-light">{% translate "Start learning" %}</a>
+        </div>
+        <div class="col-12 col-md-4 text-center">
+          <img src="{% static 'images/illustrations/join.webp' %}"
+               alt="..."
+               class="img-fluid mb-6 mb-md-n3" />
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
