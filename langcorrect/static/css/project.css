@@ -51,3 +51,7 @@ del {
 .pointer {
   cursor: pointer;
 }
+
+.index-heading-width {
+  width: 25rem;
+}
