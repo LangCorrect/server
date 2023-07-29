@@ -1,9 +1,12 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel, TimeStampedModel
+from notifications.signals import notify
 from taggit.managers import TaggableManager
 
 from langcorrect.users.models import GenderChoices, User
@@ -92,3 +95,21 @@ class PostReply(TimeStampedModel, SoftDeletableModel):
 
     class Meta:
         ordering = ["created"]
+
+
+@receiver(post_save, sender=Post)
+def send_notifications(sender, instance, created, **kwargs):
+    if created:
+        post = instance
+        user = post.user
+        recipients = [
+            follower.user for follower in user.follow_to.all() if post.language in follower.user.native_languages
+        ]
+
+        notify.send(
+            sender=user,
+            recipient=recipients,
+            verb=_("submitted a new entry"),
+            action_object=post,
+            notification_type="new_post",
+        )
