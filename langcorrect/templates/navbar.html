@@ -1,6 +1,8 @@
 {% load i18n %}
 {% load static %}
+{% load notifications_tags %}
 
+{% notifications_unread as unread_count %}
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
   <div class="container  align-items-center">
     <a class="navbar-brand" href="{% url 'home' %}">
@@ -12,6 +14,16 @@
         <i class="fa-solid fa-pen px-1"></i>
         Write
       </a>
+
+      {% if request.user.is_authenticated %}
+      <button id="notification-button"
+              class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2 d-md-none"
+              data-bs-toggle="modal"
+              data-bs-target="#mobileNotifications">
+        <i class="fas fa-bell fa-fw"></i>
+        {{ unread_count }}
+      </button>
+      {% endif %}
       <button class="navbar-toggler p-2"
               type="button"
               data-bs-toggle="collapse"
@@ -90,7 +102,7 @@
           </li>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <li>
+          <li class="d-none d-md-block">
             <button id="notification-button"
                     class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2"
                     data-bs-toggle="modal"

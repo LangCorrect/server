@@ -1,3 +1,4 @@
+import notifications.urls
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -21,6 +22,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),
+    path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
