@@ -5,6 +5,11 @@
   --color-premium-hover: #ec7e56;
 }
 
+body {
+  background: #f1f4f8;
+  font-family: 'Open Sans', sans-serif;
+}
+
 .color-premium {
   color: var(--color-premium);
 }

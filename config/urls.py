@@ -10,6 +10,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from config.views import index_page_view
 
 urlpatterns = [
+    path("i18n/", include("django.conf.urls.i18n")),
     path("", view=index_page_view, name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     # Django Admin, use {% url 'admin:index' %}
