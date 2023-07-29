@@ -29,6 +29,10 @@
             integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet" />
       <!-- This file stores project-specific CSS -->
       <link href="{% static 'css/project.css' %}" rel="stylesheet" />
     {% endblock css %}
@@ -77,6 +81,7 @@
         {% endblock content %}
       </div>
     </div>
+    {% include "footer.html" %}
     <!-- /container -->
     {% block modal %}
     {% endblock modal %}
