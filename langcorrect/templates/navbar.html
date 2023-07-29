@@ -1,6 +1,8 @@
 {% load i18n %}
 {% load static %}
+{% load notifications_tags %}
 
+{% notifications_unread as unread_count %}
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
   <div class="container  align-items-center">
     <a class="navbar-brand" href="{% url 'home' %}">

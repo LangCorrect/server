@@ -88,6 +88,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "taggit",
     "rosetta",
+    "notifications",
 ]
 
 LOCAL_APPS = [
@@ -355,3 +356,5 @@ ROSETTA_SHOW_AT_ADMIN_PANEL = True
 ROSETTA_SHOW_OCCURRENCES = False
 
 AVATAR_BASE_URL = "https://ui-avatars.com/api/rounded=true&length=1&name="
+
+DJANGO_NOTIFICATIONS_CONFIG = {"USE_JSONFIELD": True}
