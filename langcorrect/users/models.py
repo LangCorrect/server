@@ -70,3 +70,7 @@ class User(AbstractUser):
             .values_list("language__code", flat=True)
         )
         return Language.objects.filter(code__in=lang_codes)
+
+    @property
+    def all_languages(self):
+        return self.native_languages | self.studying_languages
