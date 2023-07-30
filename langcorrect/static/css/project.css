@@ -43,6 +43,13 @@ body {
   overflow: hidden;
 }
 
+.truncate-text-post-card {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
+  overflow: hidden;
+}
+
 ins {
   text-decoration: none;
 }
