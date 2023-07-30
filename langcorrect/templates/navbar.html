@@ -44,7 +44,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {% if mode == 'prompts' %}active fw-bold{% endif %}"
-             href="#"
+             href="{% url 'prompts:list' %}"
              data-bs-toggle="tooltip"
              data-bs-placement="bottom"
              title="{% trans 'Browse and create writing prompts.' %}">{% trans "Writing Prompts" %}</a>
