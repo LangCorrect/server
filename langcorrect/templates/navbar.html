@@ -14,15 +14,14 @@
         <i class="fa-solid fa-pen px-1"></i>
         Write
       </a>
-
       {% if request.user.is_authenticated %}
-      <button id="notification-button"
-              class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2 d-md-none"
-              data-bs-toggle="modal"
-              data-bs-target="#mobileNotifications">
-        <i class="fas fa-bell fa-fw"></i>
-        {{ unread_count }}
-      </button>
+        <button id="notification-button"
+                class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2 d-md-none"
+                data-bs-toggle="modal"
+                data-bs-target="#mobileNotifications">
+          <i class="fas fa-bell fa-fw"></i>
+          {{ unread_count }}
+        </button>
       {% endif %}
       <button class="navbar-toggler p-2"
               type="button"
