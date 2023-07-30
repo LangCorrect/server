@@ -19,6 +19,7 @@ urlpatterns = [
     # User management
     path("users/", include("langcorrect.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    path("prompts/", include("langcorrect.prompts.urls")),
     # Your stuff: custom urls includes go here
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),

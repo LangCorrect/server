@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load prompt_tags %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+{% load post_tags %}
+
+{% block title %}
+  {% translate "Prompts" %} · LangCorrect
+{% endblock title %}
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap border py-2 mb-3 px-3 bg-white">
+        <div class="d-flex gap-2">
+          <a href="{% url 'prompts:list' %}?mode=open"
+             title="{% translate 'View prompts that you have not yet responded to' %}"
+             class="link-secondary text-decoration-none {% if mode == 'open' %}link-dark fw-bold{% endif %}">{% translate "Open" %}</a>
+          <a href="{% url 'prompts:list' %}?mode=completed"
+             title="{% translate 'View prompts that you have responded to' %}"
+             class="link-secondary text-decoration-none {% if mode == 'completed' %}link-dark fw-bold{% endif %}">{% translate "Completed" %}</a>
+        </div>
+        <div class="d-flex gap-3 align-items-center ">
+          <i class="fa-solid fa-globe text-muted"></i>
+          <select id="language-select"
+                  class="form-select"
+                  aria-label="Default select example">
+            <option value="{{ language.code }}"
+                    data-link="?mode={{ mode }}&lang_code=all"
+                    {% if selected_lang_code == "all" %}selected{% endif %}>All</option>
+            {% for language in language_filters %}
+              <option value="{{ language.code }}"
+                      data-link="?mode={{ mode }}&lang_code={{ language.code }}"
+                      {% if selected_lang_code == language.code %}selected{% endif %}>
+                {% translate language.en_name %} ({{ language.prompt_set.all.count }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="d-grid gap-3">
+        {% for prompt in object_list %}
+          {% render_prompt_card instance=prompt %}
+        {% endfor %}
+        {% include "pagination.html" %}
+      </div>
+    </div>
+    <!-- <div class="col-lg-4"> -->
+    <!-- <div class="card">
+      </div> -->
+    <!-- </div> -->
+  </div>
+{% endblock content %}
+{% block inline_javascript %}
+  <script src="{% static 'js/post_list.js' %}"></script>
+{% endblock inline_javascript %}
