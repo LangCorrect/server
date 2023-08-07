@@ -3,6 +3,7 @@ import string
 
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 from taggit.managers import TaggableManager
 
@@ -10,6 +11,9 @@ from langcorrect.languages.models import Language, LevelChoices
 
 
 class Prompt(SoftDeletableModel, TimeStampedModel):
+    class Meta:
+        ordering = ["-created"]
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     difficulty_level = models.CharField(
@@ -37,3 +41,10 @@ class Prompt(SoftDeletableModel, TimeStampedModel):
             self.slug = self.create_hash()
 
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("prompts:detail", kwargs={"slug": self.slug})
+
+    @property
+    def response_count(self):
+        return self.post_set.all().count()

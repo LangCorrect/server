@@ -5,8 +5,16 @@
   {% include "posts/partials/card_header.html" %}
   <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
     <div class="position-relative">
+      {% if post.prompt %}
+        <div class="border-start border-2 px-2 mb-2">
+          <a href="{{ post.prompt.get_absolute_url }}"
+             class="link-secondary text-decoration-none">
+            <i class="fa-solid fa-signature pe-1"></i>
+          {{ post.prompt.content }}</a>
+        </div>
+      {% endif %}
       <h5>{{ post.title }}</h5>
-      <p class="mb-0">{{ post.text|linebreaks }}</p>
+      <p class="mb-0 truncate-text-post-card">{{ post.text|linebreaksbr }}</p>
       {% if not disable_stretched_link %}
         <a href="{{ post.get_absolute_url }}"
            class="stretched-link link-secondary"></a>
