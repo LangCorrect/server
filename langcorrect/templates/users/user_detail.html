@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
+{% load humanize %}
 
 {% block title %}
   User:
@@ -8,6 +10,60 @@
 {% endblock title %}
 {% block content %}
   <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <div class="card">
+          <div class="card-body border-bottom">
+            <div class="d-flex gap-3 align-items-center ">
+              <img src="{{ object.avatar }}" alt="profile img" />
+              <div>
+                <h6 class="mb-0 {% if object.is_premium or object.is_lifetime_vip %}text-premium{% endif %}">
+                  {{ object.username }}
+                </h6>
+                <p class="mb-0 small text-muted">
+                  {% blocktranslate with date=object.date_joined|date:"Y" %}
+                    Member since {{ date }}
+                  {% endblocktranslate %}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-bottom">
+            <h6 class="text-primary fw-bold">{% translate "Community Stats" %}</h6>
+            <ul class="list-unstyled">
+              <li>
+                <i class="fas fa-percentage fa-fw"></i>
+                {% blocktranslate with count=object.correction_ratio %}
+                  {{ count }} correction ratio
+                {% endblocktranslate %}
+              </li>
+              <li>
+                <i class="fas fa-arrow-up fa-fw"></i>
+                {% blocktranslate with count=object.corrections_made_count %}
+                  {{ count }} corrections made
+                {% endblocktranslate %}
+              </li>
+              <li>
+                <i class="fas fa-arrow-down fa-fw"></i>
+                {% blocktranslate with count=object.corrections_received_count %}
+                  {{ count }} corrections received
+                {% endblocktranslate %}
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <h6 class="text-primary fw-bold">{% translate "Languages" %}</h6>
+            <ul class="list-unstyled">
+              {% for ll in object.languagelevel_set.all %}<li>{{ ll }}</li>{% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-9">Main content</div>
+    </div>
+  </div>
+{% endblock content %}
+{% comment %}
     <div class="row">
       <div class="col-sm-12">
         <h2>{{ object.username }}</h2>
@@ -19,13 +75,10 @@
       <div class="row">
         <div class="col-sm-12">
           <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-          <a class="btn btn-primary"
-             href="{% url 'account_email' %}"
-             role="button">E-Mail</a>
+          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
           <!-- Your Stuff: Custom user template urls -->
         </div>
       </div>
       <!-- End Action buttons -->
     {% endif %}
-  </div>
-{% endblock content %}
+{% endcomment %}

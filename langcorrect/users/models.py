@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from config.settings.base import AVATAR_BASE_URL
+from langcorrect.corrections.models import CorrectedRow, PerfectRow
 from langcorrect.languages.models import Language, LevelChoices
 
 
@@ -74,3 +75,21 @@ class User(AbstractUser):
     @property
     def all_languages(self):
         return self.native_languages | self.studying_languages
+
+    @property
+    def corrections_made_count(self):
+        return self.correctedrow_set.all().count() + self.perfectrow_set.all().count()
+
+    @property
+    def corrections_received_count(self):
+        return (
+            CorrectedRow.available_objects.filter(post__user=self).count()
+            + PerfectRow.available_objects.filter(post__user=self).count()
+        )
+
+    @property
+    def correction_ratio(self):
+        try:
+            return round(self.corrections_made_count / self.corrections_received_count, 2)
+        except ZeroDivisionError:
+            return "∞"
