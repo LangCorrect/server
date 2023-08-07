@@ -22,7 +22,9 @@
           </span>
         </div>
       </div>
-      <a class="btn btn-sm btn-outline-primary">
+      <a a
+         href="{% url 'posts:create-prompt-based-post' prompt.slug %}"
+         class="btn btn-sm btn-outline-primary">
         <i class="fa-solid fa-reply"></i>
         {% translate "Respond" %}
       </a>
