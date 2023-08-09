@@ -8,6 +8,15 @@
   User:
   {{ object.username }}
 {% endblock title %}
+{% block javascript %}
+  {{ block.super }}
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+  <link rel="stylesheet"
+        href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css" />
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
+{% endblock javascript %}
 {% block content %}
   <div class="container">
     <div class="row">
@@ -59,7 +68,73 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-9">Main content</div>
+      <div class="col-12 col-md-9">
+        <div class="card mb-2">
+          <div class="p-2">
+            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active"
+                        id="pills-overview-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-overview"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-overview"
+                        aria-selected="true">Overview</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="pills-post-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-post"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-post"
+                        aria-selected="true">Posts</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link"
+                        id="pills-prompts-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-prompts"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-prompts"
+                        aria-selected="false">Prompts</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="tab-content" id="pills-tabContent">
+              <div class="tab-pane fade show active"
+                   id="pills-overview"
+                   role="tabpanel"
+                   aria-labelledby="pills-overview-tab">
+                <h6 class="fw-bold text-primary">About me</h6>
+                <p>{{ object.bio|linebreaksbr }}</p>
+                <h6 class="fw-bold text-primary">
+                  {% blocktranslate with count=totalContributions %}
+                     {{ count }} contributions this year
+                   {% endblocktranslate %}
+                </h6>
+                <div class="overflow-scroll py-3">
+                  <div id="cal-heatmap"></div>
+                </div>
+              </div>
+              <div class="tab-pane fade show"
+                   id="pills-post"
+                   role="tabpanel"
+                   aria-labelledby="pills-post-tab">Posts</div>
+              <div class="tab-pane fade"
+                   id="pills-prompts"
+                   role="tabpanel"
+                   aria-labelledby="pills-prompts-tab">Prompts</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
@@ -82,3 +157,43 @@
       <!-- End Action buttons -->
     {% endif %}
 {% endcomment %}
+{% block inline_javascript %}
+  <script>
+    const cal = new CalHeatmap();
+    const today = new Date();
+
+    cal.paint({
+      data: {
+        source: "/api/v1/contributions/{{object.username}}/",
+        x: (datum) => datum.date,
+        y: (datum) => datum.value,
+      },
+      range: 12,
+      scale: {
+        color: {
+          scheme: 'Greens',
+          type: 'linear',
+          domain: [0, 30],
+        }
+      },
+      domain: {
+        type: 'month',
+        dynamicDimension: true
+      },
+      subDomain: {
+        type: 'day',
+        width: 12,
+        height: 12
+      },
+      date: {
+        start: new Date(today.getFullYear(), 0, 1),
+        end: today,
+        highlight: [today]
+      },
+    }, [
+      [Tooltip, {
+        text: (date, value, dayjsDate) => `${value || 0} contributions on ${dayjsDate}`
+      }]
+    ]);
+  </script>
+{% endblock inline_javascript %}
