@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load post_tags %}
 {% load static %}
 {% load i18n %}
 {% load humanize %}
@@ -69,70 +70,24 @@
         </div>
       </div>
       <div class="col-12 col-md-9">
-        <div class="card mb-2">
-          <div class="p-2">
-            <ul class="nav nav-pills" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active"
-                        id="pills-overview-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-overview"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-overview"
-                        aria-selected="true">Overview</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="pills-post-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-post"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-post"
-                        aria-selected="true">Posts</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="pills-prompts-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#pills-prompts"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-prompts"
-                        aria-selected="false">Prompts</button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="tab-content" id="pills-tabContent">
-              <div class="tab-pane fade show active"
-                   id="pills-overview"
-                   role="tabpanel"
-                   aria-labelledby="pills-overview-tab">
-                <h6 class="fw-bold text-primary">About me</h6>
-                <p>{{ object.bio|linebreaksbr }}</p>
-                <h6 class="fw-bold text-primary">
-                  {% blocktranslate with count=totalContributions %}
+        <div class="d-flex flex-column gap-3">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="fw-bold text-primary">About me</h6>
+              <p>{{ object.bio|linebreaksbr }}</p>
+              <h6 class="fw-bold text-primary">
+                {% blocktranslate with count=totalContributions %}
                      {{ count }} contributions this year
                    {% endblocktranslate %}
-                </h6>
-                <div class="overflow-scroll py-3">
-                  <div id="cal-heatmap"></div>
-                </div>
+              </h6>
+              <div class="overflow-scroll py-3">
+                <div id="cal-heatmap"></div>
               </div>
-              <div class="tab-pane fade show"
-                   id="pills-post"
-                   role="tabpanel"
-                   aria-labelledby="pills-post-tab">Posts</div>
-              <div class="tab-pane fade"
-                   id="pills-prompts"
-                   role="tabpanel"
-                   aria-labelledby="pills-prompts-tab">Prompts</div>
             </div>
           </div>
+          {% for post in posts %}
+            {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -172,8 +127,8 @@
       scale: {
         color: {
           scheme: 'Greens',
-          type: 'linear',
-          domain: [0, 100],
+          type: 'threshold',
+          domain: [0, 25, 50, 75, 100],
         }
       },
       domain: {

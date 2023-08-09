@@ -34,7 +34,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
                 "totalContributions": post_this_year_count
                 + corrections_this_year_count
                 + perfects_this_year_count
-                + prompts_this_year_count
+                + prompts_this_year_count,
+                "posts": user.post_set.all()[:10],
             }
         )
         return context
