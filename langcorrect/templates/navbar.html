@@ -40,28 +40,28 @@
              href="{% url 'posts:list' %}"
              data-bs-toggle="tooltip"
              data-bs-placement="bottom"
-             title="{% trans 'Correct journals written in your native language(s).' %}">{% trans "My Feed" %}</a>
+             title="{% translate 'Correct journals written in your native language(s).' %}">{% translate "My Feed" %}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if mode == 'prompts' %}active fw-bold{% endif %}"
              href="{% url 'prompts:list' %}"
              data-bs-toggle="tooltip"
              data-bs-placement="bottom"
-             title="{% trans 'Browse and create writing prompts.' %}">{% trans "Writing Prompts" %}</a>
+             title="{% translate 'Browse and create writing prompts.' %}">{% translate "Writing Prompts" %}</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle"
              href="https://community.langcorrect.com/"
              role="button"
              data-bs-toggle="dropdown"
-             aria-expanded="false">{% trans "Community" %}</a>
+             aria-expanded="false">{% translate "Community" %}</a>
           <ul class="dropdown-menu create-dropdown"
               aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <a class="dropdown-item" href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% trans "Forums" %}</a>
+              <a class="dropdown-item" href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% translate "Forums" %}</a>
             </li>
             <li>
-              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% trans "Challenges" %}</a>
+              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% translate "Challenges" %}</a>
             </li>
           </ul>
         </li>
@@ -73,21 +73,16 @@
                role="button"
                data-bs-toggle="dropdown"
                aria-expanded="false">
-              <i class="fas fa-plus"></i> {% trans "Create" %}
+              <i class="fas fa-plus"></i> {% translate "Create" %}
             </a>
             <ul class="dropdown-menu create-dropdown"
                 aria-labelledby="navbarDropdownMenuLink">
               <li>
-                <a class="dropdown-item" href="{% url 'posts:create' %}"><i class="fas fa-pen fa-fw"></i> {% trans "New Journal" %}</a>
+                <a class="dropdown-item" href="{% url 'posts:create' %}"><i class="fas fa-pen fa-fw"></i> {% translate "New Journal" %}</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'prompts:create' %}"><i class="fas fa-signature fa-fw"></i> {% trans "New Prompt" %}</a>
+                <a class="dropdown-item" href="{% url 'prompts:create' %}"><i class="fas fa-signature fa-fw"></i> {% translate "New Prompt" %}</a>
               </li>
-              {% if request.user.is_moderator or request.user.is_staff %}
-                <li>
-                  <a class="dropdown-item" href=""><i class="fas fa-bullseye fa-fw"></i> {% trans "New Challenge" %}</a>
-                </li>
-              {% endif %}
             </ul>
           </li>
         {% endif %}
@@ -96,7 +91,7 @@
         {% if request.user.is_anonymous %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'account_login' %}">
-              {% trans "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
+              {% translate "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
             </a>
           </li>
         {% endif %}
@@ -115,7 +110,8 @@
               <img src="{{ request.user.avatar }}" alt="profile" height="38" />
             </div>
             <div class="dropdown-menu dropdown-menu-end py-0">
-              <a class="dropdown-item py-2" href="#">
+              <a class="dropdown-item py-2 bg-transparent"
+                 href="{{ request.user.get_absolute_url }}">
                 <div class="d-flex align-items-center">
                   <img src="{{ request.user.avatar }}" alt="profile" height="38" />
                   <div class="ms-3">
@@ -133,25 +129,13 @@
                 <li>
                   <a class="dropdown-item py-2" href="#">
                     <i class="fas fa-file-alt fa-fw"></i>
-                    {% trans "My Journals" %}
+                    {% translate "My Journals" %}
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item py-2" href="#">
                     <i class="fas fa-signature fa-fw"></i>
-                    {% trans "My Prompts" %}
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="#">
-                    <i class="fas fa-trophy fa-fw"></i>
-                    {% trans "Rankings" %}
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="#">
-                    <i class="fas fa-cog fa-fw"></i>
-                    {% trans "Settings" %}
+                    {% translate "My Prompts" %}
                   </a>
                 </li>
                 <li>
@@ -160,7 +144,7 @@
                 <li>
                   <a class="dropdown-item py-2" href="{% url 'account_logout' %}">
                     <i class="fas fa-cog fa-fw"></i>
-                    {% trans "Logout" %}
+                    {% translate "Logout" %}
                   </a>
                 </li>
               </ul>
