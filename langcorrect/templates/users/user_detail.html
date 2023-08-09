@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-3">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-body border-bottom">
             <div class="d-flex gap-3 align-items-center ">
               <img src="{{ object.avatar }}" alt="profile img" />
@@ -61,19 +61,29 @@
               </li>
             </ul>
           </div>
-          <div class="card-body">
+          <div class="card-body border-bottom">
             <h6 class="text-primary fw-bold">{% translate "Languages" %}</h6>
             <ul class="list-unstyled">
               {% for ll in object.languagelevel_set.all %}<li>{{ ll }}</li>{% endfor %}
             </ul>
           </div>
+          {% if object == request.user %}
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">{% translate "My Info" %}</a>
+                <a class="btn btn-primary"
+                   href="{% url 'account_email' %}"
+                   role="button">{% translate "E-Mail" %}</a>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
       <div class="col-12 col-md-9">
         <div class="d-flex flex-column gap-3">
           <div class="card">
             <div class="card-body">
-              <h6 class="fw-bold text-primary">About me</h6>
+              <h6 class="fw-bold text-primary">{% translate "About me" %}</h6>
               <p>{{ object.bio|linebreaksbr }}</p>
               <h6 class="fw-bold text-primary">
                 {% blocktranslate with count=totalContributions %}
@@ -93,25 +103,6 @@
     </div>
   </div>
 {% endblock content %}
-{% comment %}
-    <div class="row">
-      <div class="col-sm-12">
-        <h2>{{ object.username }}</h2>
-        {% if object.name %}<p>{{ object.name }}</p>{% endif %}
-      </div>
-    </div>
-    {% if object == request.user %}
-      <!-- Action buttons -->
-      <div class="row">
-        <div class="col-sm-12">
-          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-          <!-- Your Stuff: Custom user template urls -->
-        </div>
-      </div>
-      <!-- End Action buttons -->
-    {% endif %}
-{% endcomment %}
 {% block inline_javascript %}
   <script>
     const cal = new CalHeatmap();
