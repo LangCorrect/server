@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView
+from django.http import HttpResponseRedirect
+from django.views.generic import CreateView, DetailView, ListView
 
 from langcorrect.languages.models import Language
+from langcorrect.prompts.forms import CustomPromptForm
 from langcorrect.prompts.models import Prompt
 
 
@@ -91,3 +93,22 @@ class PromptDetailView(LoginRequiredMixin, DetailView):
 
 
 prompt_detail_view = PromptDetailView.as_view()
+
+
+class PromptCreateView(CreateView):
+    model = Prompt
+    form_class = CustomPromptForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        self.object = form.save()
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+prompt_create_view = PromptCreateView.as_view()

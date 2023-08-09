@@ -80,10 +80,10 @@
               <li>
                 <a class="dropdown-item" href="{% url 'posts:create' %}"><i class="fas fa-pen fa-fw"></i> {% trans "New Journal" %}</a>
               </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'prompts:create' %}"><i class="fas fa-signature fa-fw"></i> {% trans "New Prompt" %}</a>
+              </li>
               {% if request.user.is_moderator or request.user.is_staff %}
-                <li>
-                  <a class="dropdown-item" href=""><i class="fas fa-signature fa-fw"></i> {% trans "New Prompt" %}</a>
-                </li>
                 <li>
                   <a class="dropdown-item" href=""><i class="fas fa-bullseye fa-fw"></i> {% trans "New Challenge" %}</a>
                 </li>
