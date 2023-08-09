@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -18,9 +20,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
 
-        today = timezone.now().date()
-        start_date = timezone.datetime(today.year, 1, 1).date()
-        end_date = timezone.datetime(today.year, 12, 31).date()
+        now = timezone.now()
+        start_date = timezone.make_aware(datetime(now.year, 1, 1))
+        end_date = timezone.make_aware(datetime(now.year, 12, 31, 23, 59, 59))
 
         post_this_year_count = user.post_set.filter(created__range=(start_date, end_date)).count()
         corrections_this_year_count = user.correctedrow_set.filter(created__range=(start_date, end_date)).count()

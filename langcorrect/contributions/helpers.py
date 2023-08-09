@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 
 from django.db.models import Count
 from django.db.models.functions import TruncDate
@@ -6,9 +7,10 @@ from django.utils import timezone
 
 
 def get_contribution_data(user):
-    today = timezone.now().date()
-    start_date = timezone.datetime(today.year, 1, 1).date()
-    end_date = timezone.datetime(today.year, 12, 31).date()
+    now = timezone.now()
+    start_date = timezone.make_aware(datetime(now.year, 1, 1))
+    end_date = timezone.make_aware(datetime(now.year, 12, 31, 23, 59, 59))
+
     contribution_data = defaultdict(int)
 
     models = [user.post_set, user.correctedrow_set, user.perfectrow_set, user.prompt_set]
