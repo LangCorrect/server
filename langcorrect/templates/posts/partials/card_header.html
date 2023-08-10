@@ -8,7 +8,7 @@
       </a>
       <div>
         <a href="{{ user.get_absolute_url }}"
-           class="card-title mb-0 fw-bold text-decoration-none {% if user.is_premium %}text-premium{% endif %}">{{ user.username }}</a>
+           class="card-title mb-0 text-decoration-none {% if user.is_premium %}text-premium{% else %}text-reset{% endif %}">{{ user.username }}</a>
         <p class="mb-0 small text-muted">{{ created|naturalday }}</p>
       </div>
     </div>
