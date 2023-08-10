@@ -50,26 +50,21 @@
     </div>
     <div class="col-lg-4">
       <div class="card">
-        <div class="card-header border-0 bg-transparent">
-          <h5 class="card-title mb-0 text-large">{% translate "Following feed" %}</h5>
-        </div>
-        <div class="card-body border-top">
-          <div class="d-grid gap-3">
-            {% for post in following_feed %}
+        <div class="card-header bg-transparent">{% translate "Following feed" %}</div>
+        <div class="list-group list-group-flush">
+          {% for post in following_feed %}
+            <a href="{{ post.get_absolute_url }}"
+               class="list-group-item list-group-item-action">
               <div>
-                <h6>
-                  <a href="" class="text-decoration-none fs-5 fw-bold">{{ post.title }}</a>
-                </h6>
-                <p class="truncate-text text-muted mb-1">{{ post.text }}</p>
+                <h6>{{ post.title }}</h6>
+                <p class="truncate-text">{{ post.text }}</p>
                 <div class="d-flex justify-content-between text-muted">
                   <span class="{% if post.user.is_premium %}color-premium{% endif %}">{{ post.user.username }}</span>
                   <span><i class="fa-regular fa-circle-check me-1"></i> {{ post.corrected_by_count }}</span>
                 </div>
               </div>
-            {% empty %}
-              {% translate "Follow users to see their content here" %}
-            {% endfor %}
-          </div>
+            </a>
+          {% endfor %}
         </div>
         <div class="card-footer bg-transparent">
           <a href="{% url 'posts:list' %}?mode=following"
