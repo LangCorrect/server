@@ -60,32 +60,11 @@
             <li>
               <a class="dropdown-item" href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% translate "Forums" %}</a>
             </li>
-            <li>
-              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% translate "Challenges" %}</a>
-            </li>
+            {#            <li>#}
+            {#              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% translate "Challenges" %}</a>#}
+            {#            </li>#}
           </ul>
         </li>
-        {% if request.user.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle"
-               href="#"
-               id="navbarDropdownMenuLink"
-               role="button"
-               data-bs-toggle="dropdown"
-               aria-expanded="false">
-              <i class="fas fa-plus"></i> {% translate "Create" %}
-            </a>
-            <ul class="dropdown-menu create-dropdown"
-                aria-labelledby="navbarDropdownMenuLink">
-              <li>
-                <a class="dropdown-item" href="{% url 'posts:create' %}"><i class="fas fa-pen fa-fw"></i> {% translate "New Journal" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'prompts:create' %}"><i class="fas fa-signature fa-fw"></i> {% translate "New Prompt" %}</a>
-              </li>
-            </ul>
-          </li>
-        {% endif %}
       </ul>
       <ul class="navbar-nav">
         {% if request.user.is_anonymous %}
@@ -96,6 +75,12 @@
           </li>
         {% endif %}
         {% if request.user.is_authenticated %}
+          <li class="d-none d-md-block">
+            <a href="{% url 'posts:create' %}" class="btn btn-primary">
+              <i class="fas fa-pen fa-fw"></i>
+              {% translate "Write" %}
+            </a>
+          </li>
           <li class="d-none d-md-block">
             <button id="notification-button"
                     class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2"
