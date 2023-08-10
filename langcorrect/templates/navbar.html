@@ -37,17 +37,11 @@
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
           <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold{% endif %}"
-             href="{% url 'posts:list' %}"
-             data-bs-toggle="tooltip"
-             data-bs-placement="bottom"
-             title="{% translate 'Correct journals written in your native language(s).' %}">{% translate "My Feed" %}</a>
+             href="{% url 'posts:list' %}">{% translate "My Feed" %}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if mode == 'prompts' %}active fw-bold{% endif %}"
-             href="{% url 'prompts:list' %}"
-             data-bs-toggle="tooltip"
-             data-bs-placement="bottom"
-             title="{% translate 'Browse and create writing prompts.' %}">{% translate "Writing Prompts" %}</a>
+             href="{% url 'prompts:list' %}">{% translate "Writing Prompts" %}</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle"

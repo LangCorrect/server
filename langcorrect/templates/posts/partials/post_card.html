@@ -25,10 +25,16 @@
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex gap-2">
         <div class="d-flex align-items-center gap-1">
-          <span class="chip">
+          <span class="chip"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="{{ post.language }}">
             <i class="fa-solid fa-globe pe-1"></i>  {{ post.language.code }}
           </span>
-          <span class="chip">
+          <span class="chip"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="{% translate 'Correctors' %}">
             <i class="fa-regular fa-circle-check pe-1"></i> {{ post.corrected_by_count }}
           </span>
         </div>
