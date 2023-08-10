@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+    </div>
+  </form>
+{% endblock content %}

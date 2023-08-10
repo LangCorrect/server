@@ -1,31 +1,145 @@
 {% extends "base.html" %}
 
+{% load post_tags %}
 {% load static %}
+{% load i18n %}
+{% load humanize %}
 
 {% block title %}
   User:
   {{ object.username }}
 {% endblock title %}
+{% block javascript %}
+  {{ block.super }}
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+  <link rel="stylesheet"
+        href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css" />
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
+{% endblock javascript %}
 {% block content %}
   <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <h2>{{ object.username }}</h2>
-        {% if object.name %}<p>{{ object.name }}</p>{% endif %}
-      </div>
-    </div>
-    {% if object == request.user %}
-      <!-- Action buttons -->
-      <div class="row">
-        <div class="col-sm-12">
-          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-          <a class="btn btn-primary"
-             href="{% url 'account_email' %}"
-             role="button">E-Mail</a>
-          <!-- Your Stuff: Custom user template urls -->
+      <div class="col-12 col-md-3">
+        <div class="card mb-3">
+          <div class="card-body border-bottom">
+            <div class="d-flex gap-3 align-items-center ">
+              <img src="{{ object.avatar }}" alt="profile img" />
+              <div>
+                <h6 class="mb-0 {% if object.is_premium or object.is_lifetime_vip %}text-premium{% endif %}">
+                  {{ object.username }}
+                </h6>
+                <p class="mb-0 small text-muted">
+                  {% blocktranslate with date=object.date_joined|date:"Y" %}
+                    Member since {{ date }}
+                  {% endblocktranslate %}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-bottom">
+            <h6 class="text-primary fw-bold">{% translate "Community Stats" %}</h6>
+            <ul class="list-unstyled">
+              <li>
+                <i class="fas fa-percentage fa-fw"></i>
+                {% blocktranslate with count=object.correction_ratio %}
+                  {{ count }} correction ratio
+                {% endblocktranslate %}
+              </li>
+              <li>
+                <i class="fas fa-arrow-up fa-fw"></i>
+                {% blocktranslate with count=object.corrections_made_count %}
+                  {{ count }} corrections made
+                {% endblocktranslate %}
+              </li>
+              <li>
+                <i class="fas fa-arrow-down fa-fw"></i>
+                {% blocktranslate with count=object.corrections_received_count %}
+                  {{ count }} corrections received
+                {% endblocktranslate %}
+              </li>
+            </ul>
+          </div>
+          <div class="card-body border-bottom">
+            <h6 class="text-primary fw-bold">{% translate "Languages" %}</h6>
+            <ul class="list-unstyled">
+              {% for ll in object.languagelevel_set.all %}<li>{{ ll }}</li>{% endfor %}
+            </ul>
+          </div>
+          {% if object == request.user %}
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">{% translate "My Info" %}</a>
+                <a class="btn btn-primary"
+                   href="{% url 'account_email' %}"
+                   role="button">{% translate "E-Mail" %}</a>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
-      <!-- End Action buttons -->
-    {% endif %}
+      <div class="col-12 col-md-9">
+        <div class="d-flex flex-column gap-3">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="fw-bold text-primary">{% translate "About me" %}</h6>
+              <p>{{ object.bio|linebreaksbr }}</p>
+              <h6 class="fw-bold text-primary">
+                {% blocktranslate with count=totalContributions %}
+                     {{ count }} contributions this year
+                   {% endblocktranslate %}
+              </h6>
+              <div class="overflow-scroll py-3">
+                <div id="cal-heatmap"></div>
+              </div>
+            </div>
+          </div>
+          {% for post in posts %}
+            {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
+{% block inline_javascript %}
+  <script>
+    const cal = new CalHeatmap();
+    const today = new Date();
+
+    cal.paint({
+      data: {
+        source: "/api/v1/contributions/{{object.username}}/",
+        x: (datum) => datum.date,
+        y: (datum) => datum.value,
+      },
+      range: 12,
+      scale: {
+        color: {
+          scheme: 'Greens',
+          type: 'threshold',
+          domain: [0, 25, 50, 75, 100],
+        }
+      },
+      domain: {
+        type: 'month',
+        dynamicDimension: true
+      },
+      subDomain: {
+        type: 'day',
+        width: 12,
+        height: 12
+      },
+      date: {
+        start: new Date(today.getFullYear(), 0, 1),
+        end: today,
+        highlight: [today]
+      },
+    }, [
+      [Tooltip, {
+        text: (date, value, dayjsDate) => `${value || 0} contributions on ${dayjsDate}`
+      }]
+    ]);
+  </script>
+{% endblock inline_javascript %}

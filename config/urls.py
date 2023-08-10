@@ -26,10 +26,15 @@ urlpatterns = [
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+
+api_urlpatterns_v1 = [path("contributions/", include("langcorrect.contributions.urls"))]
+
+
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/", include("config.api_router")),
+    path("api/v1/", include("config.api_router")),
+    path("api/v1/", include(api_urlpatterns_v1)),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
