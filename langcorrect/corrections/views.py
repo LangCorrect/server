@@ -20,6 +20,7 @@ def make_corrections(request, slug):
 
     if request.method == "POST":
         corrections_data = request.POST.get("corrections_data")
+        overall_feedback = request.POST.get("overall_feedback", None)
 
         if corrections_data:
             corrections = json.loads(corrections_data)
@@ -54,6 +55,14 @@ def make_corrections(request, slug):
                         post=post, post_row=post_row_instance, user=current_user
                     ).delete()
 
+        if overall_feedback:
+            feedback_row, _ = OverallFeedback.available_objects.get_or_create(
+                post=post,
+                user=current_user,
+            )
+            feedback_row.comment = overall_feedback
+            feedback_row.save()
+
         return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
     else:
         all_post_rows = PostRow.available_objects.filter(post=post, is_actual=True).order_by("order")
@@ -86,6 +95,6 @@ def make_corrections(request, slug):
     context = {}
     context["post_rows"] = all_post_rows
     context["post"] = (post,)
-    context["overall_feedback"] = overall_feedback if overall_feedback else ""
+    context["overall_feedback"] = overall_feedback.comment if overall_feedback else ""
 
     return render(request, "corrections/make_corrections.html", context)

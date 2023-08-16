@@ -58,7 +58,14 @@
         </div>
       {% endfor %}
       <div>
+        <label for="overall-feedback" class="form-label">{% trans "Overall feedback or comment" %}</label>
+        <textarea class="form-control"
+                  id="overall-feedback"
+                  placeholder='{% trans "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}'>{{ overall_feedback }}</textarea>
+      </div>
+      <div>
         <input type="hidden" name="corrections_data" id="serializedCorrections" />
+        <input type="hidden" name="overall_feedback" id="overallFeedback" />
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
@@ -166,7 +173,9 @@
       const icon = btn.querySelector('i');
       const perfectBtn = document.querySelector(`.js-mark-as-perfect[data-sentence-id="${id}"]`);
       const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
-      const noteInput = document.querySelector(`#js-correction-note-${id}`);
+
+      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
 
       correction.action = correction.action === "corrected" ? "none" : "corrected";
       correctionBox.classList.toggle("d-none");
@@ -174,9 +183,8 @@
       icon.classList.toggle('fa-undo');
 
       if (correction.action === "none") {
-        const correctionInput = document.querySelector(`#js-correction-row-${id}`);
-        correctionInput.value = correction.original_text;
-        noteInput.value = "";
+        correctionTextarea.value = correction.original_text;
+        feedbackTextarea.value = "";
       }
 
       perfectBtn.disabled = correction.action === "corrected";
@@ -212,7 +220,9 @@
     function setupFormSubmitListener(corrections) {
       document.getElementById("correctionsForm").addEventListener("submit", function(e) {
         e.preventDefault();
+        const overallFeedbackTextarea = document.getElementById("overall-feedback");
         document.getElementById("serializedCorrections").value = JSON.stringify(corrections);
+        document.getElementById("overallFeedback").value = overallFeedbackTextarea.value;
         e.target.submit();
       });
     }
