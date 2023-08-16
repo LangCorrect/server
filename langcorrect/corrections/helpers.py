@@ -43,3 +43,13 @@ def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows, postr
 
     sorted_corrections = order_user_corrections_by_post_row(user_corrections)
     return sorted_corrections
+
+
+def check_can_make_corrections(current_user, post):
+    if post.user == current_user:
+        return False
+
+    if post.language not in current_user.native_languages:
+        return False
+
+    return True

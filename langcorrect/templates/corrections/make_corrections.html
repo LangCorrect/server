@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+{% block content %}
+  <form autocomplete="off" id="correctionsForm" method="post">
+    <div class="d-grid gap-3">
+      {% csrf_token %}
+      {% for post_row in post_rows %}
+        <div class="card js-correction-card"
+             data-sentence-id="{{ post_row.id }}"
+             data-original-sentence="{{ post_row.sentence }}"
+             data-action="{{ post_row.action }}">
+          <div class="card-body border-bottom">
+            <span class="js-sentence">{{ post_row.sentence }}</span>
+          </div>
+          <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
+               data-correction-box="{{ post_row.id }}">
+            <div class="mb-3">
+              <label for="js-correction-row-{{ post_row.id }}" class="form-label">{% trans "Make your correction here." %}</label>
+              <textarea class="form-control"
+                        name="correction-row-{{ post_row.id }}"
+                        id="js-correction-row-{{ post_row.id }}"
+                        placeholder="{% trans 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="js-correction-note-{{ post_row.id }}" class="form-label">
+                {% trans "Include feedback for this correction here." %}
+              </label>
+              <textarea class="form-control"
+                        name="correction-note-{{ post_row.id }}"
+                        id="js-correction-note-{{ post_row.id }}"
+                        placeholder="{% trans 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            {% if post_row.is_action_taken %}
+              <button class="btn btn-sm btn-outline-danger js-delete-btn"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            {% else %}
+              <button class="btn btn-sm btn-primary js-mark-as-perfect"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-circle-check"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-primary js-edit-btn"
+                      data-sentence-id="{{ post_row.id }}"
+                      data-correction-btn="{{ post_row.id }}">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <div>
+        <input type="hidden" name="corrections_data" id="serializedCorrections" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock content %}
+{% block inline_javascript %}
+  <script>
+    const corrections = [];
+
+    document.addEventListener("DOMContentLoaded", function() {
+      setupInitialData(corrections);
+      setupTextChangeListeners(corrections);
+      setupPerfectButtonListeners(corrections);
+      setupEditButtonListeners(corrections);
+      setupDeleteButtonListeners(corrections);
+      setupFormSubmitListener(corrections);
+    });
+
+    function setupInitialData(corrections) {
+      document.querySelectorAll(".js-correction-card").forEach(function(correctionCard) {
+        const id = correctionCard.getAttribute("data-sentence-id");
+        const originalText = correctionCard.getAttribute("data-original-sentence").trim()
+
+        const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+        const correctedText = correctionTextarea.value.trim();
+
+        const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+        const feedbackText = feedbackTextarea.value.trim();
+
+        const actionTaken = correctionCard.getAttribute("data-action");
+
+        const correctionData = {
+          sentence_id: id,
+          original_text: originalText,
+          corrected_text: correctedText,
+          feedback: feedbackText,
+          type: "",
+          action: actionTaken
+        };
+
+        corrections.push(correctionData);
+      });
+    }
+
+    function setupPerfectButtonListeners(corrections) {
+      document.querySelectorAll(".js-mark-as-perfect").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handlePerfectButtonClick(e, btn, corrections);
+        });
+      });
+    }
+
+    function handlePerfectButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      const icon = btn.querySelector("i");
+      const editBtn = document.querySelector(`.js-edit-btn[data-sentence-id="${id}"]`);
+
+      if (correction.action === "none") {
+        correction.action = "perfect";
+        icon.classList.remove("fa-circle-check");
+        icon.classList.add("fa-undo");
+        editBtn.disabled = true;
+      } else {
+        correction.action = "none";
+        icon.classList.remove('fa-undo');
+        icon.classList.add('fa-circle-check');
+        editBtn.disabled = false;
+      }
+    }
+
+    function setupTextChangeListeners(corrections) {
+      document.querySelectorAll("textarea[id^='js-correction-row-']").forEach(inputElem => {
+        inputElem.addEventListener("input", function(e) {
+          const id = e.target.id.split('-').pop();
+          const correction = corrections.find(c => c.sentence_id === id);
+          correction.corrected_text = e.target.value;
+        });
+      });
+
+      document.querySelectorAll("textarea[id^='js-correction-note-']").forEach(inputElem => {
+        inputElem.addEventListener("input", function(e) {
+          const id = e.target.id.split('-').pop();
+          const correction = corrections.find(c => c.sentence_id === id);
+          correction.feedback = e.target.value;
+        });
+      });
+    }
+
+    function setupEditButtonListeners(corrections) {
+      document.querySelectorAll(".js-edit-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handleEditButtonClick(e, btn, corrections);
+        });
+      });
+    }
+
+    function handleEditButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      const icon = btn.querySelector('i');
+      const perfectBtn = document.querySelector(`.js-mark-as-perfect[data-sentence-id="${id}"]`);
+      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+      const noteInput = document.querySelector(`#js-correction-note-${id}`);
+
+      correction.action = correction.action === "corrected" ? "none" : "corrected";
+      correctionBox.classList.toggle("d-none");
+      icon.classList.toggle('fa-pen');
+      icon.classList.toggle('fa-undo');
+
+      if (correction.action === "none") {
+        const correctionInput = document.querySelector(`#js-correction-row-${id}`);
+        correctionInput.value = correction.original_text;
+        noteInput.value = "";
+      }
+
+      perfectBtn.disabled = correction.action === "corrected";
+    }
+
+    function setupDeleteButtonListeners(corrections) {
+      document.querySelectorAll(".js-delete-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handleDeleteButtonClick(e, btn, corrections);
+        })
+      })
+    }
+
+    function handleDeleteButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      correction.action = "delete";
+
+      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+      correctionTextarea.disabled = true;
+
+      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+      feedbackTextarea.disabled = true;
+
+      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+      correctionBox.classList.add("d-none");
+
+      btn.disabled = true;
+    }
+
+    function setupFormSubmitListener(corrections) {
+      document.getElementById("correctionsForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        document.getElementById("serializedCorrections").value = JSON.stringify(corrections);
+        e.target.submit();
+      });
+    }
+  </script>
+{% endblock inline_javascript %}
