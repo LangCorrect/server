@@ -21,7 +21,13 @@ Master grammar, spelling, and syntax in the language(s) you’re learning throug
 
         createdb --username=postgres langcorrect
 
-- Set up your environment variables in .env (check .env example)
+- Set up your environment variables in .env (see ``.env.example``)
+
+- Install Redis if you have not already:
+
+        sudo apt update && apt upgrade
+        sudo apt install redis-server
+        sudo service redis-server start
 
 ### Install the fixtures
 
@@ -32,6 +38,11 @@ Master grammar, spelling, and syntax in the language(s) you’re learning throug
 - To install the correction types, run the following command:
 
         python manage.py loaddata fixtures/correction_types.json
+
+- To install the tags, run the following command:
+
+        python manage.py loaddata fixtures/tags.json
+
 
 ## Settings
 
@@ -48,6 +59,14 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
       $ python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+
+### Pre-commit
+
+Load pre-commit by running:
+
+```
+pre-commit
+```
 
 ### Type checks
 

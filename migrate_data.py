@@ -86,28 +86,6 @@ def migrate_users():
     User.objects.bulk_create(user_objects)
 
 
-def migrate_languages():
-    print("migrating languages...")
-
-    with open("./temp_data/language_data.json") as file:
-        data = json.load(file)
-
-    lang_objects = []
-
-    for entry in data:
-        pk = entry["pk"]
-        created = entry["fields"]["created"]
-        modified = entry["fields"]["modified"]
-        en_name = entry["fields"]["en_name"]
-        code = entry["fields"]["code"]
-        family_code = entry["fields"]["family_code"]
-        lang_objects.append(
-            Language(pk=pk, created=created, modified=modified, en_name=en_name, code=code, family_code=family_code)
-        )
-
-    Language.objects.bulk_create(lang_objects)
-
-
 def migrate_language_levels():
     print("migrating language levels...")
 
@@ -606,20 +584,19 @@ def reset_sequences():
 
 
 def main():
-    # migrate_users()
-    # migrate_languages()  # load fixture instead
-    # migrate_language_levels()
-    # migrate_challenges()
-    # migrate_prompts()
-    # migrate_posts()
-    # migrate_post_rows()
-    # migrate_corrected_rows()
-    # migrate_perfect_rows()
-    # migrate_overall_feedback()
-    # migrate_post_replies()
-    # migrate_followers()
-    # migrate_contributions()
-    # migrate_memberships()
+    migrate_users()
+    migrate_language_levels()
+    migrate_challenges()
+    migrate_prompts()
+    migrate_posts()
+    migrate_post_rows()
+    migrate_corrected_rows()
+    migrate_perfect_rows()
+    migrate_overall_feedback()
+    migrate_post_replies()
+    migrate_followers()
+    migrate_contributions()
+    migrate_memberships()
     reset_sequences()
 
 
