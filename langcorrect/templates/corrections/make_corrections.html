@@ -82,6 +82,8 @@
       setupEditButtonListeners(corrections);
       setupDeleteButtonListeners(corrections);
       setupFormSubmitListener(corrections);
+
+      const textareas = document.querySelectorAll("textarea").forEach(textarea => autosize(textarea));
     });
 
     function setupInitialData(corrections) {
@@ -186,6 +188,9 @@
         correctionTextarea.value = correction.original_text;
         feedbackTextarea.value = "";
       }
+
+      autosize.update(correctionTextarea);
+      autosize.update(feedbackTextarea);
 
       perfectBtn.disabled = correction.action === "corrected";
     }
