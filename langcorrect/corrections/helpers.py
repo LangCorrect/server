@@ -37,7 +37,7 @@ def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows, postr
     for reply in postreply_rows:
         recipient = reply.recipient
 
-        if user not in user_corrections:
+        if recipient not in user_corrections:
             user_corrections[recipient] = {"corrections": [], "overall_feedback": "", "replies": []}
         user_corrections[recipient]["replies"].append(reply)
 
