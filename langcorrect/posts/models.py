@@ -63,7 +63,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
         corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
         perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
         user_ids = set(corrected_user_ids).union(perfect_user_ids)
-        return User.objects.filter(user__in=user_ids)
+        return User.objects.filter(id__in=user_ids)
 
     @property
     def corrected_by_count(self):

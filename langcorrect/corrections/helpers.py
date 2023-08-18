@@ -37,9 +37,19 @@ def populate_user_corrections(perfect_rows, corrected_rows, feedback_rows, postr
     for reply in postreply_rows:
         recipient = reply.recipient
 
-        if user not in user_corrections:
+        if recipient not in user_corrections:
             user_corrections[recipient] = {"corrections": [], "overall_feedback": "", "replies": []}
         user_corrections[recipient]["replies"].append(reply)
 
     sorted_corrections = order_user_corrections_by_post_row(user_corrections)
     return sorted_corrections
+
+
+def check_can_make_corrections(current_user, post):
+    if post.user == current_user:
+        return False
+
+    if post.language not in current_user.native_languages:
+        return False
+
+    return True

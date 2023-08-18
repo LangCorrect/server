@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+{% block content %}
+  <form autocomplete="off" id="correctionsForm" method="post">
+    <div class="d-grid gap-3">
+      {% csrf_token %}
+      {% for post_row in post_rows %}
+        <div class="card js-correction-card"
+             data-sentence-id="{{ post_row.id }}"
+             data-original-sentence="{{ post_row.sentence }}"
+             data-action="{{ post_row.action }}">
+          <div class="card-body border-bottom">
+            <span class="js-sentence">{{ post_row.sentence }}</span>
+          </div>
+          <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
+               data-correction-box="{{ post_row.id }}">
+            <div class="mb-3">
+              <label for="js-correction-row-{{ post_row.id }}" class="form-label">
+                {% translate "Make your correction here." %}
+              </label>
+              <textarea class="form-control"
+                        name="correction-row-{{ post_row.id }}"
+                        id="js-correction-row-{{ post_row.id }}"
+                        placeholder="{% translate 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="js-correction-note-{{ post_row.id }}" class="form-label">
+                {% translate "Include feedback for this correction here." %}
+              </label>
+              <textarea class="form-control"
+                        name="correction-note-{{ post_row.id }}"
+                        id="js-correction-note-{{ post_row.id }}"
+                        placeholder="{% translate 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            {% if post_row.is_action_taken %}
+              <button class="btn btn-sm btn-outline-danger js-delete-btn"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            {% else %}
+              <button class="btn btn-sm btn-primary js-mark-as-perfect"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-circle-check"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-primary js-edit-btn"
+                      data-sentence-id="{{ post_row.id }}"
+                      data-correction-btn="{{ post_row.id }}">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <div class="card">
+        <div class="card-header bg-transparent">{% translate "Overall feedback or comment" %}</div>
+        <div class="card-body">
+          <textarea class="form-control"
+                    id="overall-feedback"
+                    rows="4"
+                    placeholder="{% translate "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}">{{ overall_feedback }}</textarea>
+        </div>
+        {% if overall_feedback %}
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            <button class="btn btn-sm btn-outline-danger" id="delete-feedback">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        {% endif %}
+      </div>
+      <div class="d-flex justify-content-end">
+        <div class="d-flex gap-3">
+          <button id="discard-btn" class="btn btn-outline-danger">{% translate "Discard" %}</button>
+          <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="corrections_data" id="serializedCorrections" />
+    <input type="hidden" name="overall_feedback" id="overallFeedback" />
+    <input type="hidden"
+           value="false"
+           name="delete_overall_feedback"
+           id="deleteOverallFeedback" />
+  </form>
+{% endblock content %}
+{% block modal %}
+  {{ block.super }}
+  {% include "modals/discard_corrections.html" %}
+{% endblock modal %}
+{% block inline_javascript %}
+  <script>
+    const corrections = [];
+
+    document.addEventListener("DOMContentLoaded", function() {
+      setupInitialData(corrections);
+      setupTextChangeListeners(corrections);
+      setupPerfectButtonListeners(corrections);
+      setupEditButtonListeners(corrections);
+      setupDeleteButtonListeners(corrections);
+      setupFormSubmitListener(corrections);
+
+      const textareas = document.querySelectorAll("textarea").forEach(textarea => autosize(textarea));
+
+      const discardBtn = document.getElementById("discard-btn");
+      discardBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        const modal = new bootstrap.Modal("#discard-corrections-modal");
+        modal.show();
+      })
+    });
+
+    function setupInitialData(corrections) {
+      document.querySelectorAll(".js-correction-card").forEach(function(correctionCard) {
+        const id = correctionCard.getAttribute("data-sentence-id");
+        const originalText = correctionCard.getAttribute("data-original-sentence").trim()
+
+        const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+        const correctedText = correctionTextarea.value.trim();
+
+        const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+        const feedbackText = feedbackTextarea.value.trim();
+
+        const actionTaken = correctionCard.getAttribute("data-action");
+
+        const correctionData = {
+          sentence_id: id,
+          original_text: originalText,
+          corrected_text: correctedText,
+          feedback: feedbackText,
+          type: "",
+          action: actionTaken
+        };
+
+        corrections.push(correctionData);
+      });
+    }
+
+    function setupPerfectButtonListeners(corrections) {
+      document.querySelectorAll(".js-mark-as-perfect").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handlePerfectButtonClick(e, btn, corrections);
+        });
+      });
+    }
+
+    function handlePerfectButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      const icon = btn.querySelector("i");
+      const editBtn = document.querySelector(`.js-edit-btn[data-sentence-id="${id}"]`);
+
+      if (correction.action === "none") {
+        correction.action = "perfect";
+        icon.classList.remove("fa-circle-check");
+        icon.classList.add("fa-undo");
+        editBtn.disabled = true;
+      } else {
+        correction.action = "none";
+        icon.classList.remove('fa-undo');
+        icon.classList.add('fa-circle-check');
+        editBtn.disabled = false;
+      }
+    }
+
+    function setupTextChangeListeners(corrections) {
+      document.querySelectorAll("textarea[id^='js-correction-row-']").forEach(inputElem => {
+        inputElem.addEventListener("input", function(e) {
+          const id = e.target.id.split('-').pop();
+          const correction = corrections.find(c => c.sentence_id === id);
+          correction.corrected_text = e.target.value;
+        });
+      });
+
+      document.querySelectorAll("textarea[id^='js-correction-note-']").forEach(inputElem => {
+        inputElem.addEventListener("input", function(e) {
+          const id = e.target.id.split('-').pop();
+          const correction = corrections.find(c => c.sentence_id === id);
+          correction.feedback = e.target.value;
+        });
+      });
+
+      document.getElementById("overall-feedback").addEventListener("input", function(e) {
+        autosize(e.target);
+      });
+    }
+
+    function setupEditButtonListeners(corrections) {
+      document.querySelectorAll(".js-edit-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handleEditButtonClick(e, btn, corrections);
+        });
+      });
+    }
+
+    function handleEditButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      const icon = btn.querySelector('i');
+      const perfectBtn = document.querySelector(`.js-mark-as-perfect[data-sentence-id="${id}"]`);
+      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+
+      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+
+      correction.action = correction.action === "corrected" ? "none" : "corrected";
+      correctionBox.classList.toggle("d-none");
+      icon.classList.toggle('fa-pen');
+      icon.classList.toggle('fa-undo');
+
+      if (correction.action === "none") {
+        correctionTextarea.value = correction.original_text;
+        feedbackTextarea.value = "";
+      }
+
+      autosize.update(correctionTextarea);
+      autosize.update(feedbackTextarea);
+
+      perfectBtn.disabled = correction.action === "corrected";
+    }
+
+    function setupDeleteButtonListeners(corrections) {
+      document.querySelectorAll(".js-delete-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          handleDeleteButtonClick(e, btn, corrections);
+        })
+      });
+
+      const deleteOverallFeedbackBtn = document.getElementById("delete-feedback");
+
+      if (deleteOverallFeedbackBtn) {
+        deleteOverallFeedbackBtn.addEventListener("click", function(e) {
+          handleDeleteFeedbackButtonClick(e, deleteOverallFeedbackBtn);
+        });
+      }
+    }
+
+    function handleDeleteButtonClick(e, btn, corrections) {
+      e.preventDefault();
+
+      const id = btn.getAttribute("data-sentence-id");
+      const correction = corrections.find(c => c.sentence_id === id);
+      correction.action = "delete";
+
+      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+      correctionTextarea.disabled = true;
+
+      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+      feedbackTextarea.disabled = true;
+
+      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+      correctionBox.classList.add("d-none");
+
+      btn.disabled = true;
+    }
+
+    function handleDeleteFeedbackButtonClick(e, btn) {
+      e.preventDefault();
+      btn.disabled = true;
+      const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
+      deleteFeedbackInput.value = "true";
+    }
+
+    function setupFormSubmitListener(corrections) {
+      document.getElementById("correctionsForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const overallFeedbackTextarea = document.getElementById("overall-feedback");
+        document.getElementById("serializedCorrections").value = JSON.stringify(corrections);
+        document.getElementById("overallFeedback").value = overallFeedbackTextarea.value;
+        e.target.submit();
+      });
+    }
+  </script>
+{% endblock inline_javascript %}

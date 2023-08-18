@@ -43,7 +43,8 @@
         <a href="{% url 'posts:update' post.slug %}"
            class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
       {% else %}
-        <a class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
+        <a href="{% url 'posts:make-corrections' post.slug %}"
+           class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
           <i class="fa-regular fa-circle-check"></i>
           {% if already_corrected %}
             {% translate "Corrected" %}
