@@ -350,7 +350,7 @@ SPECTACULAR_SETTINGS = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 # Used to generate the correct domain url when generating emails
-SITE_BASE_URL = env("SITE_BASE_URL")
+SITE_BASE_URL = env("SITE_BASE_URL", default="https://langcorrect.com")
 
 TAGGIT_CASE_INSENSITIVE = True
 
