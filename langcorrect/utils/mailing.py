@@ -2,9 +2,6 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-if not settings.DEBUG:
-    from sentry_sdk import capture_exception
-
 
 class EmailSender:
     """
@@ -46,7 +43,11 @@ class EmailSender:
             msg.attach_alternative(html_content, "text/html")
             msg.send()
         except Exception as e:
-            capture_exception(e)
+            if not settings.DEBUG:
+                from sentry_sdk import capture_exception
+
+                capture_exception(e)
+            pass
 
 
 def email_new_correction(post):
