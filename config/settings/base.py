@@ -349,6 +349,9 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+# Used to generate the correct domain url when generating emails
+SITE_BASE_URL = env("SITE_BASE_URL")
+
 TAGGIT_CASE_INSENSITIVE = True
 
 ROSETTA_MESSAGES_PER_PAGE = 25

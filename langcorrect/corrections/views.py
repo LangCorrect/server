@@ -10,6 +10,7 @@ from notifications.signals import notify
 from langcorrect.corrections.helpers import check_can_make_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.models import Post, PostRow
+from langcorrect.utils.mailing import email_new_correction
 
 
 @login_required
@@ -95,6 +96,9 @@ def make_corrections(request, slug):
                     action_object=post,
                     notification_type="new_reply",
                 )
+
+        if new_correction_made and current_user not in previous_correctors and post.user.is_premium:
+            email_new_correction(post)
 
         return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
     else:
