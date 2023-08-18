@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as translate
+from notifications.signals import notify
 
 from langcorrect.corrections.helpers import check_can_make_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
@@ -22,6 +24,10 @@ def make_corrections(request, slug):
         corrections_data = request.POST.get("corrections_data")
         overall_feedback = request.POST.get("overall_feedback", None)
 
+        previous_correctors = post.get_correctors
+        new_correction_made = False
+        new_feedback_given = False
+
         if corrections_data:
             corrections = json.loads(corrections_data)
 
@@ -34,17 +40,20 @@ def make_corrections(request, slug):
                 post_row_instance = PostRow.objects.get(id=sentence_id)
 
                 if action == "perfect":
-                    PerfectRow.available_objects.get_or_create(
+                    _, perfect_created = PerfectRow.available_objects.get_or_create(
                         post=post, post_row=post_row_instance, user=current_user
                     )
+                    new_correction_made |= perfect_created
 
                 if action == "corrected":
-                    corrected_row, _ = CorrectedRow.available_objects.get_or_create(
+                    corrected_row, correctedrow_created = CorrectedRow.available_objects.get_or_create(
                         post=post, post_row=post_row_instance, user=current_user
                     )
                     corrected_row.correction = corrected_text
                     corrected_row.note = feedback
                     corrected_row.save()
+
+                    new_correction_made |= correctedrow_created
 
                 if action == "delete":
                     # Note: a sentence cannot be both marked as perfect or corrected
@@ -56,12 +65,32 @@ def make_corrections(request, slug):
                     ).delete()
 
         if overall_feedback:
-            feedback_row, _ = OverallFeedback.available_objects.get_or_create(
+            feedback_row, feedback_created = OverallFeedback.available_objects.get_or_create(
                 post=post,
                 user=current_user,
             )
             feedback_row.comment = overall_feedback
             feedback_row.save()
+
+            new_feedback_given |= feedback_created
+
+        if current_user not in previous_correctors:
+            if new_correction_made:
+                notify.send(
+                    sender=current_user,
+                    recipient=post.user,
+                    verb=translate("corrected"),
+                    action_object=post,
+                    notification_type="new_correction",
+                )
+            elif new_feedback_given:
+                notify.send(
+                    sender=current_user,
+                    recipient=post.user,
+                    verb=translate("commented on"),
+                    action_object=post,
+                    notification_type="new_reply",
+                )
 
         return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
     else:
