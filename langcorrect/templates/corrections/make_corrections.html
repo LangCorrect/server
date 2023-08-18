@@ -21,20 +21,22 @@
           <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
                data-correction-box="{{ post_row.id }}">
             <div class="mb-3">
-              <label for="js-correction-row-{{ post_row.id }}" class="form-label">{% trans "Make your correction here." %}</label>
+              <label for="js-correction-row-{{ post_row.id }}" class="form-label">
+                {% translate "Make your correction here." %}
+              </label>
               <textarea class="form-control"
                         name="correction-row-{{ post_row.id }}"
                         id="js-correction-row-{{ post_row.id }}"
-                        placeholder="{% trans 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
+                        placeholder="{% translate 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
             </div>
             <div class="mb-3">
               <label for="js-correction-note-{{ post_row.id }}" class="form-label">
-                {% trans "Include feedback for this correction here." %}
+                {% translate "Include feedback for this correction here." %}
               </label>
               <textarea class="form-control"
                         name="correction-note-{{ post_row.id }}"
                         id="js-correction-note-{{ post_row.id }}"
-                        placeholder="{% trans 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
+                        placeholder="{% translate 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
             </div>
           </div>
           <div class="d-flex justify-content-end p-2 gap-2 border-top">
@@ -57,18 +59,36 @@
           </div>
         </div>
       {% endfor %}
-      <div>
-        <label for="overall-feedback" class="form-label">{% trans "Overall feedback or comment" %}</label>
-        <textarea class="form-control"
-                  id="overall-feedback"
-                  placeholder='{% trans "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}'>{{ overall_feedback }}</textarea>
+      <div class="card">
+        <div class="card-header bg-transparent">{% translate "Overall feedback or comment" %}</div>
+        <div class="card-body">
+          <textarea class="form-control"
+                    id="overall-feedback"
+                    rows="4"
+                    placeholder="{% translate "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}">{{ overall_feedback }}</textarea>
+        </div>
+        {% if overall_feedback %}
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            <button class="btn btn-sm btn-outline-danger" id="delete-feedback">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        {% endif %}
       </div>
-      <div>
-        <input type="hidden" name="corrections_data" id="serializedCorrections" />
-        <input type="hidden" name="overall_feedback" id="overallFeedback" />
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="d-flex justify-content-end">
+        <div class="d-flex gap-3">
+          <a href="{% url 'posts:detail' post.slug %}"
+             class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
+          <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+        </div>
       </div>
     </div>
+    <input type="hidden" name="corrections_data" id="serializedCorrections" />
+    <input type="hidden" name="overall_feedback" id="overallFeedback" />
+    <input type="hidden"
+           value="false"
+           name="delete_overall_feedback"
+           id="deleteOverallFeedback" />
   </form>
 {% endblock content %}
 {% block inline_javascript %}
@@ -157,6 +177,10 @@
           correction.feedback = e.target.value;
         });
       });
+
+      document.getElementById("overall-feedback").addEventListener("input", function(e) {
+        autosize(e.target);
+      });
     }
 
     function setupEditButtonListeners(corrections) {
@@ -200,7 +224,15 @@
         btn.addEventListener("click", function(e) {
           handleDeleteButtonClick(e, btn, corrections);
         })
-      })
+      });
+
+      const deleteOverallFeedbackBtn = document.getElementById("delete-feedback");
+
+      if (deleteOverallFeedbackBtn) {
+        deleteOverallFeedbackBtn.addEventListener("click", function(e) {
+          handleDeleteFeedbackButtonClick(e, deleteOverallFeedbackBtn);
+        });
+      }
     }
 
     function handleDeleteButtonClick(e, btn, corrections) {
@@ -220,6 +252,13 @@
       correctionBox.classList.add("d-none");
 
       btn.disabled = true;
+    }
+
+    function handleDeleteFeedbackButtonClick(e, btn) {
+      e.preventDefault();
+      btn.disabled = true;
+      const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
+      deleteFeedbackInput.value = "true";
     }
 
     function setupFormSubmitListener(corrections) {

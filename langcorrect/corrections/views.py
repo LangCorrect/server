@@ -23,6 +23,7 @@ def make_corrections(request, slug):
     if request.method == "POST":
         corrections_data = request.POST.get("corrections_data")
         overall_feedback = request.POST.get("overall_feedback", None)
+        delete_overall_feedback = request.POST.get("delete_overall_feedback", None)
 
         previous_correctors = post.get_correctors
         new_correction_made = False
@@ -74,6 +75,9 @@ def make_corrections(request, slug):
 
             new_feedback_given |= feedback_created
 
+            if delete_overall_feedback == "true":
+                feedback_row.delete()
+
         if current_user not in previous_correctors:
             if new_correction_made:
                 notify.send(
@@ -123,7 +127,7 @@ def make_corrections(request, slug):
 
     context = {}
     context["post_rows"] = all_post_rows
-    context["post"] = (post,)
+    context["post"] = post
     context["overall_feedback"] = overall_feedback.comment if overall_feedback else ""
 
     return render(request, "corrections/make_corrections.html", context)
