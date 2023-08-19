@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div id="discard-corrections-modal" class="modal" tabindex="-1">
+<div id="discard-modal" class="modal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -15,7 +15,7 @@
         <button type="button"
                 class="btn btn-outline-secondary"
                 data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-        <a href="{% url 'posts:detail' post.slug %}" class="btn btn-danger">{% translate "Discard" %}</a>
+        <a id="action-link" href="" class="btn btn-danger">{% translate "Discard" %}</a>
       </div>
     </div>
   </div>

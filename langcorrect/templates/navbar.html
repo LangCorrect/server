@@ -69,7 +69,7 @@
           </li>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <li class="d-none d-md-block">
+          <li class="d-none d-md-block me-2">
             <a href="{% url 'posts:create' %}" class="btn btn-primary">
               <i class="fas fa-pen fa-fw"></i>
               {% translate "Write" %}
@@ -84,11 +84,11 @@
               {{ unread_count }}
             </button>
           </li>
-          <li class="dropdown d-inline-block">
+          <li class="dropdown d-inline-block mt-2 mt-md-0">
             <div class="pointer" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="{{ request.user.avatar }}" alt="profile" height="38" />
             </div>
-            <div class="dropdown-menu dropdown-menu-end py-0">
+            <div class="dropdown-menu dropdown-menu-end py-0 mt-2">
               <a class="dropdown-item py-2 bg-transparent"
                  href="{{ request.user.get_absolute_url }}">
                 <div class="d-flex align-items-center">
