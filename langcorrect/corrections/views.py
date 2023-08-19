@@ -106,6 +106,8 @@ def make_corrections(request, slug):
 
         overall_feedback = OverallFeedback.available_objects.filter(post=post, user=current_user).first()
 
+        is_edit = False
+
         for post_row in all_post_rows:
             previous_correction = CorrectedRow.available_objects.filter(
                 post_row_id=post_row.id, user=current_user
@@ -125,13 +127,16 @@ def make_corrections(request, slug):
                 post_row.show_form = True
                 post_row.is_action_taken = True
                 post_row.action = "corrected"
+                is_edit |= True
             elif previous_perfect:
                 post_row.is_action_taken = True
                 post_row.action = "perfect"
+                is_edit |= True
 
     context = {}
     context["post_rows"] = all_post_rows
     context["post"] = post
     context["overall_feedback"] = overall_feedback.comment if overall_feedback else ""
+    context["is_edit"] = is_edit
 
     return render(request, "corrections/make_corrections.html", context)

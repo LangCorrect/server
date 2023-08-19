@@ -77,8 +77,18 @@
       </div>
       <div class="d-flex justify-content-end">
         <div class="d-flex gap-3">
-          <button id="discard-btn" class="btn btn-outline-danger">{% translate "Discard" %}</button>
-          <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+          <button id="modal-btn"
+                  class="btn btn-outline-danger"
+                  data-bs-config='{ "actionLink":"{% url "posts:detail" post.slug %}"}'>
+            {% translate "Discard" %}
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {% if is_edit %}
+              {% translate "Update" %}
+            {% else %}
+              {% translate "Submit" %}
+            {% endif %}
+          </button>
         </div>
       </div>
     </div>
@@ -92,7 +102,7 @@
 {% endblock content %}
 {% block modal %}
   {{ block.super }}
-  {% include "modals/discard_corrections.html" %}
+  {% include "modals/discard_modal.html" %}
 {% endblock modal %}
 {% block inline_javascript %}
   <script>
@@ -108,10 +118,21 @@
 
       const textareas = document.querySelectorAll("textarea").forEach(textarea => autosize(textarea));
 
-      const discardBtn = document.getElementById("discard-btn");
-      discardBtn.addEventListener("click", function(e) {
+      const discardModalBtn = document.getElementById("modal-btn");
+      discardModalBtn.addEventListener("click", function(e) {
         e.preventDefault();
-        const modal = new bootstrap.Modal("#discard-corrections-modal");
+
+        const config = JSON.parse(discardModalBtn.getAttribute("data-bs-config"));
+        const {
+          actionLink
+        } = config;
+
+        if (actionLink) {
+          const discardBtn = document.getElementById("action-link");
+          discardBtn.href = actionLink;
+        }
+
+        const modal = new bootstrap.Modal("#discard-modal");
         modal.show();
       })
     });

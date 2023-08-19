@@ -7,13 +7,6 @@
   {{ post.title }}
 {% endblock title %}
 {% block content %}
-  <div class="alert alert-warning">
-    Please be aware that the system for automatically saving drafts of your content is currently
-    unavailable. If you navigate away from the page before publishing your content, you will lose any
-    unsaved changes.
-    We apologize for the inconvenience and appreciate your patience while we work to re-implement the
-    auto-save feature.
-  </div>
   {% if prompt or post.prompt %}
     <p>
       <strong>{{ prompt.content }}{{ post.prompt.content }}</strong>
@@ -23,13 +16,54 @@
     {% csrf_token %}
     {{ form|crispy }}
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">
-        {% if is_edit %}
-          {% translate "Update" %}
-        {% else %}
-          {% translate "Submit" %}
-        {% endif %}
-      </button>
+      <div class="d-flex gap-3">
+        <button id="modal-btn"
+                class="btn btn-outline-danger"
+                data-bs-config='{"actionLink": "{% url "posts:list" %}"}'>
+          {% if is_edit %}
+            {% translate "Cancel" %}
+          {% else %}
+            {% translate "Discard" %}
+          {% endif %}
+        </button>
+        <button type="submit" class="btn btn-primary">
+          {% if is_edit %}
+            {% translate "Update" %}
+          {% else %}
+            {% translate "Publish" %}
+          {% endif %}
+        </button>
+      </div>
     </div>
   </form>
 {% endblock content %}
+{% block modal %}
+  {{ block.super }}
+  {% include "modals/discard_modal.html" %}
+{% endblock modal %}
+{% block inline_javascript %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const discardModalBtn = document.getElementById("modal-btn");
+
+      discardModalBtn.addEventListener("click", function(e) {
+        e.preventDefault()
+
+        const config = JSON.parse(discardModalBtn.getAttribute("data-bs-config"));
+        const {
+          actionLink
+        } = config;
+
+        if (actionLink) {
+          const discardBtn = document.getElementById("action-link");
+          discardBtn.href = actionLink;
+        }
+
+        const modal = new bootstrap.Modal("#discard-modal");
+        modal.show();
+      });
+
+      const textareas = document.querySelectorAll("textarea").forEach(textarea => autosize(textarea));
+    });
+  </script>
+{% endblock inline_javascript %}
