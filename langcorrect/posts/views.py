@@ -13,9 +13,10 @@ from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.forms import CustomPostForm
 from langcorrect.posts.helpers import get_post_counts_by_language
-from langcorrect.posts.models import Post, PostReply, PostVisibility
+from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
+from langcorrect.utils.storages import S3MediaStorageUtility
 
 
 class PostListView(ListView):
@@ -180,6 +181,13 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         self.object = form.save()
+
+        image_obj = self.request.FILES.get("image", None)
+        if image_obj:
+            compressed_img = S3MediaStorageUtility.compress_image(image_obj)
+            file_key = S3MediaStorageUtility.save_to_s3_media_storage(compressed_img.name, compressed_img)
+
+            PostImage.available_objects.create(user=self.request.user, post=self.object, file_key=file_key)
 
         context = self.get_context_data()
         prompt = context.get("prompt", None)
