@@ -16,7 +16,7 @@ from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
-from langcorrect.utils.storages import S3MediaStorageUtility
+from langcorrect.utils.storages import S3MediaStorage
 
 
 class PostListView(ListView):
@@ -184,8 +184,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
         image_obj = self.request.FILES.get("image", None)
         if image_obj:
-            compressed_img = S3MediaStorageUtility.compress_image(image_obj)
-            file_key = S3MediaStorageUtility.save_to_s3_media_storage(compressed_img.name, compressed_img)
+            file_key = S3MediaStorage.save(image_obj)
 
             PostImage.available_objects.create(user=self.request.user, post=self.object, file_key=file_key)
 
