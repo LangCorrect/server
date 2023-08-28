@@ -183,7 +183,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         self.object = form.save()
 
         image_obj = self.request.FILES.get("image", None)
-        if image_obj:
+        if image_obj and self.request.user.is_premium:
             storage_backend = get_storage_backend()
             file_key = storage_backend.save(image_obj)
             PostImage.available_objects.create(user=self.request.user, post=self.object, file_key=file_key)
