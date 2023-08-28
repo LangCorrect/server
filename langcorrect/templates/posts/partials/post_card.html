@@ -40,8 +40,12 @@
         </div>
       </div>
       {% if current_user.id == user.id %}
-        <a href="{% url 'posts:update' post.slug %}"
-           class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+        <div>
+          <a href="{% url 'posts:delete' post.slug %}"
+             class="btn btn-sm btn-outline-danger">{% translate "Delete" %}</a>
+          <a href="{% url 'posts:update' post.slug %}"
+             class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+        </div>
       {% else %}
         <a href="{% url 'posts:make-corrections' post.slug %}"
            class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">

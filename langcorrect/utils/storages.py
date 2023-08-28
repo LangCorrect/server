@@ -1,3 +1,4 @@
+import logging
 from io import BytesIO
 
 from django.core.files import File
@@ -6,6 +7,8 @@ from PIL import Image
 from storages.backends.s3boto3 import S3Boto3Storage
 
 from langcorrect.utils.generics import generate_unique_filename, get_file_extension
+
+logger = logging.getLogger(__name__)
 
 
 class StaticRootS3Boto3Storage(S3Boto3Storage):
@@ -63,3 +66,24 @@ class S3MediaStorage:
 
         media_storage.save(new_name, file_obj)
         return new_name
+
+    @staticmethod
+    def delete(file_key: str) -> None:
+        """
+        Deletes a file from S3 media storage if the file exists.
+
+        Args:
+            file_key (str)
+
+        Returns:
+            None
+
+        Logs:
+            An error message if the file was not deleted other than 404 File Not Found
+        """
+        media_storage = MediaRootS3Boto3Storage()
+        if media_storage.exists(file_key):
+            try:
+                media_storage.delete(file_key)
+            except Exception as e:
+                logger.error(f"Failed to delete file with key ({file_key}) from S3. Error: {e}")

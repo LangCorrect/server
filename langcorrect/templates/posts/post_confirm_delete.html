@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        {% blocktranslate with post_title=post.title %}
+        Are you sure you want to delete {{ post_title }}?
+      {% endblocktranslate %}
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'posts:detail' post.slug %}"
+           class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
+        <button class="btn btn-danger" type="submit">{% translate "Delete" %}</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

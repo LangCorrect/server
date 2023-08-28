@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load static %}
 {% load post_tags %}
 {% load correction_tags %}
@@ -7,6 +8,32 @@
 {% block content %}
   <div class="d-grid gap-3">
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True %}
+    {% if post.postimage_set.all %}
+      <div class="card">
+        <div class="card-header">Attachments</div>
+        {% if request.user.is_authenticated %}
+          <div class="list-group list-group-flush">
+            {% for image in post.postimage_set.all %}
+              <a href="{{ image.get_image_url }}"
+                 target="_blank"
+                 class="list-group-item list-group-item-action text-muted small">
+                <img src="{{ image.get_image_url }}"
+                     class="img-thumbnail"
+                     alt="image"
+                     height="75"
+                     width="75" />
+                ({% translate "Opens in a new tab" %})
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="card-body">
+            <a href="{% url 'account_login' %}?next={{ post.get_absolute_url }}"
+               class="text-decoration-none">{% translate "Log in to view" %}</a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
     <div class="d-flex align-items-center justify-content-end gap-2">
       <span>Corrections</span>
       <div class="btn-group" role="group" aria-label="Basic example">

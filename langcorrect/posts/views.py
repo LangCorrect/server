@@ -5,9 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
@@ -207,3 +207,26 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 post_create_view = PostCreateView.as_view()
+
+
+class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Post
+    success_message = _("Post successfully deleted")
+    success_url = reverse_lazy("posts:list")
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(user=self.request.user)
+
+    def form_valid(self, form):
+        post = self.get_object()
+
+        if post.postimage_set.exists():
+            post_image_obj = post.postimage_set.first()
+            file_key = post_image_obj.file_key
+            S3MediaStorage.delete(file_key)
+            post_image_obj.delete()
+
+        return super().form_valid(form)
+
+
+post_delete_view = PostDeleteView.as_view()
