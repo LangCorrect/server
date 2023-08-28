@@ -16,7 +16,7 @@ from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
-from langcorrect.utils.storages import S3MediaStorage
+from langcorrect.utils.storages import get_storage_backend
 
 
 class PostListView(ListView):
@@ -184,10 +184,9 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
         image_obj = self.request.FILES.get("image", None)
         if image_obj:
-            file_key = S3MediaStorage.save(image_obj)
-
+            storage_backend = get_storage_backend()
+            file_key = storage_backend.save(image_obj)
             PostImage.available_objects.create(user=self.request.user, post=self.object, file_key=file_key)
-
         context = self.get_context_data()
         prompt = context.get("prompt", None)
         if prompt:
@@ -223,7 +222,8 @@ class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         if post.postimage_set.exists():
             post_image_obj = post.postimage_set.first()
             file_key = post_image_obj.file_key
-            S3MediaStorage.delete(file_key)
+            storage_backend = get_storage_backend()
+            storage_backend.delete(file_key)
             post_image_obj.delete()
 
         return super().form_valid(form)
