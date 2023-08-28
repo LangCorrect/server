@@ -23,7 +23,7 @@ class MediaRootS3Boto3Storage(S3Boto3Storage):
     file_overwrite = False
 
 
-class S3MediaStorage:
+class BaseMediaStorage:
     @staticmethod
     def compress_image(file_obj: UploadedFile, quality=40) -> File:
         """
@@ -47,6 +47,8 @@ class S3MediaStorage:
 
         return File(output, name=file_obj.name)
 
+
+class S3MediaStorage(BaseMediaStorage):
     @staticmethod
     def save(file_obj: UploadedFile, compress=True) -> str:
         """
@@ -91,30 +93,7 @@ class S3MediaStorage:
                 logger.error(f"Failed to delete file with key ({file_key}) from S3. Error: {e}")
 
 
-class LocalMediaStorage:
-    @staticmethod
-    def compress_image(file_obj: UploadedFile, quality=40) -> File:
-        """
-        Compresses an image to the specified quality.
-
-        Args:
-            file_obj (UploadedFile)
-            quality (int, optional): How much to compress the image to. Defaults to 40.
-
-        Returns:
-            File: Compressed image
-        """
-        image = Image.open(file_obj)
-        output = BytesIO()
-
-        ext = get_file_extension(file_obj)
-        image_format = "JPEG" if ext.lower() in ["jpg", "jpeg"] else ext.upper()
-
-        image.save(output, format=image_format, quality=quality, optimize=True)
-        output.seek(0)
-
-        return File(output, name=file_obj.name)
-
+class LocalMediaStorage(BaseMediaStorage):
     @staticmethod
     def save(file_obj: UploadedFile, compress=True) -> str:
         """
