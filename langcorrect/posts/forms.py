@@ -2,9 +2,12 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from langcorrect.posts.models import Post
+from langcorrect.posts.validators import validate_image_size, validate_jpeg_extension
 
 
 class CustomPostForm(forms.ModelForm):
+    image = forms.ImageField(required=False, validators=[validate_jpeg_extension, validate_image_size])
+
     class Meta:
         model = Post
         fields = ["title", "text", "native_text", "language", "gender_of_narration", "permission", "tags"]
@@ -17,6 +20,8 @@ class CustomPostForm(forms.ModelForm):
         self.fields["language"].queryset = self.user.studying_languages
         if self.instance.is_corrected:
             self.fields["text"].disabled = True
+        if not self.user.is_premium:
+            self.fields["image"].disabled = True
 
     def clean_text(self):
         text = self.cleaned_data["text"]

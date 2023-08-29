@@ -361,3 +361,5 @@ ROSETTA_SHOW_OCCURRENCES = False
 AVATAR_BASE_URL = "https://ui-avatars.com/api/?rounded=true&length=1&name="
 
 DJANGO_NOTIFICATIONS_CONFIG = {"USE_JSONFIELD": True}
+
+USE_S3_MEDIA_STORAGE = env.bool("DJANGO_USE_S3_MEDIA_STORAGE", default=False)

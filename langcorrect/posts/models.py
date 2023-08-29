@@ -70,6 +70,18 @@ class Post(TimeStampedModel, SoftDeletableModel):
         return len(self.get_correctors)
 
 
+class PostImage(TimeStampedModel, SoftDeletableModel):
+    """Represents a post's image stored as a reference in an S3 bucket."""
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    file_key = models.CharField(max_length=255)
+
+    @property
+    def get_image_url(self):
+        return f"{settings.MEDIA_URL}{self.file_key}"
+
+
 class PostRow(TimeStampedModel, SoftDeletableModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
