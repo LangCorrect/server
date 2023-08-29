@@ -11,27 +11,16 @@
     {% if post.postimage_set.all %}
       <div class="card">
         <div class="card-header">Attachments</div>
-        {% if request.user.is_authenticated %}
-          <div class="list-group list-group-flush">
-            {% for image in post.postimage_set.all %}
-              <a href="{{ image.get_image_url }}"
-                 target="_blank"
-                 class="list-group-item list-group-item-action text-muted small">
-                <img src="{{ image.get_image_url }}"
-                     class="img-thumbnail"
-                     alt="image"
-                     height="75"
-                     width="75" />
-                ({% translate "Opens in a new tab" %})
-              </a>
-            {% endfor %}
-          </div>
-        {% else %}
-          <div class="card-body">
-            <a href="{% url 'account_login' %}?next={{ post.get_absolute_url }}"
-               class="text-decoration-none">{% translate "Log in to view" %}</a>
-          </div>
-        {% endif %}
+        <div class="d-grid gap-3 p-3">
+          {% for image in post.postimage_set.all %}
+            <img src="{{ image.get_image_url }}"
+                 class="img-thumbnail pointer js-lightbox-img"
+                 alt="image"
+                 height="100"
+                 width="100"
+                 data-img-src="{{ image.get_image_url }}" />
+          {% endfor %}
+        </div>
       </div>
     {% endif %}
     <div class="d-flex align-items-center justify-content-end gap-2">
@@ -52,6 +41,10 @@
     {% endfor %}
   </div>
 {% endblock content %}
+{% block modal %}
+  {{ block.super }}
+  {% include "modals/light_box.html" %}
+{% endblock modal %}
 {% block inline_javascript %}
   <script src="{% static 'js/post_detail.js' %}"></script>
 {% endblock inline_javascript %}
