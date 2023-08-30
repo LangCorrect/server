@@ -9,6 +9,8 @@ from weasyprint import HTML
 
 from langcorrect.posts.models import PostRow
 
+# from genanki import Deck, Model, Note, Package
+
 logger = logging.getLogger(__name__)
 
 CSV_HEADERS = ["Original Sentence", "Corrected Sentence", "Correction Feedback", "Corrector"]
@@ -21,6 +23,9 @@ class ExportCorrections:
         self.post_rows = (
             PostRow.available_objects.filter(post=post).exclude(order=EXCLUDE_TITLE_ROW).order_by("created")
         )
+
+    # def export_anki(self) -> HttpResponse:
+    #     pass
 
     def export_csv(self) -> HttpResponse:
         """Export the post sentences and their corrections to a CSV file."""

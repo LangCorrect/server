@@ -153,8 +153,8 @@ def export_corrections(request, slug):
     export_format = request.GET.get("format", "").upper()
 
     match export_format:
-        case FileFormat.ANKI:
-            pass
+        # case FileFormat.ANKI:
+        #     return ExportCorrections(post).export_anki()
         case FileFormat.CSV:
             return ExportCorrections(post).export_csv()
         case FileFormat.PDF:
