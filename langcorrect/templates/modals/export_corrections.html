@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<div class="modal fade"
+     id="exportModal"
+     tabindex="-1"
+     aria-labelledby="exportModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="exportModalLabel">{% translate "Export corrections" %}</h1>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{% translate "How would you like to export the corrections?" %}</p>
+        <div class="d-flex flex-column gap-3">
+          <div class="border-bottom">
+            <button type="button" class="btn btn-outline-secondary w-100" disabled>
+              <i class="fa-solid fa-laptop-file"></i> Anki
+            </button>
+            <p class="small text-muted">
+              <em>* Requires the flashcard application <a target="_blank" href="https://apps.ankiweb.net/">Anki</a></em>
+            </p>
+          </div>
+          <a href="{% url 'posts:export-corrections' post.slug %}?format=CSV"
+             class="btn btn-outline-secondary">
+            <i class="fas fa-file-csv"></i> CSV
+          </a>
+          <a href="{% url 'posts:export-corrections' post.slug %}?format=PDF"
+             class="btn btn-outline-secondary">
+            <i class="fas fa-file-pdf"></i> PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

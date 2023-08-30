@@ -10,7 +10,7 @@
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True %}
     {% if post.postimage_set.all %}
       <div class="card">
-        <div class="card-header">Attachments</div>
+        <div class="card-header">{% translate "Attachments" %}</div>
         <div class="d-grid gap-3 p-3">
           {% for image in post.postimage_set.all %}
             <img src="{{ image.get_image_url }}"
@@ -23,15 +23,27 @@
         </div>
       </div>
     {% endif %}
-    <div class="d-flex align-items-center justify-content-end gap-2">
-      <span>Corrections</span>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-outline-secondary">
-          <i class="fa-solid fa-user"></i>
-        </button>
-        <button type="button" class="btn btn-outline-secondary">
-          <i class="fa-solid fa-layer-group"></i>
-        </button>
+    <div class="card">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <span>{% translate "Corrections" %}</span>
+        <div>
+          <div class="btn-group border-end pe-1"
+               role="group"
+               aria-label="Basic example">
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="fa-solid fa-user-group"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="fa-solid fa-layer-group"></i>
+            </button>
+          </div>
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exportModal">
+            <i class="fa-solid fa-download"></i>
+          </button>
+        </div>
       </div>
     </div>
     {% for corrector, data in user_corrections.items %}
@@ -44,6 +56,7 @@
 {% block modal %}
   {{ block.super }}
   {% include "modals/light_box.html" %}
+  {% include "modals/export_corrections.html" %}
 {% endblock modal %}
 {% block inline_javascript %}
   <script src="{% static 'js/post_detail.js' %}"></script>

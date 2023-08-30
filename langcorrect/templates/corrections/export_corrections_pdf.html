@@ -1,0 +1,67 @@
+{% load i18n %}
+{% load humanize %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous" />
+    <title>{{ post.title }}</title>
+  </head>
+  <body>
+    <style>
+      * {
+        font-size: 12px;
+      }
+    </style>
+    <div class="card">
+      <div class="card-header bg-transparent text-center">
+        {{ post.title }} by {{ post.user.username }} ({{ post.created|naturalday }})
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <p>Original</p>
+            <p>{{ post.text }}</p>
+          </div>
+          <div class="col-6">
+            <p>Notes</p>
+            <p>{{ post.native_text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-2">
+      <div class="card-header bg-transparent text-center">Corrections</div>
+      <div class="card-body">
+        {% for post_row in post_rows %}
+          {% if post_row.correctedrow_set.all %}
+            <div class="row border-bottom mb-1">
+              <div class="col-6">
+                <p>{{ post_row.sentence }}</p>
+              </div>
+              <div class="col-6">
+                {% if post_row.perfectrow_set.all.count > 0 %}
+                  <p>This sentence has been marked as perfect! x{{ post_row.perfectrow_set.all.count }}</p>
+                {% endif %}
+                <div class="d-grid gap-2">
+                  {% for correction in post_row.correctedrow_set.all %}
+                    <div>
+                      <p class="mb-0">{{ correction.display_correction|safe }}</p>
+                      <p class="text-muted">{{ correction.note }}</p>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

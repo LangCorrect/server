@@ -1,6 +1,6 @@
 from django.urls import path
 
-from langcorrect.corrections.views import make_corrections
+from langcorrect.corrections.views import export_corrections, make_corrections
 from langcorrect.posts.api.views import PostReplyCreateUpdateAPIView
 from langcorrect.posts.views import (
     post_create_view,
@@ -20,4 +20,5 @@ urlpatterns = [
     path("<str:slug>/update/", view=post_update_view, name="update"),
     path("<str:slug>/delete/", view=post_delete_view, name="delete"),
     path("<str:slug>/make_corrections", make_corrections, name="make-corrections"),
+    path("<str:slug>/export_corrections", export_corrections, name="export-corrections"),
 ]
