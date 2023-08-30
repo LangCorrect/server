@@ -23,3 +23,5 @@ djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-cors-headers==4.2.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
 drf-spectacular==0.26.3  # https://github.com/tfranzel/drf-spectacular
+
+weasyprint==59.0  # https://doc.courtbouillon.org/weasyprint/
