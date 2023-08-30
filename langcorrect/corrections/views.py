@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,8 +8,11 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
 from notifications.signals import notify
 
+from langcorrect.corrections.constants import FileFormat
 from langcorrect.corrections.helpers import check_can_make_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
+from langcorrect.corrections.utils import ExportCorrections
+from langcorrect.decorators import premium_required
 from langcorrect.posts.models import Post, PostRow
 from langcorrect.utils.mailing import email_new_correction
 
@@ -140,3 +144,21 @@ def make_corrections(request, slug):
     context["is_edit"] = is_edit
 
     return render(request, "corrections/make_corrections.html", context)
+
+
+@login_required
+@premium_required
+def export_corrections(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    export_format = request.GET.get("format", "").upper()
+
+    match export_format:
+        case FileFormat.ANKI:
+            pass
+        case FileFormat.CSV:
+            return ExportCorrections(post).export_csv()
+        case FileFormat.PDF:
+            pass
+        case _:
+            messages.warning(request, translate("Invalid export format specified."))
+            return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
