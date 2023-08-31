@@ -151,7 +151,13 @@
       {% endblocktranslate %}
         <i class="fa-solid fa-heart text-danger"></i>
       </p>
-      <a href="#" class="btn btn-primary">{% translate "Go Premium (Billed Annually)" %}</a>
+      <form action="{% url 'subscriptions:create-checkout-session' %}"
+            method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" id="checkout-button">
+          {% translate "Go Premium (Billed Annually)" %}
+        </button>
+      </form>
     </div>
   </div>
 {% endblock content %}

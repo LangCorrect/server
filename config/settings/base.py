@@ -101,6 +101,7 @@ LOCAL_APPS = [
     "langcorrect.follows",
     "langcorrect.contributions",
     "langcorrect.memberships",
+    "langcorrect.subscriptions",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -363,3 +364,7 @@ AVATAR_BASE_URL = "https://ui-avatars.com/api/?rounded=true&length=1&name="
 DJANGO_NOTIFICATIONS_CONFIG = {"USE_JSONFIELD": True}
 
 USE_S3_MEDIA_STORAGE = env.bool("DJANGO_USE_S3_MEDIA_STORAGE", default=False)
+
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET_ENDPOINT = env("STRIPE_WEBHOOK_SECRET_ENDPOINT")
