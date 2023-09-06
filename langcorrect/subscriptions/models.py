@@ -21,6 +21,7 @@ class StripeCustomer(SoftDeletableModel, TimeStampedModel):
     customer_id = models.CharField(max_length=255)
     has_active_subscription = models.BooleanField(default=False)
     current_subscription_id = models.CharField(max_length=255, blank=True, null=True)
+    last_subscription_id = models.CharField(max_length=255, blank=True, null=True)
     premium_until = models.DateTimeField(null=True, blank=True)
     ended_at = models.DateTimeField(null=True, blank=True)
 

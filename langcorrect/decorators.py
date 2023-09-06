@@ -12,7 +12,7 @@ def premium_required(func):
 
     @wraps(func)
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_premium:
+        if not request.user.is_premium_user:
             raise PermissionDenied(_("You must be a premium user to access this page."))
         return func(request, *args, **kwargs)
 

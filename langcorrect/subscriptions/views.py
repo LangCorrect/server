@@ -1,11 +1,18 @@
+import logging
+
 import stripe
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
-YEARLY_PREMIUM_PRICE_ID = "price_1NkzydBbt6afTexAUGQwOdu4"
+from langcorrect.subscriptions.models import StripeCustomer
+from langcorrect.subscriptions.utils import PremiumManager, StripeManager
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+logger = logging.getLogger(__name__)
 
 
 def create_checkout_session(request):
@@ -16,11 +23,18 @@ def create_checkout_session(request):
             success_url = site_base_url + reverse_lazy("subscriptions:checkout-success")
             cancel_url = site_base_url + reverse_lazy("subscriptions:checkout-canceled")
 
-            stripe.api_key = settings.STRIPE_SECRET_KEY
+            stripe_customer, _ = StripeCustomer.objects.get_or_create(
+                user=request.user,
+                defaults={"customer_id": StripeManager(customer_email=request.user.email).get_or_create_customer()},
+            )
+
+            customer_id = stripe_customer.customer_id
+
             checkout_session = stripe.checkout.Session.create(
+                customer=customer_id,
                 line_items=[
                     {
-                        "price": YEARLY_PREMIUM_PRICE_ID,
+                        "price": settings.LANGCORRECT_PREMIUM_YEARLY_PRICE_ID,
                         "quantity": 1,
                     },
                 ],
@@ -30,14 +44,14 @@ def create_checkout_session(request):
                 cancel_url=cancel_url,
             )
         except Exception as e:
-            return str(e)
+            logger.error(f"Failed to create a checkout session: {str(e)}")
+            return JsonResponse({"error": str(e)}, status=400)
 
         return redirect(checkout_session.url, code=303)
 
 
 @csrf_exempt
 def stripe_webhook(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
     stripe_webhook_endpoint = settings.STRIPE_WEBHOOK_SECRET_ENDPOINT
     payload = request.body
     sig_header = request.headers["stripe-signature"]
@@ -45,28 +59,41 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, stripe_webhook_endpoint)
-        # print("event type:", event["type"])
-    except ValueError as e:  # noqa: 841
-        # print(e)
-        # Invalid payload
+    except ValueError as e:
+        logger.error(f"Invalid Payload: {str(e)}")
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:  # noqa: 841
-        # print(e)
-        # Invalid signature
+    except stripe.error.SignatureVerificationError as e:
+        logger.error(f"Invalid Signature: {str(e)}")
         return HttpResponse(status=400)
 
     # Passed signature verification
 
     if event["type"] == "checkout.session.completed":
-        session = stripe.checkout.Session.retrieve(event["data"]["object"]["id"], expand=["line_items"])
-        line_items = session.line_items  # # noqa: F841
+        session = event["data"]["object"]
 
-        # breakpoint()
+        # Save an order in your database, marked as 'awaiting payment'
+        PremiumManager.create_order(session["id"])
 
-    # Handle the checkout.session.completed event
-    if event["type"] == "charge.succeeded":
-        print("Payment was successful.")
-        # TODO: run some custom code here
-        # breakpoint()
+        # Check if the order is already paid (for example, from a card payment)
+        #
+        # A delayed notification payment will have an `unpaid` status, as
+        # you're still waiting for funds to be transferred from the customer's
+        # account.
+        if session.payment_status == "paid":
+            PremiumManager.fulfill_order(session)
+
+    elif event["type"] == "checkout.session.async_payment_succeeded":
+        session = event["data"]["object"]
+        PremiumManager.fulfill_order(session)
+
+    elif event["type"] == "checkout.session.async_payment_failed":
+        session = event["data"]["object"]
+        PremiumManager.fail_order(session)
+        # Send an email to the customer asking them to retry their order
+        # email_customer_about_failed_payment(session)
+
+    elif event["type"] == "customer.subscription.deleted":
+        subscription = event["data"]["object"]
+        PremiumManager.canceled_subscription(subscription)
 
     return HttpResponse(status=200)

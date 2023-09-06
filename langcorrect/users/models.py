@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from config.settings.base import AVATAR_BASE_URL
@@ -93,3 +95,13 @@ class User(AbstractUser):
             return round(self.corrections_made_count / self.corrections_received_count, 2)
         except ZeroDivisionError:
             return "∞"
+
+    @property
+    def is_premium_user(self):
+        try:
+            stripe_customer = self.stripecustomer
+            return stripe_customer.has_active_subscription or (
+                stripe_customer.premium_until and stripe_customer.premium_until > timezone.now()
+            )
+        except ObjectDoesNotExist:
+            return False
