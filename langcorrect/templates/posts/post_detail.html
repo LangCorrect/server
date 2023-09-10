@@ -24,33 +24,100 @@
       </div>
     {% endif %}
     <div class="card">
-      <div class="card-body d-flex justify-content-between align-items-center">
+      <div class="p-1 px-3 d-flex justify-content-between align-items-center">
         <span>{% translate "Corrections" %}</span>
-        <div>
-          <div class="btn-group border-end pe-1"
-               role="group"
-               aria-label="Basic example">
-            <button type="button" class="btn btn-outline-secondary">
-              <i class="fa-solid fa-user-group"></i>
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-              <i class="fa-solid fa-layer-group"></i>
+        <div class="d-flex gap-1">
+          <ul class="nav nav-pills border-end d-flex align-items-center px-1"
+              id="pills-tab"
+              role="tablist">
+            <li class="nav-item"
+                role="presentation"
+                title="{% translate 'Show corrections grouped by user' %}">
+              <button class="nav-link active border-0"
+                      id="pills-grouped-by-user-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-grouped-by-user"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-grouped-by-user"
+                      aria-selected="true">
+                <i class="fa-solid fa-user-group"></i>
+              </button>
+            </li>
+            <li class="nav-item"
+                role="presentation"
+                title="{% translate 'Show corrections grouped by sentence' %}">
+              <button class="nav-link border-0"
+                      id="pills-grouped-by-sentence-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-grouped-by-sentence"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-grouped-by-sentence"
+                      aria-selected="false">
+                <i class="fa-solid fa-layer-group"></i>
+              </button>
+            </li>
+            <li class="nav-item"
+                role="presentation"
+                title="{% translate 'Show corrections grouped by sentence and side by side' %}">
+              <button class="nav-link border-0"
+                      id="pills-side-by-side-group-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-side-by-side"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-side-by-side"
+                      aria-selected="false">
+                <i class="fas fa-grip-lines-vertical"></i>
+              </button>
+            </li>
+          </ul>
+          <div class="py-1" title="{% translate 'Export Corrections' %}">
+            <button type="button"
+                    class="btn btn-outline-secondary border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exportModal">
+              <i class="fa-solid fa-download"></i>
             </button>
           </div>
-          <button type="button"
-                  class="btn btn-secondary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exportModal">
-            <i class="fa-solid fa-download"></i>
-          </button>
         </div>
       </div>
     </div>
-    {% for corrector, data in user_corrections.items %}
-      {% with user=corrector current_user=request.user %}
-        {% render_user_correction_card user=user current_user=current_user post=post correction_data=data %}
-      {% endwith %}
-    {% endfor %}
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active"
+           id="pills-grouped-by-user"
+           role="tabpanel"
+           aria-labelledby="pills-grouped-by-user-tab"
+           tabindex="0">
+        <div class="d-flex flex-column gap-2">
+          {% for corrector, data in user_corrections.items %}
+            {% with user=corrector current_user=request.user %}
+              {% render_user_correction_card user=user current_user=current_user post=post correction_data=data %}
+            {% endwith %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="tab-pane fade"
+           id="pills-grouped-by-sentence"
+           role="tabpanel"
+           aria-labelledby="pills-grouped-by-sentence-tab"
+           tabindex="0">{% render_corrections_by_sentence post=post %}</div>
+      <div class="tab-pane fade"
+           id="pills-side-by-side"
+           role="tabpanel"
+           aria-labelledby="pills-side-by-side-tab"
+           tabindex="0">
+        {% if request.user.is_premium_user %}
+          {% render_corrections_side_by_side post=post %}
+        {% else %}
+          <div class="p-3 bg-white text-center">
+            <p>{% translate "You need LangCorrect Premium to access this feature." %}</p>
+            <a class="btn btn-primary" href="{% url 'pricing' %}">{% translate "Go Premium" %}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 {% endblock content %}
 {% block modal %}

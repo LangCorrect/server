@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<table class="table table-responsive table-bordered table-hover">
+  <tbody>
+    {% for post_row in all_post_rows %}
+      <tr>
+        <td>
+          <div class="card border-0">
+            <div class="card-body">
+              {% if post_row.id in grouped_corrections.all_perfect_rows %}
+                <p>
+                  {% blocktranslate with user_count=post_row.perfectrow_set.all.count %}
+                    {{ user_count }} users have marked this sentence as perfect!
+                  {% endblocktranslate %}
+                </p>
+              {% endif %}
+              <p class="text-muted mb-0">{{ post_row.sentence }}</p>
+              {% if post_row.correctedrow_set.exists %}
+                {% for correction in post_row.correctedrow_set.all %}
+                  <div class="card mt-2">
+                    <div class="card-body">
+                      <p class="mb-1">{{ correction.display_correction|safe }}</p>
+                      {% if correction.note %}
+                        <div class="alert alert-info mb-0" role="alert">{{ correction.note|linebreaksbr }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
