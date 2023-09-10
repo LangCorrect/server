@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <p>Payment success!</p>
+  <div class="card">
+    <div class="card-header bg-transparent">Payment successful!</div>
+    <div class="card-body">
+      <p>
+        Thank you for your purchase, <strong>{{ request.user.username }}</strong>!
+      </p>
+      <p>
+        Your premium features are now unlocked. To view or manage your subscription, visit <a href="{% url 'subscriptions:manage-subscription' %}">Manage Subscription</a>.
+      </p>
+      <div class="d-flex justify-content-end">
+        <a href="{% url 'home' %}" class="btn btn-primary">Visit My Feed</a>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
