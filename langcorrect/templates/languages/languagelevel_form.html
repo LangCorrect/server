@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-end">
+      <div class="d-flex gap-3">
+        <button type="submit" class="btn btn-primary">
+          {% if is_edit %}
+            {% translate "Update" %}
+          {% else %}
+            {% translate "Add" %}
+          {% endif %}
+        </button>
+      </div>
+    </div>
+  </form>
+{% endblock content %}

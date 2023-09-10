@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        {% blocktranslate with language=object %}
+          Are you sure you would like to delete {{ language }} from your list of languages?
+        {% endblocktranslate %}
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'languages:list' %}" class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
+        <button class="btn btn-danger" type="submit">{% translate "Delete" %}</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

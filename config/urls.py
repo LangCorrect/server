@@ -23,6 +23,7 @@ urlpatterns = [
     path("pricing/", TemplateView.as_view(template_name="pages/pricing.html"), name="pricing"),
     path("subscriptions/", include("langcorrect.subscriptions.urls")),
     path("prompts/", include("langcorrect.prompts.urls")),
+    path("languages/", include("langcorrect.languages.urls")),
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
