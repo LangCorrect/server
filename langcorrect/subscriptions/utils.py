@@ -54,6 +54,32 @@ class StripeManager:
         """
         return stripe.checkout.Session.retrieve(session_id, expand=["line_items"])
 
+    @staticmethod
+    def retrieve_subscription(subscription_id) -> stripe.Subscription:
+        return stripe.Subscription.retrieve(subscription_id)
+
+    @staticmethod
+    def cancel_subscription(subscription_id) -> stripe.Subscription:
+        return stripe.Subscription.delete(subscription_id)
+
+    @staticmethod
+    def caclulate_amount_with_discount(subscription):
+        total_amount = 0
+
+        for item in subscription["items"]["data"]:
+            unit_amount = item["price"]["unit_amount"]
+            total_amount += unit_amount
+
+        if subscription.get("discount"):
+            discount = subscription["discount"]["coupon"]
+
+            if discount["amount_off"]:
+                total_amount -= discount["amount_off"]
+            elif discount["percent_off"]:
+                total_amount *= 1 - discount["percent_off"] / 100.0
+
+        return f"{total_amount / 100.0:.2f}"
+
 
 class PremiumManager:
     @staticmethod

@@ -151,13 +151,23 @@
       {% endblocktranslate %}
         <i class="fa-solid fa-heart text-danger"></i>
       </p>
-      <form action="{% url 'subscriptions:create-checkout-session' %}"
-            method="post">
-        {% csrf_token %}
-        <button class="btn btn-primary" type="submit" id="checkout-button">
-          {% translate "Go Premium (Billed Annually)" %}
-        </button>
-      </form>
+      {% if request.user.is_anonymous %}
+        <a href="{% url 'account_login' %}?next={% url 'pricing' %}"
+           class="btn btn-primary">{% translate "Sign In" %}</a>
+      {% elif request.user.is_premium_user %}
+        <p>{% translate "You currently have premium status." %}</p>
+        <p>{% translate "To manage your subscription or view details, click the button below." %}</p>
+        <a href="{% url 'subscriptions:manage-subscription' %}"
+           class="btn btn-primary">{% translate "Manage Subscription" %}</a>
+      {% else %}
+        <form action="{% url 'subscriptions:create-checkout-session' %}"
+              method="post">
+          {% csrf_token %}
+          <button class="btn btn-primary" type="submit" id="checkout-button">
+            {% translate "Go Premium (Billed Annually)" %}
+          </button>
+        </form>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}

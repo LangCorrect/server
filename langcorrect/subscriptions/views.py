@@ -2,17 +2,54 @@ import logging
 
 import stripe
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
+from langcorrect.subscriptions.helpers import (
+    get_current_subscription,
+    get_stripe_customer,
+    handle_subscription_cancellation,
+    serialize_subscription_info,
+)
 from langcorrect.subscriptions.models import StripeCustomer
 from langcorrect.subscriptions.utils import PremiumManager, StripeManager
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 logger = logging.getLogger(__name__)
+
+
+@login_required
+def manage_premium(request):
+    stripe_customer = get_stripe_customer(request.user)
+    subscription = None
+    context = {}
+
+    has_active_subscription = stripe_customer and stripe_customer.current_subscription_id
+
+    if request.method == "POST":
+        if has_active_subscription:
+            # For whatever reason the subscription status returned from this resp
+            # uses the key "subscription_status" instead of the normal "status"
+            # key. In an effort to save some time and low requests for these
+            # pages, we will just fetch the latest subscription instead.
+            temp = handle_subscription_cancellation(stripe_customer.current_subscription_id)
+            sub_id = temp.get("id")
+            subscription = StripeManager.retrieve_subscription(sub_id)
+            has_active_subscription = False
+    else:
+        subscription = get_current_subscription(stripe_customer)
+
+    if subscription:
+        context["subscription"] = serialize_subscription_info(subscription)
+
+    if stripe_customer and stripe_customer.premium_until:
+        context["premium_until"] = stripe_customer.premium_until
+    context["has_active_subscription"] = has_active_subscription
+    return render(request, "pages/manage_subscription.html", context)
 
 
 def create_checkout_session(request):

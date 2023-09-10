@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block modal %}
+  {% if has_active_subscription %}
+    {% include "modals/cancel_subscription.html" %}
+  {% endif %}
+{% endblock modal %}
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-header">{% translate "Premium" %}</div>
+    <table class="table m-0">
+      <tbody>
+        <tr>
+          <td>{% translate "Status" %}</td>
+          <td>
+            {% if request.user.is_premium_user %}
+              <i class="fa-solid fa-circle-check text-success"></i>
+            {% else %}
+              <i class="fa-solid fa-circle-xmark text-danger"></i>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td>{% translate "Premium Until" %}</td>
+          <td>{{ premium_until }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex align-items-center justify-content-between">
+        <span>{% translate "Subscription" %}</span>
+        {% if has_active_subscription %}
+          <button class="btn btn-sm btn-outline-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cancelSubscriptionModal">{% translate "Cancel Subscription" %}</button>
+        {% endif %}
+      </div>
+    </div>
+    <table class="table m-0">
+      <tbody>
+        <tr>
+          <td>{% translate "Id" %}</td>
+          <td>{{ subscription.id }}</td>
+        </tr>
+        <tr>
+          <td>{% translate "Subscription Started On" %}</td>
+          <td>{{ subscription.created|naturalday }}</td>
+        </tr>
+        <tr>
+          <td>{% translate "Subscription Ended On" %}</td>
+          <td>{{ subscription.ended_at|naturalday }}</td>
+        </tr>
+        <tr>
+          <td>{% translate "Last Billed On" %}</td>
+          <td>{{ subscription.current_period_start|naturalday }}</td>
+        </tr>
+        {% if not subscription.canceled_at %}
+          <tr>
+            <td>{% translate "Next Scheduled Billing On" %}</td>
+            <td>{{ subscription.current_period_end|naturalday }}</td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td>{% translate "Current Subscription Status" %}</td>
+          <td>{{ subscription.subscription_status }}</td>
+        </tr>
+        {% if subscription.canceled_at %}
+          <tr>
+            <td>{% translate "Subscription Canceled On" %}</td>
+            <td>{{ subscription.canceled_at|naturalday }}</td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td>{% translate "Last Billed Amount" %}</td>
+          <td>{{ subscription.amount }} {{ subscription.currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
