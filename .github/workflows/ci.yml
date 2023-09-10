@@ -55,6 +55,8 @@ jobs:
       #  STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
       STRIPE_PUBLISHABLE_KEY: "dummy_value"
       STRIPE_SECRET_KEY: "dummy_value"
+      STRIPE_WEBHOOK_SECRET_ENDPOINT: "dummy_value"
+      LANGCORRECT_PREMIUM_YEARLY_PRICE_ID: "dummy_value"
 
     steps:
       - name: Checkout Code Repository
