@@ -48,7 +48,7 @@ class User(AbstractUser):
         base_url = f"{AVATAR_BASE_URL}{self.username}"
         if size:
             base_url += f"&size={size}"
-        if self.is_premium:
+        if self.is_premium_user:
             base_url += "&background=FF9066&color=ffffff"
         return base_url
 

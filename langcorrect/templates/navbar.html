@@ -94,7 +94,7 @@
                 <div class="d-flex align-items-center">
                   <img src="{{ request.user.avatar }}" alt="profile" height="38" />
                   <div class="ms-3">
-                    <p class="mb-0 {% if request.user.is_premium or request.user.is_lifetime_vip %}text-premium{% else %}text-muted{% endif %}">
+                    <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
                       <strong>{{ request.user.username }}</strong>
                     </p>
                     <p class="mb-0 text-muted">

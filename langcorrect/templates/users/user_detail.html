@@ -27,9 +27,7 @@
             <div class="d-flex gap-3 align-items-center ">
               <img src="{{ object.avatar }}" alt="profile img" />
               <div>
-                <h6 class="mb-0 {% if object.is_premium or object.is_lifetime_vip %}text-premium{% endif %}">
-                  {{ object.username }}
-                </h6>
+                <h6 class="mb-0 {% if object.is_premium_user %}text-premium{% endif %}">{{ object.username }}</h6>
                 <p class="mb-0 small text-muted">
                   {% blocktranslate with date=object.date_joined|date:"Y" %}
                     Member since {{ date }}

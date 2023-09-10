@@ -9,7 +9,7 @@
       </a>
       <div>
         <a href="{{ user.get_absolute_url }}"
-           class="card-title mb-0 text-decoration-none {% if user.is_premium %}text-premium{% else %}text-reset{% endif %}">{{ user.username }}</a>
+           class="card-title mb-0 text-decoration-none {% if user.is_premium_user %}text-premium{% else %}text-reset{% endif %}">{{ user.username }}</a>
         <p class="mb-0 small text-muted">{{ created|naturalday }}</p>
       </div>
     </div>
@@ -35,7 +35,7 @@
           </span>
         {% endif %}
       {% endfor %}
-      {% if user.is_premium %}
+      {% if user.is_premium_user %}
         <span class="fa-stack small"
               data-bs-toggle="tooltip"
               data-bs-placement="bottom"

@@ -20,7 +20,7 @@ class CustomPostForm(forms.ModelForm):
         self.fields["language"].queryset = self.user.studying_languages
         if self.instance.is_corrected:
             self.fields["text"].disabled = True
-        if not self.user.is_premium:
+        if not self.user.is_premium_user:
             self.fields["image"].disabled = True
 
     def clean_text(self):
