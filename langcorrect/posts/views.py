@@ -12,7 +12,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.forms import CustomPostForm
-from langcorrect.posts.helpers import get_post_counts_by_language
+from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
@@ -172,6 +172,11 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Post
     form_class = CustomPostForm
     success_message = _("Post successfully added")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not check_can_create_post(self.request.user):
+            raise PermissionDenied(_("Your correction ratio is too low."))
+        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
