@@ -1,54 +1,104 @@
-# LangCorrect
-
-Master grammar, spelling, and syntax in the language(s) you’re learning through direct feedback on your writing from fluent, native speakers.
-
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-## Installation
+View the live website [here](https://langcorrect.com).
 
-### Create the environment
+<div align="center">
+  <a href="https://langcorrect.com" target="_blank">
+    <img src="https://langcorrect.com/static/img/logo/full-logo-purple.svg" alt="Logo" height="90">
+  </a>
+</div>
 
-- To create a new virtual environment, run the following command:
+## Introduction
 
+Welcome to the LangCorrect repository! This community-driven platform is designed to help users master writing in foreign languages. Ideal for language learners in search of practice and native speakers willing to lend a hand, LangCorrect offers a friendly, engaging environment where you can connect, share, and learn.
+
+This repository houses the source code for the LangCorrect web application, developed using Django for the backend and the Django templating engine for the frontend. Additionally, a React client is currently in development; you can access its repository by clicking on [LangCorrect React Client](https://github.com/LangCorrect/react-client-mui).
+
+Interested in the features we offer or looking to contribute? Read on to find out more.
+
+## Features
+
+- User Registration and Authentication
+- Profile Customization
+- Multi-language Support
+- Post Creation and Management
+- Peer Review and Corrections
+- Automatic Correction Syntax Highlighting
+- Site and Email Notifications
+- Writing Prompts
+- Challenges
+- Follow and Unfollow Users
+- Stripe Checkout Integration
+- Premium Subscription for Advanced Features
+- Upload images through Local Media Storage or S3
+
+_Note_: This is not an exhaustive list of features. LangCorrect is continually evolving, and new features are being added regularly.
+
+## Technologies Used
+
+- Django 4.x
+- Python 3.x
+- Bootstrap CSS
+- HTMX
+- JavaScript
+- PostgreSQL
+- Redis
+- Celery
+- SendGrid
+- Stripe
+- Sentry
+- AWS S3 (Optional)
+- CI/CD (GitHub Actions, GitLab CI, etc.)
+
+
+## Getting Started (WIP)
+
+### Installation
+
+1. Clone the repository
+
+        git clone git@github.com:LangCorrect/server.git
+
+2. Enter the project directory and create a new virtual environment
+
+        cd server
         $ python -m venv venv
+        source venv/bin/activate
 
-- Install the project dependencies by running the following command:
+3. Install the project dependencies for local development
 
         $ pip install -r requirements/local.txt
 
-- Create the database:
+4. Create the database
 
         createdb --username=postgres langcorrect
 
-- Set up your environment variables in .env (see ``.env.example``)
+5. Copy and paste the `.env.example`, rename it to `.env`, and configure it
 
-- Install Redis if you have not already:
+6. Install Redis
 
         sudo apt update && apt upgrade
         sudo apt install redis-server
         sudo service redis-server start
 
-### Install the fixtures
+7. Install the fixtures
 
-- To install the supported languages, run the following command:
+        $ python manage.py loaddata fixtures/languages.json
+        $ python manage.py loaddata fixtures/correction_types.json
+        $ python manage.py loaddata fixtures/tags.json
 
-        python manage.py loaddata fixtures/languages.json
+8. Load pre-commit
 
-- To install the correction types, run the following command:
-
-        python manage.py loaddata fixtures/correction_types.json
-
-- To install the tags, run the following command:
-
-        python manage.py loaddata fixtures/tags.json
+        $ pre-commit install
 
 
-## Settings
+9. Start the application
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+        $ python manage.py runserver (starts the server)
+        $ celery -A config.celery_app worker --loglevel=info (optional: for celery tasks)
+        $ stripe listen --forward-to localhost:8000/subscriptions/webhook/ (optional: forwards the stripe events to the webhook endpoint, make sure to paste the signing secret `whsec_<hash>` to `STRIPE_WEBHOOK_SECRET_ENDPOINT` in `.env`)
 
-## Basic Commands
 
 ### Setting Up Your Users
 
@@ -60,35 +110,26 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
-### Pre-commit
+## Settings
 
-Load pre-commit by running:
+This project was started with Cookiecutter Django. To see a table of configurable settings visit [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
 
-```
-pre-commit
-```
 
-### Type checks
+## Linters
 
-Running type checks with mypy:
+        $ flake8
+        $ pylint <python files that you wish to lint>
 
-    $ mypy langcorrect
+## Testing
 
-### Test coverage
+        $ pytest
+        $ python manage.py test (for unit test)
+        $ mypy langcorrect (typechecks)
 
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
-
-#### Running tests with pytest
-
-    $ pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
+        $ coverage run -m pytest
+        $ coverage report
+        $ coverage html
+        $ open htmlcov/index.html
 
 ### Celery
 
@@ -123,7 +164,3 @@ Sentry is an error logging aggregator service. You can sign up for a free accoun
 The system is set up with reasonable defaults, including 404 logging and integration with the WSGI application.
 
 You must set the DSN url in production.
-
-## Deployment
-
-The following details how to deploy this application.
