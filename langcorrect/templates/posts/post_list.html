@@ -35,7 +35,7 @@
               <option value="{{ language.code }}"
                       data-link="?mode={{ mode }}&lang_code={{ language.code }}"
                       {% if selected_lang_code == language.code %}selected{% endif %}>
-                {% translate language.en_name %} ({{ count }})
+                {% translate language.code %} ({{ count }})
               </option>
             {% endfor %}
           </select>
