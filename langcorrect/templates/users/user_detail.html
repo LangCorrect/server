@@ -24,16 +24,12 @@
       <div class="col-12 col-md-3">
         <div class="card mb-3">
           <div class="card-body border-bottom">
-            <div class="d-flex gap-3 align-items-center ">
-              <img src="{{ object.avatar }}" alt="profile img" />
-              <div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-2">
+                <img src="{{ object.avatar }}" alt="profile img" />
                 <h6 class="mb-0 {% if object.is_premium_user %}text-premium{% endif %}">{{ object.username }}</h6>
-                <p class="mb-0 small text-muted">
-                  {% blocktranslate with date=object.date_joined|date:"Y" %}
-                    Member since {{ date }}
-                  {% endblocktranslate %}
-                </p>
               </div>
+              {% include "posts/partials/card_badges.html" %}
             </div>
           </div>
           <div class="card-body border-bottom">
