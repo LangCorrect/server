@@ -52,6 +52,8 @@ jobs:
       CELERY_BROKER_URL: 'redis://localhost:6379/0'
       # postgres://user:password@host:port/database
       DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
+      #  STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+      STRIPE_PUBLISHABLE_KEY: "dummy_value"
 
     steps:
       - name: Checkout Code Repository
