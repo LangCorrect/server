@@ -94,7 +94,7 @@
                 <div class="d-flex align-items-center">
                   <img src="{{ request.user.avatar }}" alt="profile" height="38" />
                   <div class="ms-3">
-                    <p class="mb-0 {% if request.user.is_premium or request.user.is_lifetime_vip %}text-premium{% else %}text-muted{% endif %}">
+                    <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
                       <strong>{{ request.user.username }}</strong>
                     </p>
                     <p class="mb-0 text-muted">
@@ -105,6 +105,20 @@
               </a>
               <div class="dropdown-divider m-0"></div>
               <ul class="list-unstyled">
+                <li>
+                  {% if request.user.is_premium_user %}
+                    <a class="dropdown-item py-2 text-premium"
+                       href="{% url 'subscriptions:manage-subscription' %}">
+                      <i class="fas fa-crown fa-fw"></i>
+                      {% translate "Manage Premium" %}
+                    </a>
+                  {% else %}
+                    <a class="dropdown-item py-2 text-premium" href="{% url 'pricing' %}">
+                      <i class="fas fa-crown fa-fw"></i>
+                      {% translate "Get Premium" %}
+                    </a>
+                  {% endif %}
+                </li>
                 <li>
                   <a class="dropdown-item py-2" href="#">
                     <i class="fas fa-file-alt fa-fw"></i>
@@ -134,3 +148,55 @@
     </div>
   </div>
 </nav>
+{% if request.user.is_authenticated %}
+  <!-- Ratio bar -->
+  <div class="bg-primary text-white">
+    <div class="container">
+      <div class="row p-2">
+        <div class="col-12">
+          <ul class="list-inline m-0">
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Visit your profile' %}">
+              <i class="fas fa-user fa-fw"></i>
+              <a href="{% url 'users:detail' request.user.username %}"
+                 class="text-decoration-none text-white">{{ request.user.username }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Member role' %}">
+              <i class="fas fa-users fa-fw"></i>
+              {% if request.user.is_premium_user %}
+                {% translate "Premium" %}
+              {% else %}
+                {% translate "Member" %}
+              {% endif %}
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Total corrections made' %}">
+              <i class="fas fa-arrow-up fa-fw"></i>
+              <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Total corrections received' %}">
+              <i class="fas fa-arrow-down fa-fw"></i>
+              <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Correction ratio' %}">
+              <i class="fas fa-percent fa-fw"></i> {{ request.user.correction_ratio }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

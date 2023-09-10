@@ -59,7 +59,7 @@
                 <h6>{{ post.title }}</h6>
                 <p class="truncate-text">{{ post.text }}</p>
                 <div class="d-flex justify-content-between text-muted">
-                  <span class="{% if post.user.is_premium %}color-premium{% endif %}">{{ post.user.username }}</span>
+                  <span class="{% if post.user.is_premium_user %}color-premium{% endif %}">{{ post.user.username }}</span>
                   <span><i class="fa-regular fa-circle-check me-1"></i> {{ post.corrected_by_count }}</span>
                 </div>
               </div>

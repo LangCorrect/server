@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<table class="table table-responsive bg-white">
+  <thead>
+    <tr>
+      <th scope="col">{% translate "Original" %}</th>
+      <th scope="col">{% translate "Corrected" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post_row in all_post_rows %}
+      <tr>
+        <td>{{ post_row.sentence }}</td>
+        <td>
+          {% if post_row.perfectrow_set.exists %}
+            <p class="text-success">
+              {% blocktranslate with user_count=post_row.perfectrow_set.all.count %}
+            {{ user_count }} users have marked this sentence as perfect!
+          {% endblocktranslate %}
+            </p>
+          {% endif %}
+          {% for correction in post_row.correctedrow_set.all %}
+            <div class="card mb-2">
+              <div class="card-body">
+                <p>{{ correction.display_correction|safe }}</p>
+                {% if correction.note %}<p class="border p-2">{{ correction.note }}</p>{% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>

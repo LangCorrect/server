@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div class="modal fade"
+     id="cancelSubscriptionModal"
+     tabindex="-1"
+     aria-labelledby="cancelSubscriptionModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="cancelSubscriptionModalLabel">{% translate "Cancel Subscription" %}</h1>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">{% translate "Are you sure you would like to cancel your subscription?" %}</p>
+        <div class="d-flex flex-column gap-3">
+          <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">{% translate "Cancel Subscription" %}</button>
+          </form>
+          <button data-bs-dismiss="modal" class="btn btn-outline-secondary">{% translate "Cancel" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

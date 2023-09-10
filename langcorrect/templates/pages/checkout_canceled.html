@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header bg-transparent">Checkout Canceled!</div>
+    <div class="card-body">
+      <p>
+        Hi, <strong>{{ request.user.username }}</strong>
+      </p>
+      <p>We noticed you canceled your checkout process. Rest assured, you have not been charged.</p>
+      <hr />
+      <p>
+        If you faced any issues during the checkout, we're here to help. Feel free to try again or contact our support team at <a href="mailto:support@langcorrect.com">support@langcorrect.com</a> for assistance.
+      </p>
+      <div class="d-flex justify-content-center gap-2">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Visit My Feed</a>
+        <a href="{% url 'pricing' %}" class="btn btn-primary">Try Checkout Again</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'languages:create' %}" class="btn btn-primary">{% translate "Add Language" %}</a>
+  </div>
+  <div class="bg-white">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">{% translate "Language" %}</th>
+          <th scope="col">{% translate "Level" %}</th>
+          <th scope="col">{% translate "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ll in object_list %}
+          <tr>
+            <td>{% translate ll.language.en_name %} ({{ ll.language.code }})</td>
+            <td class="level">{% translate ll.get_level_display %}</td>
+            <td>
+              {% if ll.level != "N" %}
+                <a href="{% url 'languages:delete' ll.pk %}"
+                   class="btn btn-sm btn-outline-danger">{% translate "Delete" %}</a>
+                <a href="{% url 'languages:update' ll.pk %}"
+                   class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
