@@ -110,6 +110,11 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
+## Schema Diagram
+
+![schema](https://github.com/LangCorrect/server/assets/115326106/279257e5-a327-439c-8190-f81064e4e147)
+
+
 ## Settings
 
 This project was started with Cookiecutter Django. To see a table of configurable settings visit [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
