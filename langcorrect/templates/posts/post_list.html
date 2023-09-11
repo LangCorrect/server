@@ -35,7 +35,7 @@
               <option value="{{ language.code }}"
                       data-link="?mode={{ mode }}&lang_code={{ language.code }}"
                       {% if selected_lang_code == language.code %}selected{% endif %}>
-                {% translate language.en_name %} ({{ count }})
+                {% translate language.code %} ({{ count }})
               </option>
             {% endfor %}
           </select>
@@ -64,12 +64,22 @@
                 </div>
               </div>
             </a>
+          {% empty %}
+            <div class="list-group-item text-center text-muted">
+              <small>
+                {% translate "You're not following anyone yet." %}
+                <br />
+                {% translate "Follow users to see their latest posts here." %}
+              </small>
+            </div>
           {% endfor %}
         </div>
-        <div class="card-footer bg-transparent">
-          <a href="{% url 'posts:list' %}?mode=following"
-             class="text-decoration-none">View all</a>
-        </div>
+        {% if following_feed %}
+          <div class="card-footer bg-transparent">
+            <a href="{% url 'posts:list' %}?mode=following"
+               class="text-decoration-none">{% translate "View all" %}</a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
