@@ -103,3 +103,7 @@ del {
 .icon-new_comment {
     content: url("/static/images/icons/notification-comment-icon.svg")
 }
+
+.ranking-item {
+  width: 6rem;
+}

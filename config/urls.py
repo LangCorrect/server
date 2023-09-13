@@ -9,6 +9,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from config.views import index_page_view
+from langcorrect.contributions.views import rankings_list_view
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
@@ -20,6 +21,7 @@ urlpatterns = [
     path("users/", include("langcorrect.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("rankings/", view=rankings_list_view, name="rankings"),
     path("pricing/", TemplateView.as_view(template_name="pages/pricing.html"), name="pricing"),
     path("subscriptions/", include("langcorrect.subscriptions.urls")),
     path("prompts/", include("langcorrect.prompts.urls")),
