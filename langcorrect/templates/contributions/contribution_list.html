@@ -6,122 +6,33 @@
 {% block content %}
   <div class="card">
     <div class="card-header d-flex justify-content-between bg-transparent">
-      {% translate "Top Contributors" %}<small class="text-muted">
-      {% blocktranslate with hours=6 %}
-      *Updates every {{ hours }} hours
-    {% endblocktranslate %}
-    </small>
-  </div>
-  <div class="card-body">
-    <table class="table table-striped table-responsive table-borderless m-0">
-      <thead>
-        <tr>
-          <th scope="col">{% translate "Rank" %}</th>
-          <th scope="col">{% translate "User" %}</th>
-          <th scope="col">{% translate "Contributions" %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if self_ranking %}
-          <tr class="table-info">
-            <th scope="row">{{ self_ranking.rank }}</th>
-            <td>
-              <a class="text-decoration-none {% if self_ranking.user.is_premium_user %}text-premium{% endif %}"
-                 href="{{ self_ranking.user.get_absolute_url }}">{{ self_ranking.user.username }}</a>
-              <br />
-              <small class="text-muted">
-                {% blocktrans with year=self_ranking.user.date_joined|date:"Y" %}
-                Member since {{ year }}
-              {% endblocktrans %}
-              </small>
-            </td>
-            <td>
-              <div class="d-flex align-items-center flex-wrap">
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Contributions' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-star"></i> {{ self_ranking.total_points }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Corrections' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-circle-check"></i> {{ self_ranking.correction_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Posts' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-book"></i> {{ self_ranking.post_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Prompts' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-feather-pointed"></i> {{ self_ranking.post_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Average Per Day' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-calendar-day"></i> {{ self_ranking.get_average_per_day }}
-                </span>
-              </div>
-            </td>
-          </tr>
-        {% endif %}
-        {% for contributor in object_list %}
+      {% translate "Top Contributors" %}
+      <small class="text-muted">
+        {% blocktranslate with hours=6 %}
+          *Updates every {{ hours }} hours
+        {% endblocktranslate %}
+      </small>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped table-responsive table-borderless m-0">
+        <thead>
           <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>
-              <a class="text-decoration-none {% if contributor.user.is_premium_user %}text-premium{% endif %}"
-                 href="{{ contributor.user.get_absolute_url }}">{{ contributor.user.username }}</a>
-              <br />
-              <small class="text-muted">
-                {% blocktrans with year=contributor.user.date_joined|date:"Y" %}
-                Member since {{ year }}
-              {% endblocktrans %}
-              </small>
-            </td>
-            <td>
-              <div class="d-flex align-items-center flex-wrap">
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Contributions' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-star"></i> {{ contributor.total_points }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Corrections' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-circle-check"></i> {{ contributor.correction_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Posts' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-book"></i> {{ contributor.post_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Total Prompts' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-feather-pointed"></i> {{ contributor.prompt_count }}
-                </span>
-                <span data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      data-bs-title="{% translate 'Average Per Day' %}"
-                      class="ranking-item">
-                  <i class="fa-solid fa-calendar-day"></i> {{ contributor.get_average_per_day }}
-                </span>
-              </div>
-            </td>
+            <th scope="col">{% translate "Rank" %}</th>
+            <th scope="col">{% translate "User" %}</th>
+            <th scope="col">{% translate "Contributions" %}</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% if self_ranking %}
+            {% with contribution=self_ranking %}
+              {% include "contributions/partials/contribution.html" %}
+            {% endwith %}
+          {% endif %}
+          {% for contribution in object_list %}
+            {% include "contributions/partials/contribution.html" %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 {% endblock content %}

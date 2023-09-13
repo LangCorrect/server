@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<tr class="{% if request.user == contribution.user %}table-info{% endif %}">
+  <th scope="row">{{ contribution.rank }}</th>
+  <td>
+    <a class="text-decoration-none {% if contribution.user.is_premium_user %}text-premium{% endif %}"
+       href="{{ contribution.user.get_absolute_url }}">{{ contribution.user.username }}</a>
+    <br />
+    <small class="text-muted">
+      {% blocktrans with year=contribution.user.date_joined|date:"Y" %}
+        Member since {{ year }}
+      {% endblocktrans %}
+    </small>
+  </td>
+  <td>
+    <div class="d-flex align-items-center flex-wrap">
+      <span data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            data-bs-title="{% translate 'Total Contributions' %}"
+            class="ranking-item">
+        <i class="fa-solid fa-star"></i> {{ contribution.total_points }}
+      </span>
+      <span data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            data-bs-title="{% translate 'Total Corrections' %}"
+            class="ranking-item">
+        <i class="fa-solid fa-circle-check"></i> {{ contribution.correction_count }}
+      </span>
+      <span data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            data-bs-title="{% translate 'Total Posts' %}"
+            class="ranking-item">
+        <i class="fa-solid fa-book"></i> {{ contribution.post_count }}
+      </span>
+      <span data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            data-bs-title="{% translate 'Total Prompts' %}"
+            class="ranking-item">
+        <i class="fa-solid fa-feather-pointed"></i> {{ contribution.post_count }}
+      </span>
+      <span data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            data-bs-title="{% translate 'Average Per Day' %}"
+            class="ranking-item">
+        <i class="fa-solid fa-calendar-day"></i> {{ contribution.get_average_per_day }}
+      </span>
+    </div>
+  </td>
+</tr>
