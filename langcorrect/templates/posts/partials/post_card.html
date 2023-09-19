@@ -14,7 +14,9 @@
         </div>
       {% endif %}
       <h5>{{ post.title }}</h5>
-      <p class="mb-0 truncate-text-post-card">{{ post.text|linebreaksbr }}</p>
+      <p class="mb-0 {% if not disable_text_truncation %}truncate-text-post-card{% endif %}">
+        {{ post.text|linebreaksbr }}
+      </p>
       {% if not disable_stretched_link %}
         <a href="{{ post.get_absolute_url }}"
            class="stretched-link link-secondary"></a>
