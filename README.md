@@ -179,9 +179,9 @@ This project includes some sample data that you can import into your database. Y
 
 #### Option 1: Seed the Entire Database (Recommended)
 
-This will seed your database with mandatory fixtures, users, posts, etc. Run the following command:
+This will seed your database with mock data including languages, users, posts, writing prompts, etc. Run:
 
-        python manage.py loaddata fixtures/seed.json
+        psql -d langcorrect < fixtures/seed.sql
 
 #### Option 2: Load Only the Fixtures (Not Recommended)
 
