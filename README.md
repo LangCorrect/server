@@ -198,11 +198,11 @@ For your convenience, the database comes pre-seeded with some basic user account
 
 | id | username | password | email | role | description |
 | - | - | - | - | - | - |
-| 1 | admin | password | admin@dundermifflin.com | staff | tbd |
-| 2 | michael | password | mscott@dundermifflin.com | member | tbd |
-| 3 | jim | password | jim@dundermifflin.com | member | tbd |
-| 4 | pam | password | pbeesly@dundermifflin.com | member | tbd |
-| 5 | dwight | password | dschrute@dundermifflin.com | member | tbd |
+| 1 | admin | password | admin@dundermifflin.com | staff | Use this to access the admin dashboard |
+| 2 | michael | password | mscott@dundermifflin.com | Premium | Use this to test out premium functionality |
+| 3 | jim | password | jim@dundermifflin.com | member | Use this for standard member access |
+| 4 | pam | password | pbeesly@dundermifflin.com | member | Use this for standard member access |
+| 5 | dwight | password | dschrute@dundermifflin.com | member | Use this for standard member access |
 
 
 #### Creating New Accounts
