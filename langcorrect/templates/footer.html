@@ -40,7 +40,6 @@
         <form action="{% url 'set_language' %}" method="post">
           {% csrf_token %}
           <h5>{% translate "Site Languages" %}</h5>
-          <p>{% translate "Don't see your language here? Help us translate the site!" %}</p>
           <input name="next" type="hidden" value="{{ redirect_to }}" />
           <div class="input-group">
             <select name="language" class="form-select form-select-sm">
