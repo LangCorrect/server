@@ -101,6 +101,10 @@ def make_corrections(request, slug):
                     notification_type="new_reply",
                 )
 
+        if new_correction_made:
+            post.is_corrected = True
+            post.save()
+
         if new_correction_made and current_user not in previous_correctors and post.user.is_premium_user:
             email_new_correction(post)
 
