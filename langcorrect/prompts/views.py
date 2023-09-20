@@ -119,11 +119,11 @@ class UserPromptsView(LoginRequiredMixin, ListView):
     template_name = "prompts/user_prompts.html"
     paginate_by = 100
 
-    # def get_queryset(self):
-    #     current_user = self.request.user
-    #     qs = super().get_queryset().filter(language__in=current_user.all_languages)
+    def get_queryset(self):
+        current_user = self.request.user
+        qs = super().get_queryset().filter(user=current_user)
 
-    #     return qs
+        return qs
 
 
 user_prompts_view = UserPromptsView.as_view()
