@@ -215,7 +215,7 @@ For your convenience, the database comes pre-seeded with some basic user account
 
 ## Schema Diagram
 
-![schema](https://github.com/LangCorrect/server/assets/115326106/279257e5-a327-439c-8190-f81064e4e147)
+![schema](https://github.com/LangCorrect/server/blob/main/schema.png)
 
 ## Settings
 
@@ -257,7 +257,7 @@ To run code coverage and generate reports:
 
 ### Celery
 
-This app comes with Celery.
+This app utilizes Celery as an asynchronous task queue to efficiently manage background tasks, such as updating user rankings and running periodic tasks via the Beat scheduler.
 
 To run a celery worker:
 
