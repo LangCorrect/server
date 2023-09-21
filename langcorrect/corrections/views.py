@@ -98,7 +98,7 @@ def make_corrections(request, slug):
                     recipient=post.user,
                     verb=translate("commented on"),
                     action_object=post,
-                    notification_type="new_reply",
+                    notification_type="new_comment",
                 )
 
         if new_correction_made:
