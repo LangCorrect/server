@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 
 
@@ -10,3 +11,9 @@ class Follower(TimeStampedModel, SoftDeletableModel):
 
     def __str__(self):
         return f"{self.user} is following {self.follow_to}"
+
+    def get_absolute_url(self):
+        """
+        This URL is used in notifications to redirect users to the follower's profile.
+        """
+        return reverse("users:detail", kwargs={"username": self.user.username})

@@ -33,7 +33,9 @@
             </div>
           </div>
           <div class="card-body border-bottom">
-            <h6 class="text-primary fw-bold">{% translate "Community Stats" %}</h6>
+            <h6 class="text-primary fw-bold">
+              <i class="fa-solid fa-chalkboard"></i> {% translate "Community Stats" %}
+            </h6>
             <ul class="list-unstyled">
               <li>
                 <i class="fas fa-percentage fa-fw"></i>
@@ -56,49 +58,95 @@
             </ul>
           </div>
           <div class="card-body border-bottom">
-            <h6 class="text-primary fw-bold">{% translate "Languages" %}</h6>
+            <h6 class="text-primary fw-bold">
+              <i class="fa-solid fa-language"></i> {% translate "Languages" %}
+            </h6>
             <ul class="list-unstyled">
               {% for ll in object.languagelevel_set.all %}<li>{{ ll }}</li>{% endfor %}
             </ul>
           </div>
-          {% if object == request.user %}
-            <div class="card-body">
-              <div class="d-grid gap-2">
-                <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">{% translate "My Info" %}</a>
-                <a class="btn btn-primary"
-                   href="{% url 'account_email' %}"
-                   role="button">{% translate "E-Mail" %}</a>
-                <a class="btn btn-primary"
-                   href="{% url 'languages:list' %}"
-                   role="button">{% translate "Languages" %}</a>
-              </div>
+          <div class="card-body border-bottom">
+            <h6 class="text-primary fw-bold">
+              <i class="fa-solid fa-users"></i> {% translate "Connections" %}
+            </h6>
+            <p>
+              <small>
+                <a class="text-decoration-none text-reset"
+                   href="{% url 'users:following' user %}">
+                  {% blocktranslate with count=user.following_users|length %}
+                  Following ({{count}})
+                  {% endblocktranslate %}
+                </a>
+                · <a class="text-decoration-none text-reset"
+    href="{% url 'users:followers' user %}">
+                {% blocktranslate with count=user.followers_users|length %}
+                Followers ({{count}})
+                {% endblocktranslate %}
+              </a>
+            </small>
+          </p>
+          {% if not request.user.id == user.id %}
+            <div class="d-flex flex-column gap-2">
+              <form method="post" action="{% url 'follows:follow_user' user %}">
+                {% csrf_token %}
+                <button type="submit"
+                        href="{% url 'follows:follow_user' user %}"
+                        class="btn w-100 btn-sm btn-primary">
+                  {% if is_following %}
+                    <i class="fa-solid fa-user-check"></i> {% translate "Following" %}
+                  {% else %}
+                    <i class="fa-solid fa-user-plus"></i> {% translate "Follow" %}
+                  {% endif %}
+                </button>
+              </form>
+              <a href="#" class="btn w-100 btn-sm btn-outline-danger">Report</a>
             </div>
           {% endif %}
         </div>
-      </div>
-      <div class="col-12 col-md-9">
-        <div class="d-flex flex-column gap-3">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="fw-bold text-primary">{% translate "About me" %}</h6>
-              <p>{{ object.bio|linebreaksbr }}</p>
-              <h6 class="fw-bold text-primary">
-                {% blocktranslate with count=totalContributions %}
-                     {{ count }} contributions this year
-                   {% endblocktranslate %}
-              </h6>
-              <div class="overflow-scroll py-3">
-                <div id="cal-heatmap"></div>
-              </div>
+        {% if object == request.user %}
+          <div class="card-body">
+            <div class="d-grid gap-2">
+              <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">{% translate "My Info" %}</a>
+              <a class="btn btn-primary"
+                 href="{% url 'account_email' %}"
+                 role="button">{% translate "E-Mail" %}</a>
+              <a class="btn btn-primary"
+                 href="{% url 'languages:list' %}"
+                 role="button">{% translate "Languages" %}</a>
             </div>
           </div>
-          {% for post in posts %}
-            {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
-          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="d-flex flex-column gap-3">
+        {% if user.bio %}
+          <div class="card">
+            <div class="card-body">
+              <h6>About me</h6>
+              <p>{{ user.bio }}</p>
+            </div>
+          </div>
+        {% endif %}
+        <div class="card">
+          <div class="card-body">
+            <h6>
+              {% blocktranslate with count=totalContributions %}
+                     <span class="fw-bold">{{ count }}</span> contributions this year
+                   {% endblocktranslate %}
+            </h6>
+            <div class="overflow-scroll py-3">
+              <div id="cal-heatmap"></div>
+            </div>
+          </div>
         </div>
+        {% for post in posts %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+        {% endfor %}
       </div>
     </div>
   </div>
+</div>
 {% endblock content %}
 {% block inline_javascript %}
   <script>

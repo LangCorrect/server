@@ -68,42 +68,6 @@ del {
   width: 25rem;
 }
 
-.icon-new_message {
-    content: url("/static/images/icons/reply-icon.svg")
-}
-
-.icon-new_edit {
-    content: url("/static/images/icons/notification-new-edit-icon.svg")
-}
-
-.icon-new_deletion {
-    content: url("/static/images/icons/notification-deletion-icon.svg")
-}
-
-.icon-new_like {
-    content: url("/static/images/icons/notification-new-like.svg")
-}
-
-.icon-new_prompt {
-    content: url("/static/images/icons/notification-new-prompt.svg")
-}
-
-.icon-new_correction {
-    content: url("/static/images/icons/notification-correction-icon.svg")
-}
-
-.icon-new_follower {
-    content: url("/static/images/icons/notification-profile-icon.svg")
-}
-
-.icon-new_post {
-    content: url("/static/images/icons/post-icon.svg")
-}
-
-.icon-new_comment {
-    content: url("/static/images/icons/notification-comment-icon.svg")
-}
-
 .ranking-item {
   width: 6rem;
 }

@@ -58,7 +58,11 @@ class User(AbstractUser):
 
     @property
     def following_users(self):
-        return User.objects.filter(follow_to__user=self)
+        return User.objects.filter(follower__user=self)
+
+    @property
+    def followers_users(self):
+        return User.objects.filter(follower__follow_to=self)
 
     @property
     def native_languages(self):
