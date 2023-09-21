@@ -21,7 +21,15 @@
                class="list-group-item list-group-item-action unread-notification">
               <div class="row d-flex align-items-center py-2">
                 <div class="col-2">
-                  <div class="icon-{{ notification.data.notification_type }}"></div>
+                  {% if notification.data.notification_type == "new_follower" %}
+                    <i class="fa-solid fa-circle-user fs-2 fa-fw text-muted"></i>
+                  {% elif notification.data.notification_type == "new_post" %}
+                    <i class="fa-regular fa-file-lines fs-2 fa-fw text-muted"></i>
+                  {% elif notification.data.notification_type == "new_correction" %}
+                    <i class="fa-solid fa-circle-check fs-2 fa-fw text-muted"></i>
+                  {% elif notification.data.notification_type == "new_comment" %}
+                    <i class="fa-solid fa-comment fs-2 fa-fw text-muted"></i>
+                  {% endif %}
                 </div>
                 <div class="col-10">
                   <p class="mb-0">

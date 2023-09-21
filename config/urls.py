@@ -23,6 +23,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("rankings/", view=rankings_list_view, name="rankings"),
     path("pricing/", TemplateView.as_view(template_name="pages/pricing.html"), name="pricing"),
+    path("follows/", include("langcorrect.follows.urls")),
     path("subscriptions/", include("langcorrect.subscriptions.urls")),
     path("prompts/", include("langcorrect.prompts.urls")),
     path("languages/", include("langcorrect.languages.urls")),
