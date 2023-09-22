@@ -64,6 +64,10 @@ class User(AbstractUser):
         return User.objects.filter(follower__user=self)
 
     @property
+    def get_following_users_ids(self):
+        return list(self.follower.values_list("follow_to", flat=True))
+
+    @property
     def followers_users(self):
         return User.objects.filter(follower__follow_to=self)
 

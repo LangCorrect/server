@@ -30,3 +30,8 @@ def render_corrections_by_sentence(post):
     all_post_rows = post.postrow_set.all
 
     return {"all_post_rows": all_post_rows}
+
+
+@register.inclusion_tag("corrections/popular_correctors.html")
+def render_popular_correctors(popular_correctors):
+    return {"popular_correctors": popular_correctors}
