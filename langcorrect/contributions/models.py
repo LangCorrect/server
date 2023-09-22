@@ -14,6 +14,7 @@ class Contribution(SoftDeletableModel, TimeStampedModel):
     correction_count = models.IntegerField(default=0)
     prompt_count = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
+    writing_streak = models.IntegerField(default=0)
 
     @property
     def get_average_per_day(self):

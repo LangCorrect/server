@@ -117,6 +117,10 @@ class User(AbstractUser):
         except ObjectDoesNotExist:
             return False
 
+    @property
+    def writing_streak(self):
+        return Contribution.objects.get(user=self).writing_streak
+
 
 @receiver(post_save, sender=User)
 def create_contribution_user(sender, instance, created, **kwargs):

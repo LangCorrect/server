@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from config import celery_app
+from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.contributions.models import Contribution
 
 User = get_user_model()
@@ -33,3 +34,14 @@ def calculate_rankings():
             contribution.rank = current_rank
             contribution.save()
             current_rank += 1
+
+
+@celery_app.task()
+def calculate_writing_streaks():
+    """
+    A Celery task to calculate user writing streaks.
+    """
+
+    with transaction.atomic():
+        for user in User.objects.all():
+            update_user_writing_streak(user)
