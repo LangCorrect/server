@@ -4,9 +4,7 @@
 View the live website [here](https://langcorrect.com).
 
 <div align="center">
-  <a href="https://langcorrect.com" target="_blank">
-    <img src="https://langcorrect.com/static/img/logo/full-logo-purple.svg" alt="Logo" height="90">
-  </a>
+  <img src="https://github.com/LangCorrect/server/assets/115326106/36c8cbe1-0611-4d0d-9b40-ca4061107699" alt="Logo" height="300">
 </div>
 
 ## Introduction
