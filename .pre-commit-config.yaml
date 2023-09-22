@@ -50,6 +50,7 @@ repos:
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
+        exclude: langcorrect/templates/emails/base.html
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
