@@ -4,7 +4,7 @@
 View the live website [here](https://langcorrect.com).
 
 <div align="center">
-  <img src="https://github.com/LangCorrect/server/assets/115326106/36c8cbe1-0611-4d0d-9b40-ca4061107699" alt="Logo" height="300">
+  <img src="https://github.com/LangCorrect/server/assets/115326106/36c8cbe1-0611-4d0d-9b40-ca4061107699" alt="Logo" width="350">
 </div>
 
 ## Introduction
