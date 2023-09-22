@@ -9,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.forms import CustomPostForm
@@ -206,6 +207,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             self.object.prompt = prompt
 
         self.object.save()
+        update_user_writing_streak(self.object.user)
         return http.HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
