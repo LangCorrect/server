@@ -1,0 +1,48 @@
+{% extends "emails/base.html" %}
+
+{% load account %}
+{% load i18n %}
+
+{% block email_body %}
+  <table>
+    <tr>
+      <th>
+        <h2>{% blocktranslate with site_name=current_site.name %}Welcome to {{ site_name }}!{% endblocktranslate %}</h2>
+        <p>
+          {% autoescape off %}
+            {% user_display user as user_display %}
+            {% blocktranslate with site_name=current_site.name site_domain=current_site.domain %}
+              You're receiving this e-mail because user {{ user_display }} has given your e-mail address to register an account on {{ site_domain }}.
+            {% endblocktranslate %}
+          {% endautoescape %}
+        </p>
+        <p>
+          {% blocktranslate %}
+          To complete your registration and gain full access to all features, please verify your e-mail address by going to {{ activate_url }}, or clicking the button below.
+        {% endblocktranslate %}
+        </p>
+        <table class="button expand">
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <center data-parsed="">
+                      <a class="float-center" href="{{ activate_url }}">{% translate "Verify E-mail Address" %}</a>
+                    </center>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="expander"></td>
+          </tr>
+        </table>
+      </th>
+    </tr>
+  </table>
+  <p>
+    {% blocktranslate with site_name=current_site.name %}
+      If you did not sign up for {{ site_name }}, you can ignore this email or contact us for support.
+    {% endblocktranslate %}
+  </p>
+{% endblock email_body %}
