@@ -10,7 +10,7 @@
   {% translate "Prompts" %} · LangCorrect
 {% endblock title %}
 {% block content %}
-  <table class="table table-striped">
+  <table class="table table-hover table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -23,15 +23,20 @@
     </thead>
     <tbody>
       {% for prompt in object_list %}
-        <tr>
+        <tr class="prompt-row"
+            role="button"
+            data-link="{{ prompt.get_absolute_url }}">
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{ prompt.content }}</td>
           <td>{{ prompt.response_count }}</td>
           <td>{{ prompt.language }}</td>
-          <td>{{ prompt.difficulty_level }}</td>
-          <td>N/A</td>
+          <td>{{ prompt.difficulty_level | default_if_none:"-" }}</td>
+          <td>{{ prompt.created }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 {% endblock content %}
+{% block inline_javascript %}
+  <script src="{% static 'js/user_prompts.js' %}"></script>
+{% endblock inline_javascript %}
