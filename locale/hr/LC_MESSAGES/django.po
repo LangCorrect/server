@@ -1,18 +1,23 @@
-# Translations for the LangCorrect project
-# Copyright (C) 2023 Daniel Zeljko
-# Daniel Zeljko <support@langcorrect.com>, 2023.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1.0\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:10+0000\n"
-"Language: pt-BR\n"
+"POT-Creation-Date: 2023-09-23 04:14+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: config/settings/base.py:33
 msgid "العربية"
@@ -47,38 +52,42 @@ msgid "עברית"
 msgstr ""
 
 #: config/settings/base.py:41
-msgid "Italiano"
+msgid "Hrvatski"
 msgstr ""
 
 #: config/settings/base.py:42
-msgid "日本語"
+msgid "Italiano"
 msgstr ""
 
 #: config/settings/base.py:43
-msgid "한국어"
+msgid "日本語"
 msgstr ""
 
 #: config/settings/base.py:44
-msgid "Polski"
+msgid "한국어"
 msgstr ""
 
 #: config/settings/base.py:45
-msgid "Português"
+msgid "Polski"
 msgstr ""
 
 #: config/settings/base.py:46
-msgid "Русский"
+msgid "Português"
 msgstr ""
 
 #: config/settings/base.py:47
-msgid "Türkçe"
+msgid "Русский"
 msgstr ""
 
 #: config/settings/base.py:48
-msgid "简体中文"
+msgid "Türkçe"
 msgstr ""
 
 #: config/settings/base.py:49
+msgid "简体中文"
+msgstr ""
+
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr ""
 
@@ -147,10 +156,8 @@ msgid "Advanced"
 msgstr ""
 
 #: langcorrect/languages/models.py:13
-#, fuzzy
-#| msgid "My Profile"
 msgid "Proficient"
-msgstr "Meu perfil"
+msgstr ""
 
 #: langcorrect/languages/models.py:14
 msgid "Native"
@@ -196,26 +203,20 @@ msgid "Image size should not be more than {max_size_mb}MB."
 msgstr ""
 
 #: langcorrect/posts/views.py:160
-#, fuzzy
-#| msgid "Information successfully updated"
 msgid "Post successfully updated"
-msgstr "Informação atualizada com sucesso"
+msgstr ""
 
 #: langcorrect/posts/views.py:183
-#, fuzzy
-#| msgid "Information successfully updated"
 msgid "Post successfully added"
-msgstr "Informação atualizada com sucesso"
+msgstr ""
 
 #: langcorrect/posts/views.py:187
 msgid "Your correction ratio is too low."
 msgstr ""
 
 #: langcorrect/posts/views.py:228
-#, fuzzy
-#| msgid "Information successfully updated"
 msgid "Post successfully deleted"
-msgstr "Informação atualizada com sucesso"
+msgstr ""
 
 #: langcorrect/prompts/apps.py:8
 #: langcorrect/templates/prompts/prompt_detail.html:10
@@ -250,72 +251,69 @@ msgstr ""
 #: langcorrect/templates/account/account_inactive.html:6
 #: langcorrect/templates/account/account_inactive.html:9
 msgid "Account Inactive"
-msgstr "Conta Inativa"
+msgstr ""
 
 #: langcorrect/templates/account/account_inactive.html:10
 msgid "This account is inactive."
-msgstr "Esta conta está inativa."
+msgstr ""
 
 #: langcorrect/templates/account/email.html:7
 msgid "Account"
-msgstr "Conta"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:10
 msgid "E-mail Addresses"
-msgstr "Endereços de E-mail"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:12
 msgid "The following e-mail addresses are associated with your account:"
-msgstr "Os seguintes endereços de e-mail estão associados à sua conta:"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:27
 msgid "Verified"
-msgstr "Verificado"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:29
 msgid "Unverified"
-msgstr "Não verificado"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:32
 msgid "Primary"
-msgstr "Primário"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:40
 msgid "Make Primary"
-msgstr "Tornar Primário"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:43
 msgid "Re-send Verification"
-msgstr "Reenviar verificação"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:46
 msgid "Remove"
-msgstr "Remover"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:52
 msgid "Warning:"
-msgstr "Aviso:"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
-"No momento, você não tem nenhum endereço de e-mail configurado. Você "
-"realmente deve adicionar um endereço de e-mail para receber notificações, "
-"redefinir sua senha etc."
 
 #: langcorrect/templates/account/email.html:55
 msgid "Add E-mail Address"
-msgstr "Adicionar Endereço de E-mail"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:59
 msgid "Add E-mail"
-msgstr "Adicionar E-mail"
+msgstr ""
 
 #: langcorrect/templates/account/email.html:66
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr "Você realmente deseja remover o endereço de e-mail selecionado?"
+msgstr ""
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:10
 #, python-format
@@ -342,10 +340,8 @@ msgid ""
 msgstr ""
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
-#, fuzzy
-#| msgid "Verify Your E-mail Address"
 msgid "Verify E-mail Address"
-msgstr "Verifique seu endereço de e-mail"
+msgstr ""
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:44
 #, python-format
@@ -359,7 +355,7 @@ msgstr ""
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
 msgid "Confirm E-mail Address"
-msgstr "Confirme o endereço de e-mail"
+msgstr ""
 
 #: langcorrect/templates/account/email_confirm.html:14
 #, python-format
@@ -367,12 +363,10 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"Confirme se <a href=\"mailto:%(email)s\">%(email)s</a> é um endereço de e-"
-"mail do usuário %(user_display)s."
 
 #: langcorrect/templates/account/email_confirm.html:19
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr ""
 
 #: langcorrect/templates/account/email_confirm.html:24
 #, python-format
@@ -380,8 +374,6 @@ msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
-"Este link de confirmação de e-mail expirou ou é inválido. Por favor, <a "
-"href=\"%(email_url)s\">emita um novo pedido de confirmação por e-mail</a>."
 
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
@@ -389,11 +381,11 @@ msgstr ""
 #: langcorrect/templates/navbar.html:73
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
-msgstr "Entrar"
+msgstr ""
 
 #: langcorrect/templates/account/login.html:15
 msgid "Please sign in with one of your existing third party accounts:"
-msgstr "Faça login com uma de suas contas de terceiros existentes:"
+msgstr ""
 
 #: langcorrect/templates/account/login.html:17
 #, python-format
@@ -401,12 +393,10 @@ msgid ""
 "Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
 "sign in below:"
 msgstr ""
-"Ou, <a href=\"%(signup_url)s\">cadastre-se</a> para uma conta em "
-"%(site_name)s e entre abaixo:"
 
 #: langcorrect/templates/account/login.html:27
 msgid "or"
-msgstr "or"
+msgstr ""
 
 #: langcorrect/templates/account/login.html:33
 #, python-format
@@ -414,22 +404,20 @@ msgid ""
 "If you have not created an account yet, then please <a "
 "href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
-"Se você ainda não criou uma conta, <a href=\"%(signup_url)s\">registre-se "
-"primeiro</a>."
 
 #: langcorrect/templates/account/login.html:52
 msgid "Forgot Password?"
-msgstr "Esqueceu sua senha?"
+msgstr ""
 
 #: langcorrect/templates/account/logout.html:6
 #: langcorrect/templates/account/logout.html:9
 #: langcorrect/templates/account/logout.html:18
 msgid "Sign Out"
-msgstr "Sair"
+msgstr ""
 
 #: langcorrect/templates/account/logout.html:10
 msgid "Are you sure you want to sign out?"
-msgstr "Você tem certeza que deseja sair?"
+msgstr ""
 
 #: langcorrect/templates/account/password_change.html:7
 #: langcorrect/templates/account/password_change.html:10
@@ -439,43 +427,38 @@ msgstr "Você tem certeza que deseja sair?"
 #: langcorrect/templates/account/password_reset_from_key_done.html:6
 #: langcorrect/templates/account/password_reset_from_key_done.html:9
 msgid "Change Password"
-msgstr "Alterar Senha"
+msgstr ""
 
 #: langcorrect/templates/account/password_reset.html:8
 #: langcorrect/templates/account/password_reset.html:11
 #: langcorrect/templates/account/password_reset_done.html:7
 #: langcorrect/templates/account/password_reset_done.html:10
 msgid "Password Reset"
-msgstr "Redefinição de senha"
+msgstr ""
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
-"Esqueceu sua senha? Digite seu endereço de e-mail abaixo e enviaremos um e-"
-"mail permitindo que você o redefina."
 
 #: langcorrect/templates/account/password_reset.html:25
 msgid "Reset My Password"
-msgstr "Redefinir minha senha"
+msgstr ""
 
 #: langcorrect/templates/account/password_reset.html:27
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
-"Entre em contato conosco se tiver algum problema para redefinir sua senha."
 
 #: langcorrect/templates/account/password_reset_done.html:15
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Enviamos um e-mail para você. Entre em contato conosco se você não recebê-lo "
-"dentro de alguns minutos."
 
 #: langcorrect/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
-msgstr "Token Inválido"
+msgstr ""
 
 #: langcorrect/templates/account/password_reset_from_key.html:20
 #, python-format
@@ -484,39 +467,35 @@ msgid ""
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
-"O link de redefinição de senha era inválido, possivelmente porque já foi "
-"usado. <a href=\"%(passwd_reset_url)s\">Solicite uma nova redefinição de "
-"senha</a>."
 
 #: langcorrect/templates/account/password_reset_from_key.html:30
 msgid "change password"
-msgstr "alterar senha"
+msgstr ""
 
 #: langcorrect/templates/account/password_reset_from_key.html:33
 #: langcorrect/templates/account/password_reset_from_key_done.html:10
 msgid "Your password is now changed."
-msgstr "Sua senha agora foi alterada."
+msgstr ""
 
 #: langcorrect/templates/account/password_set.html:7
 #: langcorrect/templates/account/password_set.html:10
 #: langcorrect/templates/account/password_set.html:19
 msgid "Set Password"
-msgstr "Definir Senha"
+msgstr ""
 
 #: langcorrect/templates/account/signup.html:7
 msgid "Signup"
-msgstr "Cadastro"
+msgstr ""
 
 #: langcorrect/templates/account/signup.html:10
 msgid "Sign Up"
-msgstr "Cadastro"
+msgstr ""
 
 #: langcorrect/templates/account/signup.html:12
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
-"já tem uma conta? Então, por favor, faça <a href=\"%(login_url)s\">login</a>."
 
 #: langcorrect/templates/account/signup.html:21
 msgid "Create an account"
@@ -560,18 +539,18 @@ msgstr ""
 #: langcorrect/templates/account/signup_closed.html:6
 #: langcorrect/templates/account/signup_closed.html:9
 msgid "Sign Up Closed"
-msgstr "Inscrições encerradas"
+msgstr ""
 
 #: langcorrect/templates/account/signup_closed.html:10
 msgid "We are sorry, but the sign up is currently closed."
-msgstr "Lamentamos, mas as inscrições estão encerradas no momento."
+msgstr ""
 
 #: langcorrect/templates/account/verification_sent.html:6
 #: langcorrect/templates/account/verification_sent.html:9
 #: langcorrect/templates/account/verified_email_required.html:6
 #: langcorrect/templates/account/verified_email_required.html:9
 msgid "Verify Your E-mail Address"
-msgstr "Verifique seu endereço de e-mail"
+msgstr ""
 
 #: langcorrect/templates/account/verification_sent.html:11
 msgid ""
@@ -579,9 +558,6 @@ msgid ""
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Enviamos um e-mail para você para verificação. Siga o link fornecido para "
-"finalizar o processo de inscrição. Entre em contato conosco se você não "
-"recebê-lo dentro de alguns minutos."
 
 #: langcorrect/templates/account/verified_email_required.html:12
 msgid ""
@@ -589,9 +565,6 @@ msgid ""
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your e-mail address. "
 msgstr ""
-"Esta parte do site exige que verifiquemos se você é quem afirma ser.\n"
-"Para esse fim, exigimos que você verifique a propriedade\n"
-"do seu endereço de e-mail."
 
 #: langcorrect/templates/account/verified_email_required.html:17
 msgid ""
@@ -599,9 +572,6 @@ msgid ""
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
-"Enviamos um e-mail para você para verificação.\n"
-"Por favor, clique no link dentro deste e-mail.\n"
-"Entre em contato conosco se você não recebê-lo dentro de alguns minutos."
 
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
@@ -609,8 +579,6 @@ msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
-"<strong>Nota</strong>: você ainda pode <a href=\"%(email_url)s\">alterar seu "
-"endereço de e-mail</a>."
 
 #: langcorrect/templates/contributions/contribution_list.html:9
 msgid "Top Contributors"
@@ -629,10 +597,8 @@ msgid "Rank"
 msgstr ""
 
 #: langcorrect/templates/contributions/contribution_list.html:21
-#, fuzzy
-#| msgid "Users"
 msgid "User"
-msgstr "Usuários"
+msgstr ""
 
 #: langcorrect/templates/contributions/partials/contribution.html:10
 #, python-format
@@ -876,10 +842,8 @@ msgid "Cancel Subscription"
 msgstr ""
 
 #: langcorrect/templates/modals/cancel_subscription.html:18
-#, fuzzy
-#| msgid "Are you sure you want to sign out?"
 msgid "Are you sure you would like to cancel your subscription?"
-msgstr "Você tem certeza que deseja sair?"
+msgstr ""
 
 #: langcorrect/templates/modals/discard_modal.html:7
 msgid "Are you sure?"
@@ -942,10 +906,8 @@ msgid "Write"
 msgstr ""
 
 #: langcorrect/templates/navbar.html:119
-#, fuzzy
-#| msgid "Make Primary"
 msgid "Manage Premium"
-msgstr "Tornar Primário"
+msgstr ""
 
 #: langcorrect/templates/navbar.html:124
 msgid "Get Premium"
@@ -956,10 +918,8 @@ msgid "My Journals"
 msgstr ""
 
 #: langcorrect/templates/navbar.html:137
-#, fuzzy
-#| msgid "My Profile"
 msgid "My Prompts"
-msgstr "Meu perfil"
+msgstr ""
 
 #: langcorrect/templates/navbar.html:146
 msgid "Logout"
@@ -1480,23 +1440,23 @@ msgstr ""
 
 #: langcorrect/users/admin.py:23
 msgid "Personal info"
-msgstr "Informação pessoal"
+msgstr ""
 
 #: langcorrect/users/admin.py:25
 msgid "Permissions"
-msgstr "Permissões"
+msgstr ""
 
 #: langcorrect/users/admin.py:36
 msgid "Important dates"
-msgstr "Datas importantes"
+msgstr ""
 
 #: langcorrect/users/apps.py:7
 msgid "Users"
-msgstr "Usuários"
+msgstr ""
 
 #: langcorrect/users/forms.py:28 langcorrect/users/tests/test_forms.py:36
 msgid "This username has already been taken."
-msgstr "Este nome de usuário já foi usado."
+msgstr ""
 
 #: langcorrect/users/models.py:17
 msgid "Male"
@@ -1524,7 +1484,4 @@ msgstr ""
 
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
-msgstr "Informação atualizada com sucesso"
-
-#~ msgid "Name of User"
-#~ msgstr "Nome do Usuário"
+msgstr ""

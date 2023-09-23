@@ -4,6 +4,7 @@ Base settings to build other settings files upon.
 from pathlib import Path
 
 import environ
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # langcorrect/
@@ -27,11 +28,28 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
-# from django.utils.translation import gettext_lazy as _
-# LANGUAGES = [
-#     ('en', _('English')),
-#     ('pt-br', _('Português')),
-# ]
+
+LANGUAGES = [
+    ("ar", _("العربية")),
+    ("cs", _("Čeština")),
+    ("de", _("Deutsch")),
+    ("en", _("English")),
+    ("es", _("Español")),
+    ("fi", _("Suomi")),
+    ("fr", _("Français")),
+    ("he", _("עברית")),
+    ("hr", _("Hrvatski")),
+    ("it", _("Italiano")),
+    ("ja", _("日本語")),
+    ("ko", _("한국어")),
+    ("pl", _("Polski")),
+    ("pt-br", _("Português")),
+    ("ru", _("Русский")),
+    ("tr", _("Türkçe")),
+    ("zh-hans", _("简体中文")),
+    ("zh-hant", _("繁體中文")),
+]
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
