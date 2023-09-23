@@ -1,18 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>LangCorrect</title>
-  </head>
-  <body>
-    <p>Dear {{ username }},</p>
-    <p>Great news! You've received a new correction on your post. Click on the button below to view.</p>
-    <a href="{{ post_link }}">View Post</a>
-    <p>
-      Regards,
-      <br />
-      LangCorrect Team
-    </p>
-  </body>
-</html>
+{% extends "emails/base.html" %}
+
+{% block email_body %}
+  <table>
+    <tr>
+      <th>
+        <h2>Hi, {{ username }}</h2>
+        <p>
+          Great news! A native speaker has taken the time to review and correct your recent journal entry. This is an excellent chance for you to learn from your mistakes and make improvements in your language skills.
+        </p>
+        <p>
+          We encourage you to take a look at the corrections, and if you find them helpful, don't forget to thank the corrector for their time and effort.
+        </p>
+        <table class="button expand">
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <center data-parsed="">
+                      <a class="float-center" href="{{ post_link }}">View Corrections</a>
+                    </center>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="expander"></td>
+          </tr>
+        </table>
+      </th>
+    </tr>
+  </table>
+{% endblock email_body %}

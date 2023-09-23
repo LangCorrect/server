@@ -1,0 +1,138 @@
+{% load static %}
+
+<style type="text/css">
+  .header {
+    background: #6174dd;
+  }
+
+  .header .columns {
+    padding-bottom: 0;
+  }
+
+  .header p {
+    color: #fff;
+    margin-bottom: 0;
+  }
+
+  .header .wrapper-inner {
+    padding: 20px;
+  }
+
+  .header .container {
+    background: #8a8a8a;
+  }
+
+  .wrapper.secondary {
+    background: #f3f3f3;
+  }
+
+  .logo {
+    max-height: 55px;
+    max-width: 55px;
+    color: "white";
+  }
+
+  .p-4 {
+    padding: 4rem;
+  }
+</style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon"
+          href="../../assets/img/icons/foundation-favicon.ico"
+          type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation-emails/2.2.1/foundation-emails.min.css"
+          rel="stylesheet" />
+    <title>LangCorrect</title>
+  </head>
+  <body>
+    <span class="preheader"></span>
+    <table class="body">
+      <tr>
+        <td align="center" class="center" valign="top">
+          <center data-parsed="">
+            <table align="center" bgcolor="#6174dd" class="wrapper header float-center">
+              <tr>
+                <td class="wrapper-inner">
+                  <img class="float-center logo"
+                       src="{% static 'images/logo/logo-mark-white.svg' %}" />
+                </td>
+              </tr>
+            </table>
+            <table align="center" class="container float-center">
+              <tbody>
+                <tr>
+                  <td>
+                    <table class="spacer">
+                      <tbody>
+                        <tr>
+                          <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="row">
+                      <tbody>
+                        <tr>
+                          <th class="p-4">
+                            {% block email_body %}
+                            {% endblock email_body %}
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="row">
+                      <tbody>
+                        <tr>
+                          <th class="small-12 large-12 columns first last">
+                            <table>
+                              <tr>
+                                <th>
+                                  <center data-parsed="">
+                                    <table align="center" class="menu float-center">
+                                      <tr>
+                                        <td>
+                                          <table>
+                                            <tr>
+                                              <th class="menu-item float-center">
+                                                <a href="https://twitter.com/LangCorrect">Twitter</a>
+                                              </th>
+                                              <th class="menu-item float-center">
+                                                <a href="https://github.com/LangCorrect">Github</a>
+                                              </th>
+                                              <!-- <th class="menu-item float-center">
+                                                <a href="#">Unsubscribe</a>
+                                              </th> -->
+                                            </tr>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </center>
+                                </th>
+                                <th class="expander"></th>
+                              </tr>
+                            </table>
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+    <!-- prevent Gmail on iOS font size manipulation -->
+    <div style="display:none;
+                white-space:nowrap;
+                font:15px courier;
+                line-height:0">
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+  </body>
+</html>
