@@ -10,32 +10,34 @@
   {% translate "Prompts" %} · LangCorrect
 {% endblock title %}
 {% block content %}
-  <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Prompt</th>
-        <th scope="col">Responses</th>
-        <th scope="col">Language</th>
-        <th scope="col">Difficulty</th>
-        <th scope="col">Created</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for prompt in object_list %}
-        <tr class="prompt-row"
-            role="button"
-            data-link="{{ prompt.get_absolute_url }}">
-          <th scope="row">{{ forloop.counter }}</th>
-          <td>{{ prompt.content }}</td>
-          <td>{{ prompt.response_count }}</td>
-          <td>{{ prompt.language }}</td>
-          <td>{{ prompt.difficulty_level | default_if_none:"-" }}</td>
-          <td>{{ prompt.created }}</td>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{% translate "Prompt" %}</th>
+          <th scope="col">{% translate "Responses" %}</th>
+          <th scope="col">{% translate "Language" %}</th>
+          <th scope="col">{% translate "Created" %}</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for prompt in object_list %}
+          <tr class="prompt-row"
+              role="button"
+              data-link="{{ prompt.get_absolute_url }}">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>
+              <a class="link-dark" href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
+            </td>
+            <td>{{ prompt.response_count }}</td>
+            <td>{{ prompt.language }}</td>
+            <td>{{ prompt.created | naturalday }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock content %}
 {% block inline_javascript %}
   <script src="{% static 'js/user_prompts.js' %}"></script>
