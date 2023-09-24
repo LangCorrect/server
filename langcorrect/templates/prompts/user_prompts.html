@@ -28,7 +28,8 @@
               data-link="{{ prompt.get_absolute_url }}">
             <th scope="row">{{ forloop.counter }}</th>
             <td>
-              <a class="link-dark" href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
+              <a class="link-dark text-decoration-none"
+                 href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
             </td>
             <td>{{ prompt.response_count }}</td>
             <td>{{ prompt.language }}</td>
