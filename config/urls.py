@@ -28,6 +28,7 @@ urlpatterns = [
     path("languages/", include("langcorrect.languages.urls")),
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),
+    path("submissions/", include("langcorrect.submissions.urls")),
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
