@@ -10,6 +10,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from config.views import index_page_view
 from langcorrect.contributions.views import rankings_list_view
+from langcorrect.posts.views import user_posts_view
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
@@ -28,8 +29,8 @@ urlpatterns = [
     path("languages/", include("langcorrect.languages.urls")),
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),
-    path("submissions/", include("langcorrect.submissions.urls")),
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
+    path("submissions/posts", user_posts_view, name="user_posts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

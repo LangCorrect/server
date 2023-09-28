@@ -27,7 +27,7 @@
       <tbody>
         {% for post in object_list %}
           <tr>
-            <td>{{ forloop.counter|add:page_obj.start_index|add:-1 }}</td>
+            <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
             <td>{{ post.title }}</td>
             <td>{{ post.language }}</td>
             <td>
@@ -35,7 +35,7 @@
             </td>
             <td>{{ post.created }}</td>
             <td>
-              {% if post.iscorrected == 1 %}
+              {% if post.is_corrected == 1 %}
                 ✅
               {% else %}
                 ❌

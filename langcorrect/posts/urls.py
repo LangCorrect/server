@@ -8,6 +8,7 @@ from langcorrect.posts.views import (
     post_detail_view,
     post_list_view,
     post_update_view,
+    user_posts_view,
 )
 
 app_name = "posts"
@@ -21,4 +22,5 @@ urlpatterns = [
     path("<str:slug>/delete/", view=post_delete_view, name="delete"),
     path("<str:slug>/make_corrections", make_corrections, name="make-corrections"),
     path("<str:slug>/export_corrections", export_corrections, name="export-corrections"),
+    path("me", view=user_posts_view, name="user_posts"),
 ]
