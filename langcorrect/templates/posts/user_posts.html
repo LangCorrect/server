@@ -29,11 +29,11 @@
           <tr>
             <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
             <td>{{ post.title }}</td>
-            <td>{{ post.language }}</td>
+            <td>{{ post.language.code }}</td>
             <td>
-              {% for tag in post.tags.names %}<span class="badge bg-secondary">{{ tag }}</span>{% endfor %}
+              {% for tag in post.tags.names %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}
             </td>
-            <td>{{ post.created }}</td>
+            <td>{{ post.created|naturalday }}</td>
             <td>
               {% if post.is_corrected == 1 %}
                 ✅
