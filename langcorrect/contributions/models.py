@@ -14,12 +14,17 @@ class Contribution(SoftDeletableModel, TimeStampedModel):
     correction_count = models.IntegerField(default=0)
     prompt_count = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
+    writing_streak = models.IntegerField(default=0)
 
     @property
     def get_average_per_day(self):
         today = timezone.now().date()
         date_joined = self.user.date_joined.date()
         days_since_joined = (today - date_joined).days
-        average = self.total_points / days_since_joined
+
+        try:
+            average = self.total_points / days_since_joined
+        except ZeroDivisionError:
+            average = 0
 
         return f"{round(average, 2):.2f}"

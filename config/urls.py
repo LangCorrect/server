@@ -11,6 +11,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from config.views import index_page_view
 from langcorrect.contributions.views import rankings_list_view
 from langcorrect.posts.views import user_posts_view
+from langcorrect.prompts.views import user_prompts_view
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
@@ -24,6 +25,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("rankings/", view=rankings_list_view, name="rankings"),
     path("pricing/", TemplateView.as_view(template_name="pages/pricing.html"), name="pricing"),
+    path("follows/", include("langcorrect.follows.urls")),
     path("subscriptions/", include("langcorrect.subscriptions.urls")),
     path("prompts/", include("langcorrect.prompts.urls")),
     path("languages/", include("langcorrect.languages.urls")),
@@ -31,6 +33,7 @@ urlpatterns = [
     path("journals/", include("langcorrect.posts.urls")),
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
     path("submissions/posts", user_posts_view, name="user_posts"),
+    path("submissions/prompts", user_prompts_view, name="user_prompts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

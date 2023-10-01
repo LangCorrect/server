@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+      <span>{% translate "Followers" %} ({{ object_list|length }})</span>
+      <a class="btn btn-sm btn-primary"
+         href="{% url 'users:following' username %}">{% translate "Following" %}</a>
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for follower in object_list %}
+        <li class="list-group-item">
+          <a class="text-decoration-none {% if follower.user.is_premium_user %}text-premium{% endif %}"
+             href="{{ follower.user.get_absolute_url }}">
+            <div class="d-flex align-items-center gap-2">
+              <img src="{{ follower.user.avatar }}" alt="profile" />
+              {{ follower.user.username }}
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock content %}

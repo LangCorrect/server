@@ -9,7 +9,7 @@
       <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
       <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
     </span>
-    99
+    {{ user.writing_streak }}
   </span>
   {% for studying_language in current_user.studying_languages %}
     {% if studying_language in user.native_languages %}

@@ -6,7 +6,9 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
   <div class="container  align-items-center">
     <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="{% static 'images/logo/logo.svg' %}" alt="logo" width="38" />
+      <img src="{% static 'images/logo/logo-mark-purple.svg' %}"
+           alt="logo"
+           width="38" />
     </a>
     <div class="d-flex gap-2 align-items-center">
       <a href="{% url 'posts:create' %}"
@@ -49,10 +51,14 @@
              role="button"
              data-bs-toggle="dropdown"
              aria-expanded="false">{% translate "Community" %}</a>
-          <ul class="dropdown-menu create-dropdown"
+          <ul class="dropdown-menu create-dropdown p-0"
               aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <a class="dropdown-item" href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% translate "Forums" %}</a>
+              <a class="dropdown-item px-3 py-2"
+                 href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% translate "Forums" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item px-3 py-2" href="{% url 'rankings' %}"><i class="fas fa-trophy fa-fw"></i> {% translate "Rankings" %}</a>
             </li>
             {#            <li>#}
             {#              <a class="dropdown-item" href=""><i class="fas fa-hiking fa-fw"></i> {% translate "Challenges" %}</a>#}
@@ -126,7 +132,7 @@
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item py-2" href="#">
+                  <a class="dropdown-item py-2" href="{% url 'user_prompts' %}">
                     <i class="fas fa-signature fa-fw"></i>
                     {% translate "My Prompts" %}
                   </a>

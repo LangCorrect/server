@@ -36,6 +36,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
                 + perfects_this_year_count
                 + prompts_this_year_count,
                 "posts": user.post_set.all()[:10],
+                "is_following": True if self.request.user in user.followers_users else False,
             }
         )
         return context

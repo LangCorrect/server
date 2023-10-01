@@ -4,9 +4,7 @@
 View the live website [here](https://langcorrect.com).
 
 <div align="center">
-  <a href="https://langcorrect.com" target="_blank">
-    <img src="https://langcorrect.com/static/img/logo/full-logo-purple.svg" alt="Logo" height="90">
-  </a>
+  <img src="https://github.com/LangCorrect/server/assets/115326106/36c8cbe1-0611-4d0d-9b40-ca4061107699" alt="Logo" width="350">
 </div>
 
 ## Introduction
@@ -215,7 +213,7 @@ For your convenience, the database comes pre-seeded with some basic user account
 
 ## Schema Diagram
 
-![schema](https://github.com/LangCorrect/server/assets/115326106/279257e5-a327-439c-8190-f81064e4e147)
+![schema](https://github.com/LangCorrect/server/blob/main/schema.png)
 
 ## Settings
 
@@ -257,7 +255,7 @@ To run code coverage and generate reports:
 
 ### Celery
 
-This app comes with Celery.
+This app utilizes Celery as an asynchronous task queue to efficiently manage background tasks, such as updating user rankings and running periodic tasks via the Beat scheduler.
 
 To run a celery worker:
 

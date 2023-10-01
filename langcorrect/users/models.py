@@ -1,11 +1,14 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from config.settings.base import AVATAR_BASE_URL
+from langcorrect.contributions.models import Contribution
 from langcorrect.corrections.models import CorrectedRow, PerfectRow
 from langcorrect.languages.models import Language, LevelChoices
 
@@ -58,7 +61,15 @@ class User(AbstractUser):
 
     @property
     def following_users(self):
-        return User.objects.filter(follow_to__user=self)
+        return User.objects.filter(follower__user=self)
+
+    @property
+    def get_following_users_ids(self):
+        return list(self.follower.values_list("follow_to", flat=True))
+
+    @property
+    def followers_users(self):
+        return User.objects.filter(follower__follow_to=self)
 
     @property
     def native_languages(self):
@@ -105,3 +116,13 @@ class User(AbstractUser):
             )
         except ObjectDoesNotExist:
             return False
+
+    @property
+    def writing_streak(self):
+        return Contribution.objects.get(user=self).writing_streak
+
+
+@receiver(post_save, sender=User)
+def create_contribution_user(sender, instance, created, **kwargs):
+    if created:
+        Contribution.objects.create(user=instance)

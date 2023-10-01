@@ -9,7 +9,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from langcorrect.corrections.helpers import populate_user_corrections
+from langcorrect.contributions.helpers import update_user_writing_streak
+from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.posts.forms import CustomPostForm
 from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
@@ -50,7 +51,7 @@ class PostListView(ListView):
         lang_code = self.get_lang_code()
 
         if mode == "following":
-            qs = qs.filter(user__in=current_user.following_users)
+            qs = qs.filter(user__in=current_user.get_following_users_ids)
         elif mode == "learn":
             qs = qs.filter(language__in=current_user.studying_languages)
         else:
@@ -83,8 +84,16 @@ class PostListView(ListView):
             }
         )
 
+        context["popular_correctors"] = {
+            "today": get_popular_correctors(period="today"),
+            "this_week": get_popular_correctors(period="this_week"),
+            "this_month": get_popular_correctors(period="this_month"),
+            "all_time": get_popular_correctors(period="all_time"),
+        }
+
         if current_user.is_authenticated:
-            context["following_feed"] = Post.available_objects.filter(user__in=current_user.following_users)[:5]
+            following_users_ids = current_user.get_following_users_ids
+            context["following_feed"] = Post.available_objects.filter(user__in=following_users_ids)[:5]
 
         return context
 
@@ -198,6 +207,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             self.object.prompt = prompt
 
         self.object.save()
+        update_user_writing_streak(self.object.user)
         return http.HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):

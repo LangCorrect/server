@@ -1,0 +1,98 @@
+{% load i18n %}
+
+<div class="card">
+  <div class="card-header bg-transparent">{% translate "Popular Correctors" %}</div>
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link active"
+              id="popular-today-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#popular-today"
+              type="button"
+              role="tab"
+              aria-controls="popular-today"
+              aria-selected="true">{% translate "Today" %}</button>
+      <button class="nav-link"
+              id="popular-week-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#popular-week"
+              type="button"
+              role="tab"
+              aria-controls="popular-week"
+              aria-selected="false">{% translate "This week" %}</button>
+      <button class="nav-link"
+              id="popular-month-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#popular-month"
+              type="button"
+              role="tab"
+              aria-controls="popular-month"
+              aria-selected="false">{% translate "This month" %}</button>
+      <button class="nav-link"
+              id="popular-all-time-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#popular-all-time"
+              type="button"
+              role="tab"
+              aria-controls="popular-all-time"
+              aria-selected="false">{% translate "All time" %}</button>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active"
+         id="popular-today"
+         role="tabpanel"
+         aria-labelledby="popular-today-tab"
+         tabindex="0">
+      <ul class="list-group list-group-flush">
+        {% for corrector in popular_correctors.today %}
+          {% include "corrections/partials/popular_corrector.html" %}
+        {% empty %}
+          <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="tab-pane fade"
+         id="popular-week"
+         role="tabpanel"
+         aria-labelledby="popular-week-tab"
+         tabindex="0">
+      <ul class="list-group list-group-flush">
+        {% for corrector in popular_correctors.this_week %}
+          {% include "corrections/partials/popular_corrector.html" %}
+        {% empty %}
+          <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="tab-pane fade"
+         id="popular-month"
+         role="tabpanel"
+         aria-labelledby="popular-month-tab"
+         tabindex="0">
+      <ul class="list-group list-group-flush">
+        {% for corrector in popular_correctors.this_month %}
+          {% include "corrections/partials/popular_corrector.html" %}
+        {% empty %}
+          <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="tab-pane fade"
+         id="popular-all-time"
+         role="tabpanel"
+         aria-labelledby="popular-all-time-tab"
+         tabindex="0">
+      <ul class="list-group list-group-flush">
+        {% for corrector in popular_correctors.all_time %}
+          {% include "corrections/partials/popular_corrector.html" %}
+        {% empty %}
+          <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="card-footer bg-transparent">
+    <a href="{% url 'rankings' %}" class="text-decoration-none">{% translate "View all" %}</a>
+  </div>
+</div>

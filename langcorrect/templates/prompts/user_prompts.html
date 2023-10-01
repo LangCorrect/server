@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load prompt_tags %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+{% load post_tags %}
+
+{% block title %}
+  {% translate "My Prompts" %} · LangCorrect
+{% endblock title %}
+{% block content %}
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{% translate "Prompt" %}</th>
+          <th scope="col">{% translate "Responses" %}</th>
+          <th scope="col">{% translate "Language" %}</th>
+          <th scope="col">{% translate "Created" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prompt in object_list %}
+          <tr class="prompt-row"
+              role="button"
+              data-link="{{ prompt.get_absolute_url }}">
+            <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
+            <td>
+              <a class="link-dark text-decoration-none"
+                 href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
+            </td>
+            <td>{{ prompt.response_count }}</td>
+            <td>{{ prompt.language.code }}</td>
+            <td>{{ prompt.created | naturalday }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "pagination.html" %}
+{% endblock content %}
+{% block inline_javascript %}
+  <script src="{% static 'js/user_prompts.js' %}"></script>
+{% endblock inline_javascript %}
