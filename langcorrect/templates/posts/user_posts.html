@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+{% load post_tags %}
+
+{% block title %}
+  {% translate "My Journals" %} · LangCorrect
+{% endblock title %}
+{% block content %}
+  <h3>{% translate "My Journals" %}</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>{% translate "Title" %}</th>
+          <th>{% translate "Language" %}</th>
+          <th>{% translate "Tags" %}</th>
+          <th>{% translate "Date" %}</th>
+          <th>{% translate "Corrected" %}</th>
+          <th>{% translate "Visibility" %}</th>
+          <th>{% translate "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in object_list %}
+          <tr>
+            <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.language.code }}</td>
+            <td>
+              {% for tag in post.tags.names %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}
+            </td>
+            <td>{{ post.created|naturalday }}</td>
+            <td>
+              {% if post.is_corrected == 1 %}
+                ✅
+              {% else %}
+                ❌
+              {% endif %}
+            </td>
+            <td>{% translate post.permission %}</td>
+            <td>
+              <a href="{{ post.get_absolute_url }}"
+                 class="btn btn-sm btn-outline-secondary">{% translate "View" %}</a>
+              <a href="{% url 'posts:update' post.slug %}"
+                 class="btn btn-sm btn-outline-info">{% translate "Edit" %}</a>
+              <a href="{% url 'posts:delete' post.slug %}"
+                 class="btn btn-sm btn-outline-danger">{% translate "Delete" %}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "pagination.html" %}
+{% endblock content %}

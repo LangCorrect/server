@@ -245,3 +245,16 @@ class PostDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 
 post_delete_view = PostDeleteView.as_view()
+
+
+class UserSubmittedPosts(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = "posts/user_posts.html"
+    paginate_by = 25
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(user=self.request.user)
+        return qs
+
+
+user_posts_view = UserSubmittedPosts.as_view()
