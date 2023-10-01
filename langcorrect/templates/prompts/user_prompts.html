@@ -7,7 +7,7 @@
 {% load post_tags %}
 
 {% block title %}
-  {% translate "Prompts" %} · LangCorrect
+  {% translate "My Prompts" %} · LangCorrect
 {% endblock title %}
 {% block content %}
   <div class="table-responsive">
@@ -26,19 +26,20 @@
           <tr class="prompt-row"
               role="button"
               data-link="{{ prompt.get_absolute_url }}">
-            <th scope="row">{{ forloop.counter }}</th>
+            <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
             <td>
               <a class="link-dark text-decoration-none"
                  href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
             </td>
             <td>{{ prompt.response_count }}</td>
-            <td>{{ prompt.language }}</td>
+            <td>{{ prompt.language.code }}</td>
             <td>{{ prompt.created | naturalday }}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+  {% include "pagination.html" %}
 {% endblock content %}
 {% block inline_javascript %}
   <script src="{% static 'js/user_prompts.js' %}"></script>

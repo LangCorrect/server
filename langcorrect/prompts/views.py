@@ -117,7 +117,7 @@ prompt_create_view = PromptCreateView.as_view()
 class UserPromptsView(LoginRequiredMixin, ListView):
     model = Prompt
     template_name = "prompts/user_prompts.html"
-    paginate_by = 100
+    paginate_by = 20
 
     def get_queryset(self):
         current_user = self.request.user
