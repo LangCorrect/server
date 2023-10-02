@@ -30,14 +30,14 @@ LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 
 LANGUAGES = [
-    ("ar", _("العربية")),
+    # ("ar", _("العربية")),
     ("cs", _("Čeština")),
     ("de", _("Deutsch")),
     ("en", _("English")),
     ("es", _("Español")),
     ("fi", _("Suomi")),
     ("fr", _("Français")),
-    ("he", _("עברית")),
+    # ("he", _("עברית")),
     ("hr", _("Hrvatski")),
     ("it", _("Italiano")),
     ("ja", _("日本語")),
