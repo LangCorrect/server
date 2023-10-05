@@ -11,9 +11,12 @@ class Command(BaseCommand):
 
         for user in verified_users:
             verified_user_emails = user.emailaddress_set.all()
-            try:
-                for email in verified_user_emails:
+
+            for email in verified_user_emails:
+                if email.verified:
+                    continue
+                try:
                     email.verified = True
                     email.save()
-            except Exception as e:
-                print(e)
+                except Exception as e:
+                    print(e)
