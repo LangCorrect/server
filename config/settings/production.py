@@ -95,7 +95,7 @@ if USE_S3_MEDIA_STORAGE:  # noqa: F405
             "BACKEND": "langcorrect.utils.storages.StaticRootS3Boto3Storage",
         },
     }
-    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+    # COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     STATIC_URL = f"https://{aws_s3_domain}/static/"
     # MEDIA
     # ------------------------------------------------------------------------------
@@ -134,10 +134,10 @@ ANYMAIL = {
     "SENDGRID_API_URL": env("SENDGRID_API_URL", default="https://api.sendgrid.com/v3/"),
 }
 
-# Collectfast
+# Collectfast (no longer maintained)
 # ------------------------------------------------------------------------------
 # https://github.com/antonagestam/collectfast#installation
-INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS  # noqa: F405
+# INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS  # noqa: F405
 
 # LOGGING
 # ------------------------------------------------------------------------------
