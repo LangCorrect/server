@@ -45,45 +45,13 @@
       </div>
       <div class="d-grid gap-3">
         {% for post in object_list %}
-          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_native_text=True %}
         {% endfor %}
         {% include "pagination.html" %}
       </div>
     </div>
     <div class="col-lg-4">
       <div class="d-flex flex-column gap-3">
-        <div class="card">
-          <div class="card-header bg-transparent">{% translate "Following feed" %}</div>
-          <div class="list-group list-group-flush">
-            {% for post in following_feed %}
-              <a href="{{ post.get_absolute_url }}"
-                 class="list-group-item list-group-item-action">
-                <div>
-                  <h6>{{ post.title }}</h6>
-                  <p class="truncate-text">{{ post.text }}</p>
-                  <div class="d-flex justify-content-between text-muted">
-                    <span class="{% if post.user.is_premium_user %}color-premium{% endif %}">{{ post.user.username }}</span>
-                    <span><i class="fa-regular fa-circle-check me-1"></i> {{ post.corrected_by_count }}</span>
-                  </div>
-                </div>
-              </a>
-            {% empty %}
-              <div class="list-group-item text-center text-muted">
-                <small>
-                  {% translate "You're not following anyone yet." %}
-                  <br />
-                  {% translate "Follow users to see their latest posts here." %}
-                </small>
-              </div>
-            {% endfor %}
-          </div>
-          {% if following_feed %}
-            <div class="card-footer bg-transparent">
-              <a href="{% url 'posts:list' %}?mode=following"
-                 class="text-decoration-none">{% translate "View all" %}</a>
-            </div>
-          {% endif %}
-        </div>
         {% render_popular_correctors popular_correctors=popular_correctors %}
         <div class="card">
           <div class="card-body text-center">
