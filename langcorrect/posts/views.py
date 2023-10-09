@@ -183,7 +183,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = _("Post successfully added")
 
     def dispatch(self, request, *args, **kwargs):
-        if not check_can_create_post(self.request.user):
+        if self.request.user.is_authenticated and not check_can_create_post(self.request.user):
             raise PermissionDenied(_("Your correction ratio is too low."))
         return super().dispatch(request, *args, **kwargs)
 
