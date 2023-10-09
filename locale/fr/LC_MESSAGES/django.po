@@ -849,7 +849,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"          Êtes-vous sûr de vouloir supprimer %(language)s de votre liste de langues ?\n"
+"          Êtes-vous sûr de vouloir supprimer le %(language)s de votre liste de langues ?\n"
 "        "
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:17
