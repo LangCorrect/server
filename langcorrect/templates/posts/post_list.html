@@ -45,7 +45,7 @@
       </div>
       <div class="d-grid gap-3">
         {% for post in object_list %}
-          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_native_text=True %}
         {% endfor %}
         {% include "pagination.html" %}
       </div>
