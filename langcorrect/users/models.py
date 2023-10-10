@@ -48,7 +48,9 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     def _build_avatar_url(self, size=None):
-        base_url = f"{AVATAR_BASE_URL}{self.username}"
+        name_to_use = self.nick_name or self.username
+        base_url = f"{AVATAR_BASE_URL}{name_to_use}"
+
         if size:
             base_url += f"&size={size}"
         if self.is_premium_user:

@@ -27,7 +27,9 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img src="{{ object.avatar }}" alt="profile img" />
-                <h6 class="mb-0 {% if object.is_premium_user %}text-premium{% endif %}">{{ object.username }}</h6>
+                <h6 class="mb-0 {% if object.is_premium_user %}text-premium{% endif %}">
+                  {{ object.nick_name|default_if_none:object.username }}
+                </h6>
               </div>
               {% include "posts/partials/card_badges.html" %}
             </div>
