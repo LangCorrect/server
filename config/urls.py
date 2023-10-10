@@ -17,6 +17,11 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("", view=index_page_view, name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    path(
+        "community-guidelines/",
+        TemplateView.as_view(template_name="pages/community_guidelines.html"),
+        name="community-guidelines",
+    ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
