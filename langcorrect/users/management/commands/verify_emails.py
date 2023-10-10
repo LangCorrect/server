@@ -1,5 +1,6 @@
 import logging
 
+from allauth.account.models import EmailAddress
 from django.core.management.base import BaseCommand
 
 from langcorrect.users.models import User
@@ -14,6 +15,10 @@ class Command(BaseCommand):
         verified_users = User.objects.filter(is_verified=True).prefetch_related("emailaddress_set")
 
         for user in verified_users:
+            # user may have an email address that has not been stored in allauth's EmailAddress
+            if not EmailAddress.objects.filter(email=user.email).exists():
+                EmailAddress.objects.create(user=user, email=user.email, verified=True)
+
             for email_address in user.emailaddress_set.all():
                 if not email_address.verified:
                     try:
