@@ -22,6 +22,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="pages/community_guidelines.html"),
         name="community-guidelines",
     ),
+    path(
+        "privacy/",
+        TemplateView.as_view(template_name="pages/privacy_policy.html"),
+        name="privacy-policy",
+    ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
