@@ -3,40 +3,22 @@
 <footer class="py-5">
   <div class="container">
     <div class="row">
-      <div class="col-6 col-md-3 mb-3">
-        <h5>{% translate "About" %}</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item mb-2">
-            <a href="https://community.langcorrect.com/t/langcorrect-web/654"
-               class="nav-link p-0 text-muted">{% translate "Changelog" %}</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="https://community.langcorrect.com/t/credits-website/1185"
-               class="nav-link p-0 text-muted">{% translate "Credits" %}</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-muted">{% translate "Logo Breakdown" %}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-6 col-md-3 mb-3">
+      <div class="col-6 col-md-8 mb-3">
         <h5>{% translate "Legal" %}</h5>
         <ul class="nav flex-column">
           <li class="nav-item mb-2">
-            <a href="https://community.langcorrect.com/t/privacy-policy-website/1183"
-               class="nav-link p-0 text-muted">{% translate "Privacy Policy" %}</a>
+            <a href="{% url 'privacy-policy' %}" class="nav-link p-0 text-muted">{% translate "Privacy Policy" %}</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="https://community.langcorrect.com/t/community-guidelines-website/1181"
+            <a href="{% url 'community-guidelines' %}"
                class="nav-link p-0 text-muted">{% translate "Community Guidelines" %}</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="https://community.langcorrect.com/t/terms-of-service-website/1184"
-               class="nav-link p-0 text-muted">{% translate "Terms of Service" %}</a>
+            <a href="{% url 'terms-of-service' %}" class="nav-link p-0 text-muted">{% translate "Terms of Service" %}</a>
           </li>
         </ul>
       </div>
-      <div class="col-md-5 offset-md-1 mb-3">
+      <div class="col-md-4 mb-3">
         <form action="{% url 'set_language' %}" method="post">
           {% csrf_token %}
           <h5>{% translate "Site Languages" %}</h5>

@@ -123,7 +123,7 @@ msgstr "Vous ne pouvez pas vous suivre vous-même"
 
 #: langcorrect/follows/views.py:73
 msgid "followed you"
-msgstr "Vous a suivi"
+msgstr "vous a suivi"
 
 #: langcorrect/languages/apps.py:8
 #: langcorrect/templates/users/user_detail.html:62
@@ -145,7 +145,7 @@ msgstr "Intermédiaire"
 
 #: langcorrect/languages/models.py:11
 msgid "Upper-Intermediate"
-msgstr "Avancé intermédiaire"
+msgstr "Intermédiaire avancé"
 
 #: langcorrect/languages/models.py:12
 msgid "Advanced"
@@ -171,7 +171,8 @@ msgstr "Publications"
 msgid ""
 "You need to write {50 - len(text)} more characters to meet the minimum "
 "requirement."
-msgstr ""
+msgstr "Vous devez écrire {50 - len(text)} caractères de plus pour "
+"atteindre le minimum requis."
 
 #: langcorrect/posts/forms.py:40 langcorrect/prompts/forms.py:25
 msgid "Tags cannot be longer than 20 characters"
@@ -187,7 +188,7 @@ msgstr "Visible uniquement par les membres enregistrés"
 
 #: langcorrect/posts/models.py:128
 msgid "submitted a new entry"
-msgstr "A soumis une nouvelle entrée"
+msgstr "a soumis une nouvelle entrée"
 
 #: langcorrect/posts/validators.py:22
 msgid "Unsupported file extension. Only .jpg and .jpeg are allowed."
@@ -220,7 +221,7 @@ msgstr "Publication supprimée avec succès"
 #: langcorrect/templates/prompts/prompt_detail.html:10
 #: langcorrect/templates/prompts/prompt_list.html:10
 msgid "Prompts"
-msgstr "Incitations"
+msgstr "Sujets de rédaction"
 
 #: langcorrect/subscriptions/apps.py:8
 msgid "Subscriptions"
@@ -406,7 +407,7 @@ msgstr ""
 
 #: langcorrect/templates/account/login.html:27
 msgid "or"
-msgstr "Ou"
+msgstr "ou"
 
 #: langcorrect/templates/account/login.html:33
 #, python-format
@@ -556,7 +557,7 @@ msgid ""
 "not necessarily about you."
 msgstr ""
 "Le choix d'un genre pour le narrateur aidera les locuteurs natifs à corriger"
-" les erreurs de genre."
+" les erreurs de genre. Veuillez noter que cela concerne le narrateur d'un texte donné, pas forcément qui vous êtes réellement."
 
 #: langcorrect/templates/account/signup.html:49
 msgid "This can be changed at any time and on a per journal basis."
@@ -588,7 +589,7 @@ msgid ""
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Nous vous avons envoyé un e-mail pour vérification. Suivez le lien fourni "
+"Nous vous avons envoyé un e-mail de vérification. Suivez le lien fourni "
 "pour finaliser le processus d'inscription."
 
 #: langcorrect/templates/account/verified_email_required.html:12
@@ -598,8 +599,8 @@ msgid ""
 "verify ownership of your e-mail address. "
 msgstr ""
 "Cette partie du site nécessite que nous vérifions que vous êtes bien qui "
-"vous prétendez être. À cette fin, vous devez vérifier la propriété de votre "
-"adresse e-mail."
+"vous prétendez être. À cette fin, nous vous demandons de prouver que vous "
+"êtes propriétaire de votre adresse e-mail."
 
 #: langcorrect/templates/account/verified_email_required.html:17
 msgid ""
@@ -607,7 +608,7 @@ msgid ""
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
-"Nous vous avons envoyé un e-mail pour vérification. Veuillez cliquer sur le "
+"Nous vous avons envoyé un e-mail de vérification. Veuillez cliquer sur le "
 "lien à l'intérieur de cet e-mail. Contactez-nous si vous ne le recevez pas "
 "dans quelques minutes."
 
@@ -632,7 +633,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"*Mise à jour toutes les %(hours)s heures"
+"          *Mise à jour toutes les %(hours)s heures\n"
+"        "
 
 #: langcorrect/templates/contributions/contribution_list.html:20
 msgid "Rank"
@@ -650,15 +652,16 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"Membre depuis %(year)s"
+"        Membre depuis %(year)s\n"
+"      "
 
 #: langcorrect/templates/contributions/partials/contribution.html:19
 msgid "Total Contributions"
-msgstr "Contributions totales"
+msgstr "Nombre total de contributions"
 
 #: langcorrect/templates/contributions/partials/contribution.html:25
 msgid "Total Corrections"
-msgstr "Corrections totales"
+msgstr "Nombre total de corrections"
 
 #: langcorrect/templates/contributions/partials/contribution.html:31
 msgid "Total Posts"
@@ -666,7 +669,7 @@ msgstr "Nombre total de publications"
 
 #: langcorrect/templates/contributions/partials/contribution.html:37
 msgid "Total Prompts"
-msgstr "Total des incitations"
+msgstr "Nombre total de sujets de rédaction"
 
 #: langcorrect/templates/contributions/partials/contribution.html:43
 msgid "Average Per Day"
@@ -727,7 +730,8 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
-"%(user_count)s utilisateurs ont marqué cette phrase comme parfaite !"
+"                    %(user_count)s utilisateurs ont marqué cette phrase comme étant parfaite !"
+"                  "
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:6
 msgid "Original"
@@ -746,7 +750,8 @@ msgid ""
 "          "
 msgstr ""
 "\n"
-"%(user_count)s utilisateurs ont marqué cette phrase comme parfaite !"
+"            %(user_count)s utilisateurs ont marqué cette phrase comme étant parfaite !"
+"          "
 
 #: langcorrect/templates/corrections/partials/user_correction_card.html:50
 msgid "Write a message..."
@@ -844,7 +849,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Êtes-vous sûr de vouloir supprimer %(language)s de votre liste de langues ?"
+"          Êtes-vous sûr de vouloir supprimer le %(language)s de votre liste de langues ?\n"
+"        "
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:17
 #: langcorrect/templates/modals/cancel_subscription.html:24
@@ -938,7 +944,7 @@ msgstr "Mon flux"
 
 #: langcorrect/templates/navbar.html:46
 msgid "Writing Prompts"
-msgstr "Incitations à l'écriture"
+msgstr "Sujets de rédaction"
 
 #: langcorrect/templates/navbar.html:53
 msgid "Community"
@@ -958,11 +964,11 @@ msgstr "Écrire"
 
 #: langcorrect/templates/navbar.html:119
 msgid "Manage Premium"
-msgstr "Gérer Premium"
+msgstr "Gérer l'abonnement Premium"
 
 #: langcorrect/templates/navbar.html:124
 msgid "Get Premium"
-msgstr "Obtenir Premium"
+msgstr "Obtenir l'abonnement Premium"
 
 #: langcorrect/templates/navbar.html:131
 msgid "My Journals"
@@ -970,7 +976,7 @@ msgstr "Mes journaux"
 
 #: langcorrect/templates/navbar.html:137
 msgid "My Prompts"
-msgstr "Mes incitations"
+msgstr "Mes sujets de rédaction"
 
 #: langcorrect/templates/navbar.html:146
 msgid "Logout"
@@ -978,7 +984,7 @@ msgstr "Se déconnecter"
 
 #: langcorrect/templates/navbar.html:167
 msgid "Visit your profile"
-msgstr "Visitez votre profil"
+msgstr "Visiter votre profil"
 
 #: langcorrect/templates/navbar.html:175
 msgid "Member role"
@@ -997,11 +1003,11 @@ msgstr "Membre"
 
 #: langcorrect/templates/navbar.html:186
 msgid "Total corrections made"
-msgstr "Total des corrections effectuées"
+msgstr "Nombre total de corrections effectuées"
 
 #: langcorrect/templates/navbar.html:193
 msgid "Total corrections received"
-msgstr "Total des corrections reçues"
+msgstr "Nombre total de corrections reçues"
 
 #: langcorrect/templates/navbar.html:200
 msgid "Correction ratio"
@@ -1063,7 +1069,7 @@ msgid ""
 "Browse a wide variety of writing prompts or simply create a journal from "
 "scratch."
 msgstr ""
-"Parcourez une grande variété d'incitations à l'écriture ou créez simplement "
+"Parcourez une grande variété de sujets de rédaction ou créez simplement "
 "un journal à partir de zéro."
 
 #: langcorrect/templates/pages/home.html:64
@@ -1092,7 +1098,7 @@ msgstr ""
 
 #: langcorrect/templates/pages/home.html:82
 msgid "Straight to the point"
-msgstr "Directement au but"
+msgstr "Droit au but"
 
 #: langcorrect/templates/pages/home.html:84
 msgid ""
@@ -1101,7 +1107,7 @@ msgid ""
 "thing to provide corrections for you."
 msgstr ""
 "Obtenez rapidement des corrections sur vos écrits - Écrivez simplement un "
-"journal dans votre langue cible, publiez-le et laissez la communauté "
+"entrée de journal dans votre langue cible, publiez-le et laissez la communauté "
 "LangCorrect faire son travail pour vous fournir des corrections."
 
 #: langcorrect/templates/pages/home.html:88
@@ -1140,7 +1146,7 @@ msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
 msgstr ""
-"Des incitations à l'écriture à la mise en évidence automatique des "
+"Des sujets de rédaction jusqu'à la mise en évidence automatique des "
 "corrections en couleur, apprendre à écrire dans une autre langue n'a jamais "
 "été aussi facile."
 
@@ -1176,7 +1182,7 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"Que vous soyez courant ou débutant, nous serions ravis de vous voir rejoindre la communauté LangCorrect. Nous sommes tous des apprenants et nous comprenons qu'il est important de faire des erreurs pour atteindre la fluidité et la confiance dans une nouvelle langue. Les merveilleux utilisateurs de LangCorrect sont prêts à vous aider, à vous soutenir et à répondre à vos questions brûlantes afin que vous puissiez atteindre le niveau que vous souhaitez dans votre nouvelle langue."
+"Que vous soyez débutant ou parliez couramment, nous serions ravis de vous voir rejoindre la communauté LangCorrect. Nous sommes tous des apprenants et nous comprenons qu'il est important de faire des erreurs pour atteindre la fluidité et la confiance dans une nouvelle langue. Les merveilleux utilisateurs de LangCorrect sont prêts à vous aider, à vous soutenir et à répondre à vos questions brûlantes afin que vous puissiez atteindre le niveau que vous souhaitez dans votre nouvelle langue."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1248,7 +1254,7 @@ msgstr "Langues et dialectes disponibles"
 
 #: langcorrect/templates/pages/pricing.html:51
 msgid "Unlimited Writing Prompts"
-msgstr "Incitations à l'écriture illimitées"
+msgstr "Sujets de rédaction illimités"
 
 #: langcorrect/templates/pages/pricing.html:60
 msgid "Participation in Writing Challenges"
@@ -1284,7 +1290,7 @@ msgstr "Options d'exportation"
 
 #: langcorrect/templates/pages/pricing.html:120
 msgid "Image Attachments in Journals"
-msgstr "Pièces jointes d'images dans les journaux"
+msgstr "Images jointes dans les journaux"
 
 #: langcorrect/templates/pages/pricing.html:127
 msgid "Exemption from Correction Ratio"
@@ -1292,7 +1298,7 @@ msgstr "Exemption du taux de correction"
 
 #: langcorrect/templates/pages/pricing.html:134
 msgid "Anki Integration"
-msgstr "Intégration Anki"
+msgstr "Intégration avec Anki"
 
 #: langcorrect/templates/pages/pricing.html:136
 #: langcorrect/templates/pages/pricing.html:141
@@ -1358,7 +1364,8 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"Êtes-vous sûr de vouloir supprimer %(post_title)s ?"
+"        Êtes-vous sûr de vouloir supprimer %(post_title)s ?"
+"      "
 
 #: langcorrect/templates/posts/post_detail.html:13
 msgid "Attachments"
@@ -1429,7 +1436,7 @@ msgstr "Vous ne suivez encore personne."
 
 #: langcorrect/templates/posts/post_list.html:75
 msgid "Follow users to see their latest posts here."
-msgstr "Suivez les utilisateurs pour voir leurs derniers articles ici."
+msgstr "Suivez des utilisateurs pour voir leurs derniers articles ici."
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
 #: langcorrect/templates/prompts/prompt_detail.html:33
@@ -1438,11 +1445,11 @@ msgstr "Répondre"
 
 #: langcorrect/templates/prompts/prompt_list.html:16
 msgid "Create a prompt"
-msgstr "Créer une incitation"
+msgstr "Créer un sujet de rédaction"
 
 #: langcorrect/templates/prompts/prompt_list.html:21
 msgid "View prompts that you have not yet responded to"
-msgstr "Voir les incitations auxquelles vous n'avez pas encore répondu"
+msgstr "Voir les sujets de rédaction auxquelles vous n'avez pas encore contribué"
 
 #: langcorrect/templates/prompts/prompt_list.html:22
 msgid "Open"
@@ -1450,7 +1457,7 @@ msgstr "Ouvert"
 
 #: langcorrect/templates/prompts/prompt_list.html:24
 msgid "View prompts that you have responded to"
-msgstr "Voir les incitations auxquelles vous avez répondu"
+msgstr "Voir les sujets de rédaction auxquelles vous avez contribué"
 
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
@@ -1502,7 +1509,7 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
-"Suivant (%(count)s)"
+"Abonnements (%(count)s)"
 
 #: langcorrect/templates/users/user_detail.html:82
 #, python-format

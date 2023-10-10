@@ -4,7 +4,14 @@ register = template.Library()
 
 
 @register.inclusion_tag("posts/partials/post_card.html")
-def render_post_card(instance, current_user, correctors, disable_stretched_link=False, disable_text_truncation=False):
+def render_post_card(
+    instance,
+    current_user,
+    correctors,
+    disable_native_text=False,
+    disable_stretched_link=False,
+    disable_text_truncation=False,
+):
     user = instance.user
     created = instance.created
     post = instance
@@ -22,6 +29,7 @@ def render_post_card(instance, current_user, correctors, disable_stretched_link=
         "post": post,
         "disable_stretched_link": disable_stretched_link,
         "disable_text_truncation": disable_text_truncation,
+        "disable_native_text": disable_native_text,
     }
 
 

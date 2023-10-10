@@ -2,6 +2,7 @@ import notifications.urls
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
@@ -13,10 +14,41 @@ from langcorrect.contributions.views import rankings_list_view
 from langcorrect.posts.views import user_posts_view
 from langcorrect.prompts.views import user_prompts_view
 
+from .sitemaps import PostSiteMap, StaticViewSitemap
+
+sitemaps = {"posts": PostSiteMap, "static": StaticViewSitemap}
+
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("", view=index_page_view, name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    path(
+        "community-guidelines/",
+        TemplateView.as_view(template_name="pages/community_guidelines.html"),
+        name="community-guidelines",
+    ),
+    path(
+        "privacy/",
+        TemplateView.as_view(template_name="pages/privacy_policy.html"),
+        name="privacy-policy",
+    ),
+    path(
+        "terms/",
+        TemplateView.as_view(template_name="pages/terms_of_service.html"),
+        name="terms-of-service",
+    ),
+    path(
+        "sitemap.xml",
+        sitemap_views.index,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.index",
+    ),
+    path(
+        "sitemap-<section>.xml",
+        sitemap_views.sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
