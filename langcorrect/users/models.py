@@ -123,6 +123,10 @@ class User(AbstractUser):
     def writing_streak(self):
         return Contribution.objects.get(user=self).writing_streak
 
+    @property
+    def display_name(self):
+        return self.nick_name if self.nick_name else self.username
+
 
 @receiver(post_save, sender=User)
 def create_contribution_user(sender, instance, created, **kwargs):
