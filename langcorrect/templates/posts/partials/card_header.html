@@ -5,12 +5,11 @@
   <div class="d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
       <a href="{{ user.get_absolute_url }}">
-        <img src="{{ user.avatar }}"
-             alt="{{ user.nick_name|default_if_none:user.username }}'s avatar" />
+        <img src="{{ user.avatar }}" alt="{{ user.display_name }}'s avatar" />
       </a>
       <div>
         <a href="{{ user.get_absolute_url }}"
-           class="card-title mb-0 text-decoration-none {% if user.is_premium_user %}text-premium{% else %}text-reset{% endif %}">{{ user.nick_name|default_if_none:user.username }}</a>
+           class="card-title mb-0 text-decoration-none {% if user.is_premium_user %}text-premium{% else %}text-reset{% endif %}">{{ user.display_name }}</a>
         <p class="mb-0 small text-muted">{{ created|naturalday }}</p>
       </div>
     </div>

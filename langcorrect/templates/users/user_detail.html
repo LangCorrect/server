@@ -6,8 +6,7 @@
 {% load humanize %}
 
 {% block title %}
-  User:
-  {{ object.username }}
+  My Profile
 {% endblock title %}
 {% block javascript %}
   {{ block.super }}
@@ -27,9 +26,7 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img src="{{ object.avatar }}" alt="profile img" />
-                <h6 class="mb-0 text-break {% if object.is_premium_user %}text-premium{% endif %}">
-                  {{ object.nick_name|default_if_none:object.username }}
-                </h6>
+                <h6 class="mb-0 text-break {% if object.is_premium_user %}text-premium{% endif %}">{{ object.display_name }}</h6>
               </div>
               {% include "posts/partials/card_badges.html" %}
             </div>
