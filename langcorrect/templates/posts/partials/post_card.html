@@ -49,6 +49,14 @@
           <a href="{% url 'posts:update' post.slug %}"
              class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
         </div>
+      {% elif post.language not in current_user.native_languages %}
+        <div data-bs-toggle="tooltip"
+             data-bs-placement="bottom"
+             data-bs-title="You can only correct journals in your native language(s)">
+          <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+            <i class="fa-solid fa-ban"></i>
+          </button>
+        </div>
       {% else %}
         <a href="{% url 'posts:make-corrections' post.slug %}"
            class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
