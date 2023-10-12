@@ -6,7 +6,11 @@
 {% load humanize %}
 
 {% block title %}
-  My Profile
+  {% if request.user == object %}
+    My Profile
+  {% else %}
+    {{ object.display_name }}'s Profile
+  {% endif %}
 {% endblock title %}
 {% block javascript %}
   {{ block.super }}
