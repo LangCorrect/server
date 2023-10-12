@@ -17,7 +17,10 @@
       <p class="mb-0 {% if not disable_text_truncation %}truncate-text-post-card{% endif %}">
         {{ post.text|linebreaksbr }}
       </p>
-      {% if not disable_native_text %}<p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>{% endif %}
+      {% if not disable_native_text and post.native_text %}
+        <hr class="text-muted" />
+        <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
+      {% endif %}
       {% if not disable_stretched_link %}
         <a href="{{ post.get_absolute_url }}"
            class="stretched-link link-secondary"></a>
