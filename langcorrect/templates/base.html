@@ -106,7 +106,9 @@
     {% include "footer.html" %}
     <!-- /container -->
     {% block modal %}
-      {% include "modals/notifications.html" %}
+      {% if request.user.is_authenticated %}
+        {% include "modals/notifications.html" %}
+      {% endif %}
     {% endblock modal %}
     {% block inline_javascript %}
       {% comment %}
