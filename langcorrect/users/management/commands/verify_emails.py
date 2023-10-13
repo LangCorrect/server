@@ -9,20 +9,23 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "Verify all email addresses for user accounts that have the flag is_verified set to True"
+    help = "Store and verify email addresses previously verified in the old code base"
 
     def handle(self, *args, **options):
-        verified_users = User.objects.filter(is_verified=True).prefetch_related("emailaddress_set")
+        verified_users = User.objects.filter(is_verified=True)
 
         for user in verified_users:
-            # user may have an email address that has not been stored in allauth's EmailAddress
-            if not EmailAddress.objects.filter(email=user.email).exists():
-                EmailAddress.objects.create(user=user, email=user.email, verified=True)
+            # get: if user has attempted to log in after the migration
+            #   -> the email has been automatically added to EmailAddress
+            # create: if user has NOT attempted to log in
+            #   -> the email has not been added to EmailAddress
+            previously_verified_email, _ = EmailAddress.objects.get_or_create(user=user, email=user.email)
 
-            for email_address in user.emailaddress_set.all():
-                if not email_address.verified:
-                    try:
-                        email_address.verified = True
-                        email_address.save()
-                    except Exception as e:
-                        logger.error(f"Failed to verify email {email_address.email}: {e}")
+            # verify and set this email as primary if not already manually done by user
+            if not (previously_verified_email.verified and previously_verified_email.primary):
+                try:
+                    previously_verified_email.verified = True
+                    previously_verified_email.primary = True
+                    previously_verified_email.save()
+                except Exception as e:
+                    logger.error(f"Failed to verify email {previously_verified_email.email}: {e}")
