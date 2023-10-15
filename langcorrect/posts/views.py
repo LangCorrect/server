@@ -53,7 +53,7 @@ class PostListView(ListView):
         if mode == "following":
             qs = qs.filter(user__in=current_user.get_following_users_ids)
         elif mode == "learn":
-            qs = qs.filter(language__in=current_user.studying_languages)
+            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=1)
         else:
             qs = qs.filter(language__in=current_user.native_languages)
 
