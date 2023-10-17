@@ -1,5 +1,53 @@
 /* These styles are generated from project.scss. */
 
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('../fonts/NotoSansJP-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('../fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
 :root {
   --color-premium: #ff9066;
   --color-premium-hover: #ec7e56;
@@ -7,7 +55,7 @@
 
 body {
   background: #f1f4f8;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
 }
 
 .color-premium {
