@@ -8,10 +8,10 @@ watchfiles==0.19.0  # https://github.com/samuelcolvin/watchfiles
 # Testing
 # ------------------------------------------------------------------------------
 mypy==1.4.1  # https://github.com/python/mypy
-django-stubs==4.2.3  # https://github.com/typeddjango/django-stubs
+django-stubs==4.2.4  # https://github.com/typeddjango/django-stubs
 pytest==7.4.0  # https://github.com/pytest-dev/pytest
 pytest-sugar==0.9.7  # https://github.com/Frozenball/pytest-sugar
-djangorestframework-stubs==3.14.2  # https://github.com/typeddjango/djangorestframework-stubs
+djangorestframework-stubs==3.14.3  # https://github.com/typeddjango/djangorestframework-stubs
 
 # Documentation
 # ------------------------------------------------------------------------------
@@ -20,8 +20,8 @@ sphinx-autobuild==2021.3.14 # https://github.com/GaretJax/sphinx-autobuild
 
 # Code quality
 # ------------------------------------------------------------------------------
-flake8==6.0.0  # https://github.com/PyCQA/flake8
-flake8-isort==6.0.0  # https://github.com/gforcada/flake8-isort
+flake8==6.1.0  # https://github.com/PyCQA/flake8
+flake8-isort==6.1.0  # https://github.com/gforcada/flake8-isort
 coverage==7.2.7  # https://github.com/nedbat/coveragepy
 black==23.7.0  # https://github.com/psf/black
 djlint==1.34.0  # https://github.com/Riverside-Healthcare/djLint

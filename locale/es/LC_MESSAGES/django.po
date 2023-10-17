@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:11+0000\n"
+"POT-Creation-Date: 2023-10-17 07:20+0000\n"
 "PO-Revision-Date: 2023-09-24 21:58+0000\n"
 "Last-Translator:   <admin@dundermifflin.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
-
-#: config/settings/base.py:33
-msgid "العربية"
-msgstr ""
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -47,43 +43,43 @@ msgstr "Finlandés"
 msgid "Français"
 msgstr "Francés"
 
-#: config/settings/base.py:40
-msgid "עברית"
-msgstr "Hebreo"
-
 #: config/settings/base.py:41
+msgid "Hrvatski"
+msgstr ""
+
+#: config/settings/base.py:42
 msgid "Italiano"
 msgstr "Italiano"
 
-#: config/settings/base.py:42
+#: config/settings/base.py:43
 msgid "日本語"
 msgstr "Japonés"
 
-#: config/settings/base.py:43
+#: config/settings/base.py:44
 msgid "한국어"
 msgstr "Coreano"
 
-#: config/settings/base.py:44
+#: config/settings/base.py:45
 msgid "Polski"
 msgstr "Polaco"
 
-#: config/settings/base.py:45
+#: config/settings/base.py:46
 msgid "Português"
 msgstr "Portugués"
 
-#: config/settings/base.py:46
+#: config/settings/base.py:47
 msgid "Русский"
 msgstr "Ruso"
 
-#: config/settings/base.py:47
+#: config/settings/base.py:48
 msgid "Türkçe"
 msgstr "Turco"
 
-#: config/settings/base.py:48
+#: config/settings/base.py:49
 msgid "简体中文"
 msgstr "Chino simplificado"
 
-#: config/settings/base.py:49
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr "Chino tradicional"
 
@@ -162,6 +158,10 @@ msgstr "Nativo"
 #: langcorrect/memberships/apps.py:8
 msgid "Memberships"
 msgstr "Membresías"
+
+#: langcorrect/posts/api/views.py:31
+msgid "replied on"
+msgstr ""
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -298,12 +298,11 @@ msgstr "Advertencia:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 "Actualmente no tienes ninguna dirección de correo electrónico configurada. "
-"Deberías agregar una para recibir notificaciones, restablecer tu contraseña,"
-" etc."
+"Deberías agregar una para recibir notificaciones, restablecer tu contraseña, "
+"etc."
 
 #: langcorrect/templates/account/email.html:55
 msgid "Add E-mail Address"
@@ -327,21 +326,28 @@ msgstr "¡Bienvenido a %(site_name)s!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has "
+"given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Estás recibiendo este correo electrónico porque el usuario %(user_display)s ha dado tu dirección de correo electrónico para registrarse en %(site_domain)s."
+"Estás recibiendo este correo electrónico porque el usuario %(user_display)s "
+"ha dado tu dirección de correo electrónico para registrarse en "
+"%(site_domain)s."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
+"          To complete your registration and gain full access to all "
+"features, please verify your e-mail address by going to %(activate_url)s, or "
+"clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Para completar tu registro y obtener acceso completo a todas las funciones, verifica tu dirección de correo electrónico yendo a %(activate_url)s o haciendo clic en el botón de abajo."
+"Para completar tu registro y obtener acceso completo a todas las funciones, "
+"verifica tu dirección de correo electrónico yendo a %(activate_url)s o "
+"haciendo clic en el botón de abajo."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -351,11 +357,13 @@ msgstr "Verificar dirección de correo electrónico"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or "
+"contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Si no te has registrado en %(site_name)s, puedes ignorar este correo electrónico o contactarnos para obtener asistencia."
+"Si no te has registrado en %(site_name)s, puedes ignorar este correo "
+"electrónico o contactarnos para obtener asistencia."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -382,13 +390,13 @@ msgid ""
 "href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 "Este enlace de confirmación de correo electrónico ha caducado o no es "
-"válido. Por favor, <a href=\"%(email_url)s\">solicita una nueva confirmación"
-" de correo electrónico</a>."
+"válido. Por favor, <a href=\"%(email_url)s\">solicita una nueva confirmación "
+"de correo electrónico</a>."
 
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
 #: langcorrect/templates/account/login.html:49
-#: langcorrect/templates/navbar.html:73
+#: langcorrect/templates/navbar.html:69
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
 msgstr "Iniciar sesión"
@@ -452,8 +460,8 @@ msgstr "Restablecer contraseña"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 "¿Has olvidado tu contraseña? Ingresa tu dirección de correo electrónico a "
 "continuación y te enviaremos un correo electrónico que te permitirá "
@@ -485,8 +493,8 @@ msgstr "Token inválido"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
 "El enlace para restablecer la contraseña era inválido, posiblemente porque "
 "ya se ha utilizado. Por favor, solicita un <a "
@@ -602,8 +610,8 @@ msgid ""
 "verify ownership of your e-mail address. "
 msgstr ""
 "Esta parte del sitio requiere que verifiquemos que eres quien dices ser. "
-"Para ello, necesitamos que verifiques la propiedad de tu dirección de correo"
-" electrónico."
+"Para ello, necesitamos que verifiques la propiedad de tu dirección de correo "
+"electrónico."
 
 #: langcorrect/templates/account/verified_email_required.html:17
 msgid ""
@@ -618,8 +626,8 @@ msgstr ""
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
 msgstr ""
 "<strong>Nota:</strong> aún puedes <a href=\"%(email_url)s\">cambiar tu "
 "dirección de correo electrónico</a>."
@@ -698,12 +706,11 @@ msgstr "Comentario o retroalimentación general"
 
 #: langcorrect/templates/corrections/make_corrections.html:68
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are"
-" all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are "
+"all here to learn, so let's encourage and support one another."
 msgstr ""
 "Si deseas incluir retroalimentación, asegúrate de que sea constructiva. "
-"Todos estamos aquí para aprender, así que animémonos y apoyémonos "
-"mutuamente."
+"Todos estamos aquí para aprender, así que animémonos y apoyémonos mutuamente."
 
 #: langcorrect/templates/corrections/make_corrections.html:83
 #: langcorrect/templates/modals/discard_modal.html:18
@@ -727,7 +734,8 @@ msgstr "Enviar"
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as perfect!\n"
+"                    %(user_count)s users have marked this sentence as "
+"perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -738,7 +746,8 @@ msgid "Original"
 msgstr "Original"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:56
+#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Corregido"
 
@@ -784,7 +793,6 @@ msgid "No corrections have been made"
 msgstr "No se han realizado correcciones"
 
 #: langcorrect/templates/corrections/popular_correctors.html:96
-#: langcorrect/templates/posts/post_list.html:83
 msgid "View all"
 msgstr "Ver todos"
 
@@ -801,42 +809,26 @@ msgid "Following"
 msgstr "Siguiendo"
 
 #: langcorrect/templates/footer.html:7
-msgid "About"
-msgstr "Acerca de"
-
-#: langcorrect/templates/footer.html:11
-msgid "Changelog"
-msgstr "Registro de cambios"
-
-#: langcorrect/templates/footer.html:15
-msgid "Credits"
-msgstr "Créditos"
-
-#: langcorrect/templates/footer.html:18
-msgid "Logo Breakdown"
-msgstr "Desglose del logo"
-
-#: langcorrect/templates/footer.html:23
 msgid "Legal"
 msgstr "Legal"
 
-#: langcorrect/templates/footer.html:27
+#: langcorrect/templates/footer.html:10
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: langcorrect/templates/footer.html:31
+#: langcorrect/templates/footer.html:14
 msgid "Community Guidelines"
 msgstr "Normas de la comunidad"
 
-#: langcorrect/templates/footer.html:35
+#: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
 msgstr "Términos del servicio"
 
-#: langcorrect/templates/footer.html:42
+#: langcorrect/templates/footer.html:24
 msgid "Site Languages"
 msgstr "Idiomas del sitio"
 
-#: langcorrect/templates/footer.html:58
+#: langcorrect/templates/footer.html:40
 msgid "Go"
 msgstr "Ir"
 
@@ -844,7 +836,8 @@ msgstr "Ir"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list "
+"of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -860,8 +853,9 @@ msgstr "Cancelar"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:47
+#: langcorrect/templates/posts/partials/post_card.html:48
 #: langcorrect/templates/posts/post_confirm_delete.html:19
+#: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -874,6 +868,8 @@ msgid "Add Language"
 msgstr "Añadir idioma"
 
 #: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
 msgid "Language"
 msgstr "Idioma"
 
@@ -882,11 +878,13 @@ msgid "Level"
 msgstr "Nivel"
 
 #: langcorrect/templates/languages/languagelevel_list.html:15
+#: langcorrect/templates/posts/user_posts.html:24
 msgid "Actions"
 msgstr "Acciones"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:49
+#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Editar"
 
@@ -920,19 +918,19 @@ msgstr "¿Cómo te gustaría exportar las correcciones?"
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: langcorrect/templates/modals/notifications.html:47
+#: langcorrect/templates/modals/notifications.html:49
 msgid "No notifications yet!"
 msgstr "¡Todavía no hay notificaciones!"
 
-#: langcorrect/templates/modals/notifications.html:48
+#: langcorrect/templates/modals/notifications.html:50
 msgid "We'll notify you when something arrives!"
 msgstr "¡Te notificaremos cuando llegue algo!"
 
-#: langcorrect/templates/modals/notifications.html:55
+#: langcorrect/templates/modals/notifications.html:57
 msgid "Delete all notifications"
 msgstr "Eliminar todas las notificaciones"
 
-#: langcorrect/templates/modals/notifications.html:56
+#: langcorrect/templates/modals/notifications.html:58
 msgid "Close"
 msgstr "Cerrar"
 
@@ -948,66 +946,65 @@ msgstr "Sugerencias para escribir"
 msgid "Community"
 msgstr "Comunidad"
 
-#: langcorrect/templates/navbar.html:58
-msgid "Forums"
-msgstr "Foros"
-
-#: langcorrect/templates/navbar.html:61
+#: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Clasificaciones"
 
-#: langcorrect/templates/navbar.html:81
+#: langcorrect/templates/navbar.html:77
 msgid "Write"
 msgstr "Escribir"
 
-#: langcorrect/templates/navbar.html:119
+#: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
 msgstr "Administrar Premium"
 
-#: langcorrect/templates/navbar.html:124
+#: langcorrect/templates/navbar.html:120
 msgid "Get Premium"
 msgstr "Obtener Premium"
 
-#: langcorrect/templates/navbar.html:131
+#: langcorrect/templates/navbar.html:127
+#: langcorrect/templates/posts/user_posts.html:9
+#: langcorrect/templates/posts/user_posts.html:12
 msgid "My Journals"
 msgstr "Mis diarios"
 
-#: langcorrect/templates/navbar.html:137
+#: langcorrect/templates/navbar.html:133
+#: langcorrect/templates/prompts/user_prompts.html:10
 msgid "My Prompts"
 msgstr "Mis sugerencias"
 
-#: langcorrect/templates/navbar.html:146
+#: langcorrect/templates/navbar.html:142
 msgid "Logout"
 msgstr "Cerrar sesión"
 
-#: langcorrect/templates/navbar.html:167
+#: langcorrect/templates/navbar.html:163
 msgid "Visit your profile"
 msgstr "Visita tu perfil"
 
-#: langcorrect/templates/navbar.html:175
+#: langcorrect/templates/navbar.html:171
 msgid "Member role"
 msgstr "Rol de miembro"
 
-#: langcorrect/templates/navbar.html:178
+#: langcorrect/templates/navbar.html:174
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr "Premium"
 
-#: langcorrect/templates/navbar.html:180
+#: langcorrect/templates/navbar.html:176
 msgid "Member"
 msgstr "Miembro"
 
-#: langcorrect/templates/navbar.html:186
+#: langcorrect/templates/navbar.html:182
 msgid "Total corrections made"
 msgstr "Total de correcciones realizadas"
 
-#: langcorrect/templates/navbar.html:193
+#: langcorrect/templates/navbar.html:189
 msgid "Total corrections received"
 msgstr "Total de correcciones recibidas"
 
-#: langcorrect/templates/navbar.html:200
+#: langcorrect/templates/navbar.html:196
 msgid "Correction ratio"
 msgstr "Relación de corrección"
 
@@ -1051,8 +1048,8 @@ msgstr "Registrar una cuenta"
 
 #: langcorrect/templates/pages/home.html:54
 msgid ""
-"We start with a short 3-step registration process to help us determine users"
-" you should be match with."
+"We start with a short 3-step registration process to help us determine users "
+"you should be match with."
 msgstr ""
 "Comenzamos con un breve proceso de registro en 3 pasos para ayudarnos a "
 "determinar con qué usuarios debes ser emparejado."
@@ -1113,8 +1110,8 @@ msgstr "Mejorando constantemente"
 
 #: langcorrect/templates/pages/home.html:90
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct"
-" feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct "
+"feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 "La plataforma de LangCorrect mejora constantemente. La retroalimentación "
@@ -1128,8 +1125,8 @@ msgstr "Aprende con amigos"
 
 #: langcorrect/templates/pages/home.html:96
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who"
-" can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who "
+"can earn the highest Rankings and Streaks."
 msgstr ""
 "Invita a tus amigos a unirse a LangCorrect y desafíense mutuamente para ver "
 "quién puede obtener las clasificaciones y rachas más altas."
@@ -1144,8 +1141,8 @@ msgid ""
 "learning to write in another language has never been this easy."
 msgstr ""
 " Desde sugerencias para escribir hasta resaltado automático de correcciones "
-"codificado por colores, aprender a escribir en otro idioma nunca ha sido tan"
-" fácil."
+"codificado por colores, aprender a escribir en otro idioma nunca ha sido tan "
+"fácil."
 
 #: langcorrect/templates/pages/home.html:106
 msgid "Built-in messaging"
@@ -1154,12 +1151,12 @@ msgstr "Mensajería integrada"
 #: langcorrect/templates/pages/home.html:108
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around"
-" the globe."
+"feature. This is a great way to make new friends and meet people from around "
+"the globe."
 msgstr ""
 "Tómate un descanso para relajarte y chatear con otros aprendices usando la "
-"función de mensajería. Esta es una excelente manera de hacer nuevos amigos y"
-" conocer gente de todo el mundo."
+"función de mensajería. Esta es una excelente manera de hacer nuevos amigos y "
+"conocer gente de todo el mundo."
 
 #: langcorrect/templates/pages/home.html:118
 msgid "Join today and experience language-learning, redefined."
@@ -1168,16 +1165,25 @@ msgstr "Únete hoy y experimenta el aprendizaje de idiomas, redefinido."
 #: langcorrect/templates/pages/home.html:120
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d "
+"be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in "
+"order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
-"                            burning questions so that you can reach the level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help "
+"you, provide support, and answer your\n"
+"                            burning questions so that you can reach the "
+"level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Ya seas fluido o estés empezando, estaríamos encantados de que te unas a la comunidad de LangCorrect. Todos somos aprendices y entendemos que para alcanzar fluidez y confianza en un nuevo idioma, es importante cometer errores. Los maravillosos usuarios de LangCorrect están listos para ayudarte, brindarte apoyo y responder tus preguntas urgentes para que puedas alcanzar el nivel que deseas en tu nuevo idioma."
+"Ya seas fluido o estés empezando, estaríamos encantados de que te unas a la "
+"comunidad de LangCorrect. Todos somos aprendices y entendemos que para "
+"alcanzar fluidez y confianza en un nuevo idioma, es importante cometer "
+"errores. Los maravillosos usuarios de LangCorrect están listos para "
+"ayudarte, brindarte apoyo y responder tus preguntas urgentes para que puedas "
+"alcanzar el nivel que deseas en tu nuevo idioma."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1311,11 +1317,17 @@ msgstr "Apoya a nuestra comunidad"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just "
+"investing in your own language learning journey. You're also helping us keep "
+"the basic features free for everyone. Your support sustains this platform "
+"and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Al optar por una suscripción anual Premium, no solo estás invirtiendo en tu propio viaje de aprendizaje de idiomas. También nos ayudas a mantener las funciones básicas gratuitas para todos. Tu apoyo sostiene esta plataforma y fomenta una comunidad global de aprendices de por vida."
+"Al optar por una suscripción anual Premium, no solo estás invirtiendo en tu "
+"propio viaje de aprendizaje de idiomas. También nos ayudas a mantener las "
+"funciones básicas gratuitas para todos. Tu apoyo sostiene esta plataforma y "
+"fomenta una comunidad global de aprendices de por vida."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1342,11 +1354,11 @@ msgstr "Racha de escritura"
 msgid "Language Match"
 msgstr "Emparejamiento de idiomas"
 
-#: langcorrect/templates/posts/partials/post_card.html:39
+#: langcorrect/templates/posts/partials/post_card.html:40
 msgid "Correctors"
 msgstr "Correctores"
 
-#: langcorrect/templates/posts/partials/post_card.html:58
+#: langcorrect/templates/posts/partials/post_card.html:59
 msgid "Correct"
 msgstr "Corregir"
 
@@ -1416,17 +1428,31 @@ msgstr "Aprende"
 msgid "Browse journals written by users you are following."
 msgstr "Explora diarios escritos por usuarios a los que estás siguiendo."
 
-#: langcorrect/templates/posts/post_list.html:56
-msgid "Following feed"
-msgstr "Feed de seguidos"
+#: langcorrect/templates/posts/post_list.html:61
+msgid "Feedback & Feature Requests"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:73
-msgid "You're not following anyone yet."
-msgstr "Todavía no estás siguiendo a nadie."
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:75
-msgid "Follow users to see their latest posts here."
-msgstr "Sigue a usuarios para ver sus últimas publicaciones aquí."
+#: langcorrect/templates/posts/user_posts.html:20
+msgid "Tags"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:21
+msgid "Date"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:23
+msgid "Visibility"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:47
+#, fuzzy
+#| msgid "View all"
+msgid "View"
+msgstr "Ver todos"
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
 #: langcorrect/templates/prompts/prompt_detail.html:33
@@ -1452,6 +1478,22 @@ msgstr "Ver sugerencias a las que has respondido"
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
 msgstr "Completado"
+
+#: langcorrect/templates/prompts/user_prompts.html:18
+#, fuzzy
+#| msgid "Prompts"
+msgid "Prompt"
+msgstr "Sugerencias"
+
+#: langcorrect/templates/prompts/user_prompts.html:19
+#, fuzzy
+#| msgid "Respond"
+msgid "Responses"
+msgstr "Responder"
+
+#: langcorrect/templates/prompts/user_prompts.html:21
+msgid "Created"
+msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:37
 msgid "Community Stats"
@@ -1527,7 +1569,8 @@ msgstr "Correo electrónico"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions "
+"this year\n"
 "                   "
 msgstr ""
 "\n"
@@ -1580,3 +1623,30 @@ msgstr "Biografía"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Información actualizada con éxito"
+
+#~ msgid "עברית"
+#~ msgstr "Hebreo"
+
+#~ msgid "About"
+#~ msgstr "Acerca de"
+
+#~ msgid "Changelog"
+#~ msgstr "Registro de cambios"
+
+#~ msgid "Credits"
+#~ msgstr "Créditos"
+
+#~ msgid "Logo Breakdown"
+#~ msgstr "Desglose del logo"
+
+#~ msgid "Forums"
+#~ msgstr "Foros"
+
+#~ msgid "Following feed"
+#~ msgstr "Feed de seguidos"
+
+#~ msgid "You're not following anyone yet."
+#~ msgstr "Todavía no estás siguiendo a nadie."
+
+#~ msgid "Follow users to see their latest posts here."
+#~ msgstr "Sigue a usuarios para ver sus últimas publicaciones aquí."

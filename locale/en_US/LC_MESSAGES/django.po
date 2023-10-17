@@ -7,15 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:10+0000\n"
+"POT-Creation-Date: 2023-10-17 07:20+0000\n"
 "Language: en-US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: config/settings/base.py:33
-msgid "العربية"
-msgstr ""
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -41,43 +37,43 @@ msgstr ""
 msgid "Français"
 msgstr ""
 
-#: config/settings/base.py:40
-msgid "עברית"
-msgstr ""
-
 #: config/settings/base.py:41
-msgid "Italiano"
+msgid "Hrvatski"
 msgstr ""
 
 #: config/settings/base.py:42
-msgid "日本語"
+msgid "Italiano"
 msgstr ""
 
 #: config/settings/base.py:43
-msgid "한국어"
+msgid "日本語"
 msgstr ""
 
 #: config/settings/base.py:44
-msgid "Polski"
+msgid "한국어"
 msgstr ""
 
 #: config/settings/base.py:45
-msgid "Português"
+msgid "Polski"
 msgstr ""
 
 #: config/settings/base.py:46
-msgid "Русский"
+msgid "Português"
 msgstr ""
 
 #: config/settings/base.py:47
-msgid "Türkçe"
+msgid "Русский"
 msgstr ""
 
 #: config/settings/base.py:48
-msgid "简体中文"
+msgid "Türkçe"
 msgstr ""
 
 #: config/settings/base.py:49
+msgid "简体中文"
+msgstr ""
+
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr ""
 
@@ -155,6 +151,10 @@ msgstr ""
 
 #: langcorrect/memberships/apps.py:8
 msgid "Memberships"
+msgstr ""
+
+#: langcorrect/posts/api/views.py:31
+msgid "replied on"
 msgstr ""
 
 #: langcorrect/posts/apps.py:8
@@ -368,7 +368,7 @@ msgstr ""
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
 #: langcorrect/templates/account/login.html:49
-#: langcorrect/templates/navbar.html:73
+#: langcorrect/templates/navbar.html:69
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
 msgstr ""
@@ -676,7 +676,8 @@ msgid "Original"
 msgstr ""
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:56
+#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr ""
 
@@ -720,7 +721,6 @@ msgid "No corrections have been made"
 msgstr ""
 
 #: langcorrect/templates/corrections/popular_correctors.html:96
-#: langcorrect/templates/posts/post_list.html:83
 msgid "View all"
 msgstr ""
 
@@ -737,42 +737,26 @@ msgid "Following"
 msgstr ""
 
 #: langcorrect/templates/footer.html:7
-msgid "About"
-msgstr ""
-
-#: langcorrect/templates/footer.html:11
-msgid "Changelog"
-msgstr ""
-
-#: langcorrect/templates/footer.html:15
-msgid "Credits"
-msgstr ""
-
-#: langcorrect/templates/footer.html:18
-msgid "Logo Breakdown"
-msgstr ""
-
-#: langcorrect/templates/footer.html:23
 msgid "Legal"
 msgstr ""
 
-#: langcorrect/templates/footer.html:27
+#: langcorrect/templates/footer.html:10
 msgid "Privacy Policy"
 msgstr ""
 
-#: langcorrect/templates/footer.html:31
+#: langcorrect/templates/footer.html:14
 msgid "Community Guidelines"
 msgstr ""
 
-#: langcorrect/templates/footer.html:35
+#: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
 msgstr ""
 
-#: langcorrect/templates/footer.html:42
+#: langcorrect/templates/footer.html:24
 msgid "Site Languages"
 msgstr ""
 
-#: langcorrect/templates/footer.html:58
+#: langcorrect/templates/footer.html:40
 msgid "Go"
 msgstr ""
 
@@ -795,8 +779,9 @@ msgstr ""
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:47
+#: langcorrect/templates/posts/partials/post_card.html:48
 #: langcorrect/templates/posts/post_confirm_delete.html:19
+#: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
 msgstr ""
 
@@ -809,6 +794,8 @@ msgid "Add Language"
 msgstr ""
 
 #: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
 msgid "Language"
 msgstr ""
 
@@ -817,11 +804,13 @@ msgid "Level"
 msgstr ""
 
 #: langcorrect/templates/languages/languagelevel_list.html:15
+#: langcorrect/templates/posts/user_posts.html:24
 msgid "Actions"
 msgstr ""
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:49
+#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr ""
 
@@ -855,19 +844,19 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: langcorrect/templates/modals/notifications.html:47
+#: langcorrect/templates/modals/notifications.html:49
 msgid "No notifications yet!"
 msgstr ""
 
-#: langcorrect/templates/modals/notifications.html:48
+#: langcorrect/templates/modals/notifications.html:50
 msgid "We'll notify you when something arrives!"
 msgstr ""
 
-#: langcorrect/templates/modals/notifications.html:55
+#: langcorrect/templates/modals/notifications.html:57
 msgid "Delete all notifications"
 msgstr ""
 
-#: langcorrect/templates/modals/notifications.html:56
+#: langcorrect/templates/modals/notifications.html:58
 msgid "Close"
 msgstr ""
 
@@ -883,66 +872,65 @@ msgstr ""
 msgid "Community"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:58
-msgid "Forums"
-msgstr ""
-
-#: langcorrect/templates/navbar.html:61
+#: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:81
+#: langcorrect/templates/navbar.html:77
 msgid "Write"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:119
+#: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:124
+#: langcorrect/templates/navbar.html:120
 msgid "Get Premium"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:131
+#: langcorrect/templates/navbar.html:127
+#: langcorrect/templates/posts/user_posts.html:9
+#: langcorrect/templates/posts/user_posts.html:12
 msgid "My Journals"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:137
+#: langcorrect/templates/navbar.html:133
+#: langcorrect/templates/prompts/user_prompts.html:10
 msgid "My Prompts"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:146
+#: langcorrect/templates/navbar.html:142
 msgid "Logout"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:167
+#: langcorrect/templates/navbar.html:163
 msgid "Visit your profile"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:175
+#: langcorrect/templates/navbar.html:171
 msgid "Member role"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:178
+#: langcorrect/templates/navbar.html:174
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:180
+#: langcorrect/templates/navbar.html:176
 msgid "Member"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:186
+#: langcorrect/templates/navbar.html:182
 msgid "Total corrections made"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:193
+#: langcorrect/templates/navbar.html:189
 msgid "Total corrections received"
 msgstr ""
 
-#: langcorrect/templates/navbar.html:200
+#: langcorrect/templates/navbar.html:196
 msgid "Correction ratio"
 msgstr ""
 
@@ -1250,11 +1238,11 @@ msgstr ""
 msgid "Language Match"
 msgstr ""
 
-#: langcorrect/templates/posts/partials/post_card.html:39
+#: langcorrect/templates/posts/partials/post_card.html:40
 msgid "Correctors"
 msgstr ""
 
-#: langcorrect/templates/posts/partials/post_card.html:58
+#: langcorrect/templates/posts/partials/post_card.html:59
 msgid "Correct"
 msgstr ""
 
@@ -1322,16 +1310,28 @@ msgstr ""
 msgid "Browse journals written by users you are following."
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:56
-msgid "Following feed"
+#: langcorrect/templates/posts/post_list.html:61
+msgid "Feedback & Feature Requests"
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:73
-msgid "You're not following anyone yet."
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:75
-msgid "Follow users to see their latest posts here."
+#: langcorrect/templates/posts/user_posts.html:20
+msgid "Tags"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:21
+msgid "Date"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:23
+msgid "Visibility"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:47
+msgid "View"
 msgstr ""
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
@@ -1357,6 +1357,18 @@ msgstr ""
 
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
+msgstr ""
+
+#: langcorrect/templates/prompts/user_prompts.html:18
+msgid "Prompt"
+msgstr ""
+
+#: langcorrect/templates/prompts/user_prompts.html:19
+msgid "Responses"
+msgstr ""
+
+#: langcorrect/templates/prompts/user_prompts.html:21
+msgid "Created"
 msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:37
