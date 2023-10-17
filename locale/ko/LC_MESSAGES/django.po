@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:11+0000\n"
+"POT-Creation-Date: 2023-10-17 07:20+0000\n"
 "PO-Revision-Date: 2023-10-02 20:53+0000\n"
 "Last-Translator:   <admin@dundermifflin.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
-
-#: config/settings/base.py:33
-msgid "العربية"
-msgstr "아랍어"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -47,43 +43,43 @@ msgstr "핀란드어"
 msgid "Français"
 msgstr "프랑스어"
 
-#: config/settings/base.py:40
-msgid "עברית"
-msgstr "히브리어"
-
 #: config/settings/base.py:41
+msgid "Hrvatski"
+msgstr ""
+
+#: config/settings/base.py:42
 msgid "Italiano"
 msgstr "이탈리아어"
 
-#: config/settings/base.py:42
+#: config/settings/base.py:43
 msgid "日本語"
 msgstr "일본어"
 
-#: config/settings/base.py:43
+#: config/settings/base.py:44
 msgid "한국어"
 msgstr "한국어"
 
-#: config/settings/base.py:44
+#: config/settings/base.py:45
 msgid "Polski"
 msgstr "폴란드어"
 
-#: config/settings/base.py:45
+#: config/settings/base.py:46
 msgid "Português"
 msgstr "포르투갈어"
 
-#: config/settings/base.py:46
+#: config/settings/base.py:47
 msgid "Русский"
 msgstr "러시아어"
 
-#: config/settings/base.py:47
+#: config/settings/base.py:48
 msgid "Türkçe"
 msgstr "터키어"
 
-#: config/settings/base.py:48
+#: config/settings/base.py:49
 msgid "简体中文"
 msgstr "간체 중국어"
 
-#: config/settings/base.py:49
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr "번체 중국어"
 
@@ -162,6 +158,10 @@ msgstr "모국어"
 #: langcorrect/memberships/apps.py:8
 msgid "Memberships"
 msgstr "회원 구분"
+
+#: langcorrect/posts/api/views.py:31
+msgid "replied on"
+msgstr ""
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -296,9 +296,10 @@ msgstr "주의:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
-msgstr "현재 설정된 이메일 주소가 없습니다. 알림을 받거나 비밀번호를 재설정하기 위해 이메일 주소를 추가해야 합니다."
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"현재 설정된 이메일 주소가 없습니다. 알림을 받거나 비밀번호를 재설정하기 위해 "
+"이메일 주소를 추가해야 합니다."
 
 #: langcorrect/templates/account/email.html:55
 msgid "Add E-mail Address"
@@ -321,21 +322,26 @@ msgstr "%(site_name)s에 오신 것을 환영합니다!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has "
+"given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"당신이 이 이메일을 받은 이유는 사용자 %(user_display)s가 계정을 등록하기 위해 당신의 이메일 주소를 제공했기 때문입니다."
+"당신이 이 이메일을 받은 이유는 사용자 %(user_display)s가 계정을 등록하기 위"
+"해 당신의 이메일 주소를 제공했기 때문입니다."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
+"          To complete your registration and gain full access to all "
+"features, please verify your e-mail address by going to %(activate_url)s, or "
+"clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"모든 기능에 전체 액세스를 얻으려면 %(activate_url)s로 가거나 아래 버튼을 클릭하여 이메일 주소를 인증해 주세요."
+"모든 기능에 전체 액세스를 얻으려면 %(activate_url)s로 가거나 아래 버튼을 클릭"
+"하여 이메일 주소를 인증해 주세요."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -345,11 +351,13 @@ msgstr "이메일 주소 인증"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or "
+"contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"%(site_name)s에 가입하지 않았다면 이 이메일을 무시하거나 지원을 위해 문의할 수 있습니다."
+"%(site_name)s에 가입하지 않았다면 이 이메일을 무시하거나 지원을 위해 문의할 "
+"수 있습니다."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -373,13 +381,13 @@ msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
-"이메일 확인 링크가 만료되었거나 유효하지 않습니다. <a href=\"%(email_url)s\">새 이메일 확인 요청을 발행</a>해 "
-"주세요."
+"이메일 확인 링크가 만료되었거나 유효하지 않습니다. <a href=\"%(email_url)s\">"
+"새 이메일 확인 요청을 발행</a>해 주세요."
 
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
 #: langcorrect/templates/account/login.html:49
-#: langcorrect/templates/navbar.html:73
+#: langcorrect/templates/navbar.html:69
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
 msgstr "로그인"
@@ -393,7 +401,9 @@ msgstr "기존의 타사 계정 중 하나로 로그인 해주세요:"
 msgid ""
 "Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
 "sign in below:"
-msgstr "또는 아래에서 %(site_name)s 계정을 <a href=\"%(signup_url)s\">가입</a>하고 로그인하세요:"
+msgstr ""
+"또는 아래에서 %(site_name)s 계정을 <a href=\"%(signup_url)s\">가입</a>하고 로"
+"그인하세요:"
 
 #: langcorrect/templates/account/login.html:27
 msgid "or"
@@ -404,7 +414,9 @@ msgstr "또는"
 msgid ""
 "If you have not created an account yet, then please <a "
 "href=\"%(signup_url)s\">sign up</a> first."
-msgstr "아직 계정을 생성하지 않았다면, 먼저 <a href=\"%(signup_url)s\">가입</a>해 주세요."
+msgstr ""
+"아직 계정을 생성하지 않았다면, 먼저 <a href=\"%(signup_url)s\">가입</a>해 주"
+"세요."
 
 #: langcorrect/templates/account/login.html:52
 msgid "Forgot Password?"
@@ -439,9 +451,11 @@ msgstr "비밀번호 재설정"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
-msgstr "비밀번호를 잊으셨다면 아래에 이메일 주소를 입력하시면, 재설정할 수 있는 이메일을 보내드립니다."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"비밀번호를 잊으셨다면 아래에 이메일 주소를 입력하시면, 재설정할 수 있는 이메"
+"일을 보내드립니다."
 
 #: langcorrect/templates/account/password_reset.html:25
 msgid "Reset My Password"
@@ -465,11 +479,12 @@ msgstr "잘못된 토큰"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
-"비밀번호 재설정 링크가 유효하지 않습니다, 아마도 이미 사용되었기 때문일 수 있습니다. <a "
-"href=\"%(passwd_reset_url)s\">새 비밀번호 재설정</a>을 요청해 주세요."
+"비밀번호 재설정 링크가 유효하지 않습니다, 아마도 이미 사용되었기 때문일 수 있"
+"습니다. <a href=\"%(passwd_reset_url)s\">새 비밀번호 재설정</a>을 요청해 주세"
+"요."
 
 #: langcorrect/templates/account/password_reset_from_key.html:30
 msgid "change password"
@@ -498,7 +513,8 @@ msgstr "가입하기"
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr "이미 계정이 있으신가요? 그러면 <a href=\"%(login_url)s\">로그인</a> 해주세요."
+msgstr ""
+"이미 계정이 있으신가요? 그러면 <a href=\"%(login_url)s\">로그인</a> 해주세요."
 
 #: langcorrect/templates/account/signup.html:21
 msgid "Create an account"
@@ -530,8 +546,9 @@ msgid ""
 "errors. Please note that this is about the narrating-I of a given text, and "
 "not necessarily about you."
 msgstr ""
-"내러티브의 성별을 설정하면 원어민이 성별 오류를 수정하는 데 도움이 됩니다. 이것은 주어진 텍스트의 내러티브에 관한 것이며, 반드시 "
-"당신에 관한 것은 아닙니다."
+"내러티브의 성별을 설정하면 원어민이 성별 오류를 수정하는 데 도움이 됩니다. 이"
+"것은 주어진 텍스트의 내러티브에 관한 것이며, 반드시 당신에 관한 것은 아닙니"
+"다."
 
 #: langcorrect/templates/account/signup.html:49
 msgid "This can be changed at any time and on a per journal basis."
@@ -563,29 +580,35 @@ msgid ""
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"인증을 위해 이메일을 보냈습니다. 메일에 있는 링크를 클릭하여 가입 과정을 완료해 주세요. 몇 분 안에 메일을 받지 못하면 문의해 "
-"주세요."
+"인증을 위해 이메일을 보냈습니다. 메일에 있는 링크를 클릭하여 가입 과정을 완료"
+"해 주세요. 몇 분 안에 메일을 받지 못하면 문의해 주세요."
 
 #: langcorrect/templates/account/verified_email_required.html:12
 msgid ""
 "This part of the site requires us to verify that\n"
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your e-mail address. "
-msgstr "이 부분은 당신이 주장하는 본인임을 인증하기 위해 필요합니다. 이를 위해 이메일 주소의 소유권을 인증해야 합니다."
+msgstr ""
+"이 부분은 당신이 주장하는 본인임을 인증하기 위해 필요합니다. 이를 위해 이메"
+"일 주소의 소유권을 인증해야 합니다."
 
 #: langcorrect/templates/account/verified_email_required.html:17
 msgid ""
 "We have sent an e-mail to you for\n"
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
-msgstr "인증을 위해 이메일을 보냈습니다. 이메일 안의 링크를 클릭해 주세요. 몇 분 안에 메일을 받지 못하면 문의해 주세요."
+msgstr ""
+"인증을 위해 이메일을 보냈습니다. 이메일 안의 링크를 클릭해 주세요. 몇 분 안"
+"에 메일을 받지 못하면 문의해 주세요."
 
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
-msgstr "<strong>참고:</strong> <a href=\"%(email_url)s\">이메일 주소를 변경</a>할 수 있습니다."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+"<strong>참고:</strong> <a href=\"%(email_url)s\">이메일 주소를 변경</a>할 수 "
+"있습니다."
 
 #: langcorrect/templates/contributions/contribution_list.html:9
 msgid "Top Contributors"
@@ -661,9 +684,11 @@ msgstr "전반적인 피드백 또는 코멘트"
 
 #: langcorrect/templates/corrections/make_corrections.html:68
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are"
-" all here to learn, so let's encourage and support one another."
-msgstr "피드백을 포함하려면 건설적인 것인지 확인하십시오. 우리는 모두 여기서 배우기 위해 있으므로, 서로를 격려하고 지원합시다."
+"If you wish to include feedback, please make sure it is constructive. We are "
+"all here to learn, so let's encourage and support one another."
+msgstr ""
+"피드백을 포함하려면 건설적인 것인지 확인하십시오. 우리는 모두 여기서 배우기 "
+"위해 있으므로, 서로를 격려하고 지원합시다."
 
 #: langcorrect/templates/corrections/make_corrections.html:83
 #: langcorrect/templates/modals/discard_modal.html:18
@@ -687,7 +712,8 @@ msgstr "제출"
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as perfect!\n"
+"                    %(user_count)s users have marked this sentence as "
+"perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -698,7 +724,8 @@ msgid "Original"
 msgstr "원본"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:56
+#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "수정됨"
 
@@ -744,7 +771,6 @@ msgid "No corrections have been made"
 msgstr "수정이 이루어지지 않았습니다."
 
 #: langcorrect/templates/corrections/popular_correctors.html:96
-#: langcorrect/templates/posts/post_list.html:83
 msgid "View all"
 msgstr "모두 보기"
 
@@ -761,42 +787,26 @@ msgid "Following"
 msgstr "팔로잉"
 
 #: langcorrect/templates/footer.html:7
-msgid "About"
-msgstr "소개"
-
-#: langcorrect/templates/footer.html:11
-msgid "Changelog"
-msgstr "변경 로그"
-
-#: langcorrect/templates/footer.html:15
-msgid "Credits"
-msgstr "크레딧"
-
-#: langcorrect/templates/footer.html:18
-msgid "Logo Breakdown"
-msgstr "로고 해설"
-
-#: langcorrect/templates/footer.html:23
 msgid "Legal"
 msgstr "법적 사항"
 
-#: langcorrect/templates/footer.html:27
+#: langcorrect/templates/footer.html:10
 msgid "Privacy Policy"
 msgstr "개인정보 처리방침"
 
-#: langcorrect/templates/footer.html:31
+#: langcorrect/templates/footer.html:14
 msgid "Community Guidelines"
 msgstr "커뮤니티 가이드라인"
 
-#: langcorrect/templates/footer.html:35
+#: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
 msgstr "이용 약관"
 
-#: langcorrect/templates/footer.html:42
+#: langcorrect/templates/footer.html:24
 msgid "Site Languages"
 msgstr "사이트 언어"
 
-#: langcorrect/templates/footer.html:58
+#: langcorrect/templates/footer.html:40
 msgid "Go"
 msgstr "이동"
 
@@ -804,7 +814,8 @@ msgstr "이동"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list "
+"of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -820,8 +831,9 @@ msgstr "취소"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:47
+#: langcorrect/templates/posts/partials/post_card.html:48
 #: langcorrect/templates/posts/post_confirm_delete.html:19
+#: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
 msgstr "삭제"
 
@@ -834,6 +846,8 @@ msgid "Add Language"
 msgstr "언어 추가"
 
 #: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
 msgid "Language"
 msgstr "언어"
 
@@ -842,11 +856,13 @@ msgid "Level"
 msgstr "레벨"
 
 #: langcorrect/templates/languages/languagelevel_list.html:15
+#: langcorrect/templates/posts/user_posts.html:24
 msgid "Actions"
 msgstr "작업"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:49
+#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "편집"
 
@@ -880,19 +896,19 @@ msgstr "수정 내역을 어떻게 내보내고 싶으신가요?"
 msgid "Notifications"
 msgstr "알림"
 
-#: langcorrect/templates/modals/notifications.html:47
+#: langcorrect/templates/modals/notifications.html:49
 msgid "No notifications yet!"
 msgstr "아직 알림이 없습니다!"
 
-#: langcorrect/templates/modals/notifications.html:48
+#: langcorrect/templates/modals/notifications.html:50
 msgid "We'll notify you when something arrives!"
 msgstr "무언가 도착하면 알려 드리겠습니다!"
 
-#: langcorrect/templates/modals/notifications.html:55
+#: langcorrect/templates/modals/notifications.html:57
 msgid "Delete all notifications"
 msgstr "모든 알림 삭제"
 
-#: langcorrect/templates/modals/notifications.html:56
+#: langcorrect/templates/modals/notifications.html:58
 msgid "Close"
 msgstr "닫기"
 
@@ -908,66 +924,65 @@ msgstr "쓰기 프롬프트"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: langcorrect/templates/navbar.html:58
-msgid "Forums"
-msgstr "포럼"
-
-#: langcorrect/templates/navbar.html:61
+#: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "랭킹"
 
-#: langcorrect/templates/navbar.html:81
+#: langcorrect/templates/navbar.html:77
 msgid "Write"
 msgstr "쓰기"
 
-#: langcorrect/templates/navbar.html:119
+#: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
 msgstr "프리미엄 관리"
 
-#: langcorrect/templates/navbar.html:124
+#: langcorrect/templates/navbar.html:120
 msgid "Get Premium"
 msgstr "프리미엄 구매"
 
-#: langcorrect/templates/navbar.html:131
+#: langcorrect/templates/navbar.html:127
+#: langcorrect/templates/posts/user_posts.html:9
+#: langcorrect/templates/posts/user_posts.html:12
 msgid "My Journals"
 msgstr "내 저널"
 
-#: langcorrect/templates/navbar.html:137
+#: langcorrect/templates/navbar.html:133
+#: langcorrect/templates/prompts/user_prompts.html:10
 msgid "My Prompts"
 msgstr "내 프롬프트"
 
-#: langcorrect/templates/navbar.html:146
+#: langcorrect/templates/navbar.html:142
 msgid "Logout"
 msgstr "로그아웃"
 
-#: langcorrect/templates/navbar.html:167
+#: langcorrect/templates/navbar.html:163
 msgid "Visit your profile"
 msgstr "프로필 방문"
 
-#: langcorrect/templates/navbar.html:175
+#: langcorrect/templates/navbar.html:171
 msgid "Member role"
 msgstr "회원 역할"
 
-#: langcorrect/templates/navbar.html:178
+#: langcorrect/templates/navbar.html:174
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr "프리미엄"
 
-#: langcorrect/templates/navbar.html:180
+#: langcorrect/templates/navbar.html:176
 msgid "Member"
 msgstr "회원"
 
-#: langcorrect/templates/navbar.html:186
+#: langcorrect/templates/navbar.html:182
 msgid "Total corrections made"
 msgstr "총 수정 수"
 
-#: langcorrect/templates/navbar.html:193
+#: langcorrect/templates/navbar.html:189
 msgid "Total corrections received"
 msgstr "총 받은 수정 수"
 
-#: langcorrect/templates/navbar.html:200
+#: langcorrect/templates/navbar.html:196
 msgid "Correction ratio"
 msgstr "수정 비율"
 
@@ -979,7 +994,9 @@ msgstr "쓰기. 배우기. 성장하기."
 msgid ""
 "Master grammar, spelling, and syntax in the language(s) you’re learning "
 "through direct feedback on your writing from fluent, native speakers."
-msgstr "유창한 원어민의 직접적인 피드백을 통해 배우고 있는 언어(들)에서 문법, 철자, 문장 구조를 마스터하세요."
+msgstr ""
+"유창한 원어민의 직접적인 피드백을 통해 배우고 있는 언어(들)에서 문법, 철자, "
+"문장 구조를 마스터하세요."
 
 #: langcorrect/templates/pages/home.html:23
 #: langcorrect/templates/pages/home.html:129
@@ -1006,9 +1023,10 @@ msgstr "계정 등록"
 
 #: langcorrect/templates/pages/home.html:54
 msgid ""
-"We start with a short 3-step registration process to help us determine users"
-" you should be match with."
-msgstr "매칭해야 할 사용자를 결정하기 위해 짧은 3단계 등록 과정으로 시작합니다."
+"We start with a short 3-step registration process to help us determine users "
+"you should be match with."
+msgstr ""
+"매칭해야 할 사용자를 결정하기 위해 짧은 3단계 등록 과정으로 시작합니다."
 
 #: langcorrect/templates/pages/home.html:58
 msgid "Write a journal entry"
@@ -1037,7 +1055,9 @@ msgstr "진지한 학습자를 위해 만들어졌습니다."
 msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
-msgstr "다른 언어 학습 플랫폼의 불필요한 방해를 모두 제거하고 새로운 언어(들)에 더 많은 시간을 집중하세요."
+msgstr ""
+"다른 언어 학습 플랫폼의 불필요한 방해를 모두 제거하고 새로운 언어(들)에 더 많"
+"은 시간을 집중하세요."
 
 #: langcorrect/templates/pages/home.html:82
 msgid "Straight to the point"
@@ -1049,8 +1069,8 @@ msgid ""
 "target language, publish it, and let the LangCorrect community do their "
 "thing to provide corrections for you."
 msgstr ""
-"글쓰기에 대한 수정을 빠르게 받으세요 – 단순히 목표 언어로 저널을 작성하고 게시하면 LangCorrect 커뮤니티가 당신을 위해 수정을"
-" 제공하게 됩니다."
+"글쓰기에 대한 수정을 빠르게 받으세요 – 단순히 목표 언어로 저널을 작성하고 게"
+"시하면 LangCorrect 커뮤니티가 당신을 위해 수정을 제공하게 됩니다."
 
 #: langcorrect/templates/pages/home.html:88
 msgid "Constantly improving"
@@ -1058,12 +1078,13 @@ msgstr "지속적으로 개선 중"
 
 #: langcorrect/templates/pages/home.html:90
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct"
-" feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct "
+"feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
-"LangCorrect 플랫폼은 계속해서 개선되고 있습니다. 사용자로부터의 일관된 직접적인 피드백과 자주 하는 업데이트로 우리의 사용자에게"
-" 새롭고 흥미로운 것을 제공할 수 있습니다."
+"LangCorrect 플랫폼은 계속해서 개선되고 있습니다. 사용자로부터의 일관된 직접적"
+"인 피드백과 자주 하는 업데이트로 우리의 사용자에게 새롭고 흥미로운 것을 제공"
+"할 수 있습니다."
 
 #: langcorrect/templates/pages/home.html:94
 msgid "Learn with friends"
@@ -1071,9 +1092,11 @@ msgstr "친구와 함께 배우기"
 
 #: langcorrect/templates/pages/home.html:96
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who"
-" can earn the highest Rankings and Streaks."
-msgstr "친구를 LangCorrect에 초대하여 누가 가장 높은 랭킹과 연속 획득을 할 수 있는지 서로에게 도전하세요."
+"Invite your friends to join LangCorrect and challenge one another to see who "
+"can earn the highest Rankings and Streaks."
+msgstr ""
+"친구를 LangCorrect에 초대하여 누가 가장 높은 랭킹과 연속 획득을 할 수 있는지 "
+"서로에게 도전하세요."
 
 #: langcorrect/templates/pages/home.html:100
 msgid "Functionality with learning in mind"
@@ -1083,7 +1106,9 @@ msgstr "학습을 염두에 둔 기능성"
 msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
-msgstr "쓰기 프롬프트부터 자동으로 색상으로 구분된 수정 강조까지, 다른 언어로 글을 쓰는 것이 이렇게 쉬웠던 적은 없습니다."
+msgstr ""
+"쓰기 프롬프트부터 자동으로 색상으로 구분된 수정 강조까지, 다른 언어로 글을 쓰"
+"는 것이 이렇게 쉬웠던 적은 없습니다."
 
 #: langcorrect/templates/pages/home.html:106
 msgid "Built-in messaging"
@@ -1092,10 +1117,11 @@ msgstr "내장 메시징"
 #: langcorrect/templates/pages/home.html:108
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around"
-" the globe."
+"feature. This is a great way to make new friends and meet people from around "
+"the globe."
 msgstr ""
-"메시징 기능을 사용하여 다른 학습자와 쉬고 채팅하세요. 이것은 전 세계 사람들을 만나고 새로운 친구를 사귀는 좋은 방법입니다."
+"메시징 기능을 사용하여 다른 학습자와 쉬고 채팅하세요. 이것은 전 세계 사람들"
+"을 만나고 새로운 친구를 사귀는 좋은 방법입니다."
 
 #: langcorrect/templates/pages/home.html:118
 msgid "Join today and experience language-learning, redefined."
@@ -1104,16 +1130,24 @@ msgstr "오늘 가입하여 언어 학습을 새롭게 경험하세요."
 #: langcorrect/templates/pages/home.html:120
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d "
+"be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in "
+"order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
-"                            burning questions so that you can reach the level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help "
+"you, provide support, and answer your\n"
+"                            burning questions so that you can reach the "
+"level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"유창하거나 막 시작한 것이라면, LangCorrect 커뮤니티에 가입해 주셨으면 기쁠 것입니다. 우리는 모두 학습자이며, 새로운 언어에서 유창함과 자신감을 얻기 위해서는 실수를 해야 함을 이해합니다. LangCorrect의 훌륭한 사용자들은 당신을 도와주고, 지원을 제공하고, 당신의 뜨거운 질문에 답하여 당신이 새로운 언어에서 원하는 수준에 도달할 수 있도록 준비되어 있습니다."
+"유창하거나 막 시작한 것이라면, LangCorrect 커뮤니티에 가입해 주셨으면 기쁠 것"
+"입니다. 우리는 모두 학습자이며, 새로운 언어에서 유창함과 자신감을 얻기 위해서"
+"는 실수를 해야 함을 이해합니다. LangCorrect의 훌륭한 사용자들은 당신을 도와주"
+"고, 지원을 제공하고, 당신의 뜨거운 질문에 답하여 당신이 새로운 언어에서 원하"
+"는 수준에 도달할 수 있도록 준비되어 있습니다."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1247,11 +1281,17 @@ msgstr "우리 커뮤니티를 지원하세요"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just "
+"investing in your own language learning journey. You're also helping us keep "
+"the basic features free for everyone. Your support sustains this platform "
+"and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"프리미엄 연간 구독으로 업그레이드하면, 당신은 당신의 언어 학습 여행에만 투자하는 것이 아닙니다. 당신은 또한 기본 기능을 모두에게 무료로 유지하는 데 도와줍니다. 당신의 지원은 이 플랫폼을 유지하고 평생 학습자의 글로벌 커뮤니티를 육성합니다."
+"프리미엄 연간 구독으로 업그레이드하면, 당신은 당신의 언어 학습 여행에만 투자"
+"하는 것이 아닙니다. 당신은 또한 기본 기능을 모두에게 무료로 유지하는 데 도와"
+"줍니다. 당신의 지원은 이 플랫폼을 유지하고 평생 학습자의 글로벌 커뮤니티를 육"
+"성합니다."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1277,11 +1317,11 @@ msgstr "연속 작성"
 msgid "Language Match"
 msgstr "언어 매칭"
 
-#: langcorrect/templates/posts/partials/post_card.html:39
+#: langcorrect/templates/posts/partials/post_card.html:40
 msgid "Correctors"
 msgstr "수정자"
 
-#: langcorrect/templates/posts/partials/post_card.html:58
+#: langcorrect/templates/posts/partials/post_card.html:59
 msgid "Correct"
 msgstr "수정하기"
 
@@ -1351,17 +1391,31 @@ msgstr "배우기"
 msgid "Browse journals written by users you are following."
 msgstr "팔로우하는 사용자가 작성한 저널을 둘러보세요."
 
-#: langcorrect/templates/posts/post_list.html:56
-msgid "Following feed"
-msgstr "팔로우 피드"
+#: langcorrect/templates/posts/post_list.html:61
+msgid "Feedback & Feature Requests"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:73
-msgid "You're not following anyone yet."
-msgstr "아직 아무도 팔로우하고 있지 않습니다."
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:75
-msgid "Follow users to see their latest posts here."
-msgstr "여기에서 최신 게시물을 보려면 사용자를 팔로우하세요."
+#: langcorrect/templates/posts/user_posts.html:20
+msgid "Tags"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:21
+msgid "Date"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:23
+msgid "Visibility"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:47
+#, fuzzy
+#| msgid "View all"
+msgid "View"
+msgstr "모두 보기"
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
 #: langcorrect/templates/prompts/prompt_detail.html:33
@@ -1387,6 +1441,22 @@ msgstr "응답한 프롬프트 보기"
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
 msgstr "완료됨"
+
+#: langcorrect/templates/prompts/user_prompts.html:18
+#, fuzzy
+#| msgid "Prompts"
+msgid "Prompt"
+msgstr "프롬프트"
+
+#: langcorrect/templates/prompts/user_prompts.html:19
+#, fuzzy
+#| msgid "Respond"
+msgid "Responses"
+msgstr "응답하기"
+
+#: langcorrect/templates/prompts/user_prompts.html:21
+msgid "Created"
+msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:37
 msgid "Community Stats"
@@ -1462,7 +1532,8 @@ msgstr "이메일"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions "
+"this year\n"
 "                   "
 msgstr ""
 "\n"
@@ -1515,3 +1586,33 @@ msgstr "자기소개"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "정보가 성공적으로 업데이트되었습니다."
+
+#~ msgid "العربية"
+#~ msgstr "아랍어"
+
+#~ msgid "עברית"
+#~ msgstr "히브리어"
+
+#~ msgid "About"
+#~ msgstr "소개"
+
+#~ msgid "Changelog"
+#~ msgstr "변경 로그"
+
+#~ msgid "Credits"
+#~ msgstr "크레딧"
+
+#~ msgid "Logo Breakdown"
+#~ msgstr "로고 해설"
+
+#~ msgid "Forums"
+#~ msgstr "포럼"
+
+#~ msgid "Following feed"
+#~ msgstr "팔로우 피드"
+
+#~ msgid "You're not following anyone yet."
+#~ msgstr "아직 아무도 팔로우하고 있지 않습니다."
+
+#~ msgid "Follow users to see their latest posts here."
+#~ msgstr "여기에서 최신 게시물을 보려면 사용자를 팔로우하세요."
