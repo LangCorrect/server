@@ -1,0 +1,12 @@
+@import '~bootstrap/scss/functions';
+
+$primary: #5e6fb3;
+$premium: #ff9066;
+
+@import '~bootstrap/scss/variables';
+
+$custom-colors: (
+  'premium': $premium,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);

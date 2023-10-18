@@ -3,7 +3,7 @@ default_stages: [commit]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -18,20 +18,27 @@ repos:
         exclude: langcorrect/corrections/diff_match_patch.py
       - id: detect-private-key
 
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        args: ['--tab-width', '2', '--single-quote']
+        exclude: 'langcorrect/templates/'
+
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: '1.14.0'
+    rev: '1.15.0'
     hooks:
       - id: django-upgrade
         args: ['--target-version', '4.2']
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.7.0
+    rev: v3.15.0
     hooks:
       - id: pyupgrade
         args: [--py311-plus]
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.9.1
     hooks:
       - id: black
 
@@ -41,12 +48,12 @@ repos:
       - id: isort
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
 
   - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: v1.31.1
+    rev: v1.34.0
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
