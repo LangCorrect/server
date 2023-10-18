@@ -67,11 +67,6 @@
   </head>
   <body>
     <div>{% include "navbar.html" %}</div>
-    <div class="alert alert-info mb-0" role="alert">
-      <div class="container">
-        Code migration is now complete. If you encounter any issues, please report them on <a href="https://github.com/LangCorrect/server/issues" target="_blank">GitHub</a>.
-      </div>
-    </div>
     <div {% if not disable_page_container %}class="container"{% endif %}>
       {% if messages %}
         {% for message in messages %}
