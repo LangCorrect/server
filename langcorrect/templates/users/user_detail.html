@@ -6,8 +6,13 @@
 {% load humanize %}
 
 {% block title %}
-  User:
-  {{ object.username }}
+  {% if request.user.id == object.id %}
+    {% translate "My Profile" %}
+  {% else %}
+    {% blocktranslate with username=user.display_name %}
+      {{ username }}'s Profile
+    {% endblocktranslate %}
+  {% endif %}
 {% endblock title %}
 {% block javascript %}
   {{ block.super }}
@@ -24,10 +29,10 @@
       <div class="col-12 col-md-3">
         <div class="card mb-3">
           <div class="card-body border-bottom">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
               <div class="d-flex align-items-center gap-2">
                 <img src="{{ object.avatar }}" alt="profile img" />
-                <h6 class="mb-0 {% if object.is_premium_user %}text-premium{% endif %}">{{ object.username }}</h6>
+                <h6 class="mb-0 text-break {% if object.is_premium_user %}text-premium{% endif %}">{{ object.display_name }}</h6>
               </div>
               {% include "posts/partials/card_badges.html" %}
             </div>

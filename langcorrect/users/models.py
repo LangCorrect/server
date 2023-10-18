@@ -48,7 +48,8 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     def _build_avatar_url(self, size=None):
-        base_url = f"{AVATAR_BASE_URL}{self.username}"
+        base_url = f"{AVATAR_BASE_URL}{self.display_name}"
+
         if size:
             base_url += f"&size={size}"
         if self.is_premium_user:
@@ -120,6 +121,10 @@ class User(AbstractUser):
     @property
     def writing_streak(self):
         return Contribution.objects.get(user=self).writing_streak
+
+    @property
+    def display_name(self):
+        return self.nick_name if self.nick_name else self.username
 
 
 @receiver(post_save, sender=User)
