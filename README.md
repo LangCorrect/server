@@ -66,39 +66,39 @@ PostgreSQL is the default database for this project. If you already have it inst
 
 #### Linux
 
-1. Install PostgreSQL and utilities
+1.  Install PostgreSQL and utilities
 
         sudo apt install -y postgresql postgresql-client-common libpq-dev
 
-2. Start the PostgreSQL service
+2.  Start the PostgreSQL service
 
         sudo service postgresql start
 
-3. Create Database and User
+3.  Create Database and User
 
         sudo -u postgres createuser -s $(whoami)
         createdb
 
-4. Verify that it installed correctly:
+4.  Verify that it installed correctly:
 
         psql
 
 #### macOS (Unverified - I was not able to check this as I do not have a mac computer)
 
-1. Install PostgreSQL and utilities
+1.  Install PostgreSQL and utilities
 
         brew install postgresql
 
-2. Pin and Start the Service
+2.  Pin and Start the Service
 
         brew pin postgresql
         brew services start postgresql
 
-3. Create the Database
+3.  Create the Database
 
         createdb
 
-4. Verify that it installed correctly:
+4.  Verify that it installed correctly:
 
         psql
 
@@ -122,54 +122,64 @@ Redis is used for caching and messaging brokering in this project. If you alread
 
 ### Installation
 
-1. Clone the repository
+1.  Clone the repository
 
         git clone git@github.com:LangCorrect/server.git
 
-1. Enter the project directory and create a new virtual environment
+1.  Enter the project directory and create a new virtual environment
 
         cd server
         python -m venv venv
         source venv/bin/activate
 
-1. Install the project dependencies for local development
+1.  Install the project dependencies for local development
 
         pip install -r requirements/local.txt
 
-1. Create the database (if you do not have postgresql already installed there are installation instructions further down the readme)
+1.  Create the database (if you do not have postgresql already installed there are installation instructions further down the readme)
 
         psql
         CREATE DATABASE langcorrect;
 
-1. Run the migrations
+1.  Run the migrations
 
         python manage.py migrate
 
-1. Install Redis
+1.  Install Redis
 
         sudo apt update && apt upgrade
         sudo apt install redis-server
         sudo service redis-server start
 
-1. Seed the database (view the next section)
+1.  Seed the database (view the next section)
 
-1. Load pre-commit
+1.  Load pre-commit
 
         pre-commit install
 
-1. Copy and paste the `.env.example`, rename it to `.env`, and configure it
+1.  Copy and paste the `.env.example`, rename it to `.env`, and configure it
 
-1. Start the server
+1.  Start the server
 
         python manage.py runserver
 
-1. Start a celery worker (optional)
+1.  Start a celery worker (optional)
 
         celery -A config.celery_app worker --loglevel=info
 
-1. Forward strip events to the webhook endpoint (optional)
+1.  Forward strip events to the webhook endpoint (optional)
 
         stripe listen --forward-to localhost:8000/subscriptions/webhook/
+
+### Live Reloading (WIP)
+
+This project uses Gulp for the frontend pipeline. To utilize live reloading, you'll need Node.js (v18).
+
+Instructions
+
+1. Install the dependencies: `npm i`
+1. Start the development server: `npm run dev`
+1. Access the site via http://localhost:3000
 
 ### Seeding Your Database
 
@@ -194,14 +204,13 @@ If you only want to load fixtures without any mock data like posts, run:
 
 For your convenience, the database comes pre-seeded with some basic user accounts. You can use these credentials to log in and explore the application.
 
-| id | username | password | email | role | description |
-| - | - | - | - | - | - |
-| 1 | admin | password | admin@dundermifflin.com | staff | Use this to access the admin dashboard |
-| 2 | michael | password | mscott@dundermifflin.com | Premium | Use this to test out premium functionality |
-| 3 | jim | password | jim@dundermifflin.com | member | Use this for standard member access |
-| 4 | pam | password | pbeesly@dundermifflin.com | member | Use this for standard member access |
-| 5 | dwight | password | dschrute@dundermifflin.com | member | Use this for standard member access |
-
+| id  | username | password | email                      | role    | description                                |
+| --- | -------- | -------- | -------------------------- | ------- | ------------------------------------------ |
+| 1   | admin    | password | admin@dundermifflin.com    | staff   | Use this to access the admin dashboard     |
+| 2   | michael  | password | mscott@dundermifflin.com   | Premium | Use this to test out premium functionality |
+| 3   | jim      | password | jim@dundermifflin.com      | member  | Use this for standard member access        |
+| 4   | pam      | password | pbeesly@dundermifflin.com  | member  | Use this for standard member access        |
+| 5   | dwight   | password | dschrute@dundermifflin.com | member  | Use this for standard member access        |
 
 #### Creating New Accounts
 
