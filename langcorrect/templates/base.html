@@ -17,39 +17,29 @@
     <meta name="author" content="Daniel Zeljko" />
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
     {% block css %}
-      <!-- Latest compiled and minified Bootstrap CSS -->
-      <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
-            integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer" />
+      <!-- This file stores project-specific CSS -->
+      <link href="{% static 'css/project.min.css' %}" rel="stylesheet" />
       <!-- Your stuff: Third-party CSS libraries go here -->
       <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer" />
-      <!-- This file stores project-specific CSS -->
-      <link href="{% static 'css/project.css' %}" rel="stylesheet" />
     {% endblock css %}
     <!-- Le javascript
     ================================================== -->
     {# Placed at the top of the document so pages load faster with defer #}
     {% block javascript %}
-      <!-- Bootstrap JS -->
-      <script defer
-              src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-              integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-              crossorigin="anonymous"
-              referrerpolicy="no-referrer"></script>
+      <!-- Vendor dependencies bundled as one file -->
+      <script defer src="{% static 'js/vendors.min.js' %}"></script>
+      <!-- place project specific Javascript in this file -->
+      <script defer src="{% static 'js/project.min.js' %}"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.3/htmx.min.js"
               integrity="sha512-+tp2z7fiP5/7Q3DZZkHXaV1BjgtkLuV4vX7khfzKqVJ+/55LWr7Ulz0cqIS1AlB+wmZW6oAkE64VN2sjFXs6dA=="
               crossorigin="anonymous"
               referrerpolicy="no-referrer"></script>
       <script src="https://js.stripe.com/v3/"></script>
-      <!-- place project specific Javascript in this file -->
-      <script defer src="{% static 'js/project.js' %}"></script>
       <script defer
               src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/6.0.1/autosize.min.js"
               integrity="sha512-OjjaC+tijryqhyPqy7jWSPCRj7fcosu1zreTX1k+OWSwu6uSqLLQ2kxaqL9UpR7xFaPsCwhMf1bQABw2rCxMbg=="
