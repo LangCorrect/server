@@ -6,10 +6,12 @@
 {% load humanize %}
 
 {% block title %}
-  {% if request.user == object %}
-    My Profile
+  {% if request.user.id == object.id %}
+    {% translate "My Profile" %}
   {% else %}
-    {{ object.display_name }}'s Profile
+    {% blocktranslate with username=user.display_name %}
+      {{ username }}'s Profile
+    {% endblocktranslate %}
   {% endif %}
 {% endblock title %}
 {% block javascript %}
