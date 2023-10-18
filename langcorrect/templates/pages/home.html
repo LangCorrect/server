@@ -19,10 +19,11 @@
             {% translate "Master grammar, spelling, and syntax in the language(s) you’re learning through direct feedback on your writing from fluent, native speakers." %}
           </p>
           <div class="text-center text-md-start">
-            <a href="{% url "account_signup" %}" class="btn btn-primary shadow">
+            <a href="{% url 'account_signup' %}"
+               class="btn btn-primary fw-bold text-white">
               {% translate "Start learning" %} <i class="fas fa-arrow-right d-none d-md-inline ml-3"></i>
             </a>
-            <a href="{% url "posts:list" %}" class="btn lift">
+            <a href="{% url 'posts:list' %}" class="btn">
               <small>{% translate "Browse as guest" %}</small>
             </a>
           </div>
