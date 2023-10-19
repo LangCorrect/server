@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -66,8 +66,12 @@ urlpatterns = [
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
     path("submissions/posts", user_posts_view, name="user_posts"),
     path("submissions/prompts", user_prompts_view, name="user_prompts"),
+    path(
+        "journal/<path:subpath>/",
+        RedirectView.as_view(url="/journals/%(subpath)s", permanent=True),
+        name="redirect-to-journals",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 api_urlpatterns_v1 = [path("contributions/", include("langcorrect.contributions.urls"))]
 
