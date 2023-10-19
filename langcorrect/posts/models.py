@@ -142,7 +142,7 @@ def split_post_into_sentences(sender, instance, **kwargs):
     if not title_row.exists():
         PostRow.objects.create(user=user, post=post, sentence=post.title, order=0)
 
-    post_sentences = sentence_splitter.split_sentences(post.text, post.language)
+    post_sentences = sentence_splitter.split_sentences(post.text, post.language.code)
 
     for idx, sentence in enumerate(post_sentences, start=1):
         existing_row = old_rows.filter(sentence=sentence).exclude(order=0).first()

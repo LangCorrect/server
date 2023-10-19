@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:11+0000\n"
-"PO-Revision-Date: 2023-10-01 22:49+0000\n"
-"Last-Translator:   <admin@dundermifflin.com>\n"
+"POT-Creation-Date: 2023-10-17 07:20+0000\n"
+"PO-Revision-Date: 2023-10-17 07:26+0000\n"
+"Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
-
-#: config/settings/base.py:33
-msgid "العربية"
-msgstr "アラビア語"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -47,43 +43,43 @@ msgstr "フィンランド語"
 msgid "Français"
 msgstr "フランス語"
 
-#: config/settings/base.py:40
-msgid "עברית"
-msgstr "ヘブライ語"
-
 #: config/settings/base.py:41
+msgid "Hrvatski"
+msgstr ""
+
+#: config/settings/base.py:42
 msgid "Italiano"
 msgstr "イタリア語"
 
-#: config/settings/base.py:42
+#: config/settings/base.py:43
 msgid "日本語"
 msgstr "日本語"
 
-#: config/settings/base.py:43
+#: config/settings/base.py:44
 msgid "한국어"
 msgstr "韓国語"
 
-#: config/settings/base.py:44
+#: config/settings/base.py:45
 msgid "Polski"
 msgstr "ポーランド語"
 
-#: config/settings/base.py:45
+#: config/settings/base.py:46
 msgid "Português"
 msgstr "ポルトガル語"
 
-#: config/settings/base.py:46
+#: config/settings/base.py:47
 msgid "Русский"
 msgstr "ロシア語"
 
-#: config/settings/base.py:47
+#: config/settings/base.py:48
 msgid "Türkçe"
 msgstr "トルコ語"
 
-#: config/settings/base.py:48
+#: config/settings/base.py:49
 msgid "简体中文"
 msgstr "簡体字中国語"
 
-#: config/settings/base.py:49
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr "繁体字中国語"
 
@@ -133,7 +129,7 @@ msgstr "言語"
 
 #: langcorrect/languages/models.py:8
 msgid "Beginner"
-msgstr "初級"
+msgstr "初心者"
 
 #: langcorrect/languages/models.py:9
 msgid "Elementary"
@@ -162,6 +158,10 @@ msgstr "ネイティブ"
 #: langcorrect/memberships/apps.py:8
 msgid "Memberships"
 msgstr "メンバーシップ"
+
+#: langcorrect/posts/api/views.py:31
+msgid "replied on"
+msgstr ""
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -361,7 +361,9 @@ msgstr "メールアドレスを確認"
 msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
-msgstr "既存のサードパーティアカウントのいずれかでサインインしてください。"
+msgstr ""
+"<a href=\"mailto:%(email)s\">%(email)s</a> がユーザー %(user_display)s "
+"のメールアドレスであることを確認してください。"
 
 #: langcorrect/templates/account/email_confirm.html:19
 msgid "Confirm"
@@ -379,7 +381,7 @@ msgstr ""
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
 #: langcorrect/templates/account/login.html:49
-#: langcorrect/templates/navbar.html:73
+#: langcorrect/templates/navbar.html:69
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
 msgstr "サインイン"
@@ -697,7 +699,8 @@ msgid "Original"
 msgstr "オリジナル"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:56
+#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "訂正済み"
 
@@ -743,7 +746,6 @@ msgid "No corrections have been made"
 msgstr "訂正は行われていません。"
 
 #: langcorrect/templates/corrections/popular_correctors.html:96
-#: langcorrect/templates/posts/post_list.html:83
 msgid "View all"
 msgstr "すべて表示"
 
@@ -760,42 +762,26 @@ msgid "Following"
 msgstr "フォロー中"
 
 #: langcorrect/templates/footer.html:7
-msgid "About"
-msgstr "について"
-
-#: langcorrect/templates/footer.html:11
-msgid "Changelog"
-msgstr "変更ログ"
-
-#: langcorrect/templates/footer.html:15
-msgid "Credits"
-msgstr "クレジット"
-
-#: langcorrect/templates/footer.html:18
-msgid "Logo Breakdown"
-msgstr "ロゴの解説"
-
-#: langcorrect/templates/footer.html:23
 msgid "Legal"
 msgstr "法的事項"
 
-#: langcorrect/templates/footer.html:27
+#: langcorrect/templates/footer.html:10
 msgid "Privacy Policy"
 msgstr "プライバシーポリシー"
 
-#: langcorrect/templates/footer.html:31
+#: langcorrect/templates/footer.html:14
 msgid "Community Guidelines"
 msgstr "コミュニティガイドライン"
 
-#: langcorrect/templates/footer.html:35
+#: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
 msgstr "利用規約"
 
-#: langcorrect/templates/footer.html:42
+#: langcorrect/templates/footer.html:24
 msgid "Site Languages"
 msgstr "サイトの言語"
 
-#: langcorrect/templates/footer.html:58
+#: langcorrect/templates/footer.html:40
 msgid "Go"
 msgstr "行く"
 
@@ -819,8 +805,9 @@ msgstr "キャンセル"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:47
+#: langcorrect/templates/posts/partials/post_card.html:48
 #: langcorrect/templates/posts/post_confirm_delete.html:19
+#: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
 msgstr "削除"
 
@@ -833,6 +820,8 @@ msgid "Add Language"
 msgstr "言語を追加"
 
 #: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
 msgid "Language"
 msgstr "言語"
 
@@ -841,11 +830,13 @@ msgid "Level"
 msgstr "レベル"
 
 #: langcorrect/templates/languages/languagelevel_list.html:15
+#: langcorrect/templates/posts/user_posts.html:24
 msgid "Actions"
 msgstr "アクション"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:49
+#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "編集"
 
@@ -879,19 +870,19 @@ msgstr "添削内容をどのようにエクスポートしたいですか？"
 msgid "Notifications"
 msgstr "通知"
 
-#: langcorrect/templates/modals/notifications.html:47
+#: langcorrect/templates/modals/notifications.html:49
 msgid "No notifications yet!"
 msgstr "まだ通知はありません！"
 
-#: langcorrect/templates/modals/notifications.html:48
+#: langcorrect/templates/modals/notifications.html:50
 msgid "We'll notify you when something arrives!"
 msgstr "何か来たらお知らせします！"
 
-#: langcorrect/templates/modals/notifications.html:55
+#: langcorrect/templates/modals/notifications.html:57
 msgid "Delete all notifications"
 msgstr "すべての通知を削除"
 
-#: langcorrect/templates/modals/notifications.html:56
+#: langcorrect/templates/modals/notifications.html:58
 msgid "Close"
 msgstr "閉じる"
 
@@ -907,66 +898,65 @@ msgstr "ライティングプロンプト"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: langcorrect/templates/navbar.html:58
-msgid "Forums"
-msgstr "フォーラム"
-
-#: langcorrect/templates/navbar.html:61
+#: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "ランキング"
 
-#: langcorrect/templates/navbar.html:81
+#: langcorrect/templates/navbar.html:77
 msgid "Write"
 msgstr "書く"
 
-#: langcorrect/templates/navbar.html:119
+#: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
 msgstr "プレミアムを管理"
 
-#: langcorrect/templates/navbar.html:124
+#: langcorrect/templates/navbar.html:120
 msgid "Get Premium"
 msgstr "プレミアムを取得"
 
-#: langcorrect/templates/navbar.html:131
+#: langcorrect/templates/navbar.html:127
+#: langcorrect/templates/posts/user_posts.html:9
+#: langcorrect/templates/posts/user_posts.html:12
 msgid "My Journals"
 msgstr "マイジャーナル"
 
-#: langcorrect/templates/navbar.html:137
+#: langcorrect/templates/navbar.html:133
+#: langcorrect/templates/prompts/user_prompts.html:10
 msgid "My Prompts"
 msgstr "マイプロンプト"
 
-#: langcorrect/templates/navbar.html:146
+#: langcorrect/templates/navbar.html:142
 msgid "Logout"
 msgstr "ログアウト"
 
-#: langcorrect/templates/navbar.html:167
+#: langcorrect/templates/navbar.html:163
 msgid "Visit your profile"
 msgstr "プロフィールにアクセス"
 
-#: langcorrect/templates/navbar.html:175
+#: langcorrect/templates/navbar.html:171
 msgid "Member role"
 msgstr "メンバーロール"
 
-#: langcorrect/templates/navbar.html:178
+#: langcorrect/templates/navbar.html:174
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr "プレミアム"
 
-#: langcorrect/templates/navbar.html:180
+#: langcorrect/templates/navbar.html:176
 msgid "Member"
 msgstr "メンバー"
 
-#: langcorrect/templates/navbar.html:186
+#: langcorrect/templates/navbar.html:182
 msgid "Total corrections made"
 msgstr "総訂正数"
 
-#: langcorrect/templates/navbar.html:193
+#: langcorrect/templates/navbar.html:189
 msgid "Total corrections received"
 msgstr "受け取った総訂正数"
 
-#: langcorrect/templates/navbar.html:200
+#: langcorrect/templates/navbar.html:196
 msgid "Correction ratio"
 msgstr "訂正比率"
 
@@ -1276,11 +1266,11 @@ msgstr "ライティング連続記録"
 msgid "Language Match"
 msgstr "言語マッチ"
 
-#: langcorrect/templates/posts/partials/post_card.html:39
+#: langcorrect/templates/posts/partials/post_card.html:40
 msgid "Correctors"
 msgstr "訂正者"
 
-#: langcorrect/templates/posts/partials/post_card.html:58
+#: langcorrect/templates/posts/partials/post_card.html:59
 msgid "Correct"
 msgstr "訂正する"
 
@@ -1350,17 +1340,31 @@ msgstr "学ぶ"
 msgid "Browse journals written by users you are following."
 msgstr "フォローしているユーザーによって書かれたジャーナルを閲覧する。"
 
-#: langcorrect/templates/posts/post_list.html:56
-msgid "Following feed"
-msgstr "フォローしているフィード"
+#: langcorrect/templates/posts/post_list.html:61
+msgid "Feedback & Feature Requests"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:73
-msgid "You're not following anyone yet."
-msgstr "まだ誰もフォローしていません"
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:75
-msgid "Follow users to see their latest posts here."
-msgstr "ここで最新の投稿を見るためにユーザーをフォローする。"
+#: langcorrect/templates/posts/user_posts.html:20
+msgid "Tags"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:21
+msgid "Date"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:23
+msgid "Visibility"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:47
+#, fuzzy
+#| msgid "View all"
+msgid "View"
+msgstr "すべて表示"
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
 #: langcorrect/templates/prompts/prompt_detail.html:33
@@ -1386,6 +1390,22 @@ msgstr "応答したプロンプトを見る"
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
 msgstr "完了した"
+
+#: langcorrect/templates/prompts/user_prompts.html:18
+#, fuzzy
+#| msgid "Prompts"
+msgid "Prompt"
+msgstr "プロンプト"
+
+#: langcorrect/templates/prompts/user_prompts.html:19
+#, fuzzy
+#| msgid "Respond"
+msgid "Responses"
+msgstr "返信する"
+
+#: langcorrect/templates/prompts/user_prompts.html:21
+msgid "Created"
+msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:37
 msgid "Community Stats"
@@ -1514,3 +1534,33 @@ msgstr "バイオ"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "情報が正常に更新されました"
+
+#~ msgid "العربية"
+#~ msgstr "アラビア語"
+
+#~ msgid "עברית"
+#~ msgstr "ヘブライ語"
+
+#~ msgid "About"
+#~ msgstr "について"
+
+#~ msgid "Changelog"
+#~ msgstr "変更ログ"
+
+#~ msgid "Credits"
+#~ msgstr "クレジット"
+
+#~ msgid "Logo Breakdown"
+#~ msgstr "ロゴの解説"
+
+#~ msgid "Forums"
+#~ msgstr "フォーラム"
+
+#~ msgid "Following feed"
+#~ msgstr "フォローしているフィード"
+
+#~ msgid "You're not following anyone yet."
+#~ msgstr "まだ誰もフォローしていません"
+
+#~ msgid "Follow users to see their latest posts here."
+#~ msgstr "ここで最新の投稿を見るためにユーザーをフォローする。"

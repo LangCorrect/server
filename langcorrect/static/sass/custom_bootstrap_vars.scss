@@ -1,0 +1,13 @@
+@import '~bootstrap/scss/functions';
+
+$primary: #6174dd;
+$premium: #ff9066;
+$min-contrast-ratio: 3;
+
+@import '~bootstrap/scss/variables';
+
+$custom-colors: (
+  'premium': $premium,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);

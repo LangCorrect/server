@@ -288,3 +288,6 @@ temp_data/
 /dataSources/
 /dataSources.local.xml
 /.idea/
+
+/static/
+.env

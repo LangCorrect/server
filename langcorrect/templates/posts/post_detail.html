@@ -6,7 +6,7 @@
 {% load correction_tags %}
 
 {% block content %}
-  <div class="d-grid gap-3">
+  <div class="d-flex flex-column gap-3">
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True disable_text_truncation=True %}
     {% if post.postimage_set.all %}
       <div class="card">

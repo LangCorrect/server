@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 03:12+0000\n"
+"POT-Creation-Date: 2023-10-17 07:20+0000\n"
 "PO-Revision-Date: 2023-10-02 21:45+0000\n"
 "Last-Translator:   <admin@dundermifflin.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
-
-#: config/settings/base.py:33
-msgid "العربية"
-msgstr "Arapça"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -47,43 +43,43 @@ msgstr "Fince"
 msgid "Français"
 msgstr "Fransızca"
 
-#: config/settings/base.py:40
-msgid "עברית"
-msgstr "İbranice"
-
 #: config/settings/base.py:41
+msgid "Hrvatski"
+msgstr ""
+
+#: config/settings/base.py:42
 msgid "Italiano"
 msgstr "İtalyanca"
 
-#: config/settings/base.py:42
+#: config/settings/base.py:43
 msgid "日本語"
 msgstr "Japonca"
 
-#: config/settings/base.py:43
+#: config/settings/base.py:44
 msgid "한국어"
 msgstr "Korece"
 
-#: config/settings/base.py:44
+#: config/settings/base.py:45
 msgid "Polski"
 msgstr "Lehçe"
 
-#: config/settings/base.py:45
+#: config/settings/base.py:46
 msgid "Português"
 msgstr "Portekizce"
 
-#: config/settings/base.py:46
+#: config/settings/base.py:47
 msgid "Русский"
 msgstr "Rusça"
 
-#: config/settings/base.py:47
+#: config/settings/base.py:48
 msgid "Türkçe"
 msgstr "Türkçe"
 
-#: config/settings/base.py:48
+#: config/settings/base.py:49
 msgid "简体中文"
 msgstr "Basit Çince"
 
-#: config/settings/base.py:49
+#: config/settings/base.py:50
 msgid "繁體中文"
 msgstr "Geleneksel Çince"
 
@@ -162,6 +158,10 @@ msgstr "Anadil"
 #: langcorrect/memberships/apps.py:8
 msgid "Memberships"
 msgstr "Üyelikler"
+
+#: langcorrect/posts/api/views.py:31
+msgid "replied on"
+msgstr ""
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -296,8 +296,7 @@ msgstr "Uyarı:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 "Şu anda herhangi bir e-posta adresiniz yok. Bildirim alabilmek, şifrenizi "
 "sıfırlayabilmek vb. için mutlaka bir e-posta adresi eklemelisiniz."
@@ -323,21 +322,27 @@ msgstr "%(site_name)s'e Hoş Geldiniz!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has "
+"given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Bu e-postayı alıyorsunuz çünkü kullanıcı %(user_display)s, %(site_domain)s'de bir hesap oluşturmak için e-posta adresinizi vermiş."
+"Bu e-postayı alıyorsunuz çünkü kullanıcı %(user_display)s, "
+"%(site_domain)s'de bir hesap oluşturmak için e-posta adresinizi vermiş."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
+"          To complete your registration and gain full access to all "
+"features, please verify your e-mail address by going to %(activate_url)s, or "
+"clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Kaydınızı tamamlamak ve tüm özelliklere tam erişim sağlamak için, lütfen e-posta adresinizi doğrulayın. Bunun için %(activate_url)s adresine gidin veya aşağıdaki düğmeye tıklayın."
+"Kaydınızı tamamlamak ve tüm özelliklere tam erişim sağlamak için, lütfen e-"
+"posta adresinizi doğrulayın. Bunun için %(activate_url)s adresine gidin veya "
+"aşağıdaki düğmeye tıklayın."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -347,11 +352,13 @@ msgstr "E-posta Adresini Doğrula"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or "
+"contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Eğer %(site_name)s için kayıt olmadıysanız, bu e-postayı yoksayabilir veya destek için bizimle iletişime geçebilirsiniz."
+"Eğer %(site_name)s için kayıt olmadıysanız, bu e-postayı yoksayabilir veya "
+"destek için bizimle iletişime geçebilirsiniz."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -364,8 +371,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"Lütfen <a href=\"mailto:%(email)s\">%(email)s</a> adresinin %(user_display)s"
-" kullanıcısına ait bir e-posta adresi olduğunu onaylayın."
+"Lütfen <a href=\"mailto:%(email)s\">%(email)s</a> adresinin %(user_display)s "
+"kullanıcısına ait bir e-posta adresi olduğunu onaylayın."
 
 #: langcorrect/templates/account/email_confirm.html:19
 msgid "Confirm"
@@ -383,7 +390,7 @@ msgstr ""
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
 #: langcorrect/templates/account/login.html:49
-#: langcorrect/templates/navbar.html:73
+#: langcorrect/templates/navbar.html:69
 #: langcorrect/templates/pages/pricing.html:156
 msgid "Sign In"
 msgstr "Giriş Yap"
@@ -447,8 +454,8 @@ msgstr "Şifre Sıfırla"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 "Şifrenizi mi unuttunuz? Aşağıya e-posta adresinizi girin, ve size şifrenizi "
 "sıfırlamanıza izin verecek bir e-posta göndereceğiz."
@@ -479,12 +486,11 @@ msgstr "Geçersiz Anahtar"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
-"Şifre sıfırlama bağlantısı geçersiz, muhtemelen zaten kullanılmış. Lütfen <a"
-" href=\"%(passwd_reset_url)s\">yeni bir şifre sıfırlama isteği</a> "
-"oluşturun."
+"Şifre sıfırlama bağlantısı geçersiz, muhtemelen zaten kullanılmış. Lütfen <a "
+"href=\"%(passwd_reset_url)s\">yeni bir şifre sıfırlama isteği</a> oluşturun."
 
 #: langcorrect/templates/account/password_reset_from_key.html:30
 msgid "change password"
@@ -608,8 +614,8 @@ msgstr ""
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
 msgstr ""
 "<strong>Not:</strong> hala <a href=\"%(email_url)s\">e-posta adresinizi "
 "değiştirebilirsiniz</a>."
@@ -688,8 +694,8 @@ msgstr "Genel geri bildirim veya yorum"
 
 #: langcorrect/templates/corrections/make_corrections.html:68
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are"
-" all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are "
+"all here to learn, so let's encourage and support one another."
 msgstr ""
 "Geri bildirim eklemek istiyorsanız, lütfen yapıcı olduğundan emin olun. "
 "Hepimiz burada öğrenmek için varız, bu yüzden birbirimizi teşvik edelim ve "
@@ -717,7 +723,8 @@ msgstr "Gönder"
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as perfect!\n"
+"                    %(user_count)s users have marked this sentence as "
+"perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -728,7 +735,8 @@ msgid "Original"
 msgstr "Orijinal"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:56
+#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Düzeltilmiş"
 
@@ -774,7 +782,6 @@ msgid "No corrections have been made"
 msgstr "Herhangi bir düzeltme yapılmamış"
 
 #: langcorrect/templates/corrections/popular_correctors.html:96
-#: langcorrect/templates/posts/post_list.html:83
 msgid "View all"
 msgstr "Tümünü gör"
 
@@ -791,42 +798,26 @@ msgid "Following"
 msgstr "Takip Edilenler"
 
 #: langcorrect/templates/footer.html:7
-msgid "About"
-msgstr "Hakkında"
-
-#: langcorrect/templates/footer.html:11
-msgid "Changelog"
-msgstr "Değişiklik Günlüğü"
-
-#: langcorrect/templates/footer.html:15
-msgid "Credits"
-msgstr "Teşekkürler"
-
-#: langcorrect/templates/footer.html:18
-msgid "Logo Breakdown"
-msgstr "Logo Ayrıntıları"
-
-#: langcorrect/templates/footer.html:23
 msgid "Legal"
 msgstr "Yasal"
 
-#: langcorrect/templates/footer.html:27
+#: langcorrect/templates/footer.html:10
 msgid "Privacy Policy"
 msgstr "Gizlilik Politikası"
 
-#: langcorrect/templates/footer.html:31
+#: langcorrect/templates/footer.html:14
 msgid "Community Guidelines"
 msgstr "Topluluk Kuralları"
 
-#: langcorrect/templates/footer.html:35
+#: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
 msgstr "Kullanım Şartları"
 
-#: langcorrect/templates/footer.html:42
+#: langcorrect/templates/footer.html:24
 msgid "Site Languages"
 msgstr "Site Dilleri"
 
-#: langcorrect/templates/footer.html:58
+#: langcorrect/templates/footer.html:40
 msgid "Go"
 msgstr "Git"
 
@@ -834,7 +825,8 @@ msgstr "Git"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list "
+"of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -850,8 +842,9 @@ msgstr "İptal"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:47
+#: langcorrect/templates/posts/partials/post_card.html:48
 #: langcorrect/templates/posts/post_confirm_delete.html:19
+#: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
 msgstr "Sil"
 
@@ -864,6 +857,8 @@ msgid "Add Language"
 msgstr "Dil Ekle"
 
 #: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
 msgid "Language"
 msgstr "Dil"
 
@@ -872,11 +867,13 @@ msgid "Level"
 msgstr "Seviye"
 
 #: langcorrect/templates/languages/languagelevel_list.html:15
+#: langcorrect/templates/posts/user_posts.html:24
 msgid "Actions"
 msgstr "Eylemler"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:49
+#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Düzenle"
 
@@ -910,19 +907,19 @@ msgstr "Düzeltmeleri nasıl dışa aktarmak istersiniz?"
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: langcorrect/templates/modals/notifications.html:47
+#: langcorrect/templates/modals/notifications.html:49
 msgid "No notifications yet!"
 msgstr "Henüz bir bildirim yok!"
 
-#: langcorrect/templates/modals/notifications.html:48
+#: langcorrect/templates/modals/notifications.html:50
 msgid "We'll notify you when something arrives!"
 msgstr "Bir şey geldiğinde sizi bilgilendireceğiz!"
 
-#: langcorrect/templates/modals/notifications.html:55
+#: langcorrect/templates/modals/notifications.html:57
 msgid "Delete all notifications"
 msgstr "Tüm bildirimleri sil"
 
-#: langcorrect/templates/modals/notifications.html:56
+#: langcorrect/templates/modals/notifications.html:58
 msgid "Close"
 msgstr "Kapat"
 
@@ -938,66 +935,65 @@ msgstr "Yazma İstekleri"
 msgid "Community"
 msgstr "Topluluk"
 
-#: langcorrect/templates/navbar.html:58
-msgid "Forums"
-msgstr "Forumlar"
-
-#: langcorrect/templates/navbar.html:61
+#: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Sıralamalar"
 
-#: langcorrect/templates/navbar.html:81
+#: langcorrect/templates/navbar.html:77
 msgid "Write"
 msgstr "Yaz"
 
-#: langcorrect/templates/navbar.html:119
+#: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
 msgstr "Premium Yönet"
 
-#: langcorrect/templates/navbar.html:124
+#: langcorrect/templates/navbar.html:120
 msgid "Get Premium"
 msgstr "Premium Al"
 
-#: langcorrect/templates/navbar.html:131
+#: langcorrect/templates/navbar.html:127
+#: langcorrect/templates/posts/user_posts.html:9
+#: langcorrect/templates/posts/user_posts.html:12
 msgid "My Journals"
 msgstr "Günlüklerim"
 
-#: langcorrect/templates/navbar.html:137
+#: langcorrect/templates/navbar.html:133
+#: langcorrect/templates/prompts/user_prompts.html:10
 msgid "My Prompts"
 msgstr "İsteklerim"
 
-#: langcorrect/templates/navbar.html:146
+#: langcorrect/templates/navbar.html:142
 msgid "Logout"
 msgstr "Çıkış Yap"
 
-#: langcorrect/templates/navbar.html:167
+#: langcorrect/templates/navbar.html:163
 msgid "Visit your profile"
 msgstr "Profilinizi ziyaret edin"
 
-#: langcorrect/templates/navbar.html:175
+#: langcorrect/templates/navbar.html:171
 msgid "Member role"
 msgstr "Üye rolü"
 
-#: langcorrect/templates/navbar.html:178
+#: langcorrect/templates/navbar.html:174
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr "Premium"
 
-#: langcorrect/templates/navbar.html:180
+#: langcorrect/templates/navbar.html:176
 msgid "Member"
 msgstr "Üye"
 
-#: langcorrect/templates/navbar.html:186
+#: langcorrect/templates/navbar.html:182
 msgid "Total corrections made"
 msgstr "Yapılan toplam düzeltmeler"
 
-#: langcorrect/templates/navbar.html:193
+#: langcorrect/templates/navbar.html:189
 msgid "Total corrections received"
 msgstr "Alınan toplam düzeltmeler"
 
-#: langcorrect/templates/navbar.html:200
+#: langcorrect/templates/navbar.html:196
 msgid "Correction ratio"
 msgstr "Düzeltme oranı"
 
@@ -1041,8 +1037,8 @@ msgstr "Bir hesap oluştur"
 
 #: langcorrect/templates/pages/home.html:54
 msgid ""
-"We start with a short 3-step registration process to help us determine users"
-" you should be match with."
+"We start with a short 3-step registration process to help us determine users "
+"you should be match with."
 msgstr ""
 "Size uygun kullanıcılarla eşleşmenize yardımcı olmak için kısa bir 3 adımlı "
 "kayıt süreciyle başlıyoruz."
@@ -1092,8 +1088,8 @@ msgid ""
 "target language, publish it, and let the LangCorrect community do their "
 "thing to provide corrections for you."
 msgstr ""
-"Yazınıza hızlı bir şekilde düzeltme alın - Sadece hedef dilinizde bir günlük"
-" yazın, yayınlayın ve LangCorrect topluluğunun size düzeltme sağlamak için "
+"Yazınıza hızlı bir şekilde düzeltme alın - Sadece hedef dilinizde bir günlük "
+"yazın, yayınlayın ve LangCorrect topluluğunun size düzeltme sağlamak için "
 "işlerini yapmalarına izin verin."
 
 #: langcorrect/templates/pages/home.html:88
@@ -1102,8 +1098,8 @@ msgstr "Sürekli gelişiyor"
 
 #: langcorrect/templates/pages/home.html:90
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct"
-" feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct "
+"feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 "LangCorrect platformu sürekli olarak gelişmektedir. Kullanıcı tabanımızdan "
@@ -1116,8 +1112,8 @@ msgstr "Arkadaşlarınla öğren"
 
 #: langcorrect/templates/pages/home.html:96
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who"
-" can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who "
+"can earn the highest Rankings and Streaks."
 msgstr ""
 "Arkadaşlarınızı LangCorrect'e katılmaya davet edin ve kimin en yüksek "
 "Sıralamaları ve Serileri kazanabileceğini görmek için birbirinize meydan "
@@ -1132,8 +1128,8 @@ msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
 msgstr ""
-"Yazma isteklerinden otomatik, renk kodlu düzeltme vurgulamasına kadar, başka"
-" bir dilde yazmayı öğrenmek hiç bu kadar kolay olmamıştı."
+"Yazma isteklerinden otomatik, renk kodlu düzeltme vurgulamasına kadar, başka "
+"bir dilde yazmayı öğrenmek hiç bu kadar kolay olmamıştı."
 
 #: langcorrect/templates/pages/home.html:106
 msgid "Built-in messaging"
@@ -1142,8 +1138,8 @@ msgstr "Dahili mesajlaşma"
 #: langcorrect/templates/pages/home.html:108
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around"
-" the globe."
+"feature. This is a great way to make new friends and meet people from around "
+"the globe."
 msgstr ""
 "Mesajlaşma özelliğini kullanarak diğer öğrenenlerle sohbet etmek ve "
 "rahatlamak için bir mola verin. Bu, dünyanın dört bir yanından yeni "
@@ -1156,16 +1152,25 @@ msgstr "Bugün katılın ve dil öğrenmeyi yeniden tanımlayın."
 #: langcorrect/templates/pages/home.html:120
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d "
+"be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in "
+"order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
-"                            burning questions so that you can reach the level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help "
+"you, provide support, and answer your\n"
+"                            burning questions so that you can reach the "
+"level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Akıcı olun ya da sadece başlangıç ​​yapıyor olun, LangCorrect topluluğuna katılmanızdan dolayı çok heyecanlı olurduk. Hepimiz öğreneniz ve yeni bir dilde akıcılık ve güven kazanmak için hata yapmanın önemli olduğunu anlıyoruz. LangCorrect'in harika kullanıcıları, yeni dilinizde olmak istediğiniz seviyeye ulaşabilmeniz için size yardımcı olmaya, destek sağlamaya ve yanan sorularınızı yanıtlamaya hazır."
+"Akıcı olun ya da sadece başlangıç ​​yapıyor olun, LangCorrect topluluğuna "
+"katılmanızdan dolayı çok heyecanlı olurduk. Hepimiz öğreneniz ve yeni bir "
+"dilde akıcılık ve güven kazanmak için hata yapmanın önemli olduğunu "
+"anlıyoruz. LangCorrect'in harika kullanıcıları, yeni dilinizde olmak "
+"istediğiniz seviyeye ulaşabilmeniz için size yardımcı olmaya, destek "
+"sağlamaya ve yanan sorularınızı yanıtlamaya hazır."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1299,11 +1304,17 @@ msgstr "Topluluğumuza Destek Olun"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just "
+"investing in your own language learning journey. You're also helping us keep "
+"the basic features free for everyone. Your support sustains this platform "
+"and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Premium Yıllık Aboneliğe yükselterek sadece kendi dil öğrenme yolculuğunuza yatırım yapmıyorsunuz. Aynı zamanda temel özelliklerin herkes için ücretsiz kalmasına da yardımcı oluyorsunuz. Destekleriniz bu platformu sürdürüyor ve ömür boyu öğrenenlerden oluşan küresel bir topluluk oluşturuyor."
+"Premium Yıllık Aboneliğe yükselterek sadece kendi dil öğrenme yolculuğunuza "
+"yatırım yapmıyorsunuz. Aynı zamanda temel özelliklerin herkes için ücretsiz "
+"kalmasına da yardımcı oluyorsunuz. Destekleriniz bu platformu sürdürüyor ve "
+"ömür boyu öğrenenlerden oluşan küresel bir topluluk oluşturuyor."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1330,11 +1341,11 @@ msgstr "Yazma Serisi"
 msgid "Language Match"
 msgstr "Dil Eşleşmesi"
 
-#: langcorrect/templates/posts/partials/post_card.html:39
+#: langcorrect/templates/posts/partials/post_card.html:40
 msgid "Correctors"
 msgstr "Düzelticiler"
 
-#: langcorrect/templates/posts/partials/post_card.html:58
+#: langcorrect/templates/posts/partials/post_card.html:59
 msgid "Correct"
 msgstr "Düzelt"
 
@@ -1404,17 +1415,31 @@ msgstr "Öğren"
 msgid "Browse journals written by users you are following."
 msgstr "Takip ettiğiniz kullanıcılar tarafından yazılmış günlükleri göz atın."
 
-#: langcorrect/templates/posts/post_list.html:56
-msgid "Following feed"
-msgstr "Takip Akışı"
+#: langcorrect/templates/posts/post_list.html:61
+msgid "Feedback & Feature Requests"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:73
-msgid "You're not following anyone yet."
-msgstr "Henüz kimseyi takip etmiyorsunuz."
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
+msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:75
-msgid "Follow users to see their latest posts here."
-msgstr "En son gönderilerini burada görmek için kullanıcıları takip edin."
+#: langcorrect/templates/posts/user_posts.html:20
+msgid "Tags"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:21
+msgid "Date"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:23
+msgid "Visibility"
+msgstr ""
+
+#: langcorrect/templates/posts/user_posts.html:47
+#, fuzzy
+#| msgid "View all"
+msgid "View"
+msgstr "Tümünü gör"
 
 #: langcorrect/templates/prompts/partials/prompt_card.html:29
 #: langcorrect/templates/prompts/prompt_detail.html:33
@@ -1440,6 +1465,22 @@ msgstr "Yanıt verdiğiniz istekleri görüntüleyin"
 #: langcorrect/templates/prompts/prompt_list.html:25
 msgid "Completed"
 msgstr "Tamamlandı"
+
+#: langcorrect/templates/prompts/user_prompts.html:18
+#, fuzzy
+#| msgid "Prompts"
+msgid "Prompt"
+msgstr "İpuçları"
+
+#: langcorrect/templates/prompts/user_prompts.html:19
+#, fuzzy
+#| msgid "Respond"
+msgid "Responses"
+msgstr "Yanıtla"
+
+#: langcorrect/templates/prompts/user_prompts.html:21
+msgid "Created"
+msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:37
 msgid "Community Stats"
@@ -1515,7 +1556,8 @@ msgstr "E-Posta"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions "
+"this year\n"
 "                   "
 msgstr ""
 "\n"
@@ -1568,3 +1610,33 @@ msgstr "Biyografi"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Bilgiler başarıyla güncellendi"
+
+#~ msgid "العربية"
+#~ msgstr "Arapça"
+
+#~ msgid "עברית"
+#~ msgstr "İbranice"
+
+#~ msgid "About"
+#~ msgstr "Hakkında"
+
+#~ msgid "Changelog"
+#~ msgstr "Değişiklik Günlüğü"
+
+#~ msgid "Credits"
+#~ msgstr "Teşekkürler"
+
+#~ msgid "Logo Breakdown"
+#~ msgstr "Logo Ayrıntıları"
+
+#~ msgid "Forums"
+#~ msgstr "Forumlar"
+
+#~ msgid "Following feed"
+#~ msgstr "Takip Akışı"
+
+#~ msgid "You're not following anyone yet."
+#~ msgstr "Henüz kimseyi takip etmiyorsunuz."
+
+#~ msgid "Follow users to see their latest posts here."
+#~ msgstr "En son gönderilerini burada görmek için kullanıcıları takip edin."

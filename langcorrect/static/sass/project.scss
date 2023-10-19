@@ -1,0 +1,168 @@
+@import 'custom_bootstrap_vars';
+@import '~bootstrap/scss/bootstrap';
+
+// project specific CSS goes here
+
+/////////////
+//  Fonts  //
+/////////////
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('../fonts/NotoSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('../fonts/NotoSansJP-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  src: url('../fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+
+:root {
+  --chip-font-size: 0.8125rem;
+  --chip-height: 26px;
+  --chip-border-radius: 16px;
+  --chip-padding: 1px 8px;
+  --chip-border-color: rgb(97, 97, 97);
+}
+
+body {
+  background: #f1f4f8;
+  font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
+}
+
+.index-heading-width {
+  width: 25rem;
+}
+
+///////////////
+// Variables //
+///////////////
+
+// Alert colors
+
+$white: #fff;
+$mint-green: #d6e9c6;
+$black: #000;
+$pink: #f2dede;
+$dark-pink: #eed3d7;
+$red: #b94a48;
+$premium: #ff9066;
+
+////////////
+// Alerts //
+////////////
+
+// bootstrap alert CSS, translated to the django-standard levels of
+// debug, info, success, warning, error
+
+.alert-debug {
+  background-color: $white;
+  border-color: $mint-green;
+  color: $black;
+}
+
+.alert-error {
+  background-color: $pink;
+  border-color: $dark-pink;
+  color: $red;
+}
+
+///////////////
+//  Utility  //
+///////////////
+
+.pointer {
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  background: rgba(0, 0, 0, 0.075);
+  transition: 500ms;
+}
+
+.truncate-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  -webkit-line-clamp: 4;
+}
+
+.line-clamp-10 {
+  -webkit-line-clamp: 10;
+}
+
+///////////////
+//   Post    //
+///////////////
+
+.chip {
+  font-size: var(--font-size-chip);
+  height: var(--chip-height);
+  border-radius: var(--chip-border-radius);
+  padding: var(--chip-padding);
+  box-sizing: border-box;
+  border: 1px solid var(--chip-border-color);
+}
+
+//////////////////////
+//   Corrections   //
+/////////////////////
+
+ins {
+  text-decoration: none;
+}
+
+ins,
+del {
+  padding: 0 3px;
+  font-weight: 600;
+}
+
+////////////////
+//  Rankings  //
+////////////////
+
+.ranking-item {
+  width: 6rem;
+}

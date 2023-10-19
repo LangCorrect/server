@@ -67,6 +67,9 @@ class UserSignupForm(SignupForm):
         studying_language = self.cleaned_data.get("studying_language")
         studying_language_level = self.cleaned_data.get("studying_language_level")
 
+        if user is None:
+            return None
+
         # native
         LanguageLevel.objects.create(user=user, language=native_language, level=LevelChoices.NATIVE)
 

@@ -51,6 +51,7 @@ class PromptListView(LoginRequiredMixin, ListView):
                 "mode": mode,
                 "language_filters": language_filter_choices,
                 "selected_lang_code": selected_lang_code,
+                "is_prompt_page": True,
             }
         )
 

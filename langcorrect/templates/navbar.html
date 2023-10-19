@@ -42,7 +42,7 @@
              href="{% url 'posts:list' %}">{% translate "My Feed" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if mode == 'prompts' %}active fw-bold{% endif %}"
+          <a class="nav-link {% if is_prompt_page %}active fw-bold{% endif %}"
              href="{% url 'prompts:list' %}">{% translate "Writing Prompts" %}</a>
         </li>
         <li class="nav-item dropdown">
@@ -53,10 +53,6 @@
              aria-expanded="false">{% translate "Community" %}</a>
           <ul class="dropdown-menu create-dropdown p-0"
               aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a class="dropdown-item px-3 py-2"
-                 href="https://community.langcorrect.com/"><i class="fas fa-bullhorn fa-fw"></i> {% translate "Forums" %}</a>
-            </li>
             <li>
               <a class="dropdown-item px-3 py-2" href="{% url 'rankings' %}"><i class="fas fa-trophy fa-fw"></i> {% translate "Rankings" %}</a>
             </li>
