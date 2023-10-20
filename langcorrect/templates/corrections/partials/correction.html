@@ -1,5 +1,5 @@
-<div class="p-3 border-bottom">
-  <p class="{% if correction.type == 'perfect' %} text-success {% endif %} mb-0">
+<div class="p-3 {% if correction.type == 'perfect' %} bg-success bg-opacity-25 {% else %} bg-warning bg-opacity-25 {% endif %}">
+  <p class=" mb-0">
     <i class="fa-solid {% if correction.type == 'perfect' %} fa-check {% else %} fa-xmark text-danger {% endif %}"></i> {{ correction.correction|safe }}
   </p>
   {% if correction.note %}<p class="mt-3 mb-0 text-secondary">{{ correction.note|linebreaksbr }}</p>{% endif %}

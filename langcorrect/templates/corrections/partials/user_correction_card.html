@@ -4,9 +4,11 @@
 
 <div class="card">
   {% include "posts/partials/card_header.html" %}
-  {% for correction in corrections %}
-    {% include "corrections/partials/correction.html" %}
-  {% endfor %}
+  <div class="d-grid gap-1 p-1">
+    {% for correction in corrections %}
+      {% include "corrections/partials/correction.html" %}
+    {% endfor %}
+  </div>
   {% if overall_feedback %}
     <div class="p-3">
       <p class="fw-bold">Feedback</p>
