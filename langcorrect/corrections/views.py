@@ -146,7 +146,6 @@ def make_corrections(request, slug):
     context["post"] = post
     context["overall_feedback"] = overall_feedback.comment if overall_feedback else ""
     context["is_edit"] = is_edit
-    context["disable_page_container"] = True
 
     return render(request, "corrections/make_corrections.html", context)
 
