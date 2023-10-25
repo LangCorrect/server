@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<div class="modal fade"
+     id="postOverviewModal"
+     tabindex="-1"
+     aria-labelledby="postOverviewModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="postOverviewModalLabel">{% translate "Post Overview" %}</h1>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if post.native_text %}
+          <p class="text-primary fw-bold">{% translate "Native Text" %}</p>
+          <p>{{ post.native_text|linebreaksbr }}</p>
+          <hr />
+        {% endif %}
+        <p class="text-primary fw-bold">{% translate "Original Text" %}</p>
+        <p>{{ post.text|linebreaksbr }}</p>
+      </div>
+    </div>
+  </div>
+</div>
