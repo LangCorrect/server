@@ -1,3 +1,5 @@
+import re
+
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from django import forms as django_forms
@@ -45,6 +47,14 @@ class UserSignupForm(SignupForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.initial["gender_of_narration"] = GenderChoices.UNKNOWN
+
+    def clean_username(self):
+        username = super().clean_username()
+
+        if not re.match("^[a-zA-Z0-9_]+$", username):
+            raise django_forms.ValidationError("Username can only contain letters, numbers, and underscores.")
+
+        return username
 
     def clean(self):
         cleaned_data = super().clean()
