@@ -7,133 +7,102 @@
   {{ post.title }}
 {% endblock title %}
 {% block content %}
-  <div class="sticky-top py-2 bg-white shadow-sm mb-3">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex gap-3">
-          <span class="text-primary"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                data-bs-title="{% translate 'Gender of narration' %}">
-            <i class="fa-solid fa-person"></i>
-            {% translate post.get_gender_of_narration_display %}
-          </span>
-          <span class="text-primary"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                data-bs-title="{% translate 'Language level' %}">
-            <i class="fa-solid fa-graduation-cap"></i>
-            {% translate post.language_level %}
-          </span>
-        </div>
-        <button class="btn btn-sm btn-outline-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#postOverviewModal">
-          <i class="fa-brands fa-readme"></i>
-          {% translate "Post Overview" %}
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <form autocomplete="off" id="correctionsForm" method="post">
-      <div class="d-grid gap-3">
-        {% csrf_token %}
-        {% for post_row in post_rows %}
-          <div class="card js-correction-card"
-               data-sentence-id="{{ post_row.id }}"
-               data-original-sentence="{{ post_row.sentence }}"
-               data-action="{{ post_row.action }}">
-            <div class="card-body border-bottom">
-              <span class="js-sentence">{{ post_row.sentence }}</span>
+  <form autocomplete="off" id="correctionsForm" method="post">
+    <div class="d-grid gap-3">
+      {% csrf_token %}
+      {% for post_row in post_rows %}
+        <div class="card js-correction-card"
+             data-sentence-id="{{ post_row.id }}"
+             data-original-sentence="{{ post_row.sentence }}"
+             data-action="{{ post_row.action }}">
+          <div class="card-body border-bottom">
+            <span class="js-sentence">{{ post_row.sentence }}</span>
+          </div>
+          <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
+               data-correction-box="{{ post_row.id }}">
+            <div class="mb-3">
+              <label for="js-correction-row-{{ post_row.id }}" class="form-label">
+                {% translate "Make your correction here." %}
+              </label>
+              <textarea class="form-control"
+                        name="correction-row-{{ post_row.id }}"
+                        id="js-correction-row-{{ post_row.id }}"
+                        placeholder="{% translate 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
             </div>
-            <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
-                 data-correction-box="{{ post_row.id }}">
-              <div class="mb-3">
-                <label for="js-correction-row-{{ post_row.id }}" class="form-label">
-                  {% translate "Make your correction here." %}
-                </label>
-                <textarea class="form-control"
-                          name="correction-row-{{ post_row.id }}"
-                          id="js-correction-row-{{ post_row.id }}"
-                          placeholder="{% translate 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
-              </div>
-              <div class="mb-3">
-                <label for="js-correction-note-{{ post_row.id }}" class="form-label">
-                  {% translate "Include feedback for this correction here." %}
-                </label>
-                <textarea class="form-control"
-                          name="correction-note-{{ post_row.id }}"
-                          id="js-correction-note-{{ post_row.id }}"
-                          placeholder="{% translate 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
-              </div>
-            </div>
-            <div class="d-flex justify-content-end p-2 gap-2 border-top">
-              {% if post_row.is_action_taken %}
-                <button class="btn btn-sm btn-outline-danger js-delete-btn"
-                        data-sentence-id="{{ post_row.id }}">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              {% else %}
-                <button class="btn btn-sm btn-primary js-mark-as-perfect"
-                        data-sentence-id="{{ post_row.id }}">
-                  <i class="fa-solid fa-circle-check"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-primary js-edit-btn"
-                        data-sentence-id="{{ post_row.id }}"
-                        data-correction-btn="{{ post_row.id }}">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-              {% endif %}
+            <div class="mb-3">
+              <label for="js-correction-note-{{ post_row.id }}" class="form-label">
+                {% translate "Include feedback for this correction here." %}
+              </label>
+              <textarea class="form-control"
+                        name="correction-note-{{ post_row.id }}"
+                        id="js-correction-note-{{ post_row.id }}"
+                        placeholder="{% translate 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
             </div>
           </div>
-        {% endfor %}
-        <div class="card">
-          <div class="card-header bg-transparent">{% translate "Overall feedback or comment" %}</div>
-          <div class="card-body">
-            <textarea class="form-control"
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            {% if post_row.is_action_taken %}
+              <button class="btn btn-sm btn-outline-danger js-delete-btn"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            {% else %}
+              <button class="btn btn-sm btn-primary js-mark-as-perfect"
+                      data-sentence-id="{{ post_row.id }}">
+                <i class="fa-solid fa-circle-check"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-primary js-edit-btn"
+                      data-sentence-id="{{ post_row.id }}"
+                      data-correction-btn="{{ post_row.id }}">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <div class="card">
+        <div class="card-header bg-transparent">{% translate "Overall feedback or comment" %}</div>
+        <div class="card-body">
+          <textarea class="form-control"
                     id="overall-feedback"
                     rows="4"
                     placeholder="{% translate "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}">{{ overall_feedback }}</textarea>
-          </div>
-          {% if overall_feedback %}
-            <div class="d-flex justify-content-end p-2 gap-2 border-top">
-              <button class="btn btn-sm btn-outline-danger" id="delete-feedback">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          {% endif %}
         </div>
-        <div class="d-flex justify-content-end">
-          <div class="d-flex gap-3">
-            <button id="modal-btn"
-                    class="btn btn-outline-danger"
-                    data-bs-config='{ "actionLink":"{% url "posts:detail" post.slug %}"}'>
-              {% translate "Discard" %}
-            </button>
-            <button type="submit" class="btn btn-primary">
-              {% if is_edit %}
-                {% translate "Update" %}
-              {% else %}
-                {% translate "Submit" %}
-              {% endif %}
+        {% if overall_feedback %}
+          <div class="d-flex justify-content-end p-2 gap-2 border-top">
+            <button class="btn btn-sm btn-outline-danger" id="delete-feedback">
+              <i class="fa-solid fa-trash"></i>
             </button>
           </div>
+        {% endif %}
+      </div>
+      <div class="d-flex justify-content-end">
+        <div class="d-flex gap-3">
+          <button id="modal-btn"
+                  class="btn btn-outline-danger"
+                  data-bs-config='{ "actionLink":"{% url "posts:detail" post.slug %}"}'>
+            {% translate "Discard" %}
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {% if is_edit %}
+              {% translate "Update" %}
+            {% else %}
+              {% translate "Submit" %}
+            {% endif %}
+          </button>
         </div>
       </div>
-      <input type="hidden" name="corrections_data" id="serializedCorrections" />
-      <input type="hidden" name="overall_feedback" id="overallFeedback" />
-      <input type="hidden"
-             value="false"
-             name="delete_overall_feedback"
-             id="deleteOverallFeedback" />
-    </form>
-  </div>
+    </div>
+    <input type="hidden" name="corrections_data" id="serializedCorrections" />
+    <input type="hidden" name="overall_feedback" id="overallFeedback" />
+    <input type="hidden"
+           value="false"
+           name="delete_overall_feedback"
+           id="deleteOverallFeedback" />
+  </form>
 {% endblock content %}
 {% block modal %}
   {{ block.super }}
   {% include "modals/discard_modal.html" %}
-  {% include "modals/native_text.html" %}
 {% endblock modal %}
 {% block inline_javascript %}
   <script>
