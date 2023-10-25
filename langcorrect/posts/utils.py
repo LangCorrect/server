@@ -91,6 +91,6 @@ class SentenceSplitter:
             return self._split_sentences_using_nltk(text, lang_name)
         elif lang_code == "ja":
             return self._split_sentences_japanese(text)
-        elif lang_code == "zh":
+        elif lang_code in ["zh-hans", "zh-hant"]:
             return self._split_sentences_chinese(text)
         return self._split_sentences_generic(text)
