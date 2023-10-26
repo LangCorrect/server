@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, render
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from notifications.signals import notify
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -28,7 +28,7 @@ class PostReplyCreateUpdateAPIView(generics.GenericAPIView):
             notify.send(
                 sender=reply_author,
                 recipient=list(recipients),
-                verb=_("replied on"),
+                verb=gettext_noop("replied on"),
                 action_object=post,
                 notification_type="new_reply",
             )

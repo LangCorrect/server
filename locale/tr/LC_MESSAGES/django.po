@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 07:20+0000\n"
-"PO-Revision-Date: 2023-10-02 21:45+0000\n"
-"Last-Translator:   <admin@dundermifflin.com>\n"
+"POT-Creation-Date: 2023-10-25 12:28+0000\n"
+"PO-Revision-Date: 2023-10-25 12:28+0000\n"
+"Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Fransızca"
 
 #: config/settings/base.py:41
 msgid "Hrvatski"
-msgstr ""
+msgstr "Hırvatça"
 
 #: config/settings/base.py:42
 msgid "Italiano"
@@ -105,6 +105,14 @@ msgstr "Düzeltme Tipi"
 msgid "Correction Types"
 msgstr "Düzeltme Tipleri"
 
+#: langcorrect/corrections/views.py:92
+msgid "corrected"
+msgstr "Düzeltilmiş"
+
+#: langcorrect/corrections/views.py:100
+msgid "commented on"
+msgstr "yorum yaptı"
+
 #: langcorrect/decorators.py:16
 msgid "You must be a premium user to access this page."
 msgstr "Bu sayfaya erişebilmek için premium kullanıcı olmalısınız."
@@ -113,17 +121,17 @@ msgstr "Bu sayfaya erişebilmek için premium kullanıcı olmalısınız."
 msgid "Follows"
 msgstr "Takipçiler"
 
-#: langcorrect/follows/views.py:62
+#: langcorrect/follows/views.py:63
 msgid "You cannot follow yourself"
 msgstr "Kendinizi takip edemezsiniz"
 
-#: langcorrect/follows/views.py:73
+#: langcorrect/follows/views.py:74
 msgid "followed you"
 msgstr "seni takip etti"
 
 #: langcorrect/languages/apps.py:8
-#: langcorrect/templates/users/user_detail.html:62
-#: langcorrect/templates/users/user_detail.html:115
+#: langcorrect/templates/users/user_detail.html:67
+#: langcorrect/templates/users/user_detail.html:120
 msgid "Languages"
 msgstr "Diller"
 
@@ -161,7 +169,7 @@ msgstr "Üyelikler"
 
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
-msgstr ""
+msgstr "cevap verdi"
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -172,20 +180,22 @@ msgid ""
 "You need to write {50 - len(text)} more characters to meet the minimum "
 "requirement."
 msgstr ""
+"Minimum gereksinimi karşılamak için {50 - len(text)} daha fazla karakter "
+"yazmalısınız."
 
 #: langcorrect/posts/forms.py:40 langcorrect/prompts/forms.py:25
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Etiketler 20 karakterden uzun olamaz"
 
-#: langcorrect/posts/models.py:19
+#: langcorrect/posts/models.py:20
 msgid "Viewable by everyone"
 msgstr "Herkes tarafından görülebilir"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable only by registered members"
 msgstr "Sadece kayıtlı üyeler tarafından görülebilir"
 
-#: langcorrect/posts/models.py:128
+#: langcorrect/posts/models.py:129
 msgid "submitted a new entry"
 msgstr "yeni bir giriş gönderdi"
 
@@ -198,19 +208,19 @@ msgstr "Desteklenmeyen dosya uzantısı. Sadece .jpg ve .jpeg kabul edilir."
 msgid "Image size should not be more than {max_size_mb}MB."
 msgstr "Resim boyutu {max_size_mb}MB'dan büyük olmamalıdır."
 
-#: langcorrect/posts/views.py:160
+#: langcorrect/posts/views.py:161
 msgid "Post successfully updated"
 msgstr "Gönderi başarıyla güncellendi"
 
-#: langcorrect/posts/views.py:183
+#: langcorrect/posts/views.py:184
 msgid "Post successfully added"
 msgstr "Gönderi başarıyla eklendi"
 
-#: langcorrect/posts/views.py:187
+#: langcorrect/posts/views.py:188
 msgid "Your correction ratio is too low."
 msgstr "Düzeltme oranınız çok düşük."
 
-#: langcorrect/posts/views.py:228
+#: langcorrect/posts/views.py:232
 msgid "Post successfully deleted"
 msgstr "Gönderi başarıyla silindi"
 
@@ -672,27 +682,40 @@ msgstr "Toplam Sorular"
 msgid "Average Per Day"
 msgstr "Günlük Ortalama"
 
+#: langcorrect/templates/corrections/make_corrections.html:17
+msgid "Gender of narration"
+msgstr "Anlatım cinsiyeti"
+
 #: langcorrect/templates/corrections/make_corrections.html:25
+msgid "Language level"
+msgstr "Dil seviyesi"
+
+#: langcorrect/templates/corrections/make_corrections.html:35
+#: langcorrect/templates/modals/native_text.html:11
+msgid "Post Overview"
+msgstr "Gönderi Genel Bakışı"
+
+#: langcorrect/templates/corrections/make_corrections.html:56
 msgid "Make your correction here."
 msgstr "Düzeltmenizi burada yapın."
 
-#: langcorrect/templates/corrections/make_corrections.html:30
+#: langcorrect/templates/corrections/make_corrections.html:61
 msgid "Write the correct sentence here..."
 msgstr "Doğru cümleyi buraya yazın..."
 
-#: langcorrect/templates/corrections/make_corrections.html:34
+#: langcorrect/templates/corrections/make_corrections.html:65
 msgid "Include feedback for this correction here."
 msgstr "Bu düzeltme için geri bildirimi buraya ekleyin."
 
-#: langcorrect/templates/corrections/make_corrections.html:39
+#: langcorrect/templates/corrections/make_corrections.html:70
 msgid "Write your feedback here..."
 msgstr "Geri bildiriminizi buraya yazın..."
 
-#: langcorrect/templates/corrections/make_corrections.html:63
+#: langcorrect/templates/corrections/make_corrections.html:94
 msgid "Overall feedback or comment"
 msgstr "Genel geri bildirim veya yorum"
 
-#: langcorrect/templates/corrections/make_corrections.html:68
+#: langcorrect/templates/corrections/make_corrections.html:99
 msgid ""
 "If you wish to include feedback, please make sure it is constructive. We are "
 "all here to learn, so let's encourage and support one another."
@@ -701,19 +724,19 @@ msgstr ""
 "Hepimiz burada öğrenmek için varız, bu yüzden birbirimizi teşvik edelim ve "
 "destekleyelim."
 
-#: langcorrect/templates/corrections/make_corrections.html:83
+#: langcorrect/templates/corrections/make_corrections.html:114
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "İptal Et"
 
-#: langcorrect/templates/corrections/make_corrections.html:87
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Güncelle"
 
-#: langcorrect/templates/corrections/make_corrections.html:89
+#: langcorrect/templates/corrections/make_corrections.html:120
 #: langcorrect/templates/corrections/partials/user_correction_card.html:55
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
@@ -792,8 +815,8 @@ msgstr "Takipçiler"
 
 #: langcorrect/templates/follows/follower_list.html:10
 #: langcorrect/templates/follows/following_list.html:8
-#: langcorrect/templates/posts/post_list.html:26
-#: langcorrect/templates/users/user_detail.html:96
+#: langcorrect/templates/posts/post_list.html:37
+#: langcorrect/templates/users/user_detail.html:101
 msgid "Following"
 msgstr "Takip Edilenler"
 
@@ -903,6 +926,14 @@ msgstr "Düzeltmeleri dışa aktar"
 msgid "How would you like to export the corrections?"
 msgstr "Düzeltmeleri nasıl dışa aktarmak istersiniz?"
 
+#: langcorrect/templates/modals/native_text.html:19
+msgid "Native Text"
+msgstr "Anadil"
+
+#: langcorrect/templates/modals/native_text.html:23
+msgid "Original Text"
+msgstr "Orijinal"
+
 #: langcorrect/templates/modals/notifications.html:12
 msgid "Notifications"
 msgstr "Bildirimler"
@@ -924,6 +955,7 @@ msgid "Close"
 msgstr "Kapat"
 
 #: langcorrect/templates/navbar.html:42
+#: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
 msgstr "Akışım"
 
@@ -1010,20 +1042,20 @@ msgstr ""
 "alarak öğrenmekte olduğunuz dil(ler)de dil bilgisi, yazım ve sözdizimini "
 "öğrenin."
 
-#: langcorrect/templates/pages/home.html:23
-#: langcorrect/templates/pages/home.html:129
+#: langcorrect/templates/pages/home.html:24
+#: langcorrect/templates/pages/home.html:130
 msgid "Start learning"
 msgstr "Öğrenmeye Başla"
 
-#: langcorrect/templates/pages/home.html:26
+#: langcorrect/templates/pages/home.html:27
 msgid "Browse as guest"
 msgstr "Misafir olarak göz at"
 
-#: langcorrect/templates/pages/home.html:43
+#: langcorrect/templates/pages/home.html:44
 msgid "Getting corrections on your writing is really easy."
 msgstr "Yazınıza düzeltme almak çok kolay."
 
-#: langcorrect/templates/pages/home.html:46
+#: langcorrect/templates/pages/home.html:47
 msgid ""
 "Once you're done writing in your studying language, we will automatically "
 "match it with native speakers."
@@ -1031,11 +1063,11 @@ msgstr ""
 "Çalıştığınız dilde yazmayı bitirdiğinizde, otomatik olarak ana dili konuşan "
 "kişilerle eşleşeceksiniz."
 
-#: langcorrect/templates/pages/home.html:52
+#: langcorrect/templates/pages/home.html:53
 msgid "Register an account"
 msgstr "Bir hesap oluştur"
 
-#: langcorrect/templates/pages/home.html:54
+#: langcorrect/templates/pages/home.html:55
 msgid ""
 "We start with a short 3-step registration process to help us determine users "
 "you should be match with."
@@ -1043,11 +1075,11 @@ msgstr ""
 "Size uygun kullanıcılarla eşleşmenize yardımcı olmak için kısa bir 3 adımlı "
 "kayıt süreciyle başlıyoruz."
 
-#: langcorrect/templates/pages/home.html:58
+#: langcorrect/templates/pages/home.html:59
 msgid "Write a journal entry"
 msgstr "Bir günlük girişi yaz"
 
-#: langcorrect/templates/pages/home.html:60
+#: langcorrect/templates/pages/home.html:61
 msgid ""
 "Browse a wide variety of writing prompts or simply create a journal from "
 "scratch."
@@ -1055,22 +1087,22 @@ msgstr ""
 "Geniş bir yazma isteği yelpazesi arasından seçin veya sadece sıfırdan bir "
 "günlük oluşturun."
 
-#: langcorrect/templates/pages/home.html:64
+#: langcorrect/templates/pages/home.html:65
 msgid "Review corrections"
 msgstr "Düzeltmeleri gözden geçir"
 
-#: langcorrect/templates/pages/home.html:66
+#: langcorrect/templates/pages/home.html:67
 msgid ""
 "Native speakers will correct your writing and provide constructive feedback."
 msgstr ""
 "Ana dili konuşan kişiler yazınızı düzeltecek ve yapıcı geri bildirim "
 "sağlayacak."
 
-#: langcorrect/templates/pages/home.html:76
+#: langcorrect/templates/pages/home.html:77
 msgid "Built for serious learners"
 msgstr "Ciddi öğrenenler için oluşturulmuş"
 
-#: langcorrect/templates/pages/home.html:78
+#: langcorrect/templates/pages/home.html:79
 msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
@@ -1078,11 +1110,11 @@ msgstr ""
 "Diğer dil öğrenme platformlarındaki gereksiz dikkat dağıtıcıları bırakın ve "
 "yeni dil(ler)inize odaklanmak için daha fazla zaman harcayın."
 
-#: langcorrect/templates/pages/home.html:82
+#: langcorrect/templates/pages/home.html:83
 msgid "Straight to the point"
 msgstr "Doğrudan noktasına"
 
-#: langcorrect/templates/pages/home.html:84
+#: langcorrect/templates/pages/home.html:85
 msgid ""
 "Get corrections on your writing quickly – Simply write a journal in your "
 "target language, publish it, and let the LangCorrect community do their "
@@ -1092,11 +1124,11 @@ msgstr ""
 "yazın, yayınlayın ve LangCorrect topluluğunun size düzeltme sağlamak için "
 "işlerini yapmalarına izin verin."
 
-#: langcorrect/templates/pages/home.html:88
+#: langcorrect/templates/pages/home.html:89
 msgid "Constantly improving"
 msgstr "Sürekli gelişiyor"
 
-#: langcorrect/templates/pages/home.html:90
+#: langcorrect/templates/pages/home.html:91
 msgid ""
 "The LangCorrect platform is getting better all the time.  Consistent, direct "
 "feedback from our user base and frequent updates allow us to keep things "
@@ -1106,11 +1138,11 @@ msgstr ""
 "sürekli, doğrudan geri bildirim ve sık güncellemeler, işleri "
 "kullanıcılarımız için taze ve ilginç tutmamıza olanak tanır."
 
-#: langcorrect/templates/pages/home.html:94
+#: langcorrect/templates/pages/home.html:95
 msgid "Learn with friends"
 msgstr "Arkadaşlarınla öğren"
 
-#: langcorrect/templates/pages/home.html:96
+#: langcorrect/templates/pages/home.html:97
 msgid ""
 "Invite your friends to join LangCorrect and challenge one another to see who "
 "can earn the highest Rankings and Streaks."
@@ -1119,11 +1151,11 @@ msgstr ""
 "Sıralamaları ve Serileri kazanabileceğini görmek için birbirinize meydan "
 "okuyun."
 
-#: langcorrect/templates/pages/home.html:100
+#: langcorrect/templates/pages/home.html:101
 msgid "Functionality with learning in mind"
 msgstr "Öğrenmeyi göz önünde bulundurarak işlevsellik"
 
-#: langcorrect/templates/pages/home.html:102
+#: langcorrect/templates/pages/home.html:103
 msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
@@ -1131,11 +1163,11 @@ msgstr ""
 "Yazma isteklerinden otomatik, renk kodlu düzeltme vurgulamasına kadar, başka "
 "bir dilde yazmayı öğrenmek hiç bu kadar kolay olmamıştı."
 
-#: langcorrect/templates/pages/home.html:106
+#: langcorrect/templates/pages/home.html:107
 msgid "Built-in messaging"
 msgstr "Dahili mesajlaşma"
 
-#: langcorrect/templates/pages/home.html:108
+#: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
 "feature. This is a great way to make new friends and meet people from around "
@@ -1145,11 +1177,11 @@ msgstr ""
 "rahatlamak için bir mola verin. Bu, dünyanın dört bir yanından yeni "
 "arkadaşlar edinmek ve insanlarla tanışmak için harika bir yol."
 
-#: langcorrect/templates/pages/home.html:118
+#: langcorrect/templates/pages/home.html:119
 msgid "Join today and experience language-learning, redefined."
 msgstr "Bugün katılın ve dil öğrenmeyi yeniden tanımlayın."
 
-#: langcorrect/templates/pages/home.html:120
+#: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
 "                            Whether you’re fluent or just starting out, we’d "
@@ -1391,53 +1423,61 @@ msgstr "Premium Ol"
 msgid "Publish"
 msgstr "Yayınla"
 
-#: langcorrect/templates/posts/post_list.html:11
-msgid "Journals"
-msgstr "Günlükler"
+#: langcorrect/templates/posts/post_list.html:14
+msgid "Recent Corrections"
+msgstr "Düzeltmeleri gözden geçir"
 
-#: langcorrect/templates/posts/post_list.html:19
+#: langcorrect/templates/posts/post_list.html:23
+msgid "Recently corrected public entries"
+msgstr "Son düzeltilen genel girişler"
+
+#: langcorrect/templates/posts/post_list.html:24
+msgid ""
+"👉 Register to view more posts, get corrections on your writing and correct "
+"others."
+msgstr "👉 Yazınıza düzeltme almak çok kolay."
+
+#: langcorrect/templates/posts/post_list.html:30
 msgid "Correct journals written in your native language(s)."
 msgstr "Ana dil(ler)inizde yazılmış günlükleri düzeltin."
 
-#: langcorrect/templates/posts/post_list.html:20
+#: langcorrect/templates/posts/post_list.html:31
 msgid "Teach"
 msgstr "Öğret"
 
-#: langcorrect/templates/posts/post_list.html:22
+#: langcorrect/templates/posts/post_list.html:33
 msgid "Browse journals and practice writing in your studying language(s)."
 msgstr "Günlükleri göz atın ve çalıştığınız dil(ler)de yazmayı pratik yapın."
 
-#: langcorrect/templates/posts/post_list.html:23
+#: langcorrect/templates/posts/post_list.html:34
 msgid "Learn"
 msgstr "Öğren"
 
-#: langcorrect/templates/posts/post_list.html:25
+#: langcorrect/templates/posts/post_list.html:36
 msgid "Browse journals written by users you are following."
 msgstr "Takip ettiğiniz kullanıcılar tarafından yazılmış günlükleri göz atın."
 
-#: langcorrect/templates/posts/post_list.html:61
+#: langcorrect/templates/posts/post_list.html:73
 msgid "Feedback & Feature Requests"
-msgstr ""
+msgstr "Geribildirim ve Özellik İstekleri"
 
 #: langcorrect/templates/posts/user_posts.html:18
 msgid "Title"
-msgstr ""
+msgstr "Başlık"
 
 #: langcorrect/templates/posts/user_posts.html:20
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 #: langcorrect/templates/posts/user_posts.html:21
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: langcorrect/templates/posts/user_posts.html:23
 msgid "Visibility"
-msgstr ""
+msgstr "Görünürlük"
 
 #: langcorrect/templates/posts/user_posts.html:47
-#, fuzzy
-#| msgid "View all"
 msgid "View"
 msgstr "Tümünü gör"
 
@@ -1467,26 +1507,36 @@ msgid "Completed"
 msgstr "Tamamlandı"
 
 #: langcorrect/templates/prompts/user_prompts.html:18
-#, fuzzy
-#| msgid "Prompts"
 msgid "Prompt"
 msgstr "İpuçları"
 
 #: langcorrect/templates/prompts/user_prompts.html:19
-#, fuzzy
-#| msgid "Respond"
 msgid "Responses"
 msgstr "Yanıtla"
 
 #: langcorrect/templates/prompts/user_prompts.html:21
 msgid "Created"
-msgstr ""
+msgstr "Oluşturuldu"
 
-#: langcorrect/templates/users/user_detail.html:37
+#: langcorrect/templates/users/user_detail.html:10
+msgid "My Profile"
+msgstr "Profilim"
+
+#: langcorrect/templates/users/user_detail.html:12
+#, python-format
+msgid ""
+"\n"
+"      %(username)s's Profile\n"
+"    "
+msgstr ""
+"\n"
+"%(username)s'nin Profili"
+
+#: langcorrect/templates/users/user_detail.html:42
 msgid "Community Stats"
 msgstr "Topluluk İstatistikleri"
 
-#: langcorrect/templates/users/user_detail.html:42
+#: langcorrect/templates/users/user_detail.html:47
 #, python-format
 msgid ""
 "\n"
@@ -1496,7 +1546,7 @@ msgstr ""
 "\n"
 "%(count)s düzeltme oranı"
 
-#: langcorrect/templates/users/user_detail.html:48
+#: langcorrect/templates/users/user_detail.html:53
 #, python-format
 msgid ""
 "\n"
@@ -1506,7 +1556,7 @@ msgstr ""
 "\n"
 "%(count)s düzeltme yapıldı"
 
-#: langcorrect/templates/users/user_detail.html:54
+#: langcorrect/templates/users/user_detail.html:59
 #, python-format
 msgid ""
 "\n"
@@ -1516,11 +1566,11 @@ msgstr ""
 "\n"
 "%(count)s düzeltme alındı"
 
-#: langcorrect/templates/users/user_detail.html:70
+#: langcorrect/templates/users/user_detail.html:75
 msgid "Connections"
 msgstr "Bağlantılar"
 
-#: langcorrect/templates/users/user_detail.html:76
+#: langcorrect/templates/users/user_detail.html:81
 #, python-format
 msgid ""
 "\n"
@@ -1530,7 +1580,7 @@ msgstr ""
 "\n"
 "Takip Edilen (%(count)s)"
 
-#: langcorrect/templates/users/user_detail.html:82
+#: langcorrect/templates/users/user_detail.html:87
 #, python-format
 msgid ""
 "\n"
@@ -1540,19 +1590,19 @@ msgstr ""
 "\n"
 "Takipçiler (%(count)s)"
 
-#: langcorrect/templates/users/user_detail.html:98
+#: langcorrect/templates/users/user_detail.html:103
 msgid "Follow"
 msgstr "Takip Et"
 
-#: langcorrect/templates/users/user_detail.html:109
+#: langcorrect/templates/users/user_detail.html:114
 msgid "My Info"
 msgstr "Bilgilerim"
 
-#: langcorrect/templates/users/user_detail.html:112
+#: langcorrect/templates/users/user_detail.html:117
 msgid "E-Mail"
 msgstr "E-Posta"
 
-#: langcorrect/templates/users/user_detail.html:134
+#: langcorrect/templates/users/user_detail.html:139
 #, python-format
 msgid ""
 "\n"
@@ -1579,7 +1629,7 @@ msgstr "Önemli Tarihler"
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: langcorrect/users/forms.py:28 langcorrect/users/tests/test_forms.py:36
+#: langcorrect/users/forms.py:30 langcorrect/users/tests/test_forms.py:36
 msgid "This username has already been taken."
 msgstr "Bu kullanıcı adı zaten alınmış."
 
@@ -1610,6 +1660,9 @@ msgstr "Biyografi"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Bilgiler başarıyla güncellendi"
+
+#~ msgid "Journals"
+#~ msgstr "Günlükler"
 
 #~ msgid "العربية"
 #~ msgstr "Arapça"

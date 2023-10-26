@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 07:20+0000\n"
-"PO-Revision-Date: 2023-10-17 07:26+0000\n"
+"POT-Creation-Date: 2023-10-25 12:28+0000\n"
+"PO-Revision-Date: 2023-10-25 12:17+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -45,7 +45,7 @@ msgstr "フランス語"
 
 #: config/settings/base.py:41
 msgid "Hrvatski"
-msgstr ""
+msgstr "クロアチア語"
 
 #: config/settings/base.py:42
 msgid "Italiano"
@@ -105,6 +105,14 @@ msgstr "訂正のタイプ"
 msgid "Correction Types"
 msgstr "訂正のタイプ一覧"
 
+#: langcorrect/corrections/views.py:92
+msgid "corrected"
+msgstr "訂正済み"
+
+#: langcorrect/corrections/views.py:100
+msgid "commented on"
+msgstr "コメントしました"
+
 #: langcorrect/decorators.py:16
 msgid "You must be a premium user to access this page."
 msgstr "このページにアクセスするにはプレミアムユーザーでなければなりません。"
@@ -113,17 +121,17 @@ msgstr "このページにアクセスするにはプレミアムユーザーで
 msgid "Follows"
 msgstr "フォロー"
 
-#: langcorrect/follows/views.py:62
+#: langcorrect/follows/views.py:63
 msgid "You cannot follow yourself"
 msgstr "自分自身をフォローすることはできません"
 
-#: langcorrect/follows/views.py:73
+#: langcorrect/follows/views.py:74
 msgid "followed you"
 msgstr "あなたをフォローしました"
 
 #: langcorrect/languages/apps.py:8
-#: langcorrect/templates/users/user_detail.html:62
-#: langcorrect/templates/users/user_detail.html:115
+#: langcorrect/templates/users/user_detail.html:67
+#: langcorrect/templates/users/user_detail.html:120
 msgid "Languages"
 msgstr "言語"
 
@@ -161,7 +169,7 @@ msgstr "メンバーシップ"
 
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
-msgstr ""
+msgstr "返信しました"
 
 #: langcorrect/posts/apps.py:8
 msgid "Posts"
@@ -171,46 +179,48 @@ msgstr "投稿"
 msgid ""
 "You need to write {50 - len(text)} more characters to meet the minimum "
 "requirement."
-msgstr ""
+msgstr "最低要件を満たすためには、{50 - len(text)}文字以上書く必要があります。"
 
 #: langcorrect/posts/forms.py:40 langcorrect/prompts/forms.py:25
 msgid "Tags cannot be longer than 20 characters"
 msgstr "タグは20文字を超えてはいけません"
 
-#: langcorrect/posts/models.py:19
+#: langcorrect/posts/models.py:20
 msgid "Viewable by everyone"
 msgstr "誰でも閲覧可能"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable only by registered members"
 msgstr "登録メンバーのみ閲覧可能"
 
-#: langcorrect/posts/models.py:128
+#: langcorrect/posts/models.py:129
 msgid "submitted a new entry"
 msgstr "新しいエントリーを提出しました"
 
 #: langcorrect/posts/validators.py:22
 msgid "Unsupported file extension. Only .jpg and .jpeg are allowed."
-msgstr "サポートされていないファイル拡張子です。.jpgおよび.jpegのみが許可されています。"
+msgstr ""
+"サポートされていないファイル拡張子です。.jpgおよび.jpegのみが許可されていま"
+"す。"
 
 #: langcorrect/posts/validators.py:38
 #, python-brace-format
 msgid "Image size should not be more than {max_size_mb}MB."
 msgstr "画像サイズは{max_size_mb}MBを超えてはいけません。"
 
-#: langcorrect/posts/views.py:160
+#: langcorrect/posts/views.py:161
 msgid "Post successfully updated"
 msgstr "投稿は正常に更新されました"
 
-#: langcorrect/posts/views.py:183
+#: langcorrect/posts/views.py:184
 msgid "Post successfully added"
 msgstr "投稿は正常に追加されました"
 
-#: langcorrect/posts/views.py:187
+#: langcorrect/posts/views.py:188
 msgid "Your correction ratio is too low."
 msgstr "あなたの訂正率は低すぎます。"
 
-#: langcorrect/posts/views.py:228
+#: langcorrect/posts/views.py:232
 msgid "Post successfully deleted"
 msgstr "投稿は正常に削除されました"
 
@@ -296,9 +306,10 @@ msgstr "警告"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
-msgstr "現在、メールアドレスが設定されていません。通知を受け取るため、パスワードをリセットするためなどに、メールアドレスを追加すべきです。"
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"現在、メールアドレスが設定されていません。通知を受け取るため、パスワードをリ"
+"セットするためなどに、メールアドレスを追加すべきです。"
 
 #: langcorrect/templates/account/email.html:55
 msgid "Add E-mail Address"
@@ -321,21 +332,26 @@ msgstr "%(site_name)sへようこそ！"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has "
+"given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"このメールを受け取っているのは、ユーザー%(user_display)sが%(site_domain)sにアカウントを登録するためにあなたのメールアドレスを提供したからです。"
+"このメールを受け取っているのは、ユーザー%(user_display)sが%(site_domain)sにア"
+"カウントを登録するためにあなたのメールアドレスを提供したからです。"
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
+"          To complete your registration and gain full access to all "
+"features, please verify your e-mail address by going to %(activate_url)s, or "
+"clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"全ての機能に完全にアクセスするためには、%(activate_url)sに行って、または以下のボタンをクリックして、メールアドレスを確認してください。"
+"全ての機能に完全にアクセスするためには、%(activate_url)sに行って、または以下"
+"のボタンをクリックして、メールアドレスを確認してください。"
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -345,11 +361,13 @@ msgstr "メールアドレスを確認"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or "
+"contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"%(site_name)sにサインアップしていない場合、このメールは無視するか、サポートにお問い合わせください。"
+"%(site_name)sにサインアップしていない場合、このメールは無視するか、サポートに"
+"お問い合わせください。"
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -362,8 +380,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"<a href=\"mailto:%(email)s\">%(email)s</a> がユーザー %(user_display)s "
-"のメールアドレスであることを確認してください。"
+"<a href=\"mailto:%(email)s\">%(email)s</a> がユーザー %(user_display)s のメー"
+"ルアドレスであることを確認してください。"
 
 #: langcorrect/templates/account/email_confirm.html:19
 msgid "Confirm"
@@ -375,8 +393,8 @@ msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a "
 "href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
-"このメール確認リンクは無効または期限切れです。新しいメール確認リクエストを <a "
-"href=\"%(email_url)s\">発行してください</a>。"
+"このメール確認リンクは無効または期限切れです。新しいメール確認リクエストを "
+"<a href=\"%(email_url)s\">発行してください</a>。"
 
 #: langcorrect/templates/account/login.html:8
 #: langcorrect/templates/account/login.html:11
@@ -395,7 +413,9 @@ msgstr "既存のサードパーティアカウントのいずれかでサイン
 msgid ""
 "Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
 "sign in below:"
-msgstr "または、%(site_name)sのアカウントを作成して以下でサインインしてください。"
+msgstr ""
+"または、<a href=\"%(signup_url)s\">サインアップ</a>して%(site_name)sアカウン"
+"トを作成し、以下からサインインしてください："
 
 #: langcorrect/templates/account/login.html:27
 msgid "or"
@@ -406,7 +426,9 @@ msgstr "または"
 msgid ""
 "If you have not created an account yet, then please <a "
 "href=\"%(signup_url)s\">sign up</a> first."
-msgstr "まだアカウントを作成していない場合は、まず<a href=\"%(signup_url)s\">登録</a>してください。"
+msgstr ""
+"まだアカウントを作成していない場合は、まず<a href=\"%(signup_url)s\">登録</a>"
+"してください。"
 
 #: langcorrect/templates/account/login.html:52
 msgid "Forgot Password?"
@@ -441,9 +463,11 @@ msgstr "パスワードリセット"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
-msgstr "パスワードを忘れた場合は、以下にメールアドレスを入力してください。リセット用のメールを送信します。"
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"パスワードを忘れた場合は、以下にメールアドレスを入力してください。リセット用"
+"のメールを送信します。"
 
 #: langcorrect/templates/account/password_reset.html:25
 msgid "Reset My Password"
@@ -467,11 +491,12 @@ msgstr "不正なトークン"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
 "パスワードリセットリンクは無効でした、おそらく既に使用されているためです。<a "
-"href=\"%(passwd_reset_url)s\">新しいパスワードリセット</a>をリクエストしてください。"
+"href=\"%(passwd_reset_url)s\">新しいパスワードリセット</a>をリクエストしてく"
+"ださい。"
 
 #: langcorrect/templates/account/password_reset_from_key.html:30
 msgid "change password"
@@ -500,7 +525,9 @@ msgstr "サインアップ"
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr "すでにアカウントをお持ちですか？ それでは、<a href=\"%(login_url)s\">サインイン</a>してください。"
+msgstr ""
+"すでにアカウントをお持ちですか？ それでは、<a href=\"%(login_url)s\">サインイ"
+"ン</a>してください。"
 
 #: langcorrect/templates/account/signup.html:21
 msgid "Create an account"
@@ -531,7 +558,9 @@ msgid ""
 "Setting a gender of narrator will help native speakers correct any gender "
 "errors. Please note that this is about the narrating-I of a given text, and "
 "not necessarily about you."
-msgstr "ナレーターの性別を設定すると、ネイティブスピーカーが性別の誤りを訂正するのに役立ちます。"
+msgstr ""
+"ナレーターの性別を設定すると、ネイティブスピーカーが性別の誤りを訂正するのに"
+"役立ちます。"
 
 #: langcorrect/templates/account/signup.html:49
 msgid "This can be changed at any time and on a per journal basis."
@@ -563,7 +592,8 @@ msgid ""
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"認証のためにメールを送信しました。リンクをクリックしてサインアップ手続きを完了してください。数分以内にメールが届かない場合は、お問い合わせください。"
+"認証のためにメールを送信しました。リンクをクリックしてサインアップ手続きを完"
+"了してください。数分以内にメールが届かない場合は、お問い合わせください。"
 
 #: langcorrect/templates/account/verified_email_required.html:12
 msgid ""
@@ -571,21 +601,26 @@ msgid ""
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your e-mail address. "
 msgstr ""
-"このサイトの一部は、あなたが主張する通りの人物であることを確認する必要があります。このために、メールアドレスの所有を確認する必要があります。"
+"このサイトの一部は、あなたが主張する通りの人物であることを確認する必要があり"
+"ます。このために、メールアドレスの所有を確認する必要があります。"
 
 #: langcorrect/templates/account/verified_email_required.html:17
 msgid ""
 "We have sent an e-mail to you for\n"
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
-msgstr "認証のためにメールを送信しました。このメール内のリンクをクリックしてください。数分以内にメールが届かない場合は、お問い合わせください。"
+msgstr ""
+"認証のためにメールを送信しました。このメール内のリンクをクリックしてくださ"
+"い。数分以内にメールが届かない場合は、お問い合わせください。"
 
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
-msgstr "<strong>注:</strong> <a href=\"%(email_url)s\">メールアドレスはまだ変更できます</a>。"
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+"<strong>注:</strong> <a href=\"%(email_url)s\">メールアドレスはまだ変更できま"
+"す</a>。"
 
 #: langcorrect/templates/contributions/contribution_list.html:9
 msgid "Top Contributors"
@@ -639,46 +674,60 @@ msgstr "総プロンプト数"
 msgid "Average Per Day"
 msgstr "一日平均"
 
+#: langcorrect/templates/corrections/make_corrections.html:17
+msgid "Gender of narration"
+msgstr "語り手の性別"
+
 #: langcorrect/templates/corrections/make_corrections.html:25
+msgid "Language level"
+msgstr "言語"
+
+#: langcorrect/templates/corrections/make_corrections.html:35
+#: langcorrect/templates/modals/native_text.html:11
+msgid "Post Overview"
+msgstr "投稿の概要"
+
+#: langcorrect/templates/corrections/make_corrections.html:56
 msgid "Make your correction here."
 msgstr "こちらで訂正してください。"
 
-#: langcorrect/templates/corrections/make_corrections.html:30
+#: langcorrect/templates/corrections/make_corrections.html:61
 msgid "Write the correct sentence here..."
 msgstr "こちらで添削をしてください"
 
-#: langcorrect/templates/corrections/make_corrections.html:34
+#: langcorrect/templates/corrections/make_corrections.html:65
 msgid "Include feedback for this correction here."
 msgstr "この訂正に対するフィードバックをこちらに含めてください。"
 
-#: langcorrect/templates/corrections/make_corrections.html:39
+#: langcorrect/templates/corrections/make_corrections.html:70
 msgid "Write your feedback here..."
 msgstr "フィードバックをこちらに書いてください。"
 
-#: langcorrect/templates/corrections/make_corrections.html:63
+#: langcorrect/templates/corrections/make_corrections.html:94
 msgid "Overall feedback or comment"
 msgstr "全体的なフィードバックまたはコメント"
 
-#: langcorrect/templates/corrections/make_corrections.html:68
+#: langcorrect/templates/corrections/make_corrections.html:99
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are"
-" all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are "
+"all here to learn, so let's encourage and support one another."
 msgstr ""
-"フィードバックを書かれる場合は、建設的なものであることをご確認ください。 ユーザーは皆学ぶためにここにいます。お互いに励まし合い、支え合いましょう。"
+"フィードバックを書かれる場合は、建設的なものであることをご確認ください。 ユー"
+"ザーは皆学ぶためにここにいます。お互いに励まし合い、支え合いましょう。"
 
-#: langcorrect/templates/corrections/make_corrections.html:83
+#: langcorrect/templates/corrections/make_corrections.html:114
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "破棄"
 
-#: langcorrect/templates/corrections/make_corrections.html:87
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "更新"
 
-#: langcorrect/templates/corrections/make_corrections.html:89
+#: langcorrect/templates/corrections/make_corrections.html:120
 #: langcorrect/templates/corrections/partials/user_correction_card.html:55
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
@@ -688,7 +737,8 @@ msgstr "提出"
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as perfect!\n"
+"                    %(user_count)s users have marked this sentence as "
+"perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -756,8 +806,8 @@ msgstr "フォロワー"
 
 #: langcorrect/templates/follows/follower_list.html:10
 #: langcorrect/templates/follows/following_list.html:8
-#: langcorrect/templates/posts/post_list.html:26
-#: langcorrect/templates/users/user_detail.html:96
+#: langcorrect/templates/posts/post_list.html:37
+#: langcorrect/templates/users/user_detail.html:101
 msgid "Following"
 msgstr "フォロー中"
 
@@ -789,7 +839,8 @@ msgstr "行く"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list "
+"of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -866,6 +917,14 @@ msgstr "添削データのエクスポート"
 msgid "How would you like to export the corrections?"
 msgstr "添削内容をどのようにエクスポートしたいですか？"
 
+#: langcorrect/templates/modals/native_text.html:19
+msgid "Native Text"
+msgstr "ネイティブ"
+
+#: langcorrect/templates/modals/native_text.html:23
+msgid "Original Text"
+msgstr "オリジナル"
+
 #: langcorrect/templates/modals/notifications.html:12
 msgid "Notifications"
 msgstr "通知"
@@ -887,6 +946,7 @@ msgid "Close"
 msgstr "閉じる"
 
 #: langcorrect/templates/navbar.html:42
+#: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
 msgstr "マイフィード"
 
@@ -968,141 +1028,168 @@ msgstr "書いて、学んで、成長する。"
 msgid ""
 "Master grammar, spelling, and syntax in the language(s) you’re learning "
 "through direct feedback on your writing from fluent, native speakers."
-msgstr "流暢なネイティブスピーカーから直接あなたの文章に対するフィードバックをもらい、学びたい言語の文法・スペル・構文をマスターしましょう。"
+msgstr ""
+"流暢なネイティブスピーカーから直接あなたの文章に対するフィードバックをもら"
+"い、学びたい言語の文法・スペル・構文をマスターしましょう。"
 
-#: langcorrect/templates/pages/home.html:23
-#: langcorrect/templates/pages/home.html:129
+#: langcorrect/templates/pages/home.html:24
+#: langcorrect/templates/pages/home.html:130
 msgid "Start learning"
 msgstr "学習を始める"
 
-#: langcorrect/templates/pages/home.html:26
+#: langcorrect/templates/pages/home.html:27
 msgid "Browse as guest"
 msgstr "ゲストとして参加"
 
-#: langcorrect/templates/pages/home.html:43
+#: langcorrect/templates/pages/home.html:44
 msgid "Getting corrections on your writing is really easy."
 msgstr "とても簡単にライティングの添削を受けることができます。"
 
-#: langcorrect/templates/pages/home.html:46
+#: langcorrect/templates/pages/home.html:47
 msgid ""
 "Once you're done writing in your studying language, we will automatically "
 "match it with native speakers."
-msgstr "学習言語で日記を書き終えると、自動的にネイティブスピーカーとのマッチングが行われます。"
+msgstr ""
+"学習言語で日記を書き終えると、自動的にネイティブスピーカーとのマッチングが行"
+"われます。"
 
-#: langcorrect/templates/pages/home.html:52
+#: langcorrect/templates/pages/home.html:53
 msgid "Register an account"
 msgstr "アカウント登録"
 
-#: langcorrect/templates/pages/home.html:54
+#: langcorrect/templates/pages/home.html:55
 msgid ""
-"We start with a short 3-step registration process to help us determine users"
-" you should be match with."
-msgstr "あなたとマッチングするユーザーを決めるために、まずは簡単な3段階の登録から始めましょう。"
+"We start with a short 3-step registration process to help us determine users "
+"you should be match with."
+msgstr ""
+"あなたとマッチングするユーザーを決めるために、まずは簡単な3段階の登録から始め"
+"ましょう。"
 
-#: langcorrect/templates/pages/home.html:58
+#: langcorrect/templates/pages/home.html:59
 msgid "Write a journal entry"
 msgstr "日記を書く"
 
-#: langcorrect/templates/pages/home.html:60
+#: langcorrect/templates/pages/home.html:61
 msgid ""
 "Browse a wide variety of writing prompts or simply create a journal from "
 "scratch."
-msgstr "ライティング・プロンプト(課題)を選んで日記を書くか、一から日記を書きます。"
+msgstr ""
+"ライティング・プロンプト(課題)を選んで日記を書くか、一から日記を書きます。"
 
-#: langcorrect/templates/pages/home.html:64
+#: langcorrect/templates/pages/home.html:65
 msgid "Review corrections"
 msgstr "添削を確認"
 
-#: langcorrect/templates/pages/home.html:66
+#: langcorrect/templates/pages/home.html:67
 msgid ""
 "Native speakers will correct your writing and provide constructive feedback."
-msgstr "ネイティブスピーカーがあなたの文章を添削し、建設的なフィードバックを提供してくれます。"
+msgstr ""
+"ネイティブスピーカーがあなたの文章を添削し、建設的なフィードバックを提供して"
+"くれます。"
 
-#: langcorrect/templates/pages/home.html:76
+#: langcorrect/templates/pages/home.html:77
 msgid "Built for serious learners"
 msgstr "真剣に学習している人々のために作られています"
 
-#: langcorrect/templates/pages/home.html:78
+#: langcorrect/templates/pages/home.html:79
 msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
-msgstr "他の語学学習プラットフォームにある不用な娯楽は使うのをやめて、より多くの時間を語学学習のために使ってください。"
+msgstr ""
+"他の語学学習プラットフォームにある不用な娯楽は使うのをやめて、より多くの時間"
+"を語学学習のために使ってください。"
 
-#: langcorrect/templates/pages/home.html:82
+#: langcorrect/templates/pages/home.html:83
 msgid "Straight to the point"
 msgstr "ネイティブスピーカーから添削をもらいましょう"
 
-#: langcorrect/templates/pages/home.html:84
+#: langcorrect/templates/pages/home.html:85
 msgid ""
 "Get corrections on your writing quickly – Simply write a journal in your "
 "target language, publish it, and let the LangCorrect community do their "
 "thing to provide corrections for you."
 msgstr ""
-"素早く文章のチェックを受ける – "
-"ターゲット言語で自由に日記を書いて投稿するだけで、LangCorrectコミュニティのネイティブスピーカーがあなたの文章を添削してくれます。"
+"素早く文章のチェックを受ける – ターゲット言語で自由に日記を書いて投稿するだけ"
+"で、LangCorrectコミュニティのネイティブスピーカーがあなたの文章を添削してくれ"
+"ます。"
 
-#: langcorrect/templates/pages/home.html:88
+#: langcorrect/templates/pages/home.html:89
 msgid "Constantly improving"
 msgstr "コンスタントな改善"
 
-#: langcorrect/templates/pages/home.html:90
+#: langcorrect/templates/pages/home.html:91
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct"
-" feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct "
+"feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
-"LangCorrectプラットフォームは常に進化し続けています。またユーザーベースでは一貫して直接フィードバックを行い、頻繁にアップデートすることでユーザーに対し常に新鮮で興味深い内容を提供することに努めています。"
+"LangCorrectプラットフォームは常に進化し続けています。またユーザーベースでは一"
+"貫して直接フィードバックを行い、頻繁にアップデートすることでユーザーに対し常"
+"に新鮮で興味深い内容を提供することに努めています。"
 
-#: langcorrect/templates/pages/home.html:94
+#: langcorrect/templates/pages/home.html:95
 msgid "Learn with friends"
 msgstr "友達と一緒に学ぶ"
 
-#: langcorrect/templates/pages/home.html:96
+#: langcorrect/templates/pages/home.html:97
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who"
-" can earn the highest Rankings and Streaks."
-msgstr "友達をLangCorrectに招待し、日記の投稿数や連続投稿数の上位に誰がランクインできるかチャレンジしてみましょう。"
+"Invite your friends to join LangCorrect and challenge one another to see who "
+"can earn the highest Rankings and Streaks."
+msgstr ""
+"友達をLangCorrectに招待し、日記の投稿数や連続投稿数の上位に誰がランクインでき"
+"るかチャレンジしてみましょう。"
 
-#: langcorrect/templates/pages/home.html:100
+#: langcorrect/templates/pages/home.html:101
 msgid "Functionality with learning in mind"
 msgstr "学習を念頭に置いた機能"
 
-#: langcorrect/templates/pages/home.html:102
+#: langcorrect/templates/pages/home.html:103
 msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
 msgstr ""
-"LangCorrectにはライティング・プロンプト（ライティング課題）の提供から、自動で色分け・ハイライトされる添削機能まで付随しており、外国語のライティング学習がとても簡単にできます。"
+"LangCorrectにはライティング・プロンプト（ライティング課題）の提供から、自動で"
+"色分け・ハイライトされる添削機能まで付随しており、外国語のライティング学習が"
+"とても簡単にできます。"
 
-#: langcorrect/templates/pages/home.html:106
+#: langcorrect/templates/pages/home.html:107
 msgid "Built-in messaging"
 msgstr "メッセージ機能が付随"
 
-#: langcorrect/templates/pages/home.html:108
+#: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around"
-" the globe."
+"feature. This is a great way to make new friends and meet people from around "
+"the globe."
 msgstr ""
-"時には少し休憩しメッセージ機能を使って他の学習者とお喋りしてみましょう。これは新しい友達を作り世界中の人々と出会うことができる素晴らしい方法です。"
+"時には少し休憩しメッセージ機能を使って他の学習者とお喋りしてみましょう。これ"
+"は新しい友達を作り世界中の人々と出会うことができる素晴らしい方法です。"
 
-#: langcorrect/templates/pages/home.html:118
+#: langcorrect/templates/pages/home.html:119
 msgid "Join today and experience language-learning, redefined."
 msgstr "今日から参加して、新たな語学学習を体験しましょう。"
 
-#: langcorrect/templates/pages/home.html:120
+#: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d "
+"be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in "
+"order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
-"                            burning questions so that you can reach the level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help "
+"you, provide support, and answer your\n"
+"                            burning questions so that you can reach the "
+"level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"言語を流暢に話せる方も、学習を始めたばかりの方もLangCorrectコミュニティへのご参加をお待ちしています。 私たちは皆学習者です。自信を持って外国語を滑らかに話せるようになるにはミスから学ぶことは重要であることを私たちは理解しています。 LangCorrectの素晴らしいユーザー達は、あなたの熱心な質問に答え、あなたの目標とするレベルに到達できるようサポートする準備がもうできています。"
+"言語を流暢に話せる方も、学習を始めたばかりの方もLangCorrectコミュニティへのご"
+"参加をお待ちしています。 私たちは皆学習者です。自信を持って外国語を滑らかに話"
+"せるようになるにはミスから学ぶことは重要であることを私たちは理解しています。 "
+"LangCorrectの素晴らしいユーザー達は、あなたの熱心な質問に答え、あなたの目標と"
+"するレベルに到達できるようサポートする準備がもうできています。"
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1236,11 +1323,17 @@ msgstr "コミュニティをサポート"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just "
+"investing in your own language learning journey. You're also helping us keep "
+"the basic features free for everyone. Your support sustains this platform "
+"and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"プレミアム年間サブスクリプションにアップグレードすることで、自分自身の言語学習の旅に投資するだけでなく、基本機能を皆さんに無料で提供し続ける手助けもしています。あなたのサポートがこのプラットフォームを維持し、終身学習者のグローバルコミュニティを育てます。"
+"プレミアム年間サブスクリプションにアップグレードすることで、自分自身の言語学"
+"習の旅に投資するだけでなく、基本機能を皆さんに無料で提供し続ける手助けもして"
+"います。あなたのサポートがこのプラットフォームを維持し、終身学習者のグローバ"
+"ルコミュニティを育てます。"
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1248,7 +1341,9 @@ msgstr "現在、プレミアムステータスがあります。"
 
 #: langcorrect/templates/pages/pricing.html:159
 msgid "To manage your subscription or view details, click the button below."
-msgstr "サブスクリプションを管理するか詳細を見るには、以下のボタンをクリックしてください。"
+msgstr ""
+"サブスクリプションを管理するか詳細を見るには、以下のボタンをクリックしてくだ"
+"さい。"
 
 #: langcorrect/templates/pages/pricing.html:161
 msgid "Manage Subscription"
@@ -1316,53 +1411,61 @@ msgstr "プレミアムになる"
 msgid "Publish"
 msgstr "公開する"
 
-#: langcorrect/templates/posts/post_list.html:11
-msgid "Journals"
-msgstr "ジャーナル"
+#: langcorrect/templates/posts/post_list.html:14
+msgid "Recent Corrections"
+msgstr "添削を確認"
 
-#: langcorrect/templates/posts/post_list.html:19
+#: langcorrect/templates/posts/post_list.html:23
+msgid "Recently corrected public entries"
+msgstr "最近修正された公開エントリー"
+
+#: langcorrect/templates/posts/post_list.html:24
+msgid ""
+"👉 Register to view more posts, get corrections on your writing and correct "
+"others."
+msgstr "👉とても簡単にライティングの添削を受けることができます。"
+
+#: langcorrect/templates/posts/post_list.html:30
 msgid "Correct journals written in your native language(s)."
 msgstr "自分の母語で書かれたジャーナルを訂正する"
 
-#: langcorrect/templates/posts/post_list.html:20
+#: langcorrect/templates/posts/post_list.html:31
 msgid "Teach"
 msgstr "教える"
 
-#: langcorrect/templates/posts/post_list.html:22
+#: langcorrect/templates/posts/post_list.html:33
 msgid "Browse journals and practice writing in your studying language(s)."
 msgstr "勉強中の言語で書かれたジャーナルを閲覧して、書く練習をする。"
 
-#: langcorrect/templates/posts/post_list.html:23
+#: langcorrect/templates/posts/post_list.html:34
 msgid "Learn"
 msgstr "学ぶ"
 
-#: langcorrect/templates/posts/post_list.html:25
+#: langcorrect/templates/posts/post_list.html:36
 msgid "Browse journals written by users you are following."
 msgstr "フォローしているユーザーによって書かれたジャーナルを閲覧する。"
 
-#: langcorrect/templates/posts/post_list.html:61
+#: langcorrect/templates/posts/post_list.html:73
 msgid "Feedback & Feature Requests"
-msgstr ""
+msgstr "フィードバックと機能リクエスト"
 
 #: langcorrect/templates/posts/user_posts.html:18
 msgid "Title"
-msgstr ""
+msgstr "タイトル"
 
 #: langcorrect/templates/posts/user_posts.html:20
 msgid "Tags"
-msgstr ""
+msgstr "タグ"
 
 #: langcorrect/templates/posts/user_posts.html:21
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 #: langcorrect/templates/posts/user_posts.html:23
 msgid "Visibility"
-msgstr ""
+msgstr "可視性"
 
 #: langcorrect/templates/posts/user_posts.html:47
-#, fuzzy
-#| msgid "View all"
 msgid "View"
 msgstr "すべて表示"
 
@@ -1392,26 +1495,36 @@ msgid "Completed"
 msgstr "完了した"
 
 #: langcorrect/templates/prompts/user_prompts.html:18
-#, fuzzy
-#| msgid "Prompts"
 msgid "Prompt"
 msgstr "プロンプト"
 
 #: langcorrect/templates/prompts/user_prompts.html:19
-#, fuzzy
-#| msgid "Respond"
 msgid "Responses"
 msgstr "返信する"
 
 #: langcorrect/templates/prompts/user_prompts.html:21
 msgid "Created"
-msgstr ""
+msgstr "作成日"
 
-#: langcorrect/templates/users/user_detail.html:37
+#: langcorrect/templates/users/user_detail.html:10
+msgid "My Profile"
+msgstr "マイプロンプト"
+
+#: langcorrect/templates/users/user_detail.html:12
+#, python-format
+msgid ""
+"\n"
+"      %(username)s's Profile\n"
+"    "
+msgstr ""
+"\n"
+"%(username)sのプロフィール"
+
+#: langcorrect/templates/users/user_detail.html:42
 msgid "Community Stats"
 msgstr "コミュニティ統計"
 
-#: langcorrect/templates/users/user_detail.html:42
+#: langcorrect/templates/users/user_detail.html:47
 #, python-format
 msgid ""
 "\n"
@@ -1421,7 +1534,7 @@ msgstr ""
 "\n"
 "%(count)s添削率"
 
-#: langcorrect/templates/users/user_detail.html:48
+#: langcorrect/templates/users/user_detail.html:53
 #, python-format
 msgid ""
 "\n"
@@ -1431,7 +1544,7 @@ msgstr ""
 "\n"
 "%(count)s添削数"
 
-#: langcorrect/templates/users/user_detail.html:54
+#: langcorrect/templates/users/user_detail.html:59
 #, python-format
 msgid ""
 "\n"
@@ -1441,11 +1554,11 @@ msgstr ""
 "\n"
 "%(count)s添削を受けた数"
 
-#: langcorrect/templates/users/user_detail.html:70
+#: langcorrect/templates/users/user_detail.html:75
 msgid "Connections"
 msgstr "コネクション"
 
-#: langcorrect/templates/users/user_detail.html:76
+#: langcorrect/templates/users/user_detail.html:81
 #, python-format
 msgid ""
 "\n"
@@ -1455,7 +1568,7 @@ msgstr ""
 "\n"
 "フォロー中 (%(count)s)"
 
-#: langcorrect/templates/users/user_detail.html:82
+#: langcorrect/templates/users/user_detail.html:87
 #, python-format
 msgid ""
 "\n"
@@ -1465,23 +1578,24 @@ msgstr ""
 "\n"
 "フォロワー (%(count)s)"
 
-#: langcorrect/templates/users/user_detail.html:98
+#: langcorrect/templates/users/user_detail.html:103
 msgid "Follow"
 msgstr "フォローする"
 
-#: langcorrect/templates/users/user_detail.html:109
+#: langcorrect/templates/users/user_detail.html:114
 msgid "My Info"
 msgstr "私の情報"
 
-#: langcorrect/templates/users/user_detail.html:112
+#: langcorrect/templates/users/user_detail.html:117
 msgid "E-Mail"
 msgstr "Eメール"
 
-#: langcorrect/templates/users/user_detail.html:134
+#: langcorrect/templates/users/user_detail.html:139
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions "
+"this year\n"
 "                   "
 msgstr ""
 "\n"
@@ -1503,7 +1617,7 @@ msgstr "重要な日付"
 msgid "Users"
 msgstr "ユーザー"
 
-#: langcorrect/users/forms.py:28 langcorrect/users/tests/test_forms.py:36
+#: langcorrect/users/forms.py:30 langcorrect/users/tests/test_forms.py:36
 msgid "This username has already been taken."
 msgstr "このユーザー名は既に使用されています。"
 
@@ -1534,6 +1648,9 @@ msgstr "バイオ"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "情報が正常に更新されました"
+
+#~ msgid "Journals"
+#~ msgstr "ジャーナル"
 
 #~ msgid "العربية"
 #~ msgstr "アラビア語"
