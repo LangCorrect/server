@@ -1,7 +1,8 @@
-from factory import Sequence
+from factory import Faker, Sequence, SubFactory
 from factory.django import DjangoModelFactory
 
-from langcorrect.languages.models import Language
+from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
+from langcorrect.users.tests.factories import UserFactory
 
 
 class LanguageFactory(DjangoModelFactory):
@@ -11,3 +12,12 @@ class LanguageFactory(DjangoModelFactory):
     class Meta:
         model = Language
         django_get_or_create = ("en_name", "code")
+
+
+class LanguageLevelFactory(DjangoModelFactory):
+    user = SubFactory(UserFactory)
+    language = SubFactory(LanguageFactory)
+    level = Faker("random_element", elements=LevelChoices.values)
+
+    class Meta:
+        model = LanguageLevel
