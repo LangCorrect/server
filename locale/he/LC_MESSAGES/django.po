@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-17 07:20+0000\n"
+"POT-Creation-Date: 2023-10-25 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,14 @@ msgstr ""
 msgid "Correction Types"
 msgstr ""
 
+#: langcorrect/corrections/views.py:92
+msgid "corrected"
+msgstr ""
+
+#: langcorrect/corrections/views.py:100
+msgid "commented on"
+msgstr ""
+
 #: langcorrect/decorators.py:16
 msgid "You must be a premium user to access this page."
 msgstr ""
@@ -113,17 +121,17 @@ msgstr ""
 msgid "Follows"
 msgstr ""
 
-#: langcorrect/follows/views.py:62
+#: langcorrect/follows/views.py:63
 msgid "You cannot follow yourself"
 msgstr ""
 
-#: langcorrect/follows/views.py:73
+#: langcorrect/follows/views.py:74
 msgid "followed you"
 msgstr ""
 
 #: langcorrect/languages/apps.py:8
-#: langcorrect/templates/users/user_detail.html:62
-#: langcorrect/templates/users/user_detail.html:115
+#: langcorrect/templates/users/user_detail.html:67
+#: langcorrect/templates/users/user_detail.html:120
 msgid "Languages"
 msgstr ""
 
@@ -177,15 +185,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr ""
 
-#: langcorrect/posts/models.py:19
+#: langcorrect/posts/models.py:20
 msgid "Viewable by everyone"
 msgstr ""
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable only by registered members"
 msgstr ""
 
-#: langcorrect/posts/models.py:128
+#: langcorrect/posts/models.py:129
 msgid "submitted a new entry"
 msgstr ""
 
@@ -198,19 +206,19 @@ msgstr ""
 msgid "Image size should not be more than {max_size_mb}MB."
 msgstr ""
 
-#: langcorrect/posts/views.py:160
+#: langcorrect/posts/views.py:161
 msgid "Post successfully updated"
 msgstr ""
 
-#: langcorrect/posts/views.py:183
+#: langcorrect/posts/views.py:184
 msgid "Post successfully added"
 msgstr ""
 
-#: langcorrect/posts/views.py:187
+#: langcorrect/posts/views.py:188
 msgid "Your correction ratio is too low."
 msgstr ""
 
-#: langcorrect/posts/views.py:228
+#: langcorrect/posts/views.py:232
 msgid "Post successfully deleted"
 msgstr ""
 
@@ -624,45 +632,58 @@ msgstr ""
 msgid "Average Per Day"
 msgstr ""
 
+#: langcorrect/templates/corrections/make_corrections.html:17
+msgid "Gender of narration"
+msgstr ""
+
 #: langcorrect/templates/corrections/make_corrections.html:25
+msgid "Language level"
+msgstr ""
+
+#: langcorrect/templates/corrections/make_corrections.html:35
+#: langcorrect/templates/modals/native_text.html:11
+msgid "Post Overview"
+msgstr ""
+
+#: langcorrect/templates/corrections/make_corrections.html:56
 msgid "Make your correction here."
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:30
+#: langcorrect/templates/corrections/make_corrections.html:61
 msgid "Write the correct sentence here..."
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:34
+#: langcorrect/templates/corrections/make_corrections.html:65
 msgid "Include feedback for this correction here."
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:39
+#: langcorrect/templates/corrections/make_corrections.html:70
 msgid "Write your feedback here..."
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:63
+#: langcorrect/templates/corrections/make_corrections.html:94
 msgid "Overall feedback or comment"
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:68
+#: langcorrect/templates/corrections/make_corrections.html:99
 msgid ""
 "If you wish to include feedback, please make sure it is constructive. We are "
 "all here to learn, so let's encourage and support one another."
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:83
+#: langcorrect/templates/corrections/make_corrections.html:114
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:87
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr ""
 
-#: langcorrect/templates/corrections/make_corrections.html:89
+#: langcorrect/templates/corrections/make_corrections.html:120
 #: langcorrect/templates/corrections/partials/user_correction_card.html:55
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
@@ -737,8 +758,8 @@ msgstr ""
 
 #: langcorrect/templates/follows/follower_list.html:10
 #: langcorrect/templates/follows/following_list.html:8
-#: langcorrect/templates/posts/post_list.html:26
-#: langcorrect/templates/users/user_detail.html:96
+#: langcorrect/templates/posts/post_list.html:37
+#: langcorrect/templates/users/user_detail.html:101
 msgid "Following"
 msgstr ""
 
@@ -846,6 +867,14 @@ msgstr ""
 msgid "How would you like to export the corrections?"
 msgstr ""
 
+#: langcorrect/templates/modals/native_text.html:19
+msgid "Native Text"
+msgstr ""
+
+#: langcorrect/templates/modals/native_text.html:23
+msgid "Original Text"
+msgstr ""
+
 #: langcorrect/templates/modals/notifications.html:12
 msgid "Notifications"
 msgstr ""
@@ -867,6 +896,7 @@ msgid "Close"
 msgstr ""
 
 #: langcorrect/templates/navbar.html:42
+#: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
 msgstr ""
 
@@ -950,122 +980,122 @@ msgid ""
 "through direct feedback on your writing from fluent, native speakers."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:23
-#: langcorrect/templates/pages/home.html:129
+#: langcorrect/templates/pages/home.html:24
+#: langcorrect/templates/pages/home.html:130
 msgid "Start learning"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:26
+#: langcorrect/templates/pages/home.html:27
 msgid "Browse as guest"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:43
+#: langcorrect/templates/pages/home.html:44
 msgid "Getting corrections on your writing is really easy."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:46
+#: langcorrect/templates/pages/home.html:47
 msgid ""
 "Once you're done writing in your studying language, we will automatically "
 "match it with native speakers."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:52
+#: langcorrect/templates/pages/home.html:53
 msgid "Register an account"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:54
+#: langcorrect/templates/pages/home.html:55
 msgid ""
 "We start with a short 3-step registration process to help us determine users "
 "you should be match with."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:58
+#: langcorrect/templates/pages/home.html:59
 msgid "Write a journal entry"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:60
+#: langcorrect/templates/pages/home.html:61
 msgid ""
 "Browse a wide variety of writing prompts or simply create a journal from "
 "scratch."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:64
+#: langcorrect/templates/pages/home.html:65
 msgid "Review corrections"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:66
+#: langcorrect/templates/pages/home.html:67
 msgid ""
 "Native speakers will correct your writing and provide constructive feedback."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:76
+#: langcorrect/templates/pages/home.html:77
 msgid "Built for serious learners"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:78
+#: langcorrect/templates/pages/home.html:79
 msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:82
+#: langcorrect/templates/pages/home.html:83
 msgid "Straight to the point"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:84
+#: langcorrect/templates/pages/home.html:85
 msgid ""
 "Get corrections on your writing quickly – Simply write a journal in your "
 "target language, publish it, and let the LangCorrect community do their "
 "thing to provide corrections for you."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:88
+#: langcorrect/templates/pages/home.html:89
 msgid "Constantly improving"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:90
+#: langcorrect/templates/pages/home.html:91
 msgid ""
 "The LangCorrect platform is getting better all the time.  Consistent, direct "
 "feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:94
+#: langcorrect/templates/pages/home.html:95
 msgid "Learn with friends"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:96
+#: langcorrect/templates/pages/home.html:97
 msgid ""
 "Invite your friends to join LangCorrect and challenge one another to see who "
 "can earn the highest Rankings and Streaks."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:100
+#: langcorrect/templates/pages/home.html:101
 msgid "Functionality with learning in mind"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:102
+#: langcorrect/templates/pages/home.html:103
 msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:106
+#: langcorrect/templates/pages/home.html:107
 msgid "Built-in messaging"
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:108
+#: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
 "feature. This is a great way to make new friends and meet people from around "
 "the globe."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:118
+#: langcorrect/templates/pages/home.html:119
 msgid "Join today and experience language-learning, redefined."
 msgstr ""
 
-#: langcorrect/templates/pages/home.html:120
+#: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
 "                            Whether you’re fluent or just starting out, we’d "
@@ -1292,31 +1322,41 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:11
-msgid "Journals"
-msgstr ""
-
-#: langcorrect/templates/posts/post_list.html:19
-msgid "Correct journals written in your native language(s)."
-msgstr ""
-
-#: langcorrect/templates/posts/post_list.html:20
-msgid "Teach"
-msgstr ""
-
-#: langcorrect/templates/posts/post_list.html:22
-msgid "Browse journals and practice writing in your studying language(s)."
+#: langcorrect/templates/posts/post_list.html:14
+msgid "Recent Corrections"
 msgstr ""
 
 #: langcorrect/templates/posts/post_list.html:23
+msgid "Recently corrected public entries"
+msgstr ""
+
+#: langcorrect/templates/posts/post_list.html:24
+msgid ""
+"👉 Register to view more posts, get corrections on your writing and correct "
+"others."
+msgstr ""
+
+#: langcorrect/templates/posts/post_list.html:30
+msgid "Correct journals written in your native language(s)."
+msgstr ""
+
+#: langcorrect/templates/posts/post_list.html:31
+msgid "Teach"
+msgstr ""
+
+#: langcorrect/templates/posts/post_list.html:33
+msgid "Browse journals and practice writing in your studying language(s)."
+msgstr ""
+
+#: langcorrect/templates/posts/post_list.html:34
 msgid "Learn"
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:25
+#: langcorrect/templates/posts/post_list.html:36
 msgid "Browse journals written by users you are following."
 msgstr ""
 
-#: langcorrect/templates/posts/post_list.html:61
+#: langcorrect/templates/posts/post_list.html:73
 msgid "Feedback & Feature Requests"
 msgstr ""
 
@@ -1377,11 +1417,23 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:37
-msgid "Community Stats"
+#: langcorrect/templates/users/user_detail.html:10
+msgid "My Profile"
+msgstr ""
+
+#: langcorrect/templates/users/user_detail.html:12
+#, python-format
+msgid ""
+"\n"
+"      %(username)s's Profile\n"
+"    "
 msgstr ""
 
 #: langcorrect/templates/users/user_detail.html:42
+msgid "Community Stats"
+msgstr ""
+
+#: langcorrect/templates/users/user_detail.html:47
 #, python-format
 msgid ""
 "\n"
@@ -1389,7 +1441,7 @@ msgid ""
 "                "
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:48
+#: langcorrect/templates/users/user_detail.html:53
 #, python-format
 msgid ""
 "\n"
@@ -1397,7 +1449,7 @@ msgid ""
 "                "
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:54
+#: langcorrect/templates/users/user_detail.html:59
 #, python-format
 msgid ""
 "\n"
@@ -1405,11 +1457,11 @@ msgid ""
 "                "
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:70
+#: langcorrect/templates/users/user_detail.html:75
 msgid "Connections"
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:76
+#: langcorrect/templates/users/user_detail.html:81
 #, python-format
 msgid ""
 "\n"
@@ -1417,7 +1469,7 @@ msgid ""
 "                  "
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:82
+#: langcorrect/templates/users/user_detail.html:87
 #, python-format
 msgid ""
 "\n"
@@ -1425,19 +1477,19 @@ msgid ""
 "                "
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:98
+#: langcorrect/templates/users/user_detail.html:103
 msgid "Follow"
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:109
+#: langcorrect/templates/users/user_detail.html:114
 msgid "My Info"
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:112
+#: langcorrect/templates/users/user_detail.html:117
 msgid "E-Mail"
 msgstr ""
 
-#: langcorrect/templates/users/user_detail.html:134
+#: langcorrect/templates/users/user_detail.html:139
 #, python-format
 msgid ""
 "\n"
@@ -1462,7 +1514,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: langcorrect/users/forms.py:28 langcorrect/users/tests/test_forms.py:36
+#: langcorrect/users/forms.py:30 langcorrect/users/tests/test_forms.py:36
 msgid "This username has already been taken."
 msgstr ""
 

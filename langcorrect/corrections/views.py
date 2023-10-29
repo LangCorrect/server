@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
+from django.utils.translation import gettext_noop
 from notifications.signals import notify
 
 from langcorrect.corrections.constants import FileFormat
@@ -88,7 +89,7 @@ def make_corrections(request, slug):
                 notify.send(
                     sender=current_user,
                     recipient=post.user,
-                    verb=translate("corrected"),
+                    verb=gettext_noop("corrected"),
                     action_object=post,
                     notification_type="new_correction",
                 )
@@ -96,7 +97,7 @@ def make_corrections(request, slug):
                 notify.send(
                     sender=current_user,
                     recipient=post.user,
-                    verb=translate("commented on"),
+                    verb=gettext_noop("commented on"),
                     action_object=post,
                     notification_type="new_comment",
                 )
@@ -146,6 +147,7 @@ def make_corrections(request, slug):
     context["post"] = post
     context["overall_feedback"] = overall_feedback.comment if overall_feedback else ""
     context["is_edit"] = is_edit
+    context["disable_page_container"] = True
 
     return render(request, "corrections/make_corrections.html", context)
 

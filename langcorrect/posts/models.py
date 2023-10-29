@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
@@ -125,7 +126,7 @@ def send_follower_notifications(sender, instance, created, **kwargs):
         notify.send(
             sender=user,
             recipient=recipients,
-            verb=_("submitted a new entry"),
+            verb=gettext_noop("submitted a new entry"),
             action_object=post,
             notification_type="new_post",
         )

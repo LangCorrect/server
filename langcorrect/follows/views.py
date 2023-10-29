@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 from notifications.signals import notify
@@ -70,7 +71,7 @@ def follow_user(request, username):
         notify.send(
             sender=current_user,
             recipient=profile_user,
-            verb=_("followed you"),
+            verb=gettext_noop("followed you"),
             action_object=current_user,
             notification_type="new_follower",
         )
