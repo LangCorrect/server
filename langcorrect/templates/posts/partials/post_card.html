@@ -55,9 +55,10 @@
       {% elif post.language not in current_user.native_languages %}
         <div data-bs-toggle="tooltip"
              data-bs-placement="bottom"
-             data-bs-title="You can only correct journals in your native language(s)">
+             data-bs-title="{% translate "You can only correct journals in your native language(s)" %}">
           <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
             <i class="fa-solid fa-ban"></i>
+            {% translate "Correct" %}
           </button>
         </div>
       {% else %}
