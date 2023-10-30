@@ -59,7 +59,7 @@ class PostListView(ListView):
             qs = qs.filter(language__in=current_user.native_languages)
 
         if lang_code and lang_code != "all":
-            qs = qs.filter(language__code=lang_code)
+            qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
 
         return qs
 

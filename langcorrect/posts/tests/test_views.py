@@ -110,5 +110,5 @@ class TestPostListView(TestCase):
         url = f"{reverse('posts:list')}?{urlencode(params)}"
         response = self.client.get(url)
         posts = response.context["object_list"]
-        expected_posts = Post.available_objects.filter(language=self.languages[0])
+        expected_posts = Post.available_objects.filter(language=self.languages[0]).order_by("is_corrected", "-created")
         self.assertQuerySetEqual(posts, expected_posts)
