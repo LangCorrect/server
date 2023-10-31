@@ -46,7 +46,7 @@
          tabindex="0">
       <ul class="list-group list-group-flush">
         {% for corrector in popular_correctors.today %}
-          {% include "corrections/partials/popular_corrector.html" %}
+          {% include "corrections/partials/popular_corrector.html" with count=forloop.counter %}
         {% empty %}
           <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
         {% endfor %}
@@ -59,7 +59,7 @@
          tabindex="0">
       <ul class="list-group list-group-flush">
         {% for corrector in popular_correctors.this_week %}
-          {% include "corrections/partials/popular_corrector.html" %}
+          {% include "corrections/partials/popular_corrector.html" with count=forloop.counter %}
         {% empty %}
           <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
         {% endfor %}
@@ -72,7 +72,7 @@
          tabindex="0">
       <ul class="list-group list-group-flush">
         {% for corrector in popular_correctors.this_month %}
-          {% include "corrections/partials/popular_corrector.html" %}
+          {% include "corrections/partials/popular_corrector.html" with count=forloop.counter %}
         {% empty %}
           <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
         {% endfor %}
@@ -85,7 +85,7 @@
          tabindex="0">
       <ul class="list-group list-group-flush">
         {% for corrector in popular_correctors.all_time %}
-          {% include "corrections/partials/popular_corrector.html" %}
+          {% include "corrections/partials/popular_corrector.html" with count=forloop.counter %}
         {% empty %}
           <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
         {% endfor %}
