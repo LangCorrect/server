@@ -1,0 +1,44 @@
+{% extends "admin/change_list.html" %}
+
+{% load static %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script src=" https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js "></script>
+  <script>
+    "use strict";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('myChart');
+      const chart_data = JSON.parse("{{chart_data|escapejs}}");
+
+      const chartData = {
+        labels: chart_data.map(row => new Date(row.date).toLocaleDateString()),
+        datasets: [{
+          label: '# of users registered per day',
+          data: chart_data.map(row => row.user_count),
+          borderWidth: 1
+        }]
+      };
+
+      const chartOptions = {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      };
+
+      new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+      });
+    });
+  </script>
+{% endblock extrahead %}
+{% block content %}
+  <canvas id="myChart"></canvas>
+  {{ block.super }}
+{% endblock content %}

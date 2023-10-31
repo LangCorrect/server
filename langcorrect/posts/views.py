@@ -12,6 +12,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
+from langcorrect.languages.models import LanguageLevel
 from langcorrect.posts.forms import CustomPostForm
 from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
@@ -58,7 +59,7 @@ class PostListView(ListView):
             qs = qs.filter(language__in=current_user.native_languages)
 
         if lang_code and lang_code != "all":
-            qs = qs.filter(language__code=lang_code)
+            qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
 
         return qs
 
@@ -193,14 +194,17 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        current_user = self.request.user
+        form.instance.user = current_user
+        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
+        form.instance.language_level = language_level.level
         self.object = form.save()
 
         image_obj = self.request.FILES.get("image", None)
-        if image_obj and self.request.user.is_premium_user:
+        if image_obj and current_user.is_premium_user:
             storage_backend = get_storage_backend()
             file_key = storage_backend.save(image_obj)
-            PostImage.available_objects.create(user=self.request.user, post=self.object, file_key=file_key)
+            PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
         context = self.get_context_data()
         prompt = context.get("prompt", None)
         if prompt:
