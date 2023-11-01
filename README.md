@@ -136,6 +136,18 @@ Redis is used for caching and messaging brokering in this project. If you alread
 
         pip install -r requirements/local.txt
 
+1.  Install dictionaries. We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.org/) for text parsing. Fugashi parses Japanese text and NLTK parses text in various languages.
+
+    Fugashi
+
+        $ python -m unidic download
+
+    NLTK
+
+    I typically tend to install all of the datasets and models, but you'll most likely want to download the popular subset of NLTK data.
+
+        $ python -m nltk.downloader popular
+
 1.  Create the database (if you do not have postgresql already installed there are installation instructions further down the readme)
 
         psql
