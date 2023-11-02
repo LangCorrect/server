@@ -4,11 +4,9 @@
 
 <div class="card">
   {% include "posts/partials/card_header.html" %}
-  <div class="d-grids">
-    {% for correction in corrections %}
-      {% include "corrections/partials/correction.html" %}
-    {% endfor %}
-  </div>
+  {% for correction in corrections %}
+    {% include "corrections/partials/correction.html" %}
+  {% endfor %}
   {% if overall_feedback %}
     <div class="p-3">
       <p class="fw-bold">Feedback</p>
