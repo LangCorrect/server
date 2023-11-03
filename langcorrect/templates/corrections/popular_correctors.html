@@ -1,10 +1,10 @@
 {% load i18n %}
 
 <div class="card">
-  <div class="card-header bg-transparent">{% translate "Popular Correctors" %}</div>
+  <div class="card-header bg-transparent text-center">{% translate "Popular Correctors" %}</div>
   <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link active"
+    <div class="nav justify-content-center" id="nav-tab" role="tablist">
+      <button class="nav-link active border-bottom border-primary"
               id="popular-today-tab"
               data-bs-toggle="tab"
               data-bs-target="#popular-today"
@@ -72,3 +72,10 @@
     <div class="card-footer bg-primary text-center">{% translate "View all" %}</div>
   </a>
 </div>
+<script>
+  const navButtons = document.querySelectorAll(".nav-link");
+  navButtons.forEach(button => button.addEventListener("click", () => {
+    navButtons.forEach(button => button.classList.remove("border-bottom", "border-primary"));
+    button.classList.add("border-bottom", "border-primary");
+  }))
+</script>
