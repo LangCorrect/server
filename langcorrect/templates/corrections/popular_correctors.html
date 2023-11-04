@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 
 <div class="card">
   <div class="card-header bg-transparent text-center">{% translate "Popular Correctors" %}</div>
@@ -72,10 +73,6 @@
     <div class="card-footer bg-primary text-center">{% translate "View all" %}</div>
   </a>
 </div>
-<script>
-  const navButtons = document.querySelectorAll(".nav-link");
-  navButtons.forEach(button => button.addEventListener("click", () => {
-    navButtons.forEach(button => button.classList.remove("border-bottom", "border-primary"));
-    button.classList.add("border-bottom", "border-primary");
-  }))
-</script>
+{% block inline_javascript %}
+  <script src="{% static 'js/popular_correctors.js' %}"></script>
+{% endblock inline_javascript %}
