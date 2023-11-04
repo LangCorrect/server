@@ -15,16 +15,16 @@ nltk==3.8.1  # https://www.nltk.org/install.html
 
 # Django
 # ------------------------------------------------------------------------------
-django==4.2.6  # pyup: < 5.0  # https://www.djangoproject.com/
+django==4.2.7  # pyup: < 5.0  # https://www.djangoproject.com/
 django-environ==0.10.0  # https://github.com/joke2k/django-environ
 django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
 django-allauth==0.54.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==2.1  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
-django-redis==5.3.0  # https://github.com/jazzband/django-redis
+django-redis==5.4.0  # https://github.com/jazzband/django-redis
 # Django REST Framework
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
-django-cors-headers==4.2.0  # https://github.com/adamchainz/django-cors-headers
+django-cors-headers==4.3.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
 drf-spectacular==0.26.5  # https://github.com/tfranzel/drf-spectacular
 

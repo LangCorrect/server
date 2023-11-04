@@ -17,7 +17,10 @@
       <p class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
         {{ post.text|linebreaksbr }}
       </p>
-      {% if not disable_native_text %}<p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>{% endif %}
+      {% if not disable_native_text and post.native_text %}
+        <hr class="text-muted" />
+        <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
+      {% endif %}
       {% if not disable_stretched_link %}
         <a href="{{ post.get_absolute_url }}"
            class="stretched-link link-secondary"></a>
@@ -48,6 +51,15 @@
              class="btn btn-sm btn-outline-danger">{% translate "Delete" %}</a>
           <a href="{% url 'posts:update' post.slug %}"
              class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+        </div>
+      {% elif post.language not in current_user.native_languages %}
+        <div data-bs-toggle="tooltip"
+             data-bs-placement="bottom"
+             data-bs-title="{% translate "You can only correct entries in your native language(s)" %}">
+          <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+            <i class="fa-solid fa-ban"></i>
+            {% translate "Correct" %}
+          </button>
         </div>
       {% else %}
         <a href="{% url 'posts:make-corrections' post.slug %}"
