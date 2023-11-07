@@ -13424,6 +13424,9 @@ body {
 .line-clamp-10 {
   -webkit-line-clamp: 10;
 }
+.z-9999 {
+  z-index: 9999;
+}
 .chip {
   border: 1px solid var(--chip-border-color);
   border-radius: var(--chip-border-radius);
