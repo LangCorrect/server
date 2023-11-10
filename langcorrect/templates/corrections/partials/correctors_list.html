@@ -2,7 +2,7 @@
 
 <ul class="list-group list-group-flush">
   {% for corrector in correctors %}
-    {% include "corrections/partials/popular_corrector.html" with count=forloop.counter %}
+    {% include "corrections/partials/popular_corrector.html" with idx=forloop.counter %}
   {% empty %}
     <li class="list-group-item text-center text-muted py-4">{% translate "No corrections have been made" %}</li>
   {% endfor %}
