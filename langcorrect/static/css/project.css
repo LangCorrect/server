@@ -14621,6 +14621,10 @@ body {
   -webkit-line-clamp: 10;
 }
 
+.z-9999 {
+  z-index: 9999;
+}
+
 .chip {
   font-size: var(--font-size-chip);
   height: var(--chip-height);
