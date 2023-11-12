@@ -166,3 +166,25 @@ del {
 .ranking-item {
   width: 6rem;
 }
+
+////////////////
+//  Nav tabs  //
+////////////////
+
+.nav-tabs .nav-link {
+  color: $text-muted;
+  border: 0;
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link:hover {
+  border: 0;
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link.active {
+  color: $primary;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid $primary;
+}

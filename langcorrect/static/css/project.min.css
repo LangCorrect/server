@@ -13445,3 +13445,17 @@ ins {
   width: 96px;
   width: 6rem;
 }
+.nav-tabs .nav-link {
+  color: var(--bs-secondary-color);
+}
+.nav-tabs .nav-link,
+.nav-tabs .nav-link:hover {
+  border: 0;
+  border-bottom: none;
+}
+.nav-tabs .nav-link.active {
+  border: 0;
+  border-bottom: 2px solid #6174dd;
+  border-radius: 0;
+  color: #6174dd;
+}

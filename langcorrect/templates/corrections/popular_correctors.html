@@ -4,8 +4,10 @@
 <div class="card">
   <div class="card-header bg-transparent text-center">{% translate "Popular Correctors" %}</div>
   <nav>
-    <div class="nav justify-content-center" id="nav-tab" role="tablist">
-      <button class="nav-link active border-bottom border-primary"
+    <div class="nav nav-tabs justify-content-center"
+         id="nav-tab"
+         role="tablist">
+      <button class="nav-link active"
               id="popular-today-tab"
               data-bs-toggle="tab"
               data-bs-target="#popular-today"
@@ -73,6 +75,3 @@
     <div class="card-footer bg-primary text-center">{% translate "View all" %}</div>
   </a>
 </div>
-{% block inline_javascript %}
-  <script src="{% static 'js/popular_correctors.js' %}"></script>
-{% endblock inline_javascript %}
