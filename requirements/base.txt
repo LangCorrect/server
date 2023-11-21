@@ -31,4 +31,4 @@ drf-spectacular==0.26.5  # https://github.com/tfranzel/drf-spectacular
 weasyprint==60.1  # https://doc.courtbouillon.org/weasyprint/
 genanki==0.13.0  # https://github.com/kerrickstaley/genanki
 
-stripe==6.1.0  # https://github.com/stripe/stripe-python
+stripe==7.6.0  # https://github.com/stripe/stripe-python
