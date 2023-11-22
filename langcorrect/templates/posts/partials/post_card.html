@@ -13,7 +13,7 @@
           {{ post.prompt.content }}</a>
         </div>
       {% endif %}
-      <h5>{{ post.title }}</h5>
+      <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
       <p lang="{{ post.language.code }}"
          class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
         {{ post.text|linebreaksbr }}
