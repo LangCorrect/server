@@ -14559,22 +14559,22 @@ fieldset:disabled .btn {
 @font-face {
   font-family: 'Noto Sans JP';
   src: url('../fonts/NotoSansJP-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400 900;
+  font-weight: 400 500 900;
 }
 @font-face {
   font-family: 'Noto Sans KR';
   src: url('../fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400 900;
+  font-weight: 400 500 900;
 }
 @font-face {
   font-family: 'Noto Sans TC';
   src: url('../fonts/NotoSansTC-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400 900;
+  font-weight: 400 500 900;
 }
 @font-face {
   font-family: 'Noto Sans SC';
   src: url('../fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400 900;
+  font-weight: 400 500 900;
 }
 :lang(zh-hant) {
   font-family: 'Noto Sans TC';
