@@ -14,7 +14,8 @@
         </div>
       {% endif %}
       <h5>{{ post.title }}</h5>
-      <p class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
+      <p lang="{{ post.language.code }}"
+         class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
         {{ post.text|linebreaksbr }}
       </p>
       {% if not disable_native_text and post.native_text %}

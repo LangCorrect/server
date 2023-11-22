@@ -47,7 +47,7 @@
                data-original-sentence="{{ post_row.sentence }}"
                data-action="{{ post_row.action }}">
             <div class="card-body border-bottom">
-              <span class="js-sentence">{{ post_row.sentence }}</span>
+              <span lang="{{ post.language.code }}" class="js-sentence">{{ post_row.sentence }}</span>
             </div>
             <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
                  data-correction-box="{{ post_row.id }}">
@@ -55,7 +55,8 @@
                 <label for="js-correction-row-{{ post_row.id }}" class="form-label">
                   {% translate "Make your correction here." %}
                 </label>
-                <textarea class="form-control"
+                <textarea lang="{{ post.language.code }}"
+                          class="form-control"
                           name="correction-row-{{ post_row.id }}"
                           id="js-correction-row-{{ post_row.id }}"
                           placeholder="{% translate 'Write the correct sentence here...' %}">{{ post_row.correction }}</textarea>
@@ -64,7 +65,8 @@
                 <label for="js-correction-note-{{ post_row.id }}" class="form-label">
                   {% translate "Include feedback for this correction here." %}
                 </label>
-                <textarea class="form-control"
+                <textarea lang="{{ post.language.code }}"
+                          class="form-control"
                           name="correction-note-{{ post_row.id }}"
                           id="js-correction-note-{{ post_row.id }}"
                           placeholder="{% translate 'Write your feedback here...' %}">{{ post_row.note }}</textarea>
@@ -93,7 +95,9 @@
         <div class="card">
           <div class="card-header bg-transparent">{% translate "Overall feedback or comment" %}</div>
           <div class="card-body">
-            <textarea class="form-control"
+            <textarea
+                    lang="{{ post.language.code }}"
+                    class="form-control"
                     id="overall-feedback"
                     rows="4"
                     placeholder="{% translate "If you wish to include feedback, please make sure it is constructive. We are all here to learn, so let's encourage and support one another." %}">{{ overall_feedback }}</textarea>

@@ -46,13 +46,41 @@
 @font-face {
   font-family: 'Noto Sans JP';
   src: url('../fonts/NotoSansJP-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
+  font-weight: 400 900;
 }
 
 @font-face {
   font-family: 'Noto Sans KR';
   src: url('../fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
+  font-weight: 400 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans TC';
+  src: url('../fonts/NotoSansTC-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 900;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: url('../fonts/NotoSansSC-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 900;
+}
+
+:lang(zh-hant) {
+  font-family: 'Noto Sans TC';
+}
+
+:lang(zh-hans) {
+  font-family: 'Noto Sans SC';
+}
+
+:lang(ja) {
+  font-family: 'Noto Sans JP';
+}
+
+:lang(kr) {
+  font-family: 'Noto Sans KR';
 }
 
 :root {
@@ -65,7 +93,7 @@
 
 body {
   background: #f1f4f8;
-  font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .index-heading-width {
