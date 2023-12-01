@@ -14675,3 +14675,21 @@ del {
   width: 96px;
   width: 6rem;
 }
+
+.nav-tabs .nav-link {
+  color: var(--bs-secondary-color);
+  border: 0;
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link:hover {
+  border: 0;
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link.active {
+  color: #6174dd;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid #6174dd;
+}
