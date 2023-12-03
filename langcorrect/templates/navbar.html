@@ -38,11 +38,11 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold{% endif %}"
+          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold text-primary{% endif %}"
              href="{% url 'posts:list' %}">{% translate "My Feed" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if is_prompt_page %}active fw-bold{% endif %}"
+          <a class="nav-link {% if is_prompt_page %}active fw-bold text-primary{% endif %}"
              href="{% url 'prompts:list' %}">{% translate "Writing Prompts" %}</a>
         </li>
         <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
         {% endif %}
         {% if request.user.is_authenticated %}
           <li class="d-none d-md-block me-2">
-            <a href="{% url 'posts:create' %}" class="btn btn-primary">
+            <a href="{% url 'posts:create' %}" class="btn btn-outline-primary">
               <i class="fas fa-pen fa-fw"></i>
               {% translate "Write" %}
             </a>
