@@ -154,8 +154,9 @@
   <!-- Ratio bar -->
   <div class="bg-primary text-white">
     <div class="container">
-      <div class="row p-2">
-        <div class="col-12">
+      <div class="d-flex flex-wrap p-2">
+        <!-- User info -->
+        <div class="me-2">
           <ul class="list-inline m-0">
             <li class="list-inline-item"
                 data-bs-toggle="tooltip"
@@ -176,6 +177,11 @@
                 {% translate "Member" %}
               {% endif %}
             </li>
+          </ul>
+        </div>
+        <!-- Stats -->
+        <div>
+          <ul class="list-inline m-0">
             <li class="list-inline-item"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
