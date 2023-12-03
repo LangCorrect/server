@@ -5,6 +5,9 @@
 {% load post_tags %}
 {% load correction_tags %}
 
+{% block title %}
+  {{ post.title }} · {{ post.user }}
+{% endblock title %}
 {% block content %}
   <div class="d-flex flex-column gap-3">
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True disable_text_truncation=True %}
