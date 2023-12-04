@@ -22,12 +22,29 @@
           </span>
         </div>
       </div>
-      <a a
-         href="{% url 'posts:create-prompt-based-post' prompt.slug %}"
-         class="btn btn-sm btn-outline-primary">
-        <i class="fa-solid fa-reply"></i>
-        {% translate "Respond" %}
-      </a>
+      <div>
+        <a href="{% url 'posts:create-prompt-based-post' prompt.slug %}"
+           class="btn btn-sm btn-outline-primary">
+          <i class="fa-solid fa-reply"></i>
+          {% translate "Respond" %}
+        </a>
+        {% if current_user.is_staff or current_user.is_moderator %}
+          <div class="btn-group">
+            <button type="button"
+                    class="btn btn-sm btn-danger dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'prompts:convert_to_journal' prompt.slug %}">Convert to journal entry</a>
+              </li>
+            </ul>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>

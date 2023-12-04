@@ -18,6 +18,7 @@ class PostAdmin(admin.ModelAdmin):
         "created",
     ]
     search_fields = ["title", "user__username"]
+    raw_id_fields = ("user",)
 
 
 @admin.register(PostRow)
