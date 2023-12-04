@@ -66,6 +66,7 @@ urlpatterns = [
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
     path("submissions/posts", user_posts_view, name="user_posts"),
     path("submissions/prompts", user_prompts_view, name="user_prompts"),
+    path("submissions/corrections", user_prompts_view, name="user_corrections"),
     path(
         "journal/<path:subpath>/",
         RedirectView.as_view(url="/journals/%(subpath)s", permanent=True),
