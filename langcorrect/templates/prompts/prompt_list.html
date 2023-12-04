@@ -44,7 +44,7 @@
       </div>
       <div class="d-grid gap-3">
         {% for prompt in object_list %}
-          {% render_prompt_card instance=prompt %}
+          {% render_prompt_card instance=prompt current_user=request.user %}
         {% endfor %}
         {% include "pagination.html" %}
       </div>
