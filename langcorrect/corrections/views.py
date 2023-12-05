@@ -2,11 +2,13 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
 from django.utils.translation import gettext_noop
+from django.views.generic import ListView
 from notifications.signals import notify
 
 from langcorrect.corrections.constants import FileFormat
@@ -168,3 +170,18 @@ def export_corrections(request, slug):
         case _:
             messages.warning(request, translate("Invalid export format specified."))
             return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
+
+
+class UserCorrectionsView(LoginRequiredMixin, ListView):
+    model = CorrectedRow
+    template_name = "corrections/user_corrections.html"
+    paginate_by = 20
+
+    def get_queryset(self):
+        current_user = self.request.user
+        qs = Post.objects.filter(correctedrow__user=current_user)
+
+        return qs
+
+
+user_corrections_view = UserCorrectionsView.as_view()
