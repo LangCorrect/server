@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
@@ -179,7 +180,7 @@ class UserCorrectionsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         current_user = self.request.user
-        qs = Post.objects.filter(correctedrow__user=current_user)
+        qs = Post.objects.filter(Q(correctedrow__user=current_user) | Q(perfectrow__user=current_user)).distinct()
 
         return qs
 

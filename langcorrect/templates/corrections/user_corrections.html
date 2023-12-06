@@ -16,24 +16,26 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">{% translate "Title" %}</th>
-          <th scope="col">{% translate "Responses" %}</th>
           <th scope="col">{% translate "Language" %}</th>
-          <th scope="col">{% translate "Created" %}</th>
+          <th scope="col">{% translate "Author" %}</th>
+          <th scope="col">{% translate "Post Date" %}</th>
+          <th scope="col">{% translate "Corrections Made" %}</th>
         </tr>
       </thead>
       <tbody>
-        {% for correction in object_list %}
+        {% for post in object_list %}
           <tr class="prompt-row"
               role="button"
-              data-link="{{ correction.get_absolute_url }}">
+              data-link="{{ post.get_absolute_url }}">
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
             <td>
               <a class="link-dark text-decoration-none"
-                 href="{{ correction.get_absolute_url }}">{{ correction.content }}</a>
+                 href="{{ post.get_absolute_url }}">{{ post.title }}</a>
             </td>
-            <td>{{ correction.response_count }}</td>
-            <td>{{ correction.language.code }}</td>
-            <td>{{ correction.created | naturalday }}</td>
+            <td>{{ post.language.code }}</td>
+            <td>{{ post.user.display_name }}</td>
+            <td>{{ post.created | naturalday }}</td>
+            <td>5</td>
           </tr>
         {% endfor %}
       </tbody>
