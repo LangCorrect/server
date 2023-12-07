@@ -7,7 +7,7 @@
 {% load post_tags %}
 
 {% block title %}
-  {% translate "My Prompts" %} · LangCorrect
+  {% translate "My Corrections" %} · LangCorrect
 {% endblock title %}
 {% block content %}
   <div class="table-responsive">
@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         {% for post in object_list %}
-          <tr class="prompt-row"
+          <tr class="clickable-row"
               role="button"
               data-link="{{ post.get_absolute_url }}">
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
@@ -44,5 +44,5 @@
   {% include "pagination.html" %}
 {% endblock content %}
 {% block inline_javascript %}
-  <script src="{% static 'js/user_prompts.js' %}"></script>
+  <script src="{% static 'js/clickable_table_row.js' %}"></script>
 {% endblock inline_javascript %}

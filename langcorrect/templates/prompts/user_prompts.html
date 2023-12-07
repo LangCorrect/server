@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         {% for prompt in object_list %}
-          <tr class="prompt-row"
+          <tr class="clickable-row"
               role="button"
               data-link="{{ prompt.get_absolute_url }}">
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
@@ -42,5 +42,5 @@
   {% include "pagination.html" %}
 {% endblock content %}
 {% block inline_javascript %}
-  <script src="{% static 'js/user_prompts.js' %}"></script>
+  <script src="{% static 'js/clickable_table_row.js' %}"></script>
 {% endblock inline_javascript %}
