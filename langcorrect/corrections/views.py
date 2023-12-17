@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
 from django.utils.translation import gettext_noop
 from notifications.signals import notify
+from django.db.models import Q
+
 
 from langcorrect.corrections.constants import FileFormat
 from langcorrect.corrections.helpers import check_can_make_corrections
@@ -118,11 +120,15 @@ def make_corrections(request, slug):
         is_edit = False
 
         for post_row in all_post_rows:
-            previous_correction = CorrectedRow.available_objects.filter(
-                post_row_id=post_row.id, user=current_user
-            ).first()
+            combined_query = Q(post_row_id=post_row.id, user=current_user)
 
-            previous_perfect = PerfectRow.available_objects.filter(post_row_id=post_row.id, user=current_user).first()
+    # Query for both corrected and perfect rows in a single query
+            previous_entries = (
+                CorrectedRow.available_objects.filter(combined_query).first(),
+                PerfectRow.available_objects.filter(combined_query).first()
+                )
+
+            previous_correction, previous_perfect = previous_entries
 
             post_row.correction = post_row.sentence
             post_row.note = ""
@@ -141,6 +147,7 @@ def make_corrections(request, slug):
                 post_row.is_action_taken = True
                 post_row.action = "perfect"
                 is_edit |= True
+
 
     context = {}
     context["post_rows"] = all_post_rows
