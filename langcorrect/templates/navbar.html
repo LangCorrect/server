@@ -97,7 +97,7 @@
                   <img src="{{ request.user.avatar }}" alt="profile" height="38" />
                   <div class="ms-3">
                     <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
-                      <strong>{{ request.user.username }}</strong>
+                      <strong>{{ request.user.display_name }}</strong>
                     </p>
                     <p class="mb-0 text-muted">
                       <small>{{ request.user.email }}</small>
@@ -163,7 +163,7 @@
               title="{% translate 'Visit your profile' %}">
             <i class="fas fa-user fa-fw"></i>
             <a href="{% url 'users:detail' request.user.username %}"
-               class="text-decoration-none text-white">{{ request.user.username }}</a>
+               class="text-decoration-none text-white">{{ request.user.display_name }}</a>
           </li>
           <li class="list-inline-item"
               data-bs-toggle="tooltip"
