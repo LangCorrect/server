@@ -42,8 +42,7 @@ class PostReplyCreateUpdateAPIView(generics.GenericAPIView):
                     "instance": serializer.instance,
                 },
             )
-        error_message = serializer.errors.get("text")
-        return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

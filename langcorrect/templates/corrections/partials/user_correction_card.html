@@ -13,9 +13,9 @@
       <p>{{ overall_feedback|linebreaks }}</p>
     </div>
   {% endif %}
-  <div class="accordion accordion-flush border-top"
-       id="accordionFlushExample">
-    <div class="accordion-item">
+  <div class="accordion accordion-flush border-top {% if replies|length == 0 %}d-none{% endif %}"
+       id="accordion-{{ user.username }}">
+    <div class="accordion-item border-bottom">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed"
                 type="button"
@@ -37,26 +37,27 @@
               {% endwith %}
             {% endfor %}
           </div>
-          <form data-replies-count-target="reply-count-{{ user }}"
-                hx-post="{% url 'posts:create-update-reply' %}"
-                hx-trigger="submit"
-                hx-target="#reply-list-{{ user }}"
-                hx-swap="beforeend"
-                hx-on="htmx:afterRequest: this.reset()">
-            <input type="hidden" name="recipient" value="{{ user.username }}" />
-            <input type="hidden" name="post" value="{{ post.slug }}" />
-            <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
-            <div class="mb-3">
-              <label for="validationTextarea" class="form-label">{% translate "Write a message..." %}</label>
-              <textarea class="form-control" id="textarea-{{user}}" name="text" required></textarea>
-              <div id="error-message-{{ user }}" class="invalid-feedback"></div>
-            </div>
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-outline-secondary">{% translate "Submit" %}</button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
   </div>
+  <!-- reply form -->
+  {% if not current_user.is_anonymous %}
+    <form action="{% url 'posts:create-update-reply' %}"
+          class="post-reply-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+      <input type="hidden" name="post" value="{{ post.slug }}" />
+      <input type="hidden" name="recipient" value="{{ user.username }}" />
+      <div class="d-flex flex-column gap-3 px-3 py-4">
+        <textarea style="height: 100px"
+                  placeholder="Write a message..."
+                  class="form-control"
+                  name="text"
+                  required></textarea>
+        <div>
+          <button type="submit" class="btn btn-sm btn-outline-secondary float-end">{% translate "Submit" %}</button>
+        </div>
+      </div>
+    </form>
+  {% endif %}
 </div>
