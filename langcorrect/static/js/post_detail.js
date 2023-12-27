@@ -46,10 +46,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       submitBtn.disabled = true;
 
       const payload = this.buildPayload();
-      console.log(
-        '🚀 ~ file: post_detail.js:96 ~ ReplyFormHandler ~ handleSubmit ~ payload:',
-        payload,
-      );
       try {
         const data = await new ReplyService(payload).create();
         this.updateUI(data, payload.recipient);
