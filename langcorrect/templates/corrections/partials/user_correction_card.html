@@ -42,7 +42,7 @@
     </div>
   </div>
   <!-- reply form -->
-  {% if not request.user.is_anonymous %}
+  {% if not current_user.is_anonymous %}
     <form action="{% url 'posts:create-update-reply' %}"
           class="post-reply-form">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
