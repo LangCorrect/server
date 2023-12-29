@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
+from django.db.models import Count, Q, Value
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
@@ -174,13 +174,20 @@ def export_corrections(request, slug):
 
 
 class UserCorrectionsView(LoginRequiredMixin, ListView):
-    model = CorrectedRow
+    model = Post
     template_name = "corrections/user_corrections.html"
     paginate_by = 20
 
     def get_queryset(self):
         current_user = self.request.user
-        qs = Post.objects.filter(Q(correctedrow__user=current_user) | Q(perfectrow__user=current_user)).distinct()
+        num_corrections = Count("perfectrow", filter=Q(correctedrow__user=current_user))
+
+        qs = (
+            Post.objects.filter(Q(correctedrow__user=current_user) | Q(perfectrow__user=current_user))
+            .distinct()
+            .annotate(date_corrected=Value("#latest date of corrected row or perfect row"))
+            .annotate(num_corrections=num_corrections)
+        )
 
         return qs
 

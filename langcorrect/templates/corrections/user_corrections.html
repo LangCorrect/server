@@ -18,7 +18,7 @@
           <th scope="col">{% translate "Title" %}</th>
           <th scope="col">{% translate "Language" %}</th>
           <th scope="col">{% translate "Author" %}</th>
-          <th scope="col">{% translate "Post Date" %}</th>
+          <th scope="col">{% translate "Correction Date" %}</th>
           <th scope="col">{% translate "Corrections Made" %}</th>
         </tr>
       </thead>
@@ -34,8 +34,8 @@
             </td>
             <td>{{ post.language.code }}</td>
             <td>{{ post.user.display_name }}</td>
-            <td>{{ post.created | naturalday }}</td>
-            <td>5</td>
+            <td>{{ post.date_corrected | naturalday }}</td>
+            <td>{{ post.num_corrections }}</td>
           </tr>
         {% endfor %}
       </tbody>
