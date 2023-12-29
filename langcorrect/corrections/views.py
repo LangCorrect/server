@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Q, Value
+from django.db.models import Case, Count, Max, Q, When
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
@@ -178,16 +178,57 @@ class UserCorrectionsView(LoginRequiredMixin, ListView):
     template_name = "corrections/user_corrections.html"
     paginate_by = 20
 
+    # This is your original one
+    # def get_queryset(self):
+    #     current_user = self.request.user
+    #     num_corrections = Count("perfectrow", filter=Q(correctedrow__user=current_user))
+
+    #     qs = (
+    #         Post.objects.filter(Q(correctedrow__user=current_user) | Q(perfectrow__user=current_user))
+    #         .distinct()
+    #         .annotate(date_corrected=Value("#latest date of corrected row or perfect row"))
+    #         .annotate(num_corrections=num_corrections)
+    #     )
+
+    #     return qs
+
+    # This was me trying to calc and pass by instance, but it made a ton of hits (900<)
+    # def get_queryset(self):
+    #     current_user = self.request.user
+
+    #     qs = Post.available_objects.filter(
+    #         Q(correctedrow__user=current_user, correctedrow__is_removed=False) |
+    #         Q(perfectrow__user=current_user, perfectrow__is_removed=False)
+    #     ).distinct().prefetch_related('correctedrow_set', 'perfectrow_set')
+
+    #     for post in qs:
+    #         num_correctedrow = post.correctedrow_set.filter(user=current_user).count()
+    #         num_perfectrow = post.perfectrow_set.filter(user=current_user).count()
+    #         post.num_corrections = num_correctedrow + num_perfectrow
+
+    #     return qs
+
+    # This one brought down the querying to 65
+    # I added the order_by to fix the following:
+    # UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list
     def get_queryset(self):
         current_user = self.request.user
-        num_corrections = Count("perfectrow", filter=Q(correctedrow__user=current_user))
 
-        qs = (
-            Post.objects.filter(Q(correctedrow__user=current_user) | Q(perfectrow__user=current_user))
-            .distinct()
-            .annotate(date_corrected=Value("#latest date of corrected row or perfect row"))
-            .annotate(num_corrections=num_corrections)
-        )
+        qs = Post.available_objects.filter(
+            Q(correctedrow__user=current_user, correctedrow__is_removed=False)
+            | Q(perfectrow__user=current_user, perfectrow__is_removed=False)
+        ).distinct()
+
+        qs = qs.annotate(
+            num_corrections=Count("correctedrow__id", distinct=True, filter=Q(correctedrow__user=current_user))
+            + Count("perfectrow__id", distinct=True, filter=Q(perfectrow__user=current_user)),
+            date_corrected=Max(
+                Case(
+                    When(correctedrow__user=current_user, then="correctedrow__created"),
+                    When(perfectrow__user=current_user, then="perfectrow__created"),
+                )
+            ),
+        ).order_by("-created")
 
         return qs
 
