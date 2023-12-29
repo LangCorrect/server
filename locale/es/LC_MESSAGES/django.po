@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-12-27 11:17+0000\n"
-"Last-Translator: さお！  <kayomi_codes@langcorect.com>\n"
+"PO-Revision-Date: 2023-12-27 21:49+0000\n"
+"Last-Translator: さお！  <kayomi_codes@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -644,7 +644,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"*Actualiza cada %(hours)s horas"
+"*Actualizado cada %(hours)s horas"
 
 #: langcorrect/templates/contributions/contribution_list.html:20
 msgid "Rank"
@@ -834,7 +834,7 @@ msgstr "Normas de la comunidad"
 
 #: langcorrect/templates/footer.html:17
 msgid "Terms of Service"
-msgstr "Términos del servicio"
+msgstr "Términos de servicio"
 
 #: langcorrect/templates/footer.html:24
 msgid "Site Languages"
