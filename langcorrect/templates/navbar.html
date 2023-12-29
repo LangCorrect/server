@@ -14,7 +14,7 @@
       <a href="{% url 'posts:create' %}"
          class="btn btn-outline-primary d-md-none px-2">
         <i class="fa-solid fa-pen px-1"></i>
-        Write
+        {% translate "Write" %}
       </a>
       {% if request.user.is_authenticated %}
         <button id="notification-button"

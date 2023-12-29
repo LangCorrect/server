@@ -8,18 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-10-25 12:26+0000\n"
+"POT-Creation-Date: 2023-12-29 14:11+0000\n"
+"PO-Revision-Date: 2023-12-29 14:14+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -95,7 +93,7 @@ msgid "Contributions"
 msgstr "Вклады"
 
 #: langcorrect/corrections/apps.py:8
-#: langcorrect/templates/posts/post_detail.html:28
+#: langcorrect/templates/posts/post_detail.html:31
 msgid "Corrections"
 msgstr "Исправления"
 
@@ -189,15 +187,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Теги не могут быть длиннее 20 символов"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable by everyone"
 msgstr "Видимо всем"
 
-#: langcorrect/posts/models.py:21
+#: langcorrect/posts/models.py:22
 msgid "Viewable only by registered members"
 msgstr "Видимо только зарегистрированным пользователям"
 
-#: langcorrect/posts/models.py:129
+#: langcorrect/posts/models.py:130
 msgid "submitted a new entry"
 msgstr "отправил новую запись"
 
@@ -214,15 +212,15 @@ msgstr "Размер изображения не должен превышать
 msgid "Post successfully updated"
 msgstr "Пост успешно обновлен"
 
-#: langcorrect/posts/views.py:184
+#: langcorrect/posts/views.py:189
 msgid "Post successfully added"
 msgstr "Пост успешно добавлен"
 
-#: langcorrect/posts/views.py:188
+#: langcorrect/posts/views.py:193
 msgid "Your correction ratio is too low."
 msgstr "Ваш коэффициент исправлений слишком низкий."
 
-#: langcorrect/posts/views.py:232
+#: langcorrect/posts/views.py:240
 msgid "Post successfully deleted"
 msgstr "Пост успешно удален"
 
@@ -308,11 +306,12 @@ msgstr "Внимание:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 "У вас пока нет настроенного адреса электронной почты. Вам стоит добавить "
-"адрес электронной почты для получения уведомлений, восстановления пароля и т."
-"д."
+"адрес электронной почты для получения уведомлений, восстановления пароля и "
+"т.д."
 
 #: langcorrect/templates/account/email.html:55
 msgid "Add E-mail Address"
@@ -335,27 +334,21 @@ msgstr "Добро пожаловать на %(site_name)s!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has "
-"given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Вы получили это письмо, потому что пользователь %(user_display)s использовал "
-"ваш адрес электронной почты для регистрации аккаунта на %(site_domain)s."
+"Вы получили это письмо, потому что пользователь %(user_display)s использовал ваш адрес электронной почты для регистрации аккаунта на %(site_domain)s."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all "
-"features, please verify your e-mail address by going to %(activate_url)s, or "
-"clicking the button below.\n"
+"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Для завершения регистрации и получения полного доступа ко всем функциям, "
-"пожалуйста, подтвердите ваш адрес электронной почты, перейдя по ссылке "
-"%(activate_url)s или нажав на кнопку ниже."
+"Для завершения регистрации и получения полного доступа ко всем функциям, пожалуйста, подтвердите ваш адрес электронной почты, перейдя по ссылке %(activate_url)s или нажав на кнопку ниже."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -365,13 +358,11 @@ msgstr "Подтвердить Адрес Электронной Почты"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or "
-"contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Если вы не регистрировались на %(site_name)s, вы можете проигнорировать это "
-"письмо или обратиться к нам за поддержкой."
+"Если вы не регистрировались на %(site_name)s, вы можете проигнорировать это письмо или обратиться к нам за поддержкой."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -470,8 +461,8 @@ msgstr "Сброс Пароля"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 "Забыли пароль? Введите ваш адрес электронной почты ниже, и мы отправим вам "
 "письмо с возможностью его сброса."
@@ -483,7 +474,8 @@ msgstr "Сбросить Мой Пароль"
 #: langcorrect/templates/account/password_reset.html:27
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
-"Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы с сбросом пароля."
+"Пожалуйста, свяжитесь с нами, если у вас возникнут проблемы с сбросом "
+"пароля."
 
 #: langcorrect/templates/account/password_reset_done.html:15
 msgid ""
@@ -501,8 +493,8 @@ msgstr "Неверный Токен"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
 "Ссылка для сброса пароля недействительна, возможно, потому что она уже была "
 "использована. Пожалуйста, запросите <a href=\"%(passwd_reset_url)s\">новый "
@@ -603,8 +595,8 @@ msgid ""
 "finalize the signup process. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Мы отправили вам письмо для подтверждения. Перейдите по предложенной ссылке, "
-"чтобы завершить процесс регистрации. Пожалуйста, свяжитесь с нами, если вы "
+"Мы отправили вам письмо для подтверждения. Перейдите по предложенной ссылке,"
+" чтобы завершить процесс регистрации. Пожалуйста, свяжитесь с нами, если вы "
 "не получите его в течение нескольких минут."
 
 #: langcorrect/templates/account/verified_email_required.html:12
@@ -629,8 +621,8 @@ msgstr ""
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Примечание:</strong> вы все еще можете <a "
 "href=\"%(email_url)s\">изменить ваш адрес электронной почты</a>."
@@ -704,54 +696,57 @@ msgstr "Обзор постов"
 msgid "Make your correction here."
 msgstr "Внесите ваше исправление здесь."
 
-#: langcorrect/templates/corrections/make_corrections.html:61
+#: langcorrect/templates/corrections/make_corrections.html:62
 msgid "Write the correct sentence here..."
 msgstr "Напишите правильное предложение здесь..."
 
-#: langcorrect/templates/corrections/make_corrections.html:65
+#: langcorrect/templates/corrections/make_corrections.html:66
 msgid "Include feedback for this correction here."
 msgstr "Включите отзыв для этого исправления здесь."
 
-#: langcorrect/templates/corrections/make_corrections.html:70
+#: langcorrect/templates/corrections/make_corrections.html:72
 msgid "Write your feedback here..."
 msgstr "Напишите ваш отзыв здесь..."
 
-#: langcorrect/templates/corrections/make_corrections.html:94
+#: langcorrect/templates/corrections/make_corrections.html:96
 msgid "Overall feedback or comment"
 msgstr "Общий отзыв или комментарий"
 
-#: langcorrect/templates/corrections/make_corrections.html:99
+#: langcorrect/templates/corrections/make_corrections.html:103
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are "
-"all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are"
+" all here to learn, so let's encourage and support one another."
 msgstr ""
-"Если вы хотите оставить отзыв, убедитесь, что он конструктивен. Мы все здесь "
-"для обучения, так давайте поддерживать и поощрять друг друга."
+"Если вы хотите оставить отзыв, убедитесь, что он конструктивен. Мы все здесь"
+" для обучения, так давайте поддерживать и поощрять друг друга."
 
-#: langcorrect/templates/corrections/make_corrections.html:114
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "Отменить"
 
-#: langcorrect/templates/corrections/make_corrections.html:118
+#: langcorrect/templates/corrections/make_corrections.html:122
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Обновить"
 
-#: langcorrect/templates/corrections/make_corrections.html:120
-#: langcorrect/templates/corrections/partials/user_correction_card.html:55
+#: langcorrect/templates/corrections/make_corrections.html:124
+#: langcorrect/templates/corrections/partials/user_correction_card.html:58
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
 msgstr "Отправить"
+
+#: langcorrect/templates/corrections/partials/correctors_list.html:7
+msgid "No corrections have been made"
+msgstr "Исправлений не было"
 
 #: langcorrect/templates/corrections/partials/sentence_by_sentence_corrections.html:12
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as "
-"perfect!\n"
+"                    %(user_count)s users have marked this sentence as perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -762,7 +757,7 @@ msgid "Original"
 msgstr "Оригинал"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/partials/post_card.html:70
 #: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Исправлено"
@@ -777,38 +772,27 @@ msgstr ""
 "\n"
 "%(user_count)s пользователей отметили это предложение как идеальное!"
 
-#: langcorrect/templates/corrections/partials/user_correction_card.html:50
-msgid "Write a message..."
-msgstr "Написать сообщение..."
-
-#: langcorrect/templates/corrections/popular_correctors.html:4
+#: langcorrect/templates/corrections/popular_correctors.html:5
 msgid "Popular Correctors"
 msgstr "Популярные Корректоры"
 
-#: langcorrect/templates/corrections/popular_correctors.html:14
+#: langcorrect/templates/corrections/popular_correctors.html:17
 msgid "Today"
 msgstr "Сегодня"
 
-#: langcorrect/templates/corrections/popular_correctors.html:22
+#: langcorrect/templates/corrections/popular_correctors.html:25
 msgid "This week"
 msgstr "На этой неделе"
 
-#: langcorrect/templates/corrections/popular_correctors.html:30
+#: langcorrect/templates/corrections/popular_correctors.html:33
 msgid "This month"
 msgstr "В этом месяце"
 
-#: langcorrect/templates/corrections/popular_correctors.html:38
+#: langcorrect/templates/corrections/popular_correctors.html:41
 msgid "All time"
 msgstr "За всё время"
 
-#: langcorrect/templates/corrections/popular_correctors.html:51
-#: langcorrect/templates/corrections/popular_correctors.html:64
-#: langcorrect/templates/corrections/popular_correctors.html:77
-#: langcorrect/templates/corrections/popular_correctors.html:90
-msgid "No corrections have been made"
-msgstr "Исправлений не было"
-
-#: langcorrect/templates/corrections/popular_correctors.html:96
+#: langcorrect/templates/corrections/popular_correctors.html:75
 msgid "View all"
 msgstr "Посмотреть все"
 
@@ -852,8 +836,7 @@ msgstr "Перейти"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list "
-"of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -869,7 +852,7 @@ msgstr "Отмена"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:48
+#: langcorrect/templates/posts/partials/post_card.html:52
 #: langcorrect/templates/posts/post_confirm_delete.html:19
 #: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
@@ -899,7 +882,7 @@ msgid "Actions"
 msgstr "Действия"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/partials/post_card.html:54
 #: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Редактировать"
@@ -958,6 +941,10 @@ msgstr " Удалить все уведомления"
 msgid "Close"
 msgstr "Закрыть"
 
+#: langcorrect/templates/navbar.html:17 langcorrect/templates/navbar.html:77
+msgid "Write"
+msgstr "Написать"
+
 #: langcorrect/templates/navbar.html:42
 #: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
@@ -974,10 +961,6 @@ msgstr "Сообщество"
 #: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Рейтинги"
-
-#: langcorrect/templates/navbar.html:77
-msgid "Write"
-msgstr "Написать"
 
 #: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
@@ -1021,15 +1004,15 @@ msgstr "Премиум"
 msgid "Member"
 msgstr "Участник"
 
-#: langcorrect/templates/navbar.html:182
+#: langcorrect/templates/navbar.html:185
 msgid "Total corrections made"
 msgstr "Всего сделано исправлений"
 
-#: langcorrect/templates/navbar.html:189
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections received"
 msgstr "Всего получено исправлений"
 
-#: langcorrect/templates/navbar.html:196
+#: langcorrect/templates/navbar.html:199
 msgid "Correction ratio"
 msgstr "Коэффициент исправлений"
 
@@ -1064,8 +1047,8 @@ msgid ""
 "Once you're done writing in your studying language, we will automatically "
 "match it with native speakers."
 msgstr ""
-"Как только вы закончите писать на изучаемом языке, мы автоматически подберем "
-"для вас носителей языка."
+"Как только вы закончите писать на изучаемом языке, мы автоматически подберем"
+" для вас носителей языка."
 
 #: langcorrect/templates/pages/home.html:53
 msgid "Register an account"
@@ -1073,8 +1056,8 @@ msgstr "Зарегистрировать аккаунт"
 
 #: langcorrect/templates/pages/home.html:55
 msgid ""
-"We start with a short 3-step registration process to help us determine users "
-"you should be match with."
+"We start with a short 3-step registration process to help us determine users"
+" you should be match with."
 msgstr ""
 "Мы начнем с короткого трехшагового процесса регистрации, чтобы определить "
 "пользователей, с которыми вы должны быть сопоставлены."
@@ -1088,8 +1071,8 @@ msgid ""
 "Browse a wide variety of writing prompts or simply create a journal from "
 "scratch."
 msgstr ""
-"Просмотрите большое разнообразие тем для письма или просто создайте журнал с "
-"нуля."
+"Просмотрите большое разнообразие тем для письма или просто создайте журнал с"
+" нуля."
 
 #: langcorrect/templates/pages/home.html:65
 msgid "Review corrections"
@@ -1133,8 +1116,8 @@ msgstr "Постоянное улучшение"
 
 #: langcorrect/templates/pages/home.html:91
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct "
-"feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct"
+" feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 "Платформа LangCorrect все время улучшается. Постоянная, прямая обратная "
@@ -1147,8 +1130,8 @@ msgstr "Учиться с друзьями"
 
 #: langcorrect/templates/pages/home.html:97
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who "
-"can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who"
+" can earn the highest Rankings and Streaks."
 msgstr ""
 "Пригласите друзей присоединиться к LangCorrect и бросьте друг другу вызов, "
 "чтобы узнать, кто может заработать наивысшие рейтинги и серии."
@@ -1172,8 +1155,8 @@ msgstr "Встроенная переписка"
 #: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around "
-"the globe."
+"feature. This is a great way to make new friends and meet people from around"
+" the globe."
 msgstr ""
 "Сделайте перерыв, чтобы расслабиться и пообщаться с другими изучающими с "
 "помощью функции сообщений. Это отличный способ завести новых друзей и "
@@ -1186,25 +1169,16 @@ msgstr "Присоединяйтесь сегодня и переопредел�
 #: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d "
-"be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in "
-"order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help "
-"you, provide support, and answer your\n"
-"                            burning questions so that you can reach the "
-"level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
+"                            burning questions so that you can reach the level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Будь вы уже свободно говорящим или только начинающим, мы будем рады видеть "
-"вас в сообществе LangCorrect. Мы все учимся и понимаем, что для достижения "
-"свободного владения и уверенности в новом языке важно допускать ошибки. "
-"Замечательные пользователи LangCorrect готовы вам помочь, предоставить "
-"поддержку и ответить на ваши насущные вопросы, чтобы вы достигли желаемого "
-"уровня в новом языке."
+"Будь вы уже свободно говорящим или только начинающим, мы будем рады видеть вас в сообществе LangCorrect. Мы все учимся и понимаем, что для достижения свободного владения и уверенности в новом языке важно допускать ошибки. Замечательные пользователи LangCorrect готовы вам помочь, предоставить поддержку и ответить на ваши насущные вопросы, чтобы вы достигли желаемого уровня в новом языке."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1338,17 +1312,11 @@ msgstr "Поддержите наше сообщество"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just "
-"investing in your own language learning journey. You're also helping us keep "
-"the basic features free for everyone. Your support sustains this platform "
-"and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Переходя на ежегодную Премиум-подписку, вы не просто инвестируете в свое "
-"собственное языковое образование. Вы также помогаете нам сохранить базовые "
-"функции бесплатными для всех. Ваша поддержка поддерживает эту платформу и "
-"способствует созданию глобального сообщества постоянных учеников."
+"Переходя на ежегодную Премиум-подписку, вы не просто инвестируете в свое собственное языковое образование. Вы также помогаете нам сохранить базовые функции бесплатными для всех. Ваша поддержка поддерживает эту платформу и способствует созданию глобального сообщества постоянных учеников."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1375,11 +1343,17 @@ msgstr "Серия Письма"
 msgid "Language Match"
 msgstr "Соответствие Языка"
 
-#: langcorrect/templates/posts/partials/post_card.html:40
+#: langcorrect/templates/posts/partials/post_card.html:44
 msgid "Correctors"
 msgstr "Корректоры"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
+#| msgid "Correct journals written in your native language(s)."
+msgid "You can only correct entries in your native language(s)"
+msgstr "Исправляйте журналы, написанные на вашем родном языке(ах)."
+
+#: langcorrect/templates/posts/partials/post_card.html:62
+#: langcorrect/templates/posts/partials/post_card.html:72
 msgid "Correct"
 msgstr "Исправить"
 
@@ -1393,32 +1367,32 @@ msgstr ""
 "\n"
 "Вы уверены, что хотите удалить %(post_title)s?"
 
-#: langcorrect/templates/posts/post_detail.html:13
+#: langcorrect/templates/posts/post_detail.html:16
 msgid "Attachments"
 msgstr "Вложения"
 
-#: langcorrect/templates/posts/post_detail.html:35
+#: langcorrect/templates/posts/post_detail.html:38
 msgid "Show corrections grouped by user"
 msgstr "Показать исправления, сгруппированные по пользователям"
 
-#: langcorrect/templates/posts/post_detail.html:49
+#: langcorrect/templates/posts/post_detail.html:52
 msgid "Show corrections grouped by sentence"
 msgstr "Показать исправления, сгруппированные по предложениям"
 
-#: langcorrect/templates/posts/post_detail.html:63
+#: langcorrect/templates/posts/post_detail.html:66
 msgid "Show corrections grouped by sentence and side by side"
 msgstr ""
 "Показать исправления, сгруппированные по предложениям и расположенные рядом"
 
-#: langcorrect/templates/posts/post_detail.html:76
+#: langcorrect/templates/posts/post_detail.html:79
 msgid "Export Corrections"
 msgstr "Экспорт Исправлений"
 
-#: langcorrect/templates/posts/post_detail.html:115
+#: langcorrect/templates/posts/post_detail.html:118
 msgid "You need LangCorrect Premium to access this feature."
 msgstr "Вам нужен LangCorrect Premium для доступа к этой функции."
 
-#: langcorrect/templates/posts/post_detail.html:116
+#: langcorrect/templates/posts/post_detail.html:119
 msgid "Go Premium"
 msgstr "Перейти на Премиум"
 
@@ -1491,23 +1465,23 @@ msgstr "Посмотреть все"
 msgid "Respond"
 msgstr "Ответить"
 
-#: langcorrect/templates/prompts/prompt_list.html:16
+#: langcorrect/templates/prompts/prompt_list.html:28
 msgid "Create a prompt"
 msgstr "Создать подсказку"
 
-#: langcorrect/templates/prompts/prompt_list.html:21
+#: langcorrect/templates/prompts/prompt_list.html:33
 msgid "View prompts that you have not yet responded to"
 msgstr "Посмотреть подсказки, на которые вы еще не ответили"
 
-#: langcorrect/templates/prompts/prompt_list.html:22
+#: langcorrect/templates/prompts/prompt_list.html:34
 msgid "Open"
 msgstr "Открыть"
 
-#: langcorrect/templates/prompts/prompt_list.html:24
+#: langcorrect/templates/prompts/prompt_list.html:36
 msgid "View prompts that you have responded to"
 msgstr "Посмотреть подсказки, на которые вы уже ответили"
 
-#: langcorrect/templates/prompts/prompt_list.html:25
+#: langcorrect/templates/prompts/prompt_list.html:37
 msgid "Completed"
 msgstr "Завершено"
 
@@ -1611,22 +1585,21 @@ msgstr "Электронная почта"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions "
-"this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
 "                   "
 msgstr ""
 "\n"
 "<span class=\"fw-bold\">%(count)s</span> вкладов в этом году"
 
-#: langcorrect/users/admin.py:23
+#: langcorrect/users/admin.py:30
 msgid "Personal info"
 msgstr "Личная информация"
 
-#: langcorrect/users/admin.py:25
+#: langcorrect/users/admin.py:32
 msgid "Permissions"
 msgstr "Разрешения"
 
-#: langcorrect/users/admin.py:36
+#: langcorrect/users/admin.py:43
 msgid "Important dates"
 msgstr "Важные даты"
 
@@ -1665,6 +1638,9 @@ msgstr "Биография"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Информация успешно обновлена"
+
+#~ msgid "Write a message..."
+#~ msgstr "Написать сообщение..."
 
 #~ msgid "Journals"
 #~ msgstr "Журналы"

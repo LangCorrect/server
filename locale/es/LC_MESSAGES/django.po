@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-12-27 21:49+0000\n"
-"Last-Translator: さお！  <kayomi_codes@langcorrect.com>\n"
+"POT-Creation-Date: 2023-12-29 14:11+0000\n"
+"PO-Revision-Date: 2023-12-29 14:13+0000\n"
+"Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -93,7 +93,7 @@ msgid "Contributions"
 msgstr "Contribuciones"
 
 #: langcorrect/corrections/apps.py:8
-#: langcorrect/templates/posts/post_detail.html:28
+#: langcorrect/templates/posts/post_detail.html:31
 msgid "Corrections"
 msgstr "Correcciones"
 
@@ -187,15 +187,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Las etiquetas no pueden tener más de 20 caracteres"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable by everyone"
 msgstr "Visible para todos"
 
-#: langcorrect/posts/models.py:21
+#: langcorrect/posts/models.py:22
 msgid "Viewable only by registered members"
 msgstr "Visible solo para miembros registrados"
 
-#: langcorrect/posts/models.py:129
+#: langcorrect/posts/models.py:130
 msgid "submitted a new entry"
 msgstr "ha enviado una nueva entrada"
 
@@ -212,15 +212,15 @@ msgstr "El tamaño de la imagen no debe superar los {max_size_mb}MB."
 msgid "Post successfully updated"
 msgstr "Publicación actualizada con éxito"
 
-#: langcorrect/posts/views.py:184
+#: langcorrect/posts/views.py:189
 msgid "Post successfully added"
 msgstr "Publicación subida con éxito"
 
-#: langcorrect/posts/views.py:188
+#: langcorrect/posts/views.py:193
 msgid "Your correction ratio is too low."
 msgstr "Tu tasa de corrección es demasiado baja."
 
-#: langcorrect/posts/views.py:232
+#: langcorrect/posts/views.py:240
 msgid "Post successfully deleted"
 msgstr "Publicación eliminada con éxito"
 
@@ -701,23 +701,23 @@ msgstr "Resumen de publicaciones"
 msgid "Make your correction here."
 msgstr "Haz tu corrección aquí."
 
-#: langcorrect/templates/corrections/make_corrections.html:61
+#: langcorrect/templates/corrections/make_corrections.html:62
 msgid "Write the correct sentence here..."
 msgstr "Escribe la oración correcta aquí..."
 
-#: langcorrect/templates/corrections/make_corrections.html:65
+#: langcorrect/templates/corrections/make_corrections.html:66
 msgid "Include feedback for this correction here."
 msgstr "Haz una valoración para esta corrección aquí."
 
-#: langcorrect/templates/corrections/make_corrections.html:70
+#: langcorrect/templates/corrections/make_corrections.html:72
 msgid "Write your feedback here..."
 msgstr "Escribe tus valoraciones aquí..."
 
-#: langcorrect/templates/corrections/make_corrections.html:94
+#: langcorrect/templates/corrections/make_corrections.html:96
 msgid "Overall feedback or comment"
 msgstr "Valoraciones o comentarios generales."
 
-#: langcorrect/templates/corrections/make_corrections.html:99
+#: langcorrect/templates/corrections/make_corrections.html:103
 msgid ""
 "If you wish to include feedback, please make sure it is constructive. We are"
 " all here to learn, so let's encourage and support one another."
@@ -725,23 +725,27 @@ msgstr ""
 "Si deseas incluir una valoración, asegúrate de que sea constructiva. Todos "
 "estamos aquí para aprender, así que animémonos y apoyémonos mutuamente."
 
-#: langcorrect/templates/corrections/make_corrections.html:114
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "Descartar"
 
-#: langcorrect/templates/corrections/make_corrections.html:118
+#: langcorrect/templates/corrections/make_corrections.html:122
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Actualizar"
 
-#: langcorrect/templates/corrections/make_corrections.html:120
-#: langcorrect/templates/corrections/partials/user_correction_card.html:55
+#: langcorrect/templates/corrections/make_corrections.html:124
+#: langcorrect/templates/corrections/partials/user_correction_card.html:58
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
 msgstr "Enviar"
+
+#: langcorrect/templates/corrections/partials/correctors_list.html:7
+msgid "No corrections have been made"
+msgstr "No se han realizado correcciones"
 
 #: langcorrect/templates/corrections/partials/sentence_by_sentence_corrections.html:12
 #, python-format
@@ -758,7 +762,7 @@ msgid "Original"
 msgstr "Original"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/partials/post_card.html:70
 #: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Corregido"
@@ -773,38 +777,27 @@ msgstr ""
 "\n"
 "¡%(user_count)s usuarios han marcado esta oración como perfecta!"
 
-#: langcorrect/templates/corrections/partials/user_correction_card.html:50
-msgid "Write a message..."
-msgstr "Escribe un mensaje..."
-
-#: langcorrect/templates/corrections/popular_correctors.html:4
+#: langcorrect/templates/corrections/popular_correctors.html:5
 msgid "Popular Correctors"
 msgstr "Correctores populares"
 
-#: langcorrect/templates/corrections/popular_correctors.html:14
+#: langcorrect/templates/corrections/popular_correctors.html:17
 msgid "Today"
 msgstr "Hoy"
 
-#: langcorrect/templates/corrections/popular_correctors.html:22
+#: langcorrect/templates/corrections/popular_correctors.html:25
 msgid "This week"
 msgstr "Esta semana"
 
-#: langcorrect/templates/corrections/popular_correctors.html:30
+#: langcorrect/templates/corrections/popular_correctors.html:33
 msgid "This month"
 msgstr "Este mes"
 
-#: langcorrect/templates/corrections/popular_correctors.html:38
+#: langcorrect/templates/corrections/popular_correctors.html:41
 msgid "All time"
 msgstr "Hasta ahora"
 
-#: langcorrect/templates/corrections/popular_correctors.html:51
-#: langcorrect/templates/corrections/popular_correctors.html:64
-#: langcorrect/templates/corrections/popular_correctors.html:77
-#: langcorrect/templates/corrections/popular_correctors.html:90
-msgid "No corrections have been made"
-msgstr "No se han realizado correcciones"
-
-#: langcorrect/templates/corrections/popular_correctors.html:96
+#: langcorrect/templates/corrections/popular_correctors.html:75
 msgid "View all"
 msgstr "Ver todos"
 
@@ -864,7 +857,7 @@ msgstr "Cancelar"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:48
+#: langcorrect/templates/posts/partials/post_card.html:52
 #: langcorrect/templates/posts/post_confirm_delete.html:19
 #: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
@@ -894,7 +887,7 @@ msgid "Actions"
 msgstr "Acciones"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/partials/post_card.html:54
 #: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Editar"
@@ -953,6 +946,10 @@ msgstr "Eliminar todas las notificaciones"
 msgid "Close"
 msgstr "Cerrar"
 
+#: langcorrect/templates/navbar.html:17 langcorrect/templates/navbar.html:77
+msgid "Write"
+msgstr "Escribir"
+
 #: langcorrect/templates/navbar.html:42
 #: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
@@ -969,10 +966,6 @@ msgstr "Comunidad"
 #: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Clasificaciones"
-
-#: langcorrect/templates/navbar.html:77
-msgid "Write"
-msgstr "Escribir"
 
 #: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
@@ -1016,15 +1009,15 @@ msgstr "Premium"
 msgid "Member"
 msgstr "Miembro"
 
-#: langcorrect/templates/navbar.html:182
+#: langcorrect/templates/navbar.html:185
 msgid "Total corrections made"
 msgstr "Total de correcciones realizadas"
 
-#: langcorrect/templates/navbar.html:189
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections received"
 msgstr "Total de correcciones recibidas"
 
-#: langcorrect/templates/navbar.html:196
+#: langcorrect/templates/navbar.html:199
 msgid "Correction ratio"
 msgstr "Tasa de corrección"
 
@@ -1358,11 +1351,17 @@ msgstr "Racha de escritura"
 msgid "Language Match"
 msgstr "Emparejamiento de idiomas"
 
-#: langcorrect/templates/posts/partials/post_card.html:40
+#: langcorrect/templates/posts/partials/post_card.html:44
 msgid "Correctors"
 msgstr "Correctores"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
+#| msgid "Correct journals written in your native language(s)."
+msgid "You can only correct entries in your native language(s)"
+msgstr "Corrige diarios escritos en tu(s) idioma(s) nativo(s)."
+
+#: langcorrect/templates/posts/partials/post_card.html:62
+#: langcorrect/templates/posts/partials/post_card.html:72
 msgid "Correct"
 msgstr "Corregir"
 
@@ -1376,31 +1375,31 @@ msgstr ""
 "\n"
 "¿Estás seguro de que quieres eliminar %(post_title)s?"
 
-#: langcorrect/templates/posts/post_detail.html:13
+#: langcorrect/templates/posts/post_detail.html:16
 msgid "Attachments"
 msgstr "Archivos adjuntos"
 
-#: langcorrect/templates/posts/post_detail.html:35
+#: langcorrect/templates/posts/post_detail.html:38
 msgid "Show corrections grouped by user"
 msgstr "Mostrar correcciones agrupadas por usuario"
 
-#: langcorrect/templates/posts/post_detail.html:49
+#: langcorrect/templates/posts/post_detail.html:52
 msgid "Show corrections grouped by sentence"
 msgstr "Mostrar correcciones agrupadas por oración"
 
-#: langcorrect/templates/posts/post_detail.html:63
+#: langcorrect/templates/posts/post_detail.html:66
 msgid "Show corrections grouped by sentence and side by side"
 msgstr "Mostrar correcciones agrupadas por oración y de lado a lado"
 
-#: langcorrect/templates/posts/post_detail.html:76
+#: langcorrect/templates/posts/post_detail.html:79
 msgid "Export Corrections"
 msgstr "Exportar correcciones"
 
-#: langcorrect/templates/posts/post_detail.html:115
+#: langcorrect/templates/posts/post_detail.html:118
 msgid "You need LangCorrect Premium to access this feature."
 msgstr "Necesitas LangCorrect Premium para acceder a esta función."
 
-#: langcorrect/templates/posts/post_detail.html:116
+#: langcorrect/templates/posts/post_detail.html:119
 msgid "Go Premium"
 msgstr "Hazte Premium"
 
@@ -1474,23 +1473,23 @@ msgstr "Ver"
 msgid "Respond"
 msgstr "Responder"
 
-#: langcorrect/templates/prompts/prompt_list.html:16
+#: langcorrect/templates/prompts/prompt_list.html:28
 msgid "Create a prompt"
 msgstr "Crear una entrada"
 
-#: langcorrect/templates/prompts/prompt_list.html:21
+#: langcorrect/templates/prompts/prompt_list.html:33
 msgid "View prompts that you have not yet responded to"
 msgstr "Ver entradas a las que aún no has respondido"
 
-#: langcorrect/templates/prompts/prompt_list.html:22
+#: langcorrect/templates/prompts/prompt_list.html:34
 msgid "Open"
 msgstr "Abierto"
 
-#: langcorrect/templates/prompts/prompt_list.html:24
+#: langcorrect/templates/prompts/prompt_list.html:36
 msgid "View prompts that you have responded to"
 msgstr "Ver entradas a las que has respondido"
 
-#: langcorrect/templates/prompts/prompt_list.html:25
+#: langcorrect/templates/prompts/prompt_list.html:37
 msgid "Completed"
 msgstr "Completado"
 
@@ -1600,15 +1599,15 @@ msgstr ""
 "\n"
 "<span class=\"fw-bold\">%(count)s</span> contribuciones este año"
 
-#: langcorrect/users/admin.py:23
+#: langcorrect/users/admin.py:30
 msgid "Personal info"
 msgstr "Información personal"
 
-#: langcorrect/users/admin.py:25
+#: langcorrect/users/admin.py:32
 msgid "Permissions"
 msgstr "Permisos"
 
-#: langcorrect/users/admin.py:36
+#: langcorrect/users/admin.py:43
 msgid "Important dates"
 msgstr "Fechas importantes"
 
@@ -1647,6 +1646,9 @@ msgstr "Biografía"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Información actualizada con éxito"
+
+#~ msgid "Write a message..."
+#~ msgstr "Escribe un mensaje..."
 
 #~ msgid "Journals"
 #~ msgstr "Diarios"
