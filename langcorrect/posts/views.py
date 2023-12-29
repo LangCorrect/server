@@ -1,9 +1,9 @@
 from urllib.parse import urlencode
 
-from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -14,7 +14,7 @@ from langcorrect.corrections.helpers import get_popular_correctors, populate_use
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.languages.models import LanguageLevel
 from langcorrect.posts.forms import CustomPostForm
-from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
+from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language, hide_old_post_rows_on_edit
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
@@ -174,6 +174,11 @@ class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context["is_edit"] = True
         return context
 
+    def form_valid(self, form):
+        post = self.get_object()
+        hide_old_post_rows_on_edit(post)
+        return super().form_valid(form)
+
 
 post_update_view = PostUpdateView.as_view()
 
@@ -198,21 +203,24 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         form.instance.user = current_user
         language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
         form.instance.language_level = language_level.level
+
+        # Set prompt if available
+        context = self.get_context_data()
+        prompt = context.get("prompt", None)
+        if prompt:
+            form.instance.prompt = prompt
+
         self.object = form.save()
 
+        # Handle image upload for premium users
         image_obj = self.request.FILES.get("image", None)
         if image_obj and current_user.is_premium_user:
             storage_backend = get_storage_backend()
             file_key = storage_backend.save(image_obj)
             PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
-        context = self.get_context_data()
-        prompt = context.get("prompt", None)
-        if prompt:
-            self.object.prompt = prompt
 
-        self.object.save()
-        update_user_writing_streak(self.object.user)
-        return http.HttpResponseRedirect(self.get_success_url())
+        update_user_writing_streak(current_user)
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
