@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-10-25 12:10+0000\n"
+"POT-Creation-Date: 2023-12-29 14:11+0000\n"
+"PO-Revision-Date: 2023-12-29 14:13+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -93,7 +93,7 @@ msgid "Contributions"
 msgstr "Avustukset"
 
 #: langcorrect/corrections/apps.py:8
-#: langcorrect/templates/posts/post_detail.html:28
+#: langcorrect/templates/posts/post_detail.html:31
 msgid "Corrections"
 msgstr "Korjaukset"
 
@@ -187,15 +187,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Tunnisteet eivät voi olla yli 20 merkkiä pitkiä"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable by everyone"
 msgstr "Nähtävissä kaikille"
 
-#: langcorrect/posts/models.py:21
+#: langcorrect/posts/models.py:22
 msgid "Viewable only by registered members"
 msgstr "Nähtävissä vain rekisteröityneille jäsenille"
 
-#: langcorrect/posts/models.py:129
+#: langcorrect/posts/models.py:130
 msgid "submitted a new entry"
 msgstr "lähetti uuden kirjoituksen"
 
@@ -212,15 +212,15 @@ msgstr "Kuvan koko ei saa olla yli {max_size_mb} Mt."
 msgid "Post successfully updated"
 msgstr "Julkaisu päivitetty onnistuneesti"
 
-#: langcorrect/posts/views.py:184
+#: langcorrect/posts/views.py:189
 msgid "Post successfully added"
 msgstr "Julkaisu lisätty onnistuneesti"
 
-#: langcorrect/posts/views.py:188
+#: langcorrect/posts/views.py:193
 msgid "Your correction ratio is too low."
 msgstr "Korjaussuhteesi on liian alhainen."
 
-#: langcorrect/posts/views.py:232
+#: langcorrect/posts/views.py:240
 msgid "Post successfully deleted"
 msgstr "Julkaisu poistettu onnistuneesti"
 
@@ -306,10 +306,11 @@ msgstr "Varoitus:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
-"Sinulla ei ole tällä hetkellä yhtään sähköpostiosoitetta määritettynä. Sinun "
-"pitäisi lisätä sähköpostiosoite, jotta voit vastaanottaa ilmoituksia, "
+"Sinulla ei ole tällä hetkellä yhtään sähköpostiosoitetta määritettynä. Sinun"
+" pitäisi lisätä sähköpostiosoite, jotta voit vastaanottaa ilmoituksia, "
 "palauttaa salasanasi jne."
 
 #: langcorrect/templates/account/email.html:55
@@ -333,27 +334,21 @@ msgstr "Tervetuloa %(site_name)s!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has "
-"given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Olet saanut tämän sähköpostin, koska käyttäjä %(user_display)s on antanut "
-"sähköpostiosoitteesi rekisteröidäksesi tilin kohteessa %(site_domain)s."
+"Olet saanut tämän sähköpostin, koska käyttäjä %(user_display)s on antanut sähköpostiosoitteesi rekisteröidäksesi tilin kohteessa %(site_domain)s."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all "
-"features, please verify your e-mail address by going to %(activate_url)s, or "
-"clicking the button below.\n"
+"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Saadaksesi täyden pääsyn kaikkiin ominaisuuksiin, vahvista "
-"sähköpostiosoitteesi menemällä osoitteeseen %(activate_url)s tai "
-"napsauttamalla alla olevaa painiketta."
+"Saadaksesi täyden pääsyn kaikkiin ominaisuuksiin, vahvista sähköpostiosoitteesi menemällä osoitteeseen %(activate_url)s tai napsauttamalla alla olevaa painiketta."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -363,13 +358,11 @@ msgstr "Vahvista sähköpostiosoite"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or "
-"contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Jos et ole rekisteröitynyt %(site_name)s, voit jättää huomiotta tämän "
-"sähköpostin tai ottaa yhteyttä tukeemme."
+"Jos et ole rekisteröitynyt %(site_name)s, voit jättää huomiotta tämän sähköpostin tai ottaa yhteyttä tukeemme."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -466,8 +459,8 @@ msgstr "Salasanan palautus"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 "Unohditko salasanasi? Syötä sähköpostiosoitteesi alle, niin lähetämme "
 "sinulle sähköpostin, joka mahdollistaa sen palauttamisen."
@@ -486,8 +479,8 @@ msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few minutes."
 msgstr ""
-"Olemme lähettäneet sinulle sähköpostia. Ota yhteyttä meihin, jos et saa sitä "
-"muutaman minuutin kuluessa."
+"Olemme lähettäneet sinulle sähköpostia. Ota yhteyttä meihin, jos et saa sitä"
+" muutaman minuutin kuluessa."
 
 #: langcorrect/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
@@ -497,8 +490,8 @@ msgstr "Virheellinen tunnus"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
 "Salasanan palautuslinkki oli virheellinen, mahdollisesti koska sitä on jo "
 "käytetty. Ole hyvä ja pyydä <a href=\"%(passwd_reset_url)s\">uusi salasanan "
@@ -532,8 +525,8 @@ msgstr "Rekisteröidy"
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
-"Onko sinulla jo tili? Ole hyvä ja <a href=\"%(login_url)s\">kirjaudu sisään</"
-"a>."
+"Onko sinulla jo tili? Ole hyvä ja <a href=\"%(login_url)s\">kirjaudu "
+"sisään</a>."
 
 #: langcorrect/templates/account/signup.html:21
 msgid "Create an account"
@@ -572,7 +565,8 @@ msgstr ""
 #: langcorrect/templates/account/signup.html:49
 msgid "This can be changed at any time and on a per journal basis."
 msgstr ""
-"Tämä voidaan muuttaa milloin tahansa ja jokaisen päiväkirjan osalta erikseen."
+"Tämä voidaan muuttaa milloin tahansa ja jokaisen päiväkirjan osalta "
+"erikseen."
 
 #: langcorrect/templates/account/signup.html:55
 msgid "Create my account"
@@ -627,8 +621,8 @@ msgstr ""
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Huom:</strong> voit silti <a href=\"%(email_url)s\">vaihtaa "
 "sähköpostiosoitteesi</a>."
@@ -702,54 +696,57 @@ msgstr "Kirjoituksen yhteenveto"
 msgid "Make your correction here."
 msgstr "Tee korjauksesi tässä."
 
-#: langcorrect/templates/corrections/make_corrections.html:61
+#: langcorrect/templates/corrections/make_corrections.html:62
 msgid "Write the correct sentence here..."
 msgstr "Kirjoita oikea lause tähän..."
 
-#: langcorrect/templates/corrections/make_corrections.html:65
+#: langcorrect/templates/corrections/make_corrections.html:66
 msgid "Include feedback for this correction here."
 msgstr "Sisällytä palaute tähän korjaukseen."
 
-#: langcorrect/templates/corrections/make_corrections.html:70
+#: langcorrect/templates/corrections/make_corrections.html:72
 msgid "Write your feedback here..."
 msgstr "Kirjoita palautteesi tähän..."
 
-#: langcorrect/templates/corrections/make_corrections.html:94
+#: langcorrect/templates/corrections/make_corrections.html:96
 msgid "Overall feedback or comment"
 msgstr "Yleinen palaute tai kommentti"
 
-#: langcorrect/templates/corrections/make_corrections.html:99
+#: langcorrect/templates/corrections/make_corrections.html:103
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are "
-"all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are"
+" all here to learn, so let's encourage and support one another."
 msgstr ""
 "Jos haluat sisällyttää palautetta, varmista, että se on rakentavaa. Olemme "
 "kaikki täällä oppimassa, joten kannustetaan ja tuetaan toisiamme."
 
-#: langcorrect/templates/corrections/make_corrections.html:114
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "Hylkää"
 
-#: langcorrect/templates/corrections/make_corrections.html:118
+#: langcorrect/templates/corrections/make_corrections.html:122
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Päivitä"
 
-#: langcorrect/templates/corrections/make_corrections.html:120
-#: langcorrect/templates/corrections/partials/user_correction_card.html:55
+#: langcorrect/templates/corrections/make_corrections.html:124
+#: langcorrect/templates/corrections/partials/user_correction_card.html:58
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
 msgstr "Lähetä"
+
+#: langcorrect/templates/corrections/partials/correctors_list.html:7
+msgid "No corrections have been made"
+msgstr "Korjauksia ei ole tehty"
 
 #: langcorrect/templates/corrections/partials/sentence_by_sentence_corrections.html:12
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as "
-"perfect!\n"
+"                    %(user_count)s users have marked this sentence as perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -760,7 +757,7 @@ msgid "Original"
 msgstr "Alkuperäinen"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/partials/post_card.html:70
 #: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Korjattu"
@@ -775,38 +772,27 @@ msgstr ""
 "\n"
 "%(user_count)s käyttäjää on merkinnyt tämän lauseen täydelliseksi!"
 
-#: langcorrect/templates/corrections/partials/user_correction_card.html:50
-msgid "Write a message..."
-msgstr "Kirjoita viesti..."
-
-#: langcorrect/templates/corrections/popular_correctors.html:4
+#: langcorrect/templates/corrections/popular_correctors.html:5
 msgid "Popular Correctors"
 msgstr "Suositut korjaajat"
 
-#: langcorrect/templates/corrections/popular_correctors.html:14
+#: langcorrect/templates/corrections/popular_correctors.html:17
 msgid "Today"
 msgstr "Tänään"
 
-#: langcorrect/templates/corrections/popular_correctors.html:22
+#: langcorrect/templates/corrections/popular_correctors.html:25
 msgid "This week"
 msgstr "Tällä viikolla"
 
-#: langcorrect/templates/corrections/popular_correctors.html:30
+#: langcorrect/templates/corrections/popular_correctors.html:33
 msgid "This month"
 msgstr "Tässä kuussa"
 
-#: langcorrect/templates/corrections/popular_correctors.html:38
+#: langcorrect/templates/corrections/popular_correctors.html:41
 msgid "All time"
 msgstr "Kaikkien aikojen"
 
-#: langcorrect/templates/corrections/popular_correctors.html:51
-#: langcorrect/templates/corrections/popular_correctors.html:64
-#: langcorrect/templates/corrections/popular_correctors.html:77
-#: langcorrect/templates/corrections/popular_correctors.html:90
-msgid "No corrections have been made"
-msgstr "Korjauksia ei ole tehty"
-
-#: langcorrect/templates/corrections/popular_correctors.html:96
+#: langcorrect/templates/corrections/popular_correctors.html:75
 msgid "View all"
 msgstr "Näytä kaikki"
 
@@ -850,8 +836,7 @@ msgstr "Mene"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list "
-"of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -867,7 +852,7 @@ msgstr "Peruuta"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:48
+#: langcorrect/templates/posts/partials/post_card.html:52
 #: langcorrect/templates/posts/post_confirm_delete.html:19
 #: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
@@ -897,7 +882,7 @@ msgid "Actions"
 msgstr "Toiminnot"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/partials/post_card.html:54
 #: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Muokkaa"
@@ -956,6 +941,10 @@ msgstr "Poista kaikki ilmoitukset"
 msgid "Close"
 msgstr "Sulje"
 
+#: langcorrect/templates/navbar.html:17 langcorrect/templates/navbar.html:77
+msgid "Write"
+msgstr "Kirjoita"
+
 #: langcorrect/templates/navbar.html:42
 #: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
@@ -972,10 +961,6 @@ msgstr "Yhteisö"
 #: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Sijoitukset"
-
-#: langcorrect/templates/navbar.html:77
-msgid "Write"
-msgstr "Kirjoita"
 
 #: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
@@ -1019,15 +1004,15 @@ msgstr "Premium"
 msgid "Member"
 msgstr "Jäsen"
 
-#: langcorrect/templates/navbar.html:182
+#: langcorrect/templates/navbar.html:185
 msgid "Total corrections made"
 msgstr "Tehdyt korjaukset yhteensä"
 
-#: langcorrect/templates/navbar.html:189
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections received"
 msgstr "Saadut korjaukset yhteensä"
 
-#: langcorrect/templates/navbar.html:196
+#: langcorrect/templates/navbar.html:199
 msgid "Correction ratio"
 msgstr "Korjaussuhde"
 
@@ -1070,8 +1055,8 @@ msgstr "Rekisteröi tili"
 
 #: langcorrect/templates/pages/home.html:55
 msgid ""
-"We start with a short 3-step registration process to help us determine users "
-"you should be match with."
+"We start with a short 3-step registration process to help us determine users"
+" you should be match with."
 msgstr ""
 "Aloita lyhyellä 3-vaiheisella rekisteröintiprosessilla, joka auttaa meitä "
 "yhdistämään sinut oikeisiin käyttäjiin."
@@ -1095,7 +1080,8 @@ msgstr "Tarkista korjaukset"
 msgid ""
 "Native speakers will correct your writing and provide constructive feedback."
 msgstr ""
-"Äidinkielen puhujat korjaavat kirjoituksesi ja antavat rakentavaa palautetta."
+"Äidinkielen puhujat korjaavat kirjoituksesi ja antavat rakentavaa "
+"palautetta."
 
 #: langcorrect/templates/pages/home.html:77
 msgid "Built for serious learners"
@@ -1129,8 +1115,8 @@ msgstr "Jatkuvasti parantumassa"
 
 #: langcorrect/templates/pages/home.html:91
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct "
-"feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct"
+" feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 "LangCorrect-alusta paranee jatkuvasti. Jatkuva, suora palaute "
@@ -1143,8 +1129,8 @@ msgstr "Opi ystävien kanssa"
 
 #: langcorrect/templates/pages/home.html:97
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who "
-"can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who"
+" can earn the highest Rankings and Streaks."
 msgstr ""
 "Kutsu ystäväsi liittymään LangCorrectiin ja haastakaa toisianne näkemään, "
 "kuka voi saada korkeimmat sijoitukset ja putket."
@@ -1158,8 +1144,8 @@ msgid ""
 "From writing prompts to automatic, color-coded correction highlighting, "
 "learning to write in another language has never been this easy."
 msgstr ""
-"Kirjoitustehtävistä automaattiseen, värikoodattuun korjausten korostamiseen, "
-"toisen kielen kirjoittamisen oppiminen ei ole koskaan ollut näin helppoa."
+"Kirjoitustehtävistä automaattiseen, värikoodattuun korjausten korostamiseen,"
+" toisen kielen kirjoittamisen oppiminen ei ole koskaan ollut näin helppoa."
 
 #: langcorrect/templates/pages/home.html:107
 msgid "Built-in messaging"
@@ -1168,12 +1154,12 @@ msgstr "Sisäänrakennettu viestintä"
 #: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around "
-"the globe."
+"feature. This is a great way to make new friends and meet people from around"
+" the globe."
 msgstr ""
 "Ota tauko rentoutuaksesi ja keskustellaksesi muiden oppijoiden kanssa "
-"viestintäominaisuuden avulla. Tämä on hieno tapa tutustua uusiin ystäviin ja "
-"tavata ihmisiä ympäri maailmaa."
+"viestintäominaisuuden avulla. Tämä on hieno tapa tutustua uusiin ystäviin ja"
+" tavata ihmisiä ympäri maailmaa."
 
 #: langcorrect/templates/pages/home.html:119
 msgid "Join today and experience language-learning, redefined."
@@ -1182,25 +1168,16 @@ msgstr "Liity tänään ja koe uudelleenmääritelty kielten oppiminen."
 #: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d "
-"be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in "
-"order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help "
-"you, provide support, and answer your\n"
-"                            burning questions so that you can reach the "
-"level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
+"                            burning questions so that you can reach the level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Olitpa sitten sujuva tai vasta aloittelija, olisimme innoissamme, jos "
-"liittyisit LangCorrect-yhteisöön. Olemme kaikki oppijoita ja ymmärrämme, "
-"että sujuvuuden ja itsevarmuuden saavuttamiseksi uudessa kielessä on tärkeää "
-"tehdä virheitä. LangCorrectin upeat käyttäjät ovat valmiita auttamaan sinua, "
-"tarjoamaan tukea ja vastaamaan polttaviin kysymyksiisi, jotta voit saavuttaa "
-"haluamasi tason uudessa kielessäsi."
+"Olitpa sitten sujuva tai vasta aloittelija, olisimme innoissamme, jos liittyisit LangCorrect-yhteisöön. Olemme kaikki oppijoita ja ymmärrämme, että sujuvuuden ja itsevarmuuden saavuttamiseksi uudessa kielessä on tärkeää tehdä virheitä. LangCorrectin upeat käyttäjät ovat valmiita auttamaan sinua, tarjoamaan tukea ja vastaamaan polttaviin kysymyksiisi, jotta voit saavuttaa haluamasi tason uudessa kielessäsi."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1334,17 +1311,11 @@ msgstr "Tue yhteisöämme"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just "
-"investing in your own language learning journey. You're also helping us keep "
-"the basic features free for everyone. Your support sustains this platform "
-"and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Päivittämällä Premium-vuositilaukseen et ainoastaan sijoita omaan "
-"kieltenoppimismatkaasi. Autat meitä myös pitämään perusominaisuudet "
-"ilmaisina kaikille. Tukesi ylläpitää tätä alustaa ja edistää "
-"maailmanlaajuista elinikäisten oppijoiden yhteisöä."
+"Päivittämällä Premium-vuositilaukseen et ainoastaan sijoita omaan kieltenoppimismatkaasi. Autat meitä myös pitämään perusominaisuudet ilmaisina kaikille. Tukesi ylläpitää tätä alustaa ja edistää maailmanlaajuista elinikäisten oppijoiden yhteisöä."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1372,11 +1343,17 @@ msgstr "Kirjoitusputki"
 msgid "Language Match"
 msgstr "Kieliyhdistelmä"
 
-#: langcorrect/templates/posts/partials/post_card.html:40
+#: langcorrect/templates/posts/partials/post_card.html:44
 msgid "Correctors"
 msgstr "Korjaajat"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
+#| msgid "Correct journals written in your native language(s)."
+msgid "You can only correct entries in your native language(s)"
+msgstr "Korjaa päiväkirjamerkintöjä omalla äidinkielelläsi."
+
+#: langcorrect/templates/posts/partials/post_card.html:62
+#: langcorrect/templates/posts/partials/post_card.html:72
 msgid "Correct"
 msgstr "Korjaa"
 
@@ -1390,31 +1367,31 @@ msgstr ""
 "\n"
 "Oletko varma, että haluat poistaa %(post_title)s?"
 
-#: langcorrect/templates/posts/post_detail.html:13
+#: langcorrect/templates/posts/post_detail.html:16
 msgid "Attachments"
 msgstr "Liitteet"
 
-#: langcorrect/templates/posts/post_detail.html:35
+#: langcorrect/templates/posts/post_detail.html:38
 msgid "Show corrections grouped by user"
 msgstr "Näytä korjaukset ryhmiteltynä käyttäjän mukaan"
 
-#: langcorrect/templates/posts/post_detail.html:49
+#: langcorrect/templates/posts/post_detail.html:52
 msgid "Show corrections grouped by sentence"
 msgstr "Näytä korjaukset ryhmiteltynä lauseen mukaan"
 
-#: langcorrect/templates/posts/post_detail.html:63
+#: langcorrect/templates/posts/post_detail.html:66
 msgid "Show corrections grouped by sentence and side by side"
 msgstr "Näytä korjaukset ryhmiteltynä lauseen mukaan ja vierekkäin"
 
-#: langcorrect/templates/posts/post_detail.html:76
+#: langcorrect/templates/posts/post_detail.html:79
 msgid "Export Corrections"
 msgstr "Vie korjaukset"
 
-#: langcorrect/templates/posts/post_detail.html:115
+#: langcorrect/templates/posts/post_detail.html:118
 msgid "You need LangCorrect Premium to access this feature."
 msgstr "Tarvitset LangCorrect Premiumin käyttääksesi tätä ominaisuutta."
 
-#: langcorrect/templates/posts/post_detail.html:116
+#: langcorrect/templates/posts/post_detail.html:119
 msgid "Go Premium"
 msgstr "Siirry Premiumiin"
 
@@ -1488,23 +1465,23 @@ msgstr "Näytä"
 msgid "Respond"
 msgstr "Vastaa"
 
-#: langcorrect/templates/prompts/prompt_list.html:16
+#: langcorrect/templates/prompts/prompt_list.html:28
 msgid "Create a prompt"
 msgstr "Luo tehtävä"
 
-#: langcorrect/templates/prompts/prompt_list.html:21
+#: langcorrect/templates/prompts/prompt_list.html:33
 msgid "View prompts that you have not yet responded to"
 msgstr "Näytä tehtävät, joihin et ole vielä vastannut"
 
-#: langcorrect/templates/prompts/prompt_list.html:22
+#: langcorrect/templates/prompts/prompt_list.html:34
 msgid "Open"
 msgstr "Avoin"
 
-#: langcorrect/templates/prompts/prompt_list.html:24
+#: langcorrect/templates/prompts/prompt_list.html:36
 msgid "View prompts that you have responded to"
 msgstr "Näytä tehtävät, joihin olet vastannut"
 
-#: langcorrect/templates/prompts/prompt_list.html:25
+#: langcorrect/templates/prompts/prompt_list.html:37
 msgid "Completed"
 msgstr "Valmis"
 
@@ -1608,22 +1585,21 @@ msgstr "Sähköposti"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions "
-"this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
 "                   "
 msgstr ""
 "\n"
 "%(count)s panostusta tänä vuonna"
 
-#: langcorrect/users/admin.py:23
+#: langcorrect/users/admin.py:30
 msgid "Personal info"
 msgstr "Henkilökohtaiset tiedot"
 
-#: langcorrect/users/admin.py:25
+#: langcorrect/users/admin.py:32
 msgid "Permissions"
 msgstr "Oikeudet"
 
-#: langcorrect/users/admin.py:36
+#: langcorrect/users/admin.py:43
 msgid "Important dates"
 msgstr "Tärkeät päivämäärät"
 
@@ -1662,6 +1638,9 @@ msgstr "Bio"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Tiedot päivitetty onnistuneesti"
+
+#~ msgid "Write a message..."
+#~ msgstr "Kirjoita viesti..."
 
 #~ msgid "Journals"
 #~ msgstr "Päiväkirjat"

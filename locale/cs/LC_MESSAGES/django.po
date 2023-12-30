@@ -8,17 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-10-25 12:03+0000\n"
+"POT-Creation-Date: 2023-12-29 14:11+0000\n"
+"PO-Revision-Date: 2023-12-29 14:13+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
-"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -94,7 +93,7 @@ msgid "Contributions"
 msgstr "Příspěvky"
 
 #: langcorrect/corrections/apps.py:8
-#: langcorrect/templates/posts/post_detail.html:28
+#: langcorrect/templates/posts/post_detail.html:31
 msgid "Corrections"
 msgstr "Opravy"
 
@@ -188,15 +187,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Značky nemohou být delší než 20 znaků"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable by everyone"
 msgstr "Viditelné pro všechny"
 
-#: langcorrect/posts/models.py:21
+#: langcorrect/posts/models.py:22
 msgid "Viewable only by registered members"
 msgstr "Viditelné pouze pro registrované členy"
 
-#: langcorrect/posts/models.py:129
+#: langcorrect/posts/models.py:130
 msgid "submitted a new entry"
 msgstr "odeslán nový příspěvek"
 
@@ -213,15 +212,15 @@ msgstr "Velikost obrázku nesmí být větší než {max_size_mb}MB"
 msgid "Post successfully updated"
 msgstr "Příspěvek úspěšně aktualizován"
 
-#: langcorrect/posts/views.py:184
+#: langcorrect/posts/views.py:189
 msgid "Post successfully added"
 msgstr "Příspěvek úspěšně přidán"
 
-#: langcorrect/posts/views.py:188
+#: langcorrect/posts/views.py:193
 msgid "Your correction ratio is too low."
 msgstr "Váš poměr oprav je příliš nízký"
 
-#: langcorrect/posts/views.py:232
+#: langcorrect/posts/views.py:240
 msgid "Post successfully deleted"
 msgstr "Příspěvek úspěšně smazán"
 
@@ -307,7 +306,8 @@ msgstr "Varování:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 "V současné době nemáte nastavenou žádnou e-mailovou adresu. Měli byste "
 "opravdu přidat e-mailovou adresu, abyste mohli dostávat upozornění, "
@@ -334,26 +334,21 @@ msgstr "Vítejte na %(site_name)s!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has "
-"given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Tento e-mail jste obdrželi, protože uživatel %(user_display)s použil vaši e-"
-"mailovou adresu k registraci účtu na %(site_domain)s."
+"Tento e-mail jste obdrželi, protože uživatel %(user_display)s použil vaši e-mailovou adresu k registraci účtu na %(site_domain)s."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all "
-"features, please verify your e-mail address by going to %(activate_url)s, or "
-"clicking the button below.\n"
+"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Pro dokončení registrace a plný přístup ke všem funkcím ověřte svou e-"
-"mailovou adresu kliknutím na %(activate_url)s nebo klikněte na tlačítko níže."
+"Pro dokončení registrace a plný přístup ke všem funkcím ověřte svou e-mailovou adresu kliknutím na %(activate_url)s nebo klikněte na tlačítko níže."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -363,13 +358,11 @@ msgstr "Ověřit e-mailovou adresu"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or "
-"contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Pokud jste se nepřihlásili k %(site_name)s, můžete tento e-mail ignorovat "
-"nebo nás kontaktovat pro podporu."
+"Pokud jste se nepřihlásili k %(site_name)s, můžete tento e-mail ignorovat nebo nás kontaktovat pro podporu."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -382,8 +375,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"Potvrďte, prosím, že <a href=\"mailto:%(email)s\">%(email)s</a> je e-mailová "
-"adresa uživatele %(user_display)s."
+"Potvrďte, prosím, že <a href=\"mailto:%(email)s\">%(email)s</a> je e-mailová"
+" adresa uživatele %(user_display)s."
 
 #: langcorrect/templates/account/email_confirm.html:19
 msgid "Confirm"
@@ -466,11 +459,11 @@ msgstr "Resetování hesla"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
-"Zapomněli jste heslo? Zadejte níže svou e-mailovou adresu a zašleme vám e-"
-"mail, který vám umožní ho resetovat."
+"Zapomněli jste heslo? Zadejte níže svou e-mailovou adresu a zašleme vám "
+"e-mail, který vám umožní ho resetovat."
 
 #: langcorrect/templates/account/password_reset.html:25
 msgid "Reset My Password"
@@ -496,12 +489,12 @@ msgstr "Špatný token"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
 "Odkaz pro resetování hesla byl neplatný, možná proto, že již byl použit. "
-"Prosím, <a href=\"%(passwd_reset_url)s\">vyžádejte si nové resetování hesla</"
-"a>."
+"Prosím, <a href=\"%(passwd_reset_url)s\">vyžádejte si nové resetování "
+"hesla</a>."
 
 #: langcorrect/templates/account/password_reset_from_key.html:30
 msgid "change password"
@@ -567,7 +560,8 @@ msgstr ""
 
 #: langcorrect/templates/account/signup.html:49
 msgid "This can be changed at any time and on a per journal basis."
-msgstr "Toto lze kdykoli změnit a je to možné nastavit pro každý deník zvlášť."
+msgstr ""
+"Toto lze kdykoli změnit a je to možné nastavit pro každý deník zvlášť."
 
 #: langcorrect/templates/account/signup.html:55
 msgid "Create my account"
@@ -613,14 +607,14 @@ msgid ""
 "verification. Please click on the link inside this e-mail. Please\n"
 "contact us if you do not receive it within a few minutes."
 msgstr ""
-"Poslali jsme vám e-mail k ověření. Klikněte prosím na odkaz v tomto e-mailu. "
-"Kontaktujte nás, pokud jej neobdržíte během několika minut."
+"Poslali jsme vám e-mail k ověření. Klikněte prosím na odkaz v tomto e-mailu."
+" Kontaktujte nás, pokud jej neobdržíte během několika minut."
 
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Poznámka:</strong> stále můžete <a href=\"%(email_url)s\">změnit "
 "svou e-mailovou adresu</a>."
@@ -694,52 +688,56 @@ msgstr "Přehled příspěvků"
 msgid "Make your correction here."
 msgstr "Zde proveďte opravu."
 
-#: langcorrect/templates/corrections/make_corrections.html:61
+#: langcorrect/templates/corrections/make_corrections.html:62
 msgid "Write the correct sentence here..."
 msgstr "Zde napište správnou větu..."
 
-#: langcorrect/templates/corrections/make_corrections.html:65
+#: langcorrect/templates/corrections/make_corrections.html:66
 msgid "Include feedback for this correction here."
 msgstr "Zde zahrněte zpětnou vazbu k této opravě."
 
-#: langcorrect/templates/corrections/make_corrections.html:70
+#: langcorrect/templates/corrections/make_corrections.html:72
 msgid "Write your feedback here..."
 msgstr "Zde napište svou zpětnou vazbu..."
 
-#: langcorrect/templates/corrections/make_corrections.html:94
+#: langcorrect/templates/corrections/make_corrections.html:96
 msgid "Overall feedback or comment"
 msgstr "Celková zpětná vazba nebo komentář"
 
-#: langcorrect/templates/corrections/make_corrections.html:99
+#: langcorrect/templates/corrections/make_corrections.html:103
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are "
-"all here to learn, so let's encourage and support one another."
-msgstr "Pokud chcete zahrnout zpětnou vazbu, ujistěte se, že je konstruktivní."
+"If you wish to include feedback, please make sure it is constructive. We are"
+" all here to learn, so let's encourage and support one another."
+msgstr ""
+"Pokud chcete zahrnout zpětnou vazbu, ujistěte se, že je konstruktivní."
 
-#: langcorrect/templates/corrections/make_corrections.html:114
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "Zrušit"
 
-#: langcorrect/templates/corrections/make_corrections.html:118
+#: langcorrect/templates/corrections/make_corrections.html:122
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: langcorrect/templates/corrections/make_corrections.html:120
-#: langcorrect/templates/corrections/partials/user_correction_card.html:55
+#: langcorrect/templates/corrections/make_corrections.html:124
+#: langcorrect/templates/corrections/partials/user_correction_card.html:58
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
 msgstr "Odeslat"
+
+#: langcorrect/templates/corrections/partials/correctors_list.html:7
+msgid "No corrections have been made"
+msgstr "Nebyly provedeny žádné opravy"
 
 #: langcorrect/templates/corrections/partials/sentence_by_sentence_corrections.html:12
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as "
-"perfect!\n"
+"                    %(user_count)s users have marked this sentence as perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -750,7 +748,7 @@ msgid "Original"
 msgstr "Původní"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/partials/post_card.html:70
 #: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Opraveno"
@@ -765,38 +763,27 @@ msgstr ""
 "\n"
 "%(user_count)s uživatelů označilo tuto větu jako dokonalou!"
 
-#: langcorrect/templates/corrections/partials/user_correction_card.html:50
-msgid "Write a message..."
-msgstr "Napište zprávu..."
-
-#: langcorrect/templates/corrections/popular_correctors.html:4
+#: langcorrect/templates/corrections/popular_correctors.html:5
 msgid "Popular Correctors"
 msgstr "Populární korektoři"
 
-#: langcorrect/templates/corrections/popular_correctors.html:14
+#: langcorrect/templates/corrections/popular_correctors.html:17
 msgid "Today"
 msgstr "Dnes"
 
-#: langcorrect/templates/corrections/popular_correctors.html:22
+#: langcorrect/templates/corrections/popular_correctors.html:25
 msgid "This week"
 msgstr "Tento týden"
 
-#: langcorrect/templates/corrections/popular_correctors.html:30
+#: langcorrect/templates/corrections/popular_correctors.html:33
 msgid "This month"
 msgstr "Tento měsíc"
 
-#: langcorrect/templates/corrections/popular_correctors.html:38
+#: langcorrect/templates/corrections/popular_correctors.html:41
 msgid "All time"
 msgstr "Celkově"
 
-#: langcorrect/templates/corrections/popular_correctors.html:51
-#: langcorrect/templates/corrections/popular_correctors.html:64
-#: langcorrect/templates/corrections/popular_correctors.html:77
-#: langcorrect/templates/corrections/popular_correctors.html:90
-msgid "No corrections have been made"
-msgstr "Nebyly provedeny žádné opravy"
-
-#: langcorrect/templates/corrections/popular_correctors.html:96
+#: langcorrect/templates/corrections/popular_correctors.html:75
 msgid "View all"
 msgstr "Zobrazit vše"
 
@@ -840,8 +827,7 @@ msgstr "Jít"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list "
-"of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -857,7 +843,7 @@ msgstr "Zrušit"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:48
+#: langcorrect/templates/posts/partials/post_card.html:52
 #: langcorrect/templates/posts/post_confirm_delete.html:19
 #: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
@@ -887,7 +873,7 @@ msgid "Actions"
 msgstr "Akce"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/partials/post_card.html:54
 #: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Upravit"
@@ -946,6 +932,10 @@ msgstr "Smazat všechna upozornění"
 msgid "Close"
 msgstr "Zavřít"
 
+#: langcorrect/templates/navbar.html:17 langcorrect/templates/navbar.html:77
+msgid "Write"
+msgstr "Psát"
+
 #: langcorrect/templates/navbar.html:42
 #: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
@@ -962,10 +952,6 @@ msgstr "Komunita"
 #: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Žebříčky"
-
-#: langcorrect/templates/navbar.html:77
-msgid "Write"
-msgstr "Psát"
 
 #: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
@@ -1009,15 +995,15 @@ msgstr "Premium"
 msgid "Member"
 msgstr "Člen"
 
-#: langcorrect/templates/navbar.html:182
+#: langcorrect/templates/navbar.html:185
 msgid "Total corrections made"
 msgstr "Celkový počet provedených oprav"
 
-#: langcorrect/templates/navbar.html:189
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections received"
 msgstr "Celkový počet obdržených oprav"
 
-#: langcorrect/templates/navbar.html:196
+#: langcorrect/templates/navbar.html:199
 msgid "Correction ratio"
 msgstr "Poměr oprav"
 
@@ -1060,8 +1046,8 @@ msgstr "Zaregistrujte účet"
 
 #: langcorrect/templates/pages/home.html:55
 msgid ""
-"We start with a short 3-step registration process to help us determine users "
-"you should be match with."
+"We start with a short 3-step registration process to help us determine users"
+" you should be match with."
 msgstr ""
 "Začínáme krátkým třístupňovým registračním procesem, abychom určili, s "
 "jakými uživateli byste měli být spárováni."
@@ -1097,8 +1083,8 @@ msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
 msgstr ""
-"Zbavte se všech zbytečných rozptýlení na jiných platformách pro výuku jazyků "
-"a věnujte více času zaměření na váš nový jazyk (jazyky)."
+"Zbavte se všech zbytečných rozptýlení na jiných platformách pro výuku jazyků"
+" a věnujte více času zaměření na váš nový jazyk (jazyky)."
 
 #: langcorrect/templates/pages/home.html:83
 msgid "Straight to the point"
@@ -1120,13 +1106,13 @@ msgstr "Neustále se zlepšujeme"
 
 #: langcorrect/templates/pages/home.html:91
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct "
-"feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct"
+" feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
-"Platforma LangCorrect se neustále zlepšuje. Konzistentní, přímá zpětná vazba "
-"od našich uživatelů a časté aktualizace nám umožňují udržovat věci čerstvé a "
-"zajímavé pro naše uživatele."
+"Platforma LangCorrect se neustále zlepšuje. Konzistentní, přímá zpětná vazba"
+" od našich uživatelů a časté aktualizace nám umožňují udržovat věci čerstvé "
+"a zajímavé pro naše uživatele."
 
 #: langcorrect/templates/pages/home.html:95
 msgid "Learn with friends"
@@ -1134,11 +1120,11 @@ msgstr "Učte se s přáteli"
 
 #: langcorrect/templates/pages/home.html:97
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who "
-"can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who"
+" can earn the highest Rankings and Streaks."
 msgstr ""
-"Pozvěte své přátele, aby se přidali k LangCorrect a vyzvěte se navzájem, kdo "
-"získá nejvyšší hodnocení a sérii úspěchů."
+"Pozvěte své přátele, aby se přidali k LangCorrect a vyzvěte se navzájem, kdo"
+" získá nejvyšší hodnocení a sérii úspěchů."
 
 #: langcorrect/templates/pages/home.html:101
 msgid "Functionality with learning in mind"
@@ -1159,8 +1145,8 @@ msgstr "Vestavěná komunikace"
 #: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around "
-"the globe."
+"feature. This is a great way to make new friends and meet people from around"
+" the globe."
 msgstr ""
 "Udělejte si pauzu, abyste se uvolnili a popovídali si s ostatními studenty "
 "pomocí funkce zasílání zpráv. Toto je skvělý způsob, jak najít nové přátele "
@@ -1173,25 +1159,16 @@ msgstr "Přidejte se dnes a zažijte výuku jazyků v novém světle."
 #: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d "
-"be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in "
-"order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help "
-"you, provide support, and answer your\n"
-"                            burning questions so that you can reach the "
-"level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
+"                            burning questions so that you can reach the level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Ať už jste plynulí nebo teprve začínáte, budeme nadšeni, když se k nám v "
-"komunitě LangCorrect přidáte. Všichni se učíme a chápeme, že k dosažení "
-"plynulosti a sebejistoty v novém jazyce je důležité dělat chyby. Skvělí "
-"uživatelé LangCorrect jsou připraveni vám pomoci, poskytnout podporu a "
-"odpovědět na vaše palčivé otázky, abyste dosáhli úrovně, na které chcete být "
-"ve svém novém jazyce."
+"Ať už jste plynulí nebo teprve začínáte, budeme nadšeni, když se k nám v komunitě LangCorrect přidáte. Všichni se učíme a chápeme, že k dosažení plynulosti a sebejistoty v novém jazyce je důležité dělat chyby. Skvělí uživatelé LangCorrect jsou připraveni vám pomoci, poskytnout podporu a odpovědět na vaše palčivé otázky, abyste dosáhli úrovně, na které chcete být ve svém novém jazyce."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1325,17 +1302,11 @@ msgstr "Podpořte naši komunitu"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just "
-"investing in your own language learning journey. You're also helping us keep "
-"the basic features free for everyone. Your support sustains this platform "
-"and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Přechodem na roční prémiové předplatné nejen investujete do svého vlastního "
-"jazykového vzdělávání. Také nám pomáháte udržet základní funkce zdarma pro "
-"všechny. Vaše podpora udržuje tuto platformu a podporuje globální komunitu "
-"celoživotních studentů."
+"Přechodem na roční prémiové předplatné nejen investujete do svého vlastního jazykového vzdělávání. Také nám pomáháte udržet základní funkce zdarma pro všechny. Vaše podpora udržuje tuto platformu a podporuje globální komunitu celoživotních studentů."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1344,7 +1315,8 @@ msgstr "Aktuálně máte prémiový status."
 #: langcorrect/templates/pages/pricing.html:159
 msgid "To manage your subscription or view details, click the button below."
 msgstr ""
-"Pro správu předplatného nebo zobrazení podrobností klikněte na tlačítko níže."
+"Pro správu předplatného nebo zobrazení podrobností klikněte na tlačítko "
+"níže."
 
 #: langcorrect/templates/pages/pricing.html:161
 msgid "Manage Subscription"
@@ -1362,11 +1334,17 @@ msgstr "Psací série"
 msgid "Language Match"
 msgstr "Shoda jazyků"
 
-#: langcorrect/templates/posts/partials/post_card.html:40
+#: langcorrect/templates/posts/partials/post_card.html:44
 msgid "Correctors"
 msgstr "Korektory"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
+#| msgid "Correct journals written in your native language(s)."
+msgid "You can only correct entries in your native language(s)"
+msgstr "Opravujte deníky napsané ve vašem rodném jazyce."
+
+#: langcorrect/templates/posts/partials/post_card.html:62
+#: langcorrect/templates/posts/partials/post_card.html:72
 msgid "Correct"
 msgstr "Opravit"
 
@@ -1380,31 +1358,31 @@ msgstr ""
 "\n"
 "Jste si jisti, že chcete smazat %(post_title)s?"
 
-#: langcorrect/templates/posts/post_detail.html:13
+#: langcorrect/templates/posts/post_detail.html:16
 msgid "Attachments"
 msgstr "Přílohy"
 
-#: langcorrect/templates/posts/post_detail.html:35
+#: langcorrect/templates/posts/post_detail.html:38
 msgid "Show corrections grouped by user"
 msgstr "Zobrazit opravy seskupené podle uživatele"
 
-#: langcorrect/templates/posts/post_detail.html:49
+#: langcorrect/templates/posts/post_detail.html:52
 msgid "Show corrections grouped by sentence"
 msgstr "Zobrazit opravy seskupené podle věty"
 
-#: langcorrect/templates/posts/post_detail.html:63
+#: langcorrect/templates/posts/post_detail.html:66
 msgid "Show corrections grouped by sentence and side by side"
 msgstr "Zobrazit opravy seskupené podle věty a vedle sebe"
 
-#: langcorrect/templates/posts/post_detail.html:76
+#: langcorrect/templates/posts/post_detail.html:79
 msgid "Export Corrections"
 msgstr "Exportovat opravy"
 
-#: langcorrect/templates/posts/post_detail.html:115
+#: langcorrect/templates/posts/post_detail.html:118
 msgid "You need LangCorrect Premium to access this feature."
 msgstr "Pro přístup k této funkci potřebujete LangCorrect Premium"
 
-#: langcorrect/templates/posts/post_detail.html:116
+#: langcorrect/templates/posts/post_detail.html:119
 msgid "Go Premium"
 msgstr "Přejít na Premium"
 
@@ -1477,23 +1455,23 @@ msgstr "Zobrazit"
 msgid "Respond"
 msgstr "Odpovědět"
 
-#: langcorrect/templates/prompts/prompt_list.html:16
+#: langcorrect/templates/prompts/prompt_list.html:28
 msgid "Create a prompt"
 msgstr "Vytvořit námět"
 
-#: langcorrect/templates/prompts/prompt_list.html:21
+#: langcorrect/templates/prompts/prompt_list.html:33
 msgid "View prompts that you have not yet responded to"
 msgstr "Zobrazit náměty, na které jste ještě neodpověděli"
 
-#: langcorrect/templates/prompts/prompt_list.html:22
+#: langcorrect/templates/prompts/prompt_list.html:34
 msgid "Open"
 msgstr "Otevřeno"
 
-#: langcorrect/templates/prompts/prompt_list.html:24
+#: langcorrect/templates/prompts/prompt_list.html:36
 msgid "View prompts that you have responded to"
 msgstr "Zobrazit náměty, na které jste odpověděli"
 
-#: langcorrect/templates/prompts/prompt_list.html:25
+#: langcorrect/templates/prompts/prompt_list.html:37
 msgid "Completed"
 msgstr "Dokončeno"
 
@@ -1597,22 +1575,21 @@ msgstr "E-mail"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions "
-"this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
 "                   "
 msgstr ""
 "\n"
 "<span class=\"fw-bold\">%(count)s</span> příspěvků tento rok"
 
-#: langcorrect/users/admin.py:23
+#: langcorrect/users/admin.py:30
 msgid "Personal info"
 msgstr "Osobní údaje"
 
-#: langcorrect/users/admin.py:25
+#: langcorrect/users/admin.py:32
 msgid "Permissions"
 msgstr "Oprávnění"
 
-#: langcorrect/users/admin.py:36
+#: langcorrect/users/admin.py:43
 msgid "Important dates"
 msgstr "Důležitá data"
 
@@ -1651,6 +1628,9 @@ msgstr "Životopis"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Informace úspěšně aktualizovány"
+
+#~ msgid "Write a message..."
+#~ msgstr "Napište zprávu..."
 
 #~ msgid "Journals"
 #~ msgstr "Deníky"

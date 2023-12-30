@@ -10,6 +10,7 @@ from model_utils.models import SoftDeletableModel, TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
 
+from langcorrect.posts.helpers import set_post_row_active
 from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices, User
 
@@ -133,20 +134,25 @@ def send_follower_notifications(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Post)
-def split_post_into_sentences(sender, instance, **kwargs):
+def split_post_into_sentences(sender, instance, created, **kwargs):
     post = instance
     user = post.user
-
-    old_rows = PostRow.available_objects.filter(post=post).order_by("order")
-
-    title_row = old_rows.filter(order=0)
-    if not title_row.exists():
-        PostRow.objects.create(user=user, post=post, sentence=post.title, order=0)
-
     post_sentences = sentence_splitter.split_sentences(post.text, post.language.code)
 
-    for idx, sentence in enumerate(post_sentences, start=1):
-        existing_row = old_rows.filter(sentence=sentence).exclude(order=0).first()
-
-        if not existing_row:
+    if created:
+        # title
+        PostRow.objects.create(user=user, post=post, sentence=post.title, order=0)
+        # post text
+        for idx, sentence in enumerate(post_sentences, start=1):
             PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+    else:
+        old_rows = PostRow.available_objects.filter(post=post).order_by("order")
+        title_row = old_rows.filter(order=0).first()
+        set_post_row_active(title_row, 0)
+
+        for idx, sentence in enumerate(post_sentences, start=1):
+            existing_row = old_rows.filter(sentence=sentence, is_actual=0).exclude(order=0).first()
+            if existing_row:
+                set_post_row_active(existing_row, idx)
+            else:
+                PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
