@@ -33,7 +33,7 @@ class PromptListView(LoginRequiredMixin, ListView):
         lang_code = self.get_lang_code()
 
         if mode == "completed":
-            qs = qs.filter(post__user=current_user)
+            qs = qs.filter(post__user=current_user, post__is_removed=False)
         else:
             qs = qs.exclude(post__user=current_user)
 
