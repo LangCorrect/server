@@ -10,38 +10,42 @@
   {% translate "My Corrections" %} · LangCorrect
 {% endblock title %}
 {% block content %}
-  <div class="table-responsive">
-    <table class="table table-hover table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">{% translate "Title" %}</th>
-          <th scope="col">{% translate "Language" %}</th>
-          <th scope="col">{% translate "Author" %}</th>
-          <th scope="col">{% translate "Correction Date" %}</th>
-          <th scope="col">{% translate "Corrections Made" %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for post in object_list %}
-          <tr class="clickable-row"
-              role="button"
-              data-link="{{ post.get_absolute_url }}">
-            <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
-            <td>
-              <a class="link-dark text-decoration-none"
-                 href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            </td>
-            <td>{{ post.language.code }}</td>
-            <td>{{ post.user.display_name }}</td>
-            <td>{{ post.date_corrected | naturalday }}</td>
-            <td>{{ post.num_corrections }}</td>
+  {% if object_list %}
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">{% translate "Title" %}</th>
+            <th scope="col">{% translate "Language" %}</th>
+            <th scope="col">{% translate "Author" %}</th>
+            <th scope="col">{% translate "Correction Date" %}</th>
+            <th scope="col">{% translate "Corrections Made" %}</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% include "pagination.html" %}
+        </thead>
+        <tbody>
+          {% for post in object_list %}
+            <tr class="clickable-row"
+                role="button"
+                data-link="{{ post.get_absolute_url }}">
+              <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
+              <td>
+                <a class="link-dark text-decoration-none"
+                   href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+              </td>
+              <td>{{ post.language.code }}</td>
+              <td>{{ post.user.display_name }}</td>
+              <td>{{ post.date_corrected | naturalday }}</td>
+              <td>{{ post.num_corrections }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "pagination.html" %}
+  {% else %}
+    You haven't made any corrections.
+  {% endif %}
 {% endblock content %}
 {% block inline_javascript %}
   <script src="{% static 'js/clickable_table_row.js' %}"></script>
