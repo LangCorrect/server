@@ -55,10 +55,24 @@
         </div>
       </div>
       <div class="d-grid gap-3">
-        {% for prompt in object_list %}
-          {% render_prompt_card instance=prompt current_user=request.user %}
-        {% endfor %}
-        {% include "pagination.html" %}
+        {% if object_list or mode == "open" %}
+          {% for prompt in object_list %}
+            {% render_prompt_card instance=prompt current_user=request.user %}
+          {% endfor %}
+          {% include "pagination.html" %}
+        {% else %}
+          <div class="row">
+            <div class="col">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Uh oh</h5>
+                  <p class="card-text">You haven't responded to any prompts.</p>
+                  <a href="{% url 'prompts:list' %}" class="btn btn-primary">Browse writing prompts</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
       </div>
     </div>
     <!-- <div class="col-lg-4"> -->
