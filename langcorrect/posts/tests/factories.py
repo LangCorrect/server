@@ -1,11 +1,11 @@
 import random
 
 from django.contrib.auth import get_user_model
-from factory import LazyAttribute
+from factory import LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from langcorrect.languages.models import LanguageLevel
+from langcorrect.languages.models import Language, LanguageLevel
 from langcorrect.posts.models import Post, PostVisibility
 from langcorrect.posts.tests.utils import generate_text, generate_title
 from langcorrect.users.models import GenderChoices
@@ -38,6 +38,16 @@ class PostFactory(DjangoModelFactory):
 
     gender_of_narration = LazyAttribute(lambda _: fake.random_element(elements=GenderChoices.choices)[0])
     permission = LazyAttribute(lambda _: fake.random_element(elements=PostVisibility.choices)[0])
+    is_corrected = LazyAttribute(lambda _: fake.boolean())
+
+    @post_generation
+    def set_language(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            self.language = Language.objects.get(code=extracted)
+            self.save()
 
     class Meta:
         model = Post
