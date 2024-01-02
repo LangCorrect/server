@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from factory import Faker, post_generation
 from factory.django import DjangoModelFactory
 
+from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
 from langcorrect.languages.tests.utils import create_native_languages, create_studying_languages
 
 
@@ -32,15 +33,30 @@ class UserFactory(DjangoModelFactory):
         self.set_password(password)
 
     @post_generation
-    def languages(self, create, extracted, **kwargs):
+    def native_languages(self, create, extracted, **kwargs):
         if not create:
             return
 
-        for _ in range(random.randint(1, 2)):
-            create_studying_languages(self)
+        if extracted:
+            for language_code in extracted:
+                language = Language.objects.get(code=language_code)
+                LanguageLevel.objects.get_or_create(user=self, language=language, level=LevelChoices.NATIVE)
+        else:
+            for _ in range(random.randint(1, 3)):
+                create_native_languages(self)
 
-        for _ in range(random.randint(1, 3)):
-            create_native_languages(self)
+    @post_generation
+    def studying_languages(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for language_code in extracted:
+                language = Language.objects.get(code=language_code)
+                LanguageLevel.objects.get_or_create(user=self, language=language)
+        else:
+            for _ in range(random.randint(1, 2)):
+                create_studying_languages(self)
 
     class Meta:
         model = get_user_model()
