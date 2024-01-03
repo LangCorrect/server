@@ -234,21 +234,22 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         current_user = self.request.user
         form.instance.user = current_user
-        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
-        form.instance.language_level = language_level.level
-        self.object = form.save()
 
+        context = self.get_context_data()
+        prompt = context.get("prompt", None)
+        if prompt:
+            form.instance.prompt = prompt
+
+        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
+        form.instance.language_level = language_level
+
+        self.object = form.save()
         image_obj = self.request.FILES.get("image", None)
         if image_obj and current_user.is_premium_user:
             storage_backend = get_storage_backend()
             file_key = storage_backend.save(image_obj)
             PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
-        context = self.get_context_data()
-        prompt = context.get("prompt", None)
-        if prompt:
-            self.object.prompt = prompt
 
-        self.object.save()
         update_user_writing_streak(self.object.user)
         return HttpResponseRedirect(self.get_success_url())
 
