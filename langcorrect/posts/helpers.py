@@ -47,19 +47,19 @@ def check_can_create_post(user):
     return False
 
 
-# def hide_old_post_rows_on_edit(post):
-#     """
-#     Hides all rows associated with a given post when it is edited.
-#     """
-#     from langcorrect.posts.models import PostRow  # pylint: disable=import-outside-toplevel
+def hide_old_post_rows_on_edit(post):
+    """
+    Hides all rows associated with a given post when it is edited.
+    """
+    from langcorrect.posts.models import PostRow  # pylint: disable=import-outside-toplevel
 
-#     PostRow.objects.filter(post=post).update(is_actual=False)
+    PostRow.objects.filter(post=post).update(is_actual=False)
 
 
-# def set_post_row_active(post_row, order):
-#     """
-#     Sets the specified post row to active and updates its order.
-#     """
-#     post_row.is_actual = True
-#     post_row.order = order
-#     post_row.save()
+def set_post_row_active(post_row, order):
+    """
+    Sets the specified post row to active and updates its order.
+    """
+    post_row.is_actual = True
+    post_row.order = order
+    post_row.save()
