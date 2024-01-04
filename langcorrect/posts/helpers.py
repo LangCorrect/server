@@ -1,15 +1,9 @@
-"""
-NOTE: This file uses local imports within certain functions to resolve circular
-dependency issues. If there are suggestions to better handle these dependencies,
-further review and refactoring are welcomed.
-"""
-
 from django.conf import settings
+
+from langcorrect.posts.models import Post
 
 
 def get_post_counts_by_language(languages, corrected=False):
-    from langcorrect.posts.models import Post  # pylint: disable=import-outside-toplevel
-
     data = {}
 
     for language in languages:
@@ -45,21 +39,3 @@ def check_can_create_post(user):
     elif not has_uncorrected_posts:
         return True
     return False
-
-
-def hide_old_post_rows_on_edit(post):
-    """
-    Hides all rows associated with a given post when it is edited.
-    """
-    from langcorrect.posts.models import PostRow  # pylint: disable=import-outside-toplevel
-
-    PostRow.objects.filter(post=post).update(is_actual=False)
-
-
-def set_post_row_active(post_row, order):
-    """
-    Sets the specified post row to active and updates its order.
-    """
-    post_row.is_actual = True
-    post_row.order = order
-    post_row.save()

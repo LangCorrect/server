@@ -14,7 +14,7 @@ from langcorrect.corrections.helpers import get_popular_correctors, populate_use
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
 from langcorrect.languages.models import LanguageLevel
 from langcorrect.posts.forms import CustomPostForm
-from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language, hide_old_post_rows_on_edit
+from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
@@ -173,11 +173,6 @@ class PostUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["is_edit"] = True
         return context
-
-    def form_valid(self, form):
-        post = self.get_object()
-        hide_old_post_rows_on_edit(post)
-        return super().form_valid(form)
 
 
 post_update_view = PostUpdateView.as_view()
