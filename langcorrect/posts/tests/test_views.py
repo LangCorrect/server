@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from langcorrect.contributions.models import Contribution
 from langcorrect.languages.models import Language
-from langcorrect.posts.models import Post, PostVisibility
+from langcorrect.posts.models import Post, PostRow, PostVisibility
 from langcorrect.posts.tests.factories import LANGUAGE_TO_FAKER_LOCALE, PostFactory
 from langcorrect.posts.tests.utils import generate_text, generate_title
 from langcorrect.users.tests.factories import UserFactory
@@ -97,6 +97,117 @@ class TestPostCreateView(TestCase):
         expected_count = 4
         actual_count = post.postrow_set.count()
         self.assertEqual(expected_count, actual_count)
+
+
+class TestPostUpdateView(TestCase):
+    fixtures = ["fixtures/tests/languages.json"]
+
+    @classmethod
+    def setUpTestData(cls):
+        sample_text = """
+            Source girl reach exactly.
+            Away situation like season specific.
+            Fund prove bill need through factor participant.
+            Too knowledge long black sit must two.
+        """
+        title = "Testing is hard"
+
+        cls.user1 = UserFactory(native_languages=["ja"], studying_languages=["en"])
+        cls.post = PostFactory(
+            user=cls.user1,
+            title=title,
+            text=sample_text,
+            is_corrected=False,
+            set_language="en",
+        )
+
+    def submit_form(self, form_data):
+        return self.client.post(reverse("posts:update", kwargs={"slug": self.post.slug}), form_data, follow=True)
+
+    def build_form_payload(self, title=None, text=None, language_id=None):
+        all_studying_languages = self.user1.studying_languages
+        target_language = all_studying_languages.first()
+
+        faker_locale = LANGUAGE_TO_FAKER_LOCALE.get(target_language.code)
+
+        data = {
+            "title": title if title else generate_title(faker_locale),
+            "text": text if text else generate_text(faker_locale),
+            "language": language_id if language_id else target_language.id,
+            "gender_of_narration": "M",
+            "permission": "public",
+        }
+        return data
+
+    def test_no_additional_rows_created(self):
+        self.client.force_login(self.user1)
+        data = self.build_form_payload(
+            title=self.post.title,
+            text=self.post.text,
+            language_id=self.post.language.id,
+        )
+        response = self.submit_form(data)
+
+        actual_post_row_count = response.context["object"].postrow_set.count()
+
+        # title + post text
+        expected_count = 5
+        self.assertEqual(expected_count, actual_post_row_count)
+
+    def test_sentence_appended(self):
+        self.client.force_login(self.user1)
+        data = self.build_form_payload(
+            title=self.post.title,
+            text=self.post.text + "This is an additional sentence.",
+            language_id=self.post.language.id,
+        )
+        response = self.submit_form(data)
+        actual_post_row_count = response.context["object"].postrow_set.count()
+
+        # title + post text + added sentence
+        expected_count = 6
+        self.assertEqual(expected_count, actual_post_row_count)
+
+    def test_sentence_prepended(self):
+        self.client.force_login(self.user1)
+        data = self.build_form_payload(
+            title=self.post.title,
+            text="This is an additional sentence." + self.post.text,
+            language_id=self.post.language.id,
+        )
+        response = self.submit_form(data)
+        actual_post_row_count = response.context["object"].postrow_set.count()
+
+        # title + post text + added sentence
+        expected_count = 6
+        self.assertEqual(expected_count, actual_post_row_count)
+
+    def test_sentences_mixed(self):
+        updated_text = """
+            This is Bob.
+            Source girl reach exactly.
+            This is Mike.
+            Away situation like season specific.
+            Too knowledge long black sit must two.
+        """
+
+        self.client.force_login(self.user1)
+        data = self.build_form_payload(
+            title=self.post.title,
+            text=updated_text,
+            language_id=self.post.language.id,
+        )
+        self.submit_form(data)
+        actual_post_row_count = PostRow.available_objects.filter(post=self.post, is_actual=True).count()
+
+        expected_count = 6
+        self.assertEqual(expected_count, actual_post_row_count)
+
+        hidden_rows_count = PostRow.available_objects.filter(post=self.post, is_actual=False).count()
+        self.assertEqual(1, hidden_rows_count)
+
+    # # def test_foo(self):
+    # #     breakpoint()
 
 
 class TestPostListView(TestCase):

@@ -94,6 +94,13 @@ class PostRow(TimeStampedModel, SoftDeletableModel):
     is_actual = models.BooleanField(default=True)
     order = models.IntegerField(default=None, null=True)
 
+    # TODO: Remove these
+    def __repr__(self) -> str:
+        return f"<PostRow id={self.id} sentence={self.sentence} is_actual={self.is_actual} order={self.order} />"
+
+    def __str__(self) -> str:
+        return f"<PostRow id={self.id} sentence={self.sentence} is_actual={self.is_actual} order={self.order} />"
+
 
 class PostReply(TimeStampedModel, SoftDeletableModel):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user")
@@ -138,24 +145,54 @@ def split_post_into_sentences(sender, instance, created, **kwargs):
     post = instance
     user = post.user
     post_sentences = sentence_splitter.split_sentences(post.text, post.language.code)
+    title_and_sentences = [post.title] + post_sentences
+
+    # print(title_and_sentences)
 
     if created:
-        PostRow.objects.create(user=user, post=post, sentence=post.title, order=0)
-        for idx, sentence in enumerate(post_sentences, start=1):
-            PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+        create_post_rows(user, post, title_and_sentences)
     else:
-        old_rows = PostRow.available_objects.filter(post=post).order_by("order")
-        old_sentences = [row.sentence for row in old_rows]
+        update_post_rows(user, post, title_and_sentences)
 
-        for idx, sentence in enumerate([post.title] + post_sentences, start=0):
-            if sentence in old_sentences:
-                existing_row = old_rows.get(sentence=sentence)
-                set_post_row_active(existing_row, idx)
-            else:
-                PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
 
-        for old_row in old_rows:
-            if old_row.sentence not in [post.title] + post_sentences:
-                # TODO: Make this a helper function
-                old_row.is_actual = False
-                old_row.save()
+def create_post_rows(user, post, sentences):
+    for idx, sentence in enumerate(sentences):
+        PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+
+
+def update_post_rows(user, post, sentences):
+    all_rows = PostRow.available_objects.filter(post=post)
+    old_rows = {row.sentence: row for row in all_rows}
+
+    print("====Sentences====")
+    for idx, s in enumerate(sentences):
+        print(f"{s} ({idx})")
+
+        if s not in old_rows:
+            print(f"The following sentence was not found in old_rows: {s}")
+
+    print("====All Rows====")
+    for s in all_rows:
+        print(str(s))
+
+    for idx, sentence in enumerate(sentences):
+        if sentence in old_rows:
+            print("Sentence found.", sentence, "old index=", old_rows[sentence].order, "new index=", idx)
+            set_post_row_active(old_rows[sentence], idx)
+        else:
+            print(f"Creating new sentence: {sentence}")
+            PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+
+    print("====Hiding Old Rows====")
+    hide_removed_sentences(old_rows, sentences)
+
+    print("====Updated Post Rows====")
+    print(post.postrow_set.all())
+
+
+def hide_removed_sentences(old_rows, sentences):
+    for sentence, row in old_rows.items():
+        if sentence not in sentences:
+            print(f"Hiding the following sentence: {sentence}")
+            row.is_actual = False
+            row.save()

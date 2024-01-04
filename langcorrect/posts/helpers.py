@@ -47,13 +47,14 @@ def check_can_create_post(user):
     return False
 
 
-def hide_old_post_rows_on_edit(post):
-    """
-    Hides all rows associated with a given post when it is edited.
-    """
-    from langcorrect.posts.models import PostRow  # pylint: disable=import-outside-toplevel
+# TODO: Remove this
+# def hide_old_post_rows_on_edit(post):
+#     """
+#     Hides all rows associated with a given post when it is edited.
+#     """
+#     from langcorrect.posts.models import PostRow  # pylint: disable=import-outside-toplevel
 
-    PostRow.objects.filter(post=post).update(is_actual=False)
+#     PostRow.objects.filter(post=post).update(is_actual=False)
 
 
 def set_post_row_active(post_row, order):
