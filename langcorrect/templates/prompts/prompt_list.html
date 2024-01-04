@@ -55,16 +55,17 @@
         </div>
       </div>
       <div class="d-grid gap-3">
-        {% for prompt in object_list %}
-          {% render_prompt_card instance=prompt current_user=request.user %}
-        {% endfor %}
-        {% include "pagination.html" %}
+        {% if object_list or mode == "open" %}
+          {% for prompt in object_list %}
+            {% render_prompt_card instance=prompt current_user=request.user %}
+          {% endfor %}
+          {% include "pagination.html" %}
+        {% else %}
+          {% url 'prompts:list' as button_url %}
+          {% include "no_content_card.html" with message="You haven't responded to any prompts." btn_message="Browse writing prompts" link=button_url %}
+        {% endif %}
       </div>
     </div>
-    <!-- <div class="col-lg-4"> -->
-    <!-- <div class="card">
-      </div> -->
-    <!-- </div> -->
   </div>
 {% endblock content %}
 {% block inline_javascript %}
