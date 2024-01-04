@@ -206,9 +206,6 @@ class TestPostUpdateView(TestCase):
         hidden_rows_count = PostRow.available_objects.filter(post=self.post, is_actual=False).count()
         self.assertEqual(1, hidden_rows_count)
 
-    # # def test_foo(self):
-    # #     breakpoint()
-
 
 class TestPostListView(TestCase):
     fixtures = ["fixtures/tests/languages.json"]
