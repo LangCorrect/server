@@ -44,7 +44,8 @@
     </div>
     {% include "pagination.html" %}
   {% else %}
-    You haven't made any corrections.
+    {% url 'posts:list' as button_url %}
+    {% include "no_content_card.html" with message="You haven't made any corrections." btn_message="Browse entries to correct" link=button_url %}
   {% endif %}
 {% endblock content %}
 {% block inline_javascript %}
