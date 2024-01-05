@@ -13367,13 +13367,35 @@ fieldset:disabled .btn {
 }
 @font-face {
   font-family: Noto Sans JP;
-  font-weight: 100 900;
+  font-weight: 400 500 900;
   src: url(../fonts/NotoSansJP-VariableFont_wght.ttf) format('truetype');
 }
 @font-face {
   font-family: Noto Sans KR;
-  font-weight: 100 900;
+  font-weight: 400 500 900;
   src: url(../fonts/NotoSansKR-VariableFont_wght.ttf) format('truetype');
+}
+@font-face {
+  font-family: Noto Sans TC;
+  font-weight: 400 500 900;
+  src: url(../fonts/NotoSansTC-VariableFont_wght.ttf) format('truetype');
+}
+@font-face {
+  font-family: Noto Sans SC;
+  font-weight: 400 500 900;
+  src: url(../fonts/NotoSansSC-VariableFont_wght.ttf) format('truetype');
+}
+:lang(zh-hant) {
+  font-family: Noto Sans TC;
+}
+:lang(zh-hans) {
+  font-family: Noto Sans SC;
+}
+:lang(ja) {
+  font-family: Noto Sans JP;
+}
+:lang(kr) {
+  font-family: Noto Sans KR;
 }
 :root {
   --chip-font-size: 13px;
@@ -13387,8 +13409,6 @@ body {
   background: #f1f4f8;
   font-family:
     Noto Sans,
-    Noto Sans JP,
-    Noto Sans KR,
     sans-serif;
 }
 .index-heading-width {
@@ -13424,6 +13444,9 @@ body {
 .line-clamp-10 {
   -webkit-line-clamp: 10;
 }
+.z-9999 {
+  z-index: 9999;
+}
 .chip {
   border: 1px solid var(--chip-border-color);
   border-radius: var(--chip-border-radius);
@@ -13444,4 +13467,18 @@ ins {
 .ranking-item {
   width: 96px;
   width: 6rem;
+}
+.nav-tabs .nav-link {
+  color: var(--bs-secondary-color);
+}
+.nav-tabs .nav-link,
+.nav-tabs .nav-link:hover {
+  border: 0;
+  border-bottom: none;
+}
+.nav-tabs .nav-link.active {
+  border: 0;
+  border-bottom: 2px solid #6174dd;
+  border-radius: 0;
+  color: #6174dd;
 }

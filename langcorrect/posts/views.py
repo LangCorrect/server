@@ -1,9 +1,9 @@
 from urllib.parse import urlencode
 
-from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -54,12 +54,12 @@ class PostListView(ListView):
         if mode == "following":
             qs = qs.filter(user__in=current_user.get_following_users_ids)
         elif mode == "learn":
-            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=1)
+            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=1).exclude(user=current_user)
         else:
             qs = qs.filter(language__in=current_user.native_languages)
 
         if lang_code and lang_code != "all":
-            qs = qs.filter(language__code=lang_code)
+            qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
 
         return qs
 
@@ -193,27 +193,6 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         kwargs["user"] = self.request.user
         return kwargs
 
-    def form_valid(self, form):
-        current_user = self.request.user
-        form.instance.user = current_user
-        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
-        form.instance.language_level = language_level.level
-        self.object = form.save()
-
-        image_obj = self.request.FILES.get("image", None)
-        if image_obj and current_user.is_premium_user:
-            storage_backend = get_storage_backend()
-            file_key = storage_backend.save(image_obj)
-            PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
-        context = self.get_context_data()
-        prompt = context.get("prompt", None)
-        if prompt:
-            self.object.prompt = prompt
-
-        self.object.save()
-        update_user_writing_streak(self.object.user)
-        return http.HttpResponseRedirect(self.get_success_url())
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -222,6 +201,28 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             context["prompt"] = get_object_or_404(Prompt, slug=prompt_slug)
 
         return context
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        form.instance.user = current_user
+
+        context = self.get_context_data()
+        prompt = context.get("prompt", None)
+        if prompt:
+            form.instance.prompt = prompt
+
+        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
+        form.instance.language_level = language_level
+
+        self.object = form.save()
+        image_obj = self.request.FILES.get("image", None)
+        if image_obj and current_user.is_premium_user:
+            storage_backend = get_storage_backend()
+            file_key = storage_backend.save(image_obj)
+            PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
+
+        update_user_writing_streak(self.object.user)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 post_create_view = PostCreateView.as_view()

@@ -3,10 +3,10 @@ Pillow==10.1.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==23.1.0  # https://github.com/hynek/argon2_cffi
 redis==5.0.1  # https://github.com/redis/redis-py
 hiredis==2.2.3  # https://github.com/redis/hiredis-py
-celery==5.3.1  # pyup: < 6.0  # https://github.com/celery/celery
+celery==5.3.6  # pyup: < 6.0  # https://github.com/celery/celery
 django-celery-beat==2.5.0  # https://github.com/celery/django-celery-beat
 django-taggit==4.0.0  # https://github.com/jazzband/django-taggit
-django-rosetta==0.9.9  # https://github.com/mbi/django-rosetta
+django-rosetta==0.10.0  # https://github.com/mbi/django-rosetta
 django-notifications-hq==1.8.2  # https://github.com/django-notifications/django-notifications
 fugashi==1.3.0  # https://github.com/polm/fugashi
 jieba==0.42.1  # https://github.com/fxsjy/jieba
@@ -15,20 +15,20 @@ nltk==3.8.1  # https://www.nltk.org/install.html
 
 # Django
 # ------------------------------------------------------------------------------
-django==4.2.6  # pyup: < 5.0  # https://www.djangoproject.com/
-django-environ==0.10.0  # https://github.com/joke2k/django-environ
+django==4.2.7  # pyup: < 5.0  # https://www.djangoproject.com/
+django-environ==0.11.2  # https://github.com/joke2k/django-environ
 django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
-django-allauth==0.54.0  # https://github.com/pennersr/django-allauth
+django-allauth==0.59.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==2.1  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
-django-redis==5.3.0  # https://github.com/jazzband/django-redis
+django-redis==5.4.0  # https://github.com/jazzband/django-redis
 # Django REST Framework
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
-django-cors-headers==4.2.0  # https://github.com/adamchainz/django-cors-headers
+django-cors-headers==4.3.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
-drf-spectacular==0.26.5  # https://github.com/tfranzel/drf-spectacular
+drf-spectacular==0.27.0  # https://github.com/tfranzel/drf-spectacular
 
-weasyprint==60.1  # https://doc.courtbouillon.org/weasyprint/
-genanki==0.13.0  # https://github.com/kerrickstaley/genanki
+weasyprint==60.2  # https://doc.courtbouillon.org/weasyprint/
+genanki==0.13.1  # https://github.com/kerrickstaley/genanki
 
 stripe==6.1.0  # https://github.com/stripe/stripe-python

@@ -70,6 +70,9 @@ class LanguageLevelDeleteView(LoginRequiredMixin, CanUpdateDeleteObjectMixin, De
     model = LanguageLevel
 
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise PermissionDenied()
+
         studying_language_count = request.user.studying_languages.count()
 
         if studying_language_count == 1:

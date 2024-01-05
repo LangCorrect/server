@@ -24,11 +24,12 @@ class CustomPostForm(forms.ModelForm):
             self.fields["image"].disabled = True
 
     def clean_text(self):
-        text = self.cleaned_data["text"]
+        text = self.cleaned_data["text"].strip()
+
         if text and len(text) < 50:
             msg = _(f"You need to write {50 - len(text)} more characters to meet the minimum requirement.")
             raise forms.ValidationError(msg)
-        return self.cleaned_data["text"]
+        return text
 
     def clean_tags(self):
         tags = self.cleaned_data.get("tags", None)

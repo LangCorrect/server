@@ -6,3 +6,14 @@ const tooltipTriggerList = document.querySelectorAll(
 const tooltipList = [...tooltipTriggerList].map(
   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl),
 );
+
+function showErrorToast(message) {
+  Toastify({
+    text: message,
+    duration: 3000,
+    gravity: 'top',
+    position: 'right',
+    stopOnFocus: true,
+    className: 'bg-warning',
+  }).showToast();
+}

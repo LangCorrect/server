@@ -12,9 +12,9 @@
     </a>
     <div class="d-flex gap-2 align-items-center">
       <a href="{% url 'posts:create' %}"
-         class="btn btn-primary d-md-none px-2">
+         class="btn btn-outline-primary d-md-none px-2">
         <i class="fa-solid fa-pen px-1"></i>
-        Write
+        {% translate "Write" %}
       </a>
       {% if request.user.is_authenticated %}
         <button id="notification-button"
@@ -38,11 +38,11 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
-          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold{% endif %}"
+          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold text-primary{% endif %}"
              href="{% url 'posts:list' %}">{% translate "My Feed" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if is_prompt_page %}active fw-bold{% endif %}"
+          <a class="nav-link {% if is_prompt_page %}active fw-bold text-primary{% endif %}"
              href="{% url 'prompts:list' %}">{% translate "Writing Prompts" %}</a>
         </li>
         <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
         {% endif %}
         {% if request.user.is_authenticated %}
           <li class="d-none d-md-block me-2">
-            <a href="{% url 'posts:create' %}" class="btn btn-primary">
+            <a href="{% url 'posts:create' %}" class="btn btn-outline-primary">
               <i class="fas fa-pen fa-fw"></i>
               {% translate "Write" %}
             </a>
@@ -90,14 +90,14 @@
             <div class="pointer" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="{{ request.user.avatar }}" alt="profile" height="38" />
             </div>
-            <div class="dropdown-menu dropdown-menu-end py-0 mt-2">
+            <div class="dropdown-menu dropdown-menu-end py-0 mt-2 z-9999">
               <a class="dropdown-item py-2 bg-transparent"
                  href="{{ request.user.get_absolute_url }}">
                 <div class="d-flex align-items-center">
                   <img src="{{ request.user.avatar }}" alt="profile" height="38" />
                   <div class="ms-3">
                     <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
-                      <strong>{{ request.user.username }}</strong>
+                      <strong>{{ request.user.display_name }}</strong>
                     </p>
                     <p class="mb-0 text-muted">
                       <small>{{ request.user.email }}</small>
@@ -154,50 +154,52 @@
   <!-- Ratio bar -->
   <div class="bg-primary text-white">
     <div class="container">
-      <div class="row p-2">
-        <div class="col-12">
-          <ul class="list-inline m-0">
-            <li class="list-inline-item"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="{% translate 'Visit your profile' %}">
-              <i class="fas fa-user fa-fw"></i>
-              <a href="{% url 'users:detail' request.user.username %}"
-                 class="text-decoration-none text-white">{{ request.user.username }}</a>
-            </li>
-            <li class="list-inline-item"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="{% translate 'Member role' %}">
-              <i class="fas fa-users fa-fw"></i>
-              {% if request.user.is_premium_user %}
-                {% translate "Premium" %}
-              {% else %}
-                {% translate "Member" %}
-              {% endif %}
-            </li>
-            <li class="list-inline-item"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="{% translate 'Total corrections made' %}">
-              <i class="fas fa-arrow-up fa-fw"></i>
-              <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
-            </li>
-            <li class="list-inline-item"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="{% translate 'Total corrections received' %}">
-              <i class="fas fa-arrow-down fa-fw"></i>
-              <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
-            </li>
-            <li class="list-inline-item"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="{% translate 'Correction ratio' %}">
-              <i class="fas fa-percent fa-fw"></i> {{ request.user.correction_ratio }}
-            </li>
-          </ul>
-        </div>
+      <div class="d-flex flex-wrap py-2">
+        <!-- User info -->
+        <ul class="list-inline m-0 me-2">
+          <li class="list-inline-item"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="{% translate 'Visit your profile' %}">
+            <i class="fas fa-user fa-fw"></i>
+            <a href="{% url 'users:detail' request.user.username %}"
+               class="text-decoration-none text-white">{{ request.user.display_name }}</a>
+          </li>
+          <li class="list-inline-item"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="{% translate 'Member role' %}">
+            <i class="fas fa-users fa-fw"></i>
+            {% if request.user.is_premium_user %}
+              {% translate "Premium" %}
+            {% else %}
+              {% translate "Member" %}
+            {% endif %}
+          </li>
+        </ul>
+        <!-- Stats -->
+        <ul class="list-inline m-0">
+          <li class="list-inline-item"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="{% translate 'Total corrections made' %}">
+            <i class="fas fa-arrow-up fa-fw"></i>
+            <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
+          </li>
+          <li class="list-inline-item"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="{% translate 'Total corrections received' %}">
+            <i class="fas fa-arrow-down fa-fw"></i>
+            <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
+          </li>
+          <li class="list-inline-item"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="{% translate 'Correction ratio' %}">
+            <i class="fas fa-percent fa-fw"></i> {{ request.user.correction_ratio }}
+          </li>
+        </ul>
       </div>
     </div>
   </div>

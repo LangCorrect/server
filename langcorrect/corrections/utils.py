@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
+from config.settings.base import SITE_BASE_URL
 from langcorrect.posts.models import PostRow
 
 # from genanki import Deck, Model, Note, Package
@@ -52,7 +53,7 @@ class ExportCorrections:
                 "corrections/export_corrections_pdf.html", {"post": self.post, "post_rows": self.post_rows}
             )
 
-            html = HTML(string=html_string, encoding="utf-8")
+            html = HTML(string=html_string, encoding="utf-8", base_url=SITE_BASE_URL)
             result = html.write_pdf()
 
             yyyy_mm_dd = self.post.created.strftime("%Y-%m-%d")

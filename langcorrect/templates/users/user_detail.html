@@ -146,7 +146,7 @@
           </div>
         </div>
         {% for post in posts %}
-          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_native_text=True %}
         {% endfor %}
       </div>
     </div>
@@ -157,6 +157,7 @@
   <script>
     const cal = new CalHeatmap();
     const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth() - 10, 1);
 
     cal.paint({
       data: {
@@ -182,8 +183,7 @@
         height: 12
       },
       date: {
-        start: new Date(today.getFullYear(), 0, 1),
-        end: today,
+        start: startDate,
         highlight: [today]
       },
     }, [

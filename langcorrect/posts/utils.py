@@ -86,6 +86,7 @@ class SentenceSplitter:
         return sent_tokenize(text, language=language)
 
     def split_sentences(self, text, lang_code):
+        text = text.strip()
         if lang_code in self.nltk_supported_languages:
             lang_name = self.nltk_lang_map.get(lang_code)
             return self._split_sentences_using_nltk(text, lang_name)

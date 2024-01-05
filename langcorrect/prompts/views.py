@@ -1,8 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, ListView
+from slugify import slugify
 
 from langcorrect.languages.models import Language
+from langcorrect.posts.models import Post
 from langcorrect.prompts.forms import CustomPromptForm
 from langcorrect.prompts.models import Prompt
 
@@ -28,7 +33,7 @@ class PromptListView(LoginRequiredMixin, ListView):
         lang_code = self.get_lang_code()
 
         if mode == "completed":
-            qs = qs.filter(post__user=current_user)
+            qs = qs.filter(post__user=current_user, post__is_removed=False)
         else:
             qs = qs.exclude(post__user=current_user)
 
@@ -96,7 +101,7 @@ class PromptDetailView(LoginRequiredMixin, DetailView):
 prompt_detail_view = PromptDetailView.as_view()
 
 
-class PromptCreateView(CreateView):
+class PromptCreateView(LoginRequiredMixin, CreateView):
     model = Prompt
     form_class = CustomPromptForm
 
@@ -128,3 +133,25 @@ class UserPromptsView(LoginRequiredMixin, ListView):
 
 
 user_prompts_view = UserPromptsView.as_view()
+
+
+@login_required
+def convert_prompt_to_journal_entry(request, slug):
+    if not (request.user.is_staff or request.user.is_moderator):
+        raise PermissionDenied()
+
+    prompt = get_object_or_404(Prompt, slug=slug)
+    text = prompt.content
+    prompt_user = prompt.user
+    language = prompt.language
+    slug = slugify(f"{prompt_user.username}-{slug}")
+
+    post = Post.objects.create(
+        user=prompt_user,
+        title=f"Converted Prompt {slug}",
+        text=text,
+        language=language,
+        slug=slugify(slug),
+    )
+    prompt.delete()
+    return redirect("posts:detail", slug=post.slug)

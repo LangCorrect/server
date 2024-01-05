@@ -1,33 +1,21 @@
 'use strict';
 
-document.body.addEventListener('htmx:responseError', function (evt) {
-  const xhr = evt.detail.xhr;
-  const form = evt.target;
-  const textarea = form.querySelector('textarea');
-  const errorMessage = form.querySelector('.invalid-feedback');
-  textarea.classList.add('is-invalid');
-  errorMessage.textContent = JSON.parse(xhr.responseText);
-});
-
-document.body.addEventListener('htmx:beforeRequest', function (evt) {
-  const form = evt.target;
-  const textarea = form.querySelector('textarea');
-  const errorMessage = form.querySelector('.invalid-feedback');
-  textarea.classList.remove('is-invalid');
-  errorMessage.textContent = '';
-});
-
-document.body.addEventListener('htmx:afterRequest', function (evt) {
-  const xhr = evt.detail.xhr;
-  if (xhr.status === 200) {
-    const form = evt.detail.elt;
-    const replyCounterTarget = form.dataset.repliesCountTarget;
-    const replyCounter = document.getElementById(`${replyCounterTarget}`);
-    replyCounter.innerText = +replyCounter.innerText + 1;
-  }
-});
-
 document.addEventListener('DOMContentLoaded', (event) => {
+  // TODO: move this to ReplyFormHandler?
+  function openAccordion(username) {
+    const accordionId = `flush-collapseOne-${username}`;
+    const ele = document.getElementById(accordionId);
+
+    if (ele) {
+      const bsCollapse = new bootstrap.Collapse(ele, {
+        toggle: false,
+      });
+      bsCollapse.show();
+    } else {
+      console.error('Accordion not found.');
+    }
+  }
+
   const modal = new bootstrap.Modal(document.getElementById('lightboxModal'));
 
   document.querySelectorAll('.js-lightbox-img').forEach((thumbnail) => {
@@ -40,4 +28,60 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     });
   });
+
+  class ReplyFormHandler {
+    constructor(form) {
+      this.form = form;
+      this.init();
+    }
+
+    init() {
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+
+    async handleSubmit(e) {
+      e.preventDefault();
+
+      const submitBtn = this.form.querySelector("button[type='submit']");
+      submitBtn.disabled = true;
+
+      const payload = this.buildPayload();
+      try {
+        const data = await new ReplyService(payload).create();
+        this.updateUI(data, payload.recipient);
+        this.form.reset();
+      } catch (err) {
+        showErrorToast(err.message);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    buildPayload() {
+      return {
+        post: this.form.querySelector("input[name='post']").value,
+        text: this.form.querySelector("textarea[name='text']").value,
+        recipient: this.form.querySelector("input[name='recipient']").value,
+      };
+    }
+
+    updateUI(data, recipient) {
+      const targetList = document.getElementById(`reply-list-${recipient}`);
+      const targetAccordion = document.getElementById(`accordion-${recipient}`);
+      const replyCountSpan = document.getElementById(
+        `reply-count-${recipient}`,
+      );
+
+      targetList.innerHTML += data;
+      if (targetAccordion.classList.contains('d-none')) {
+        targetAccordion.classList.remove('d-none');
+      }
+      openAccordion(recipient);
+      replyCountSpan.textContent = parseInt(replyCountSpan.textContent) + 1;
+    }
+  }
+
+  document
+    .querySelectorAll('.post-reply-form')
+    .forEach((form) => new ReplyFormHandler(form));
 });
