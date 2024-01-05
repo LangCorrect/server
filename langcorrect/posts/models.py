@@ -10,7 +10,6 @@ from model_utils.models import SoftDeletableModel, TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
 
-from langcorrect.posts.helpers import set_post_row_active
 from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices, User
 
@@ -76,8 +75,6 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
 
 class PostImage(TimeStampedModel, SoftDeletableModel):
-    """Represents a post's image stored as a reference in an S3 bucket."""
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     file_key = models.CharField(max_length=255)
@@ -138,24 +135,40 @@ def split_post_into_sentences(sender, instance, created, **kwargs):
     post = instance
     user = post.user
     post_sentences = sentence_splitter.split_sentences(post.text, post.language.code)
+    title_and_sentences = [post.title] + post_sentences
 
     if created:
-        PostRow.objects.create(user=user, post=post, sentence=post.title, order=0)
-        for idx, sentence in enumerate(post_sentences, start=1):
-            PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+        create_post_rows(user, post, title_and_sentences)
     else:
-        old_rows = PostRow.available_objects.filter(post=post).order_by("order")
-        old_sentences = [row.sentence for row in old_rows]
+        update_post_rows(user, post, title_and_sentences)
 
-        for idx, sentence in enumerate([post.title] + post_sentences, start=0):
-            if sentence in old_sentences:
-                existing_row = old_rows.get(sentence=sentence)
-                set_post_row_active(existing_row, idx)
-            else:
-                PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
 
-        for old_row in old_rows:
-            if old_row.sentence not in [post.title] + post_sentences:
-                # TODO: Make this a helper function
-                old_row.is_actual = False
-                old_row.save()
+def create_post_rows(user, post, sentences):
+    for idx, sentence in enumerate(sentences):
+        PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+
+
+def update_post_rows(user, post, sentences):
+    all_rows = PostRow.available_objects.filter(post=post)
+    old_rows = {row.sentence: row for row in all_rows}
+
+    for idx, sentence in enumerate(sentences):
+        if sentence in old_rows:
+            show_sentence(old_rows[sentence], idx)
+        else:
+            PostRow.objects.create(user=user, post=post, sentence=sentence, order=idx)
+
+    hide_removed_sentences(old_rows, sentences)
+
+
+def show_sentence(post_row, order):
+    post_row.is_actual = True
+    post_row.order = order
+    post_row.save()
+
+
+def hide_removed_sentences(old_rows, sentences):
+    for sentence, row in old_rows.items():
+        if sentence not in sentences:
+            row.is_actual = False
+            row.save()

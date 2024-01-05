@@ -119,7 +119,6 @@ LOCAL_APPS = [
     "langcorrect.corrections",
     "langcorrect.follows",
     "langcorrect.contributions",
-    "langcorrect.memberships",
     "langcorrect.subscriptions",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

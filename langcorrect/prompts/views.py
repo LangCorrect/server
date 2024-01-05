@@ -101,7 +101,7 @@ class PromptDetailView(LoginRequiredMixin, DetailView):
 prompt_detail_view = PromptDetailView.as_view()
 
 
-class PromptCreateView(CreateView):
+class PromptCreateView(LoginRequiredMixin, CreateView):
     model = Prompt
     form_class = CustomPromptForm
 
