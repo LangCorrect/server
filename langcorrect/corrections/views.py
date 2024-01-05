@@ -106,6 +106,10 @@ def make_corrections(request, slug):
             post.is_corrected = True
             post.save()
 
+        elif post.get_correctors.count() == 0:
+            post.is_corrected = False
+            post.save()
+
         if new_correction_made and current_user not in previous_correctors and post.user.is_premium_user:
             email_new_correction(post)
 
