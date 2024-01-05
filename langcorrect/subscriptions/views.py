@@ -52,6 +52,7 @@ def manage_premium(request):
     return render(request, "pages/manage_subscription.html", context)
 
 
+@login_required
 def create_checkout_session(request):
     if request.method == "POST":
         try:
