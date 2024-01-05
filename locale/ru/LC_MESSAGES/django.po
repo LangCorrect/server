@@ -163,10 +163,6 @@ msgstr "Опытный"
 msgid "Native"
 msgstr "Носитель"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Членства"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "ответил на"

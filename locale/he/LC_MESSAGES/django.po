@@ -163,10 +163,6 @@ msgstr ""
 msgid "Native"
 msgstr ""
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr ""
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr ""

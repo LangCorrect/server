@@ -163,10 +163,6 @@ msgstr "숙련된"
 msgid "Native"
 msgstr "모국어"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "회원 구분"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "답글 달음"

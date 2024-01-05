@@ -28,7 +28,7 @@ django-cors-headers==4.3.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
 drf-spectacular==0.27.0  # https://github.com/tfranzel/drf-spectacular
 
-weasyprint==60.1  # https://doc.courtbouillon.org/weasyprint/
-genanki==0.13.0  # https://github.com/kerrickstaley/genanki
+weasyprint==60.2  # https://doc.courtbouillon.org/weasyprint/
+genanki==0.13.1  # https://github.com/kerrickstaley/genanki
 
 stripe==6.1.0  # https://github.com/stripe/stripe-python
