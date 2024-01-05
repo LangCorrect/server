@@ -17,11 +17,11 @@
       <div class="modal-body">
         {% if post.native_text %}
           <p class="text-primary fw-bold">{% translate "Native Text" %}</p>
-          <p>{{ post.native_text|linebreaksbr }}</p>
+          <p lang="{{ post.language.code }}">{{ post.native_text|linebreaksbr }}</p>
           <hr />
         {% endif %}
         <p class="text-primary fw-bold">{% translate "Original Text" %}</p>
-        <p>{{ post.text|linebreaksbr }}</p>
+        <p lang="{{ post.language.code }}">{{ post.text|linebreaksbr }}</p>
       </div>
     </div>
   </div>

@@ -61,7 +61,7 @@ def email_new_correction(post):
     email = user.email
     subject = "[LangCorrect] New Correction!"
 
-    context = {"username": user.username, "post_link": f"{settings.SITE_BASE_URL}{post.get_absolute_url()}"}
+    context = {"username": user.display_name, "post_link": f"{settings.SITE_BASE_URL}{post.get_absolute_url()}"}
 
     msg = EmailSender()
     msg.send_email(

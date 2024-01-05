@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.utils import timezone
 
 from langcorrect.corrections.models import CorrectedRow, PerfectRow
+from langcorrect.users.models import User
 
 
 def _sort_key(correction_dict):
@@ -147,4 +148,9 @@ def get_popular_correctors(period=None, limit=10):
         .annotate(num_corrections=Count("user"))
     )
 
-    return aggregate_users(correctors)[:limit]
+    popular_correctors = aggregate_users(correctors)[:limit]
+    for popular_corrector in popular_correctors:
+        display_name = User.objects.get(username=popular_corrector["username"]).display_name
+        popular_corrector["display_name"] = display_name
+
+    return popular_correctors

@@ -8,17 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 12:28+0000\n"
-"PO-Revision-Date: 2023-10-25 12:00+0000\n"
+"POT-Creation-Date: 2023-12-29 14:11+0000\n"
+"PO-Revision-Date: 2023-12-29 14:13+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: config/settings/base.py:34
 msgid "Čeština"
@@ -94,7 +93,7 @@ msgid "Contributions"
 msgstr "Doprinosi"
 
 #: langcorrect/corrections/apps.py:8
-#: langcorrect/templates/posts/post_detail.html:28
+#: langcorrect/templates/posts/post_detail.html:31
 msgid "Corrections"
 msgstr "Ispravci"
 
@@ -188,15 +187,15 @@ msgstr ""
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Oznake ne mogu biti duže od 20 znakova"
 
-#: langcorrect/posts/models.py:20
+#: langcorrect/posts/models.py:21
 msgid "Viewable by everyone"
 msgstr "Vidljivo svima"
 
-#: langcorrect/posts/models.py:21
+#: langcorrect/posts/models.py:22
 msgid "Viewable only by registered members"
 msgstr "Vidljivo samo registriranim članovima"
 
-#: langcorrect/posts/models.py:129
+#: langcorrect/posts/models.py:130
 msgid "submitted a new entry"
 msgstr "poslao/poslala novi unos"
 
@@ -213,15 +212,15 @@ msgstr "Veličina slike ne smije biti veća od {max_size_mb}MB"
 msgid "Post successfully updated"
 msgstr "Objava uspješno ažurirana"
 
-#: langcorrect/posts/views.py:184
+#: langcorrect/posts/views.py:189
 msgid "Post successfully added"
 msgstr "Objava uspješno dodana"
 
-#: langcorrect/posts/views.py:188
+#: langcorrect/posts/views.py:193
 msgid "Your correction ratio is too low."
 msgstr "Vaš omjer ispravaka je prenizak"
 
-#: langcorrect/posts/views.py:232
+#: langcorrect/posts/views.py:240
 msgid "Post successfully deleted"
 msgstr "Objava uspješno obrisana"
 
@@ -307,7 +306,8 @@ msgstr "Upozorenje:"
 #: langcorrect/templates/account/email.html:52
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 "Trenutno nemate postavljenu nijednu e-mail adresu. Stvarno biste trebali "
 "dodati e-mail adresu kako biste mogli primati obavijesti, resetirati "
@@ -334,27 +334,21 @@ msgstr "Dobrodošli na %(site_name)s!"
 #, python-format
 msgid ""
 "\n"
-"              You're receiving this e-mail because user %(user_display)s has "
-"given your e-mail address to register an account on %(site_domain)s.\n"
+"              You're receiving this e-mail because user %(user_display)s has given your e-mail address to register an account on %(site_domain)s.\n"
 "            "
 msgstr ""
 "\n"
-"Primate ovaj e-mail jer je korisnik %(user_display)s naveo vašu e-mail "
-"adresu za registraciju računa na %(site_domain)s."
+"Primate ovaj e-mail jer je korisnik %(user_display)s naveo vašu e-mail adresu za registraciju računa na %(site_domain)s."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:20
 #, python-format
 msgid ""
 "\n"
-"          To complete your registration and gain full access to all "
-"features, please verify your e-mail address by going to %(activate_url)s, or "
-"clicking the button below.\n"
+"          To complete your registration and gain full access to all features, please verify your e-mail address by going to %(activate_url)s, or clicking the button below.\n"
 "        "
 msgstr ""
 "\n"
-"Da biste dovršili registraciju i stekli puni pristup svim značajkama, molimo "
-"vas da potvrdite svoju e-mail adresu odlaskom na %(activate_url)s ili klikom "
-"na gumb ispod."
+"Da biste dovršili registraciju i stekli puni pristup svim značajkama, molimo vas da potvrdite svoju e-mail adresu odlaskom na %(activate_url)s ili klikom na gumb ispod."
 
 #: langcorrect/templates/account/email/email_confirmation_message.html:31
 msgid "Verify E-mail Address"
@@ -364,13 +358,11 @@ msgstr "Potvrdite e-mail adresu"
 #, python-format
 msgid ""
 "\n"
-"      If you did not sign up for %(site_name)s, you can ignore this email or "
-"contact us for support.\n"
+"      If you did not sign up for %(site_name)s, you can ignore this email or contact us for support.\n"
 "    "
 msgstr ""
 "\n"
-"Ako se niste prijavili na %(site_name)s, možete zanemariti ovaj email ili "
-"nas kontaktirati za podršku."
+"Ako se niste prijavili na %(site_name)s, možete zanemariti ovaj email ili nas kontaktirati za podršku."
 
 #: langcorrect/templates/account/email_confirm.html:7
 #: langcorrect/templates/account/email_confirm.html:10
@@ -466,8 +458,8 @@ msgstr "Ponovno postavljanje lozinke"
 
 #: langcorrect/templates/account/password_reset.html:16
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 "Zaboravili ste lozinku? Unesite svoju e-mail adresu ispod i poslat ćemo vam "
 "e-mail koji će vam omogućiti da je resetirate."
@@ -496,8 +488,8 @@ msgstr "Neispravan Token"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
 "Poveznica za resetiranje lozinke je nevažeća, moguće zato što je već "
 "iskorištena. Molimo zatražite <a href=\"%(passwd_reset_url)s\">novi reset "
@@ -530,8 +522,7 @@ msgstr "Registracija"
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr ""
-"Već imate račun? Onda se molimo <a href=\"%(login_url)s\">prijavite</a>."
+msgstr "Već imate račun? Onda se molimo <a href=\"%(login_url)s\">prijavite</a>."
 
 #: langcorrect/templates/account/signup.html:21
 msgid "Create an account"
@@ -628,8 +619,8 @@ msgstr ""
 #: langcorrect/templates/account/verified_email_required.html:22
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"e-mail address</a>."
 msgstr ""
 "<strong>Napomena:</strong> još uvijek možete <a "
 "href=\"%(email_url)s\">promijeniti svoju e-mail adresu</a>."
@@ -703,54 +694,57 @@ msgstr "Pregled objave"
 msgid "Make your correction here."
 msgstr "Ovdje napravite svoj ispravak"
 
-#: langcorrect/templates/corrections/make_corrections.html:61
+#: langcorrect/templates/corrections/make_corrections.html:62
 msgid "Write the correct sentence here..."
 msgstr "Ovdje napišite ispravnu rečenicu..."
 
-#: langcorrect/templates/corrections/make_corrections.html:65
+#: langcorrect/templates/corrections/make_corrections.html:66
 msgid "Include feedback for this correction here."
 msgstr "Ovdje uključite povratne informacije za ovaj ispravak."
 
-#: langcorrect/templates/corrections/make_corrections.html:70
+#: langcorrect/templates/corrections/make_corrections.html:72
 msgid "Write your feedback here..."
 msgstr "Ovdje napišite svoje povratne informacije..."
 
-#: langcorrect/templates/corrections/make_corrections.html:94
+#: langcorrect/templates/corrections/make_corrections.html:96
 msgid "Overall feedback or comment"
 msgstr "Općenite povratne informacije ili komentar"
 
-#: langcorrect/templates/corrections/make_corrections.html:99
+#: langcorrect/templates/corrections/make_corrections.html:103
 msgid ""
-"If you wish to include feedback, please make sure it is constructive. We are "
-"all here to learn, so let's encourage and support one another."
+"If you wish to include feedback, please make sure it is constructive. We are"
+" all here to learn, so let's encourage and support one another."
 msgstr ""
-"Ako želite uključiti povratne informacije, pobrinite se da su konstruktivne. "
-"Svi smo ovdje da učimo, pa se međusobno potičimo i podržavamo."
+"Ako želite uključiti povratne informacije, pobrinite se da su konstruktivne."
+" Svi smo ovdje da učimo, pa se međusobno potičimo i podržavamo."
 
-#: langcorrect/templates/corrections/make_corrections.html:114
+#: langcorrect/templates/corrections/make_corrections.html:118
 #: langcorrect/templates/modals/discard_modal.html:18
 #: langcorrect/templates/posts/post_form.html:26
 msgid "Discard"
 msgstr "Odbaci"
 
-#: langcorrect/templates/corrections/make_corrections.html:118
+#: langcorrect/templates/corrections/make_corrections.html:122
 #: langcorrect/templates/languages/languagelevel_form.html:14
 #: langcorrect/templates/posts/post_form.html:31
 msgid "Update"
 msgstr "Ažuriraj"
 
-#: langcorrect/templates/corrections/make_corrections.html:120
-#: langcorrect/templates/corrections/partials/user_correction_card.html:55
+#: langcorrect/templates/corrections/make_corrections.html:124
+#: langcorrect/templates/corrections/partials/user_correction_card.html:58
 #: langcorrect/templates/prompts/prompt_form.html:14
 msgid "Submit"
 msgstr "Pošalji"
+
+#: langcorrect/templates/corrections/partials/correctors_list.html:7
+msgid "No corrections have been made"
+msgstr "Nisu napravljeni nikakvi ispravci"
 
 #: langcorrect/templates/corrections/partials/sentence_by_sentence_corrections.html:12
 #, python-format
 msgid ""
 "\n"
-"                    %(user_count)s users have marked this sentence as "
-"perfect!\n"
+"                    %(user_count)s users have marked this sentence as perfect!\n"
 "                  "
 msgstr ""
 "\n"
@@ -761,7 +755,7 @@ msgid "Original"
 msgstr "Izvorno"
 
 #: langcorrect/templates/corrections/partials/side_by_side_corrections.html:7
-#: langcorrect/templates/posts/partials/post_card.html:57
+#: langcorrect/templates/posts/partials/post_card.html:70
 #: langcorrect/templates/posts/user_posts.html:22
 msgid "Corrected"
 msgstr "Ispravljeno"
@@ -776,38 +770,27 @@ msgstr ""
 "\n"
 "%(user_count)s korisnika označilo je ovu rečenicu kao savršenu!"
 
-#: langcorrect/templates/corrections/partials/user_correction_card.html:50
-msgid "Write a message..."
-msgstr "Napišite poruku..."
-
-#: langcorrect/templates/corrections/popular_correctors.html:4
+#: langcorrect/templates/corrections/popular_correctors.html:5
 msgid "Popular Correctors"
 msgstr "Popularni ispravljači"
 
-#: langcorrect/templates/corrections/popular_correctors.html:14
+#: langcorrect/templates/corrections/popular_correctors.html:17
 msgid "Today"
 msgstr "Danas"
 
-#: langcorrect/templates/corrections/popular_correctors.html:22
+#: langcorrect/templates/corrections/popular_correctors.html:25
 msgid "This week"
 msgstr "Ovaj tjedan"
 
-#: langcorrect/templates/corrections/popular_correctors.html:30
+#: langcorrect/templates/corrections/popular_correctors.html:33
 msgid "This month"
 msgstr "Ovaj mjesec"
 
-#: langcorrect/templates/corrections/popular_correctors.html:38
+#: langcorrect/templates/corrections/popular_correctors.html:41
 msgid "All time"
 msgstr "Sve vrijeme"
 
-#: langcorrect/templates/corrections/popular_correctors.html:51
-#: langcorrect/templates/corrections/popular_correctors.html:64
-#: langcorrect/templates/corrections/popular_correctors.html:77
-#: langcorrect/templates/corrections/popular_correctors.html:90
-msgid "No corrections have been made"
-msgstr "Nisu napravljeni nikakvi ispravci"
-
-#: langcorrect/templates/corrections/popular_correctors.html:96
+#: langcorrect/templates/corrections/popular_correctors.html:75
 msgid "View all"
 msgstr "Pogledaj sve"
 
@@ -851,8 +834,7 @@ msgstr "Idi"
 #, python-format
 msgid ""
 "\n"
-"          Are you sure you would like to delete %(language)s from your list "
-"of languages?\n"
+"          Are you sure you would like to delete %(language)s from your list of languages?\n"
 "        "
 msgstr ""
 "\n"
@@ -868,7 +850,7 @@ msgstr "Odustani"
 
 #: langcorrect/templates/languages/languagelevel_confirm_delete.html:18
 #: langcorrect/templates/languages/languagelevel_list.html:26
-#: langcorrect/templates/posts/partials/post_card.html:48
+#: langcorrect/templates/posts/partials/post_card.html:52
 #: langcorrect/templates/posts/post_confirm_delete.html:19
 #: langcorrect/templates/posts/user_posts.html:51
 msgid "Delete"
@@ -898,7 +880,7 @@ msgid "Actions"
 msgstr "Radnje"
 
 #: langcorrect/templates/languages/languagelevel_list.html:28
-#: langcorrect/templates/posts/partials/post_card.html:50
+#: langcorrect/templates/posts/partials/post_card.html:54
 #: langcorrect/templates/posts/user_posts.html:49
 msgid "Edit"
 msgstr "Uredi"
@@ -957,6 +939,10 @@ msgstr "Izbriši sve obavijesti"
 msgid "Close"
 msgstr "Zatvori"
 
+#: langcorrect/templates/navbar.html:17 langcorrect/templates/navbar.html:77
+msgid "Write"
+msgstr "Piši"
+
 #: langcorrect/templates/navbar.html:42
 #: langcorrect/templates/posts/post_list.html:12
 msgid "My Feed"
@@ -973,10 +959,6 @@ msgstr "Zajednica"
 #: langcorrect/templates/navbar.html:57
 msgid "Rankings"
 msgstr "Rangiranje"
-
-#: langcorrect/templates/navbar.html:77
-msgid "Write"
-msgstr "Piši"
 
 #: langcorrect/templates/navbar.html:115
 msgid "Manage Premium"
@@ -1020,15 +1002,15 @@ msgstr "Premium"
 msgid "Member"
 msgstr "Član"
 
-#: langcorrect/templates/navbar.html:182
+#: langcorrect/templates/navbar.html:185
 msgid "Total corrections made"
 msgstr "Ukupno napravljenih ispravaka"
 
-#: langcorrect/templates/navbar.html:189
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections received"
 msgstr "Ukupno primljenih ispravaka"
 
-#: langcorrect/templates/navbar.html:196
+#: langcorrect/templates/navbar.html:199
 msgid "Correction ratio"
 msgstr "Omjer ispravaka"
 
@@ -1071,8 +1053,8 @@ msgstr "Registrirajte račun"
 
 #: langcorrect/templates/pages/home.html:55
 msgid ""
-"We start with a short 3-step registration process to help us determine users "
-"you should be match with."
+"We start with a short 3-step registration process to help us determine users"
+" you should be match with."
 msgstr ""
 "Počinjemo s kratkim procesom registracije u 3 koraka kako bismo utvrdili s "
 "kojim korisnicima biste trebali biti usklađeni."
@@ -1097,8 +1079,8 @@ msgstr "Pregledajte ispravke"
 msgid ""
 "Native speakers will correct your writing and provide constructive feedback."
 msgstr ""
-"Izvorni govornici će ispraviti vaše pisanje i pružiti konstruktivne povratne "
-"informacije."
+"Izvorni govornici će ispraviti vaše pisanje i pružiti konstruktivne povratne"
+" informacije."
 
 #: langcorrect/templates/pages/home.html:77
 msgid "Built for serious learners"
@@ -1109,8 +1091,8 @@ msgid ""
 "Ditch all the unnecessary distractions on other language-learning platforms "
 "and spend more time focusing on your new language(s)."
 msgstr ""
-"Odbacite sve nepotrebne distrakcije na drugim platformama za učenje jezika i "
-"provedite više vremena fokusirajući se na svoj(e) novi jezik(e)."
+"Odbacite sve nepotrebne distrakcije na drugim platformama za učenje jezika i"
+" provedite više vremena fokusirajući se na svoj(e) novi jezik(e)."
 
 #: langcorrect/templates/pages/home.html:83
 msgid "Straight to the point"
@@ -1132,8 +1114,8 @@ msgstr "Stalno se poboljšavamo"
 
 #: langcorrect/templates/pages/home.html:91
 msgid ""
-"The LangCorrect platform is getting better all the time.  Consistent, direct "
-"feedback from our user base and frequent updates allow us to keep things "
+"The LangCorrect platform is getting better all the time.  Consistent, direct"
+" feedback from our user base and frequent updates allow us to keep things "
 "fresh and interesting for our users."
 msgstr ""
 "Platforma LangCorrect se stalno poboljšava. Konstantne, izravne povratne "
@@ -1146,8 +1128,8 @@ msgstr "Učite s prijateljima"
 
 #: langcorrect/templates/pages/home.html:97
 msgid ""
-"Invite your friends to join LangCorrect and challenge one another to see who "
-"can earn the highest Rankings and Streaks."
+"Invite your friends to join LangCorrect and challenge one another to see who"
+" can earn the highest Rankings and Streaks."
 msgstr ""
 "Pozovite svoje prijatelje da se pridruže LangCorrectu i izazovite jedni "
 "druge da vidite tko može zaraditi najviše rangova i nizova."
@@ -1171,8 +1153,8 @@ msgstr "Ugrađeno slanje poruka"
 #: langcorrect/templates/pages/home.html:109
 msgid ""
 "Take a break to relax and chat with other learners using the messaging "
-"feature. This is a great way to make new friends and meet people from around "
-"the globe."
+"feature. This is a great way to make new friends and meet people from around"
+" the globe."
 msgstr ""
 "Odmorite se i razgovarajte s drugim učenicima koristeći funkciju slanja "
 "poruka. Ovo je odličan način za upoznavanje novih prijatelja i ljudi iz "
@@ -1185,25 +1167,16 @@ msgstr "Pridružite se danas i doživite učenje jezika u novom svjetlu."
 #: langcorrect/templates/pages/home.html:121
 msgid ""
 "\n"
-"                            Whether you’re fluent or just starting out, we’d "
-"be thrilled to have you join the\n"
+"                            Whether you’re fluent or just starting out, we’d be thrilled to have you join the\n"
 "                            LangCorrect community.\n"
-"                            We’re all learners and we understand that in "
-"order to reach fluency and confidence in a new\n"
+"                            We’re all learners and we understand that in order to reach fluency and confidence in a new\n"
 "                            language, it’s important to make mistakes.\n"
-"                            LangCorrect’s wonderful users are ready to help "
-"you, provide support, and answer your\n"
-"                            burning questions so that you can reach the "
-"level you want to be at in your new language.\n"
+"                            LangCorrect’s wonderful users are ready to help you, provide support, and answer your\n"
+"                            burning questions so that you can reach the level you want to be at in your new language.\n"
 "                        "
 msgstr ""
 "\n"
-"Bilo da ste već tečni ili tek počinjete, bilo bi nam drago da se pridružite "
-"zajednici LangCorrect. Svi smo mi učenici i razumijemo da je kako bismo "
-"postigli tečnost i samopouzdanje u novom jeziku, važno praviti pogreške. "
-"Divni korisnici LangCorrecta su spremni pomoći vam, pružiti podršku i "
-"odgovoriti na vaša goruća pitanja kako biste dostigli razinu na kojoj želite "
-"biti u svom novom jeziku."
+"Bilo da ste već tečni ili tek počinjete, bilo bi nam drago da se pridružite zajednici LangCorrect. Svi smo mi učenici i razumijemo da je kako bismo postigli tečnost i samopouzdanje u novom jeziku, važno praviti pogreške. Divni korisnici LangCorrecta su spremni pomoći vam, pružiti podršku i odgovoriti na vaša goruća pitanja kako biste dostigli razinu na kojoj želite biti u svom novom jeziku."
 
 #: langcorrect/templates/pages/manage_subscription.html:17
 msgid "Status"
@@ -1337,17 +1310,11 @@ msgstr "Podržite našu zajednicu"
 #: langcorrect/templates/pages/pricing.html:149
 msgid ""
 "\n"
-"        By upgrading to a Premium Annual Subscription, you're not just "
-"investing in your own language learning journey. You're also helping us keep "
-"the basic features free for everyone. Your support sustains this platform "
-"and fosters a global community of lifelong learners.\n"
+"        By upgrading to a Premium Annual Subscription, you're not just investing in your own language learning journey. You're also helping us keep the basic features free for everyone. Your support sustains this platform and fosters a global community of lifelong learners.\n"
 "      "
 msgstr ""
 "\n"
-"Nadograđivanjem na godišnju Premium pretplatu, ne ulažete samo u svoje "
-"jezično putovanje. Također nam pomažete da osnovne značajke ostanu besplatne "
-"za sve. Vaša podrška održava ovu platformu i potiče globalnu zajednicu "
-"trajnih učenika."
+"Nadograđivanjem na godišnju Premium pretplatu, ne ulažete samo u svoje jezično putovanje. Također nam pomažete da osnovne značajke ostanu besplatne za sve. Vaša podrška održava ovu platformu i potiče globalnu zajednicu trajnih učenika."
 
 #: langcorrect/templates/pages/pricing.html:158
 msgid "You currently have premium status."
@@ -1374,11 +1341,17 @@ msgstr "Niz pisanja"
 msgid "Language Match"
 msgstr "Podudaranje jezika"
 
-#: langcorrect/templates/posts/partials/post_card.html:40
+#: langcorrect/templates/posts/partials/post_card.html:44
 msgid "Correctors"
 msgstr "Ispravljači"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
+#| msgid "Correct journals written in your native language(s)."
+msgid "You can only correct entries in your native language(s)"
+msgstr "Ispravite dnevnike napisane na vašem izvornom jeziku(ima)."
+
+#: langcorrect/templates/posts/partials/post_card.html:62
+#: langcorrect/templates/posts/partials/post_card.html:72
 msgid "Correct"
 msgstr "Ispraviti"
 
@@ -1392,31 +1365,31 @@ msgstr ""
 "\n"
 "Jeste li sigurni da želite izbrisati %(post_title)s?"
 
-#: langcorrect/templates/posts/post_detail.html:13
+#: langcorrect/templates/posts/post_detail.html:16
 msgid "Attachments"
 msgstr "Privitci"
 
-#: langcorrect/templates/posts/post_detail.html:35
+#: langcorrect/templates/posts/post_detail.html:38
 msgid "Show corrections grouped by user"
 msgstr "Prikaži ispravke grupirane po korisniku"
 
-#: langcorrect/templates/posts/post_detail.html:49
+#: langcorrect/templates/posts/post_detail.html:52
 msgid "Show corrections grouped by sentence"
 msgstr "Prikaži ispravke grupirane po rečenici"
 
-#: langcorrect/templates/posts/post_detail.html:63
+#: langcorrect/templates/posts/post_detail.html:66
 msgid "Show corrections grouped by sentence and side by side"
 msgstr "Prikaži ispravke grupirane po rečenici i jedne do drugih"
 
-#: langcorrect/templates/posts/post_detail.html:76
+#: langcorrect/templates/posts/post_detail.html:79
 msgid "Export Corrections"
 msgstr "Izvezi ispravke"
 
-#: langcorrect/templates/posts/post_detail.html:115
+#: langcorrect/templates/posts/post_detail.html:118
 msgid "You need LangCorrect Premium to access this feature."
 msgstr "Za pristup ovoj funkciji trebate LangCorrect Premium."
 
-#: langcorrect/templates/posts/post_detail.html:116
+#: langcorrect/templates/posts/post_detail.html:119
 msgid "Go Premium"
 msgstr "Pređite na Premium"
 
@@ -1489,23 +1462,23 @@ msgstr "Pogledaj"
 msgid "Respond"
 msgstr "Odgovorite"
 
-#: langcorrect/templates/prompts/prompt_list.html:16
+#: langcorrect/templates/prompts/prompt_list.html:28
 msgid "Create a prompt"
 msgstr "Stvorite poticaj"
 
-#: langcorrect/templates/prompts/prompt_list.html:21
+#: langcorrect/templates/prompts/prompt_list.html:33
 msgid "View prompts that you have not yet responded to"
 msgstr "Pregledajte poticaje na koje još niste odgovorili"
 
-#: langcorrect/templates/prompts/prompt_list.html:22
+#: langcorrect/templates/prompts/prompt_list.html:34
 msgid "Open"
 msgstr "Otvoreno"
 
-#: langcorrect/templates/prompts/prompt_list.html:24
+#: langcorrect/templates/prompts/prompt_list.html:36
 msgid "View prompts that you have responded to"
 msgstr "Pregledajte poticaje na koje ste odgovorili"
 
-#: langcorrect/templates/prompts/prompt_list.html:25
+#: langcorrect/templates/prompts/prompt_list.html:37
 msgid "Completed"
 msgstr "Dovršeno"
 
@@ -1609,22 +1582,21 @@ msgstr "E-mail"
 #, python-format
 msgid ""
 "\n"
-"                     <span class=\"fw-bold\">%(count)s</span> contributions "
-"this year\n"
+"                     <span class=\"fw-bold\">%(count)s</span> contributions this year\n"
 "                   "
 msgstr ""
 "\n"
 "<span class=\"fw-bold\">%(count)s</span> doprinosa ove godine"
 
-#: langcorrect/users/admin.py:23
+#: langcorrect/users/admin.py:30
 msgid "Personal info"
 msgstr "Osobne informacije"
 
-#: langcorrect/users/admin.py:25
+#: langcorrect/users/admin.py:32
 msgid "Permissions"
 msgstr "Dozvole"
 
-#: langcorrect/users/admin.py:36
+#: langcorrect/users/admin.py:43
 msgid "Important dates"
 msgstr "Važni datumi"
 
@@ -1663,6 +1635,9 @@ msgstr "Biografija"
 #: langcorrect/users/tests/test_views.py:67 langcorrect/users/views.py:51
 msgid "Information successfully updated"
 msgstr "Informacije uspješno ažurirane"
+
+#~ msgid "Write a message..."
+#~ msgstr "Napišite poruku..."
 
 #~ msgid "Journals"
 #~ msgstr "Dnevnici"

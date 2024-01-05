@@ -5,7 +5,7 @@
     <div class="card-header bg-transparent">Payment successful!</div>
     <div class="card-body">
       <p>
-        Thank you for your purchase, <strong>{{ request.user.username }}</strong>!
+        Thank you for your purchase, <strong>{{ request.user.display_name }}</strong>!
       </p>
       <p>
         Your premium features are now unlocked. To view or manage your subscription, visit <a href="{% url 'subscriptions:manage-subscription' %}">Manage Subscription</a>.

@@ -52,6 +52,7 @@ def manage_premium(request):
     return render(request, "pages/manage_subscription.html", context)
 
 
+@login_required
 def create_checkout_session(request):
     if request.method == "POST":
         try:
@@ -82,7 +83,7 @@ def create_checkout_session(request):
             )
         except Exception as e:
             logger.error(f"Failed to create a checkout session: {str(e)}")
-            return JsonResponse({"error": str(e)}, status=400)
+            return JsonResponse({"error": "An error occurred while creating a checkout session."}, status=400)
 
         return redirect(checkout_session.url, code=303)
 
