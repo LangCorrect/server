@@ -11,6 +11,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from config.views import index_page_view
 from langcorrect.contributions.views import rankings_list_view
+from langcorrect.corrections.views import user_corrections_view
 from langcorrect.posts.views import user_posts_view
 from langcorrect.prompts.views import user_prompts_view
 
@@ -66,6 +67,7 @@ urlpatterns = [
     path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
     path("submissions/posts", user_posts_view, name="user_posts"),
     path("submissions/prompts", user_prompts_view, name="user_prompts"),
+    path("submissions/corrections", user_corrections_view, name="user_corrections"),
     path(
         "journal/<path:subpath>/",
         RedirectView.as_view(url="/journals/%(subpath)s", permanent=True),

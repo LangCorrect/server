@@ -134,6 +134,12 @@
                   </a>
                 </li>
                 <li>
+                  <a class="dropdown-item py-2" href="{% url 'user_corrections' %}">
+                    <i class="fa-regular fa-circle-check"></i>
+                    {% translate "My Corrections" %}
+                  </a>
+                </li>
+                <li>
                   <hr class="dropdown-divider m-0" />
                 </li>
                 <li>
@@ -171,9 +177,10 @@
               title="{% translate 'Member role' %}">
             <i class="fas fa-users fa-fw"></i>
             {% if request.user.is_premium_user %}
-              {% translate "Premium" %}
+              <a href="{% url 'subscriptions:manage-subscription' %}"
+                 class="text-decoration-none text-white">{% translate "Premium" %}</a>
             {% else %}
-              {% translate "Member" %}
+              <a href="{% url 'pricing' %}" class="text-decoration-none text-white">{% translate "Member" %}</a>
             {% endif %}
           </li>
         </ul>
@@ -184,7 +191,8 @@
               data-bs-placement="bottom"
               title="{% translate 'Total corrections made' %}">
             <i class="fas fa-arrow-up fa-fw"></i>
-            <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
+            <a href="{% url 'user_corrections' %}"
+               class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
           </li>
           <li class="list-inline-item"
               data-bs-toggle="tooltip"

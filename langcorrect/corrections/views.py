@@ -2,11 +2,14 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db.models import Case, Count, Max, Q, When
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
 from django.utils.translation import gettext_noop
+from django.views.generic import ListView
 from notifications.signals import notify
 
 from langcorrect.corrections.constants import FileFormat
@@ -172,3 +175,33 @@ def export_corrections(request, slug):
         case _:
             messages.warning(request, translate("Invalid export format specified."))
             return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
+
+
+class UserCorrectionsView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = "corrections/user_corrections.html"
+    paginate_by = 20
+
+    def get_queryset(self):
+        current_user = self.request.user
+
+        correctedrow_condition = Q(correctedrow__user=current_user, correctedrow__is_removed=False)
+        perfectrow_condition = Q(perfectrow__user=current_user, perfectrow__is_removed=False)
+
+        qs = Post.available_objects.filter(correctedrow_condition | perfectrow_condition).distinct()
+
+        qs = qs.annotate(
+            num_corrections=Count("correctedrow__id", distinct=True, filter=correctedrow_condition)
+            + Count("perfectrow__id", distinct=True, filter=perfectrow_condition),
+            date_corrected=Max(
+                Case(
+                    When(correctedrow__user=current_user, then="correctedrow__created"),
+                    When(perfectrow__user=current_user, then="perfectrow__created"),
+                )
+            ),
+        ).order_by("-date_corrected")
+
+        return qs
+
+
+user_corrections_view = UserCorrectionsView.as_view()
