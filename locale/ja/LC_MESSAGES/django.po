@@ -163,10 +163,6 @@ msgstr "熟達"
 msgid "Native"
 msgstr "ネイティブ"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "メンバーシップ"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "返信しました"

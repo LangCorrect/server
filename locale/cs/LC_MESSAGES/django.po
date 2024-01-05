@@ -163,10 +163,6 @@ msgstr "Odborný"
 msgid "Native"
 msgstr "Rodilý mluvčí"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Členství"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "odpověděl/a na"

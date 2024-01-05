@@ -163,10 +163,6 @@ msgstr "Experto"
 msgid "Native"
 msgstr "Nativo"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Socios"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "respondió en"

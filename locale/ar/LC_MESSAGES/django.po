@@ -166,10 +166,6 @@ msgstr "بارع"
 msgid "Native"
 msgstr "اللغة الأم"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "العضويات"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr ""

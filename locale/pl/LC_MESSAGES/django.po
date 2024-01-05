@@ -163,10 +163,6 @@ msgstr "Zaawansowany"
 msgid "Native"
 msgstr "Język ojczysty"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Członkostwa"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "odpowiedział na"
