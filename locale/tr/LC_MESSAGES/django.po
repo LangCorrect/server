@@ -163,10 +163,6 @@ msgstr "Profesyonel"
 msgid "Native"
 msgstr "Anadil"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Üyelikler"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "cevap verdi"

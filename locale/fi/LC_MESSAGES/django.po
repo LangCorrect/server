@@ -163,10 +163,6 @@ msgstr "Sujuva"
 msgid "Native"
 msgstr "Äidinkieli"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Jäsenyydet"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "vastasi"

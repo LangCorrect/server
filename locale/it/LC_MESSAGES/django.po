@@ -163,10 +163,6 @@ msgstr "Esperto"
 msgid "Native"
 msgstr "Madrelingua"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Iscrizioni"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "ha risposto a"

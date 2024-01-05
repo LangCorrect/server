@@ -163,10 +163,6 @@ msgstr "Stručno"
 msgid "Native"
 msgstr "Materinji jezik"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Članstva"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "odgovorio/la je na"

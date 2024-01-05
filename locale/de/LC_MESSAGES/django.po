@@ -163,10 +163,6 @@ msgstr "Sehr gut"
 msgid "Native"
 msgstr "Muttersprachler"
 
-#: langcorrect/memberships/apps.py:8
-msgid "Memberships"
-msgstr "Mitgliedschaften"
-
 #: langcorrect/posts/api/views.py:31
 msgid "replied on"
 msgstr "hat geantwortet auf"
