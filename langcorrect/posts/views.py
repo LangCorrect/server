@@ -7,7 +7,9 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from notifications.signals import notify
 
 from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
@@ -222,6 +224,16 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
 
         update_user_writing_streak(self.object.user)
+
+        if prompt:
+            notify.send(
+                sender=current_user,
+                recipient=prompt.user,
+                verb=gettext_noop("responded to your prompt"),
+                action_object=self.object,
+                notification_type="new_prompt_response",
+            )
+
         return HttpResponseRedirect(self.get_success_url())
 
 
