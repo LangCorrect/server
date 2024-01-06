@@ -212,7 +212,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             form.instance.prompt = prompt
 
         language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
-        form.instance.language_level = language_level
+        form.instance.language_level = language_level.level
 
         self.object = form.save()
         image_obj = self.request.FILES.get("image", None)

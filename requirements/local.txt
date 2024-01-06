@@ -2,7 +2,7 @@
 
 Werkzeug[watchdog]==3.0.1 # https://github.com/pallets/werkzeug
 ipdb==0.13.13  # https://github.com/gotcha/ipdb
-psycopg[binary]==3.1.12  # https://github.com/psycopg/psycopg
+psycopg[binary]==3.1.16  # https://github.com/psycopg/psycopg
 watchfiles==0.21.0  # https://github.com/samuelcolvin/watchfiles
 
 # Testing
@@ -21,7 +21,7 @@ sphinx-autobuild==2021.3.14 # https://github.com/GaretJax/sphinx-autobuild
 # Code quality
 # ------------------------------------------------------------------------------
 flake8==6.1.0  # https://github.com/PyCQA/flake8
-flake8-isort==6.1.0  # https://github.com/gforcada/flake8-isort
+flake8-isort==6.1.1  # https://github.com/gforcada/flake8-isort
 coverage==7.4.0  # https://github.com/nedbat/coveragepy
 black==23.12.1  # https://github.com/psf/black
 djlint==1.34.1  # https://github.com/Riverside-Healthcare/djLint
