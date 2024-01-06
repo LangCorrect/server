@@ -118,23 +118,6 @@ def send_follower_notifications(sender, instance, created, **kwargs):
     user = post.user
 
     if created:
-        recipient = post.prompt.user
-
-        notify.send(
-            sender=user,
-            recipient=recipient,
-            verb=gettext_noop("responded to your prompt"),
-            action_object=post,
-            notification_type="new_prompt_response",
-        )
-
-
-@receiver(post_save, sender=Post)
-def send_prompt_author_notifications(sender, instance, created, **kwargs):
-    post = instance
-    user = post.user
-
-    if created and post.prompt:
         recipients = [
             follower.user for follower in user.follow_to.all() if post.language in follower.user.native_languages
         ]
@@ -145,6 +128,23 @@ def send_prompt_author_notifications(sender, instance, created, **kwargs):
             verb=gettext_noop("submitted a new entry"),
             action_object=post,
             notification_type="new_post",
+        )
+
+
+@receiver(post_save, sender=Post)
+def send_prompt_author_notifications(sender, instance, created, **kwargs):
+    post = instance
+    user = post.user
+
+    if created and post.prompt:
+        recipient = post.prompt.user
+
+        notify.send(
+            sender=user,
+            recipient=recipient,
+            verb=gettext_noop("responded to your prompt"),
+            action_object=post,
+            notification_type="new_prompt_response",
         )
 
 
