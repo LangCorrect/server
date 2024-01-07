@@ -27,21 +27,21 @@
       <tbody>
         {% for post in object_list %}
           <tr>
-            <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+            <td align="center">{{ page_obj.start_index|add:forloop.counter0 }}</td>
             <td>{{ post.title }}</td>
-            <td>{{ post.language.code }}</td>
+            <td align="center">{{ post.language.code }}</td>
             <td>
               {% for tag in post.tags.names %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}
             </td>
-            <td>{{ post.created|naturalday }}</td>
-            <td>
-              {% if post.is_corrected == 1 %}
-                ✅
+            <td align="center">{{ post.created|naturalday }}</td>
+            <td align="center">
+              {% if post.is_corrected == True %}
+                <i class="fa-solid fa-check text-success"></i>
               {% else %}
-                ❌
+                <i class="fa-solid fa-xmark text-danger"></i>
               {% endif %}
             </td>
-            <td>{% translate post.permission %}</td>
+            <td align="center">{% translate post.permission %}</td>
             <td>
               <a href="{{ post.get_absolute_url }}"
                  class="btn btn-sm btn-outline-secondary">{% translate "View" %}</a>
