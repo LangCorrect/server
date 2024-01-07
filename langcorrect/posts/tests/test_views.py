@@ -231,7 +231,7 @@ class TestPostListView(TestCase):
     def test_anonymous_queryset(self):
         response = self.client.get(reverse("posts:list"))
         posts = response.context["object_list"]
-        expected_posts = Post.available_objects.filter(permission=PostVisibility.PUBLIC, is_corrected=1)
+        expected_posts = Post.available_objects.filter(permission=PostVisibility.PUBLIC, is_corrected=True)
         self.assertQuerySetEqual(posts, expected_posts)
 
     def test_authenticated_queryset(self):

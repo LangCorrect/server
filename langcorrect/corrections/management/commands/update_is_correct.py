@@ -16,4 +16,4 @@ class Command(BaseCommand):
         perfect_post_ids = PerfectRow.objects.values("post_id").distinct()
         revised_post_ids = Subquery(corrected_post_ids.union(perfect_post_ids))
 
-        Post.objects.exclude(id__in=revised_post_ids).update(is_corrected=0)
+        Post.objects.exclude(id__in=revised_post_ids).update(is_corrected=False)

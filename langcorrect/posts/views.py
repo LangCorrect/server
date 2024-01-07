@@ -46,7 +46,7 @@ class PostListView(ListView):
         current_user = self.request.user
 
         if current_user.is_anonymous:
-            return qs.filter(permission=PostVisibility.PUBLIC, is_corrected=1)
+            return qs.filter(permission=PostVisibility.PUBLIC, is_corrected=True)
 
         mode = self.get_mode()
         lang_code = self.get_lang_code()
@@ -54,7 +54,7 @@ class PostListView(ListView):
         if mode == "following":
             qs = qs.filter(user__in=current_user.get_following_users_ids)
         elif mode == "learn":
-            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=1).exclude(user=current_user)
+            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=True).exclude(user=current_user)
         else:
             qs = qs.filter(language__in=current_user.native_languages)
 
