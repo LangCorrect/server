@@ -222,6 +222,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
 
         update_user_writing_streak(self.object.user)
+
         return HttpResponseRedirect(self.get_success_url())
 
 

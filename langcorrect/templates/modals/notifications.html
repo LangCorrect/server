@@ -31,6 +31,8 @@
                     <i class="fa-solid fa-comment fs-2 fa-fw text-muted"></i>
                   {% elif notification.data.notification_type == "new_reply" %}
                     <i class="fa-solid fa-comment-dots fs-2 fa-fw text-muted"></i>
+                  {% elif notification.data.notification_type == "new_prompt_response" %}
+                    <i class="fa-solid fa-reply fs-2 fa-fw text-muted"></i>
                   {% endif %}
                 </div>
                 <div class="col-10">
