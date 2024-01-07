@@ -40,7 +40,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
     slug = models.SlugField(max_length=255, null=True)
     tags = TaggableManager(blank=True)
     language_level = models.CharField(max_length=30, null=True, blank=True)
-    is_corrected = models.IntegerField(default=0)  # 0-False 1-True
+    is_corrected = models.BooleanField(default=False)
 
     def get_absolute_url(self) -> str:
         return reverse("posts:detail", kwargs={"slug": self.slug})
