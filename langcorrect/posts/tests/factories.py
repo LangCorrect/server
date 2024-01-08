@@ -27,7 +27,7 @@ LANGUAGE_TO_FAKER_LOCALE = {
 
 
 class PostFactory(DjangoModelFactory):
-    user = LazyAttribute(lambda x: random.choice(User.objects.all()))
+    user = LazyAttribute(lambda _: User.objects.order_by("?").first())
     title = LazyAttribute(lambda x: generate_title(LANGUAGE_TO_FAKER_LOCALE.get(x.language.code)))
     text = LazyAttribute(lambda x: generate_text(LANGUAGE_TO_FAKER_LOCALE.get(x.language.code)))
     native_text = LazyAttribute(lambda _: fake.text())
