@@ -10,6 +10,7 @@ from model_utils.models import SoftDeletableModel, TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
 
+from langcorrect.languages.models import LevelChoices
 from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices, User
 
@@ -39,7 +40,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
     prompt = models.ForeignKey("prompts.Prompt", on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=255, null=True)
     tags = TaggableManager(blank=True)
-    language_level = models.CharField(max_length=30, null=True, blank=True)
+    language_level = models.CharField(choices=LevelChoices.choices, default=LevelChoices.A1, max_length=2)
     is_corrected = models.BooleanField(default=False)
 
     def get_absolute_url(self) -> str:
