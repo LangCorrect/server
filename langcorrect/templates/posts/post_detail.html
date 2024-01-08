@@ -11,21 +11,6 @@
 {% block content %}
   <div class="d-flex flex-column gap-3">
     {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True disable_text_truncation=True %}
-    {% if post.postimage_set.all %}
-      <div class="card">
-        <div class="card-header">{% translate "Attachments" %}</div>
-        <div class="d-grid gap-3 p-3">
-          {% for image in post.postimage_set.all %}
-            <img src="{{ image.get_image_url }}"
-                 class="img-thumbnail pointer js-lightbox-img"
-                 alt="image"
-                 height="100"
-                 width="100"
-                 data-img-src="{{ image.get_image_url }}" />
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
     <div class="card">
       <div class="p-1 px-3 d-flex justify-content-between align-items-center">
         <span>{% translate "Corrections" %}</span>

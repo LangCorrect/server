@@ -26,6 +26,18 @@
         <a href="{{ post.get_absolute_url }}"
            class="stretched-link link-secondary"></a>
       {% endif %}
+      {% if post.postimage_set.all %}
+        <div class="container row py-3">
+          <div class="col col-md-6 p-0">
+            {% for image in post.postimage_set.all %}
+              <img src="{{ image.get_image_url }}"
+                   class="img-fluid pointer js-lightbox-img"
+                   alt="image"
+                   data-img-src="{{ image.get_image_url }}" />
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
   <div class="card-footer bg-transparent">
