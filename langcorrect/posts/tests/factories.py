@@ -38,7 +38,7 @@ class PostFactory(DjangoModelFactory):
 
     gender_of_narration = LazyAttribute(lambda _: fake.random_element(elements=GenderChoices.choices)[0])
     permission = LazyAttribute(lambda _: fake.random_element(elements=PostVisibility.choices)[0])
-    is_corrected = LazyAttribute(lambda _: fake.boolean())
+    # is_corrected = LazyAttribute(lambda _: fake.boolean())
     language_level = LazyAttribute(lambda _: fake.random_element(elements=LevelChoices.choices)[0])
 
     @post_generation
