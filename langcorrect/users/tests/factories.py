@@ -2,12 +2,16 @@ import random
 from collections.abc import Sequence
 from typing import Any
 
+from allauth.account.models import EmailAddress
 from django.contrib.auth import get_user_model
-from factory import Faker, post_generation
+from factory import Faker, LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
+from faker import Faker as OriginalFaker
 
 from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
 from langcorrect.languages.tests.utils import create_native_languages, create_studying_languages
+
+fake = OriginalFaker()
 
 
 class UserFactory(DjangoModelFactory):
@@ -15,6 +19,7 @@ class UserFactory(DjangoModelFactory):
     email = Faker("email")
     first_name = Faker("first_name")
     last_name = Faker("last_name")
+    bio = LazyAttribute(lambda _: fake.random_element(elements=["", fake.text()]))
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
@@ -31,6 +36,7 @@ class UserFactory(DjangoModelFactory):
             ).evaluate(None, None, extra={"locale": None})
         )
         self.set_password(password)
+        self.save()
 
     @post_generation
     def native_languages(self, create, extracted, **kwargs):
@@ -57,6 +63,14 @@ class UserFactory(DjangoModelFactory):
         else:
             for _ in range(random.randint(1, 2)):
                 create_studying_languages(self)
+
+    @post_generation
+    def verify_email_address(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            EmailAddress.objects.create(user=self, email=self.email, verified=True, primary=True)
 
     class Meta:
         model = get_user_model()

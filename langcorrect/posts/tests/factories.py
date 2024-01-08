@@ -5,7 +5,7 @@ from factory import LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from langcorrect.languages.models import Language, LanguageLevel
+from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
 from langcorrect.posts.models import Post, PostVisibility
 from langcorrect.posts.tests.utils import generate_text, generate_title
 from langcorrect.users.models import GenderChoices
@@ -27,7 +27,7 @@ LANGUAGE_TO_FAKER_LOCALE = {
 
 
 class PostFactory(DjangoModelFactory):
-    user = LazyAttribute(lambda x: random.choice(User.objects.all()))
+    user = LazyAttribute(lambda _: User.objects.order_by("?").first())
     title = LazyAttribute(lambda x: generate_title(LANGUAGE_TO_FAKER_LOCALE.get(x.language.code)))
     text = LazyAttribute(lambda x: generate_text(LANGUAGE_TO_FAKER_LOCALE.get(x.language.code)))
     native_text = LazyAttribute(lambda _: fake.text())
@@ -38,7 +38,8 @@ class PostFactory(DjangoModelFactory):
 
     gender_of_narration = LazyAttribute(lambda _: fake.random_element(elements=GenderChoices.choices)[0])
     permission = LazyAttribute(lambda _: fake.random_element(elements=PostVisibility.choices)[0])
-    is_corrected = LazyAttribute(lambda _: fake.boolean())
+    # is_corrected = LazyAttribute(lambda _: fake.boolean())
+    language_level = LazyAttribute(lambda _: fake.random_element(elements=LevelChoices.choices)[0])
 
     @post_generation
     def set_language(self, create, extracted, **kwargs):
