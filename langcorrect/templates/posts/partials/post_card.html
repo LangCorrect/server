@@ -5,39 +5,45 @@
   {% include "posts/partials/card_header.html" %}
   <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
     <div class="position-relative">
-      {% if post.prompt %}
-        <div class="border-start border-2 px-2 mb-2">
-          <a href="{{ post.prompt.get_absolute_url }}"
-             class="link-secondary text-decoration-none">
-            <i class="fa-solid fa-signature pe-1"></i>
-          {{ post.prompt.content }}</a>
+      <div class="container row">
+        <div class="{% if disable_native_text and post.postimage_set.all %} col-md-6 col-12 {% else %} col-12 {% endif %}">
+          {% if post.prompt %}
+            <div class="border-start border-2 px-2 mb-2">
+              <a href="{{ post.prompt.get_absolute_url }}"
+                 class="link-secondary text-decoration-none">
+                <i class="fa-solid fa-signature pe-1"></i>
+              {{ post.prompt.content }}</a>
+            </div>
+          {% endif %}
+          <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
+          <p lang="{{ post.language.code }}"
+             class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
+            {{ post.text|linebreaksbr }}
+          </p>
+          {% if not disable_native_text and post.native_text %}
+            <hr class="text-muted" />
+            <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
+          {% endif %}
+          {% if not disable_stretched_link %}
+            <a href="{{ post.get_absolute_url }}"
+               class="stretched-link link-secondary"></a>
+          {% endif %}
         </div>
-      {% endif %}
-      <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
-      <p lang="{{ post.language.code }}"
-         class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
-        {{ post.text|linebreaksbr }}
-      </p>
-      {% if not disable_native_text and post.native_text %}
-        <hr class="text-muted" />
-        <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
-      {% endif %}
-      {% if not disable_stretched_link %}
-        <a href="{{ post.get_absolute_url }}"
-           class="stretched-link link-secondary"></a>
-      {% endif %}
-      {% if post.postimage_set.all %}
-        <div class="container row py-3">
-          <div class="col col-md-6 p-0">
-            {% for image in post.postimage_set.all %}
-              <img src="{{ image.get_image_url }}"
-                   class="img-fluid pointer js-lightbox-img"
-                   alt="image"
-                   data-img-src="{{ image.get_image_url }}" />
-            {% endfor %}
-          </div>
+        <div class="{% if disable_native_text %} col-md-6 col-12 {% else %} col-12 {% endif %}">
+          {% if post.postimage_set.all %}
+            <div class="container justify-content-center align-items-center row py-3">
+              <div class="col">
+                {% for image in post.postimage_set.all %}
+                  <img src="{{ image.get_image_url }}"
+                       class="img-fluid pointer js-lightbox-img rounded"
+                       alt="image"
+                       data-img-src="{{ image.get_image_url }}" />
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
     </div>
   </div>
   <div class="card-footer bg-transparent">
