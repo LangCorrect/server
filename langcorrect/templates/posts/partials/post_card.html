@@ -4,17 +4,19 @@
 <div class="card">
   {% include "posts/partials/card_header.html" %}
   <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
-    <div class="position-relative">
-      <div class="container row">
+    <div class="container p-0">
+      <div class="row">
+        <!-- Prompt col -->
+        {% if post.prompt %}
+          <div class="col-12 border-start border-2 px-2 mb-2">
+            <a href="{{ post.prompt.get_absolute_url }}"
+               class="link-secondary text-decoration-none">
+              <i class="fa-solid fa-signature pe-1"></i>
+            {{ post.prompt.content }}</a>
+          </div>
+        {% endif %}
+        <!-- Text col -->
         <div class="{% if disable_native_text and post.postimage_set.all %} col-md-6 col-12 {% else %} col-12 {% endif %}">
-          {% if post.prompt %}
-            <div class="border-start border-2 px-2 mb-2">
-              <a href="{{ post.prompt.get_absolute_url }}"
-                 class="link-secondary text-decoration-none">
-                <i class="fa-solid fa-signature pe-1"></i>
-              {{ post.prompt.content }}</a>
-            </div>
-          {% endif %}
           <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
           <p lang="{{ post.language.code }}"
              class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
@@ -29,16 +31,19 @@
                class="stretched-link link-secondary"></a>
           {% endif %}
         </div>
-        <div class="{% if disable_native_text %} col-md-6 col-12 {% else %} col-12 {% endif %}">
+        <!-- Image col -->
+        <div class="{% if disable_native_text %} col-md-6 col-12 {% else %} col-12 {% endif %} my-auto">
           {% if post.postimage_set.all %}
-            <div class="container justify-content-center align-items-center row py-3">
-              <div class="col">
-                {% for image in post.postimage_set.all %}
-                  <img src="{{ image.get_image_url }}"
-                       class="img-fluid pointer js-lightbox-img rounded"
-                       alt="image"
-                       data-img-src="{{ image.get_image_url }}" />
-                {% endfor %}
+            <div class="container p-0">
+              <div class="row justify-content-center align-items-center py-3">
+                <div class="col">
+                  {% for image in post.postimage_set.all %}
+                    <img src="{{ image.get_image_url }}"
+                         class="img-fluid pointer js-lightbox-img rounded"
+                         alt="image"
+                         data-img-src="{{ image.get_image_url }}" />
+                  {% endfor %}
+                </div>
               </div>
             </div>
           {% endif %}
@@ -46,6 +51,7 @@
       </div>
     </div>
   </div>
+  <!-- Card footer -->
   <div class="card-footer bg-transparent">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex gap-2">
