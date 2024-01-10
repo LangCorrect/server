@@ -35,8 +35,8 @@
         <div class="{% if disable_native_text %} col-md-6 col-12 {% else %} col-12 {% endif %} my-auto">
           {% if post.postimage_set.all %}
             <div class="container p-0">
-              <div class="row justify-content-center align-items-center py-3">
-                <div class="col">
+              <div class="row justify-content-start align-items-center py-3">
+                <div class="col {% if disable_native_text %} col-12 {% else %} col-md-6 {% endif %}">
                   {% for image in post.postimage_set.all %}
                     <img src="{{ image.get_image_url }}"
                          class="img-fluid pointer js-lightbox-img rounded"
