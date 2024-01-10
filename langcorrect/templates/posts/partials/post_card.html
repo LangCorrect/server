@@ -4,7 +4,7 @@
 <div class="card">
   {% include "posts/partials/card_header.html" %}
   <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
-    <div class="container p-0">
+    <div class="position-relative container p-0">
       <div class="row">
         <!-- Prompt col -->
         {% if post.prompt %}
