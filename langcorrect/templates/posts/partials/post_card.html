@@ -3,7 +3,7 @@
 
 <div class="card">
   {% include "posts/partials/card_header.html" %}
-  <div class="card-body {% if not disable_stretched_link %}hoverable{% endif %}">
+  <div class="card-body {% if not is_detailed_view %}hoverable{% endif %}">
     <div class="position-relative container p-0">
       <div class="row">
         <!-- Prompt col -->
@@ -16,27 +16,27 @@
           </div>
         {% endif %}
         <!-- Text col -->
-        <div class="{% if disable_native_text and post.postimage_set.all %} col-md-6 col-12 {% else %} col-12 {% endif %}">
+        <div class="{% if not is_detailed_view and post.postimage_set.all %} col-md-6 col-12 {% else %} col-12 {% endif %}">
           <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
           <p lang="{{ post.language.code }}"
-             class="mb-0 {% if not disable_text_truncation %}truncate-text line-clamp-10{% endif %}">
+             class="mb-0 {% if not is_detailed_view %}truncate-text line-clamp-10{% endif %}">
             {{ post.text|linebreaksbr }}
           </p>
-          {% if not disable_native_text and post.native_text %}
+          {% if is_detailed_view and post.native_text %}
             <hr class="text-muted" />
             <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
           {% endif %}
-          {% if not disable_stretched_link %}
+          {% if not is_detailed_view %}
             <a href="{{ post.get_absolute_url }}"
                class="stretched-link link-secondary"></a>
           {% endif %}
         </div>
         <!-- Image col -->
-        <div class="{% if disable_native_text %} col-md-6 col-12 {% else %} col-12 {% endif %} my-auto">
+        <div class="{% if not is_detailed_view %} col-md-6 col-12 {% else %} col-12 {% endif %} my-auto">
           {% if post.postimage_set.all %}
             <div class="container p-0">
               <div class="row justify-content-start align-items-center py-3">
-                <div class="col {% if disable_native_text %} col-12 {% else %} col-md-6 {% endif %}">
+                <div class="col {% if not is_detailed_view %} col-12 {% else %} col-md-6 {% endif %}">
                   {% for image in post.postimage_set.all %}
                     <img src="{{ image.get_image_url }}"
                          class="img-fluid pointer js-lightbox-img rounded"

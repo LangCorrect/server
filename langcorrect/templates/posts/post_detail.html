@@ -10,7 +10,7 @@
 {% endblock title %}
 {% block content %}
   <div class="d-flex flex-column gap-3">
-    {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_stretched_link=True disable_text_truncation=True %}
+    {% render_post_card instance=post current_user=request.user correctors=post.get_correctors is_detailed_view=True %}
     <div class="card">
       <div class="p-1 px-3 d-flex justify-content-between align-items-center">
         <span>{% translate "Corrections" %}</span>
