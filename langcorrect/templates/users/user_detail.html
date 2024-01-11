@@ -146,7 +146,7 @@
           </div>
         </div>
         {% for post in posts %}
-          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors disable_native_text=True %}
+          {% render_post_card instance=post current_user=request.user correctors=post.get_correctors %}
         {% endfor %}
       </div>
     </div>
