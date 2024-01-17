@@ -5,48 +5,53 @@
   {% include "posts/partials/card_header.html" %}
   <div class="card-body {% if not is_detailed_view %}hoverable{% endif %}">
     <div class="position-relative container p-0">
-      <div class="row row-gap-2">
+      <div class="row">
         <!-- Prompt col -->
         {% if post.prompt %}
-          <div class="col-12 border-start border-2 px-2 mb-2">
-            <a href="{{ post.prompt.get_absolute_url }}"
-               class="link-secondary text-decoration-none">
-              <i class="fa-solid fa-signature pe-1"></i>
-            {{ post.prompt.content }}</a>
+          <div class="col-12">
+            <div class="border-start border-2 px-2 mb-2">
+              <a href="{{ post.prompt.get_absolute_url }}"
+                 class="link-secondary text-decoration-none">
+                <i class="fa-solid fa-signature pe-1"></i>
+              {{ post.prompt.content }}</a>
+            </div>
           </div>
         {% endif %}
-        <!-- Text col -->
-        <div class="{% if is_detailed_view %} col-12 {% elif post.postimage_set.all %} col-md-6 col-12 {% endif %}">
-          <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
-          <p lang="{{ post.language.code }}"
-             class="mb-0 {% if not is_detailed_view %}truncate-text line-clamp-10{% endif %}">
-            {{ post.text|linebreaksbr }}
-          </p>
-          {% if is_detailed_view and post.native_text %}
-            <hr class="text-muted" />
-            <p class="mt-3 text-muted">{{ post.native_text|linebreaksbr }}</p>
-          {% endif %}
-          {% if not is_detailed_view %}
-            <a href="{{ post.get_absolute_url }}"
-               class="stretched-link link-secondary"></a>
-          {% endif %}
-        </div>
-        <!-- Image col -->
-        <div class="{% if is_detailed_view %} col-12 {% else %} col-md-6 col-12 {% endif %} my-auto">
-          {% if post.postimage_set.all %}
-            <div class="container p-0">
-              <div class="row justify-content-start align-items-center">
-                <div class="{% if is_detailed_view %} col-md-6 {% else %} col-12 {% endif %}">
-                  {% for image in post.postimage_set.all %}
-                    <img src="{{ image.get_image_url }}"
-                         class="img-fluid pointer js-lightbox-img rounded"
-                         alt="image"
-                         data-img-src="{{ image.get_image_url }}" />
-                  {% endfor %}
+        <!-- Text & Image Col -->
+        <div class="col-12">
+          <div class="row row-gap-3">
+            <!-- Text col -->
+            <div class="{% if is_detailed_view %} col-12 {% elif post.postimage_set.all %} col-md-6 col-12 {% endif %}">
+              <h5 lang="{{ post.language.code }}">{{ post.title }}</h5>
+              <p lang="{{ post.language.code }}"
+                 class="mb-0 {% if not is_detailed_view %}truncate-text line-clamp-10{% endif %}">
+                {{ post.text|linebreaksbr }}
+              </p>
+              {% if is_detailed_view and post.native_text %}
+                <hr class="text-muted" />
+                <p class="mt-3 mb-0 text-muted">{{ post.native_text|linebreaksbr }}</p>
+              {% endif %}
+              {% if not is_detailed_view %}
+                <a href="{{ post.get_absolute_url }}"
+                   class="stretched-link link-secondary"></a>
+              {% endif %}
+            </div>
+            <!-- Image col -->
+            {% if post.postimage_set.all %}
+              <div class="{% if is_detailed_view %} col-12 {% else %} col-md-6 col-12 {% endif %} my-auto">
+                <div class="row justify-content-start align-items-center">
+                  <div class="{% if is_detailed_view %} col-md-6 {% else %} col-12 {% endif %}">
+                    {% for image in post.postimage_set.all %}
+                      <img src="{{ image.get_image_url }}"
+                           class="img-fluid pointer js-lightbox-img rounded"
+                           alt="image"
+                           data-img-src="{{ image.get_image_url }}" />
+                    {% endfor %}
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endif %}
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
