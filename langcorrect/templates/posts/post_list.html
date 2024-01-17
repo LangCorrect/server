@@ -67,6 +67,19 @@
         {% render_popular_correctors popular_correctors=popular_correctors %}
         <div class="card">
           <div class="card-body text-center">
+            <p class="mb-0 fw-bold"
+               data-bs-toggle="tooltip"
+               data-bs-placement="bottom"
+               data-bs-title="{% translate 'Server time (UTC)' %}">
+              <i class="fa-regular fa-clock fa-fw"></i> {% now "H:i:s" %} (UTC)
+            </p>
+            <p class="mb-0">
+              <small class="text-muted">{% translate "Streaks reset at midnight (00:00)" %}</small>
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body text-center">
             <a href="https://github.com/LangCorrect/server/issues"
                target="_blank"
                class="text-muted text-decoration-none stretched-link">
