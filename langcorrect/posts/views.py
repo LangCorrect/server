@@ -42,10 +42,10 @@ class PostListView(ListView):
         return self.request.GET.get("mode", "teach")
 
     def get_lang_code(self):
-        return self.request.GET.get("lang_code", None)
+        return self.request.GET.get("lang_code", "all")
 
     def get_author_native_lang_code(self):
-        return self.request.GET.get("author_native_lang_code", None)
+        return self.request.GET.get("author_native_lang_code", "all")
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -70,7 +70,6 @@ class PostListView(ListView):
             qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
 
         if author_native_lang_code and author_native_lang_code != "all":
-            print(author_native_lang_code)
             qs = qs.filter(
                 user__languagelevel__language__code=author_native_lang_code,
                 user__languagelevel__level=LevelChoices.NATIVE,
@@ -84,7 +83,7 @@ class PostListView(ListView):
 
         mode = self.get_mode()
         selected_lang_code = self.get_lang_code()
-        selected_author_native_lang_code = self.get_author_native_lang_code
+        selected_author_native_lang_code = self.get_author_native_lang_code()
 
         language_filter_choices = None
         author_native_language_filter_choices = None

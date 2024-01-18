@@ -17,7 +17,7 @@ def get_post_counts_by_language(languages, corrected=False):
 
 
 def get_post_counts_by_author_native_language(
-    native_languages: "QuerySet[Language]", selected_lang_code: str | None = None, corrected: bool = False
+    native_languages: QuerySet[Language], selected_lang_code: str | None = None, corrected: bool = False
 ) -> dict[Language, int]:
     """
     Returns a dictionary containing the count of posts based on the post author's native language.

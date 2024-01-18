@@ -42,11 +42,9 @@
                     class="form-select"
                     aria-label="Filter posts by their author's native languages">
               <option value="all"
-                      data-link="?mode={{ mode }}&author_native_lang_code=all&lang_code={{ selected_lang_code }}"
                       {% if selected_author_native_lang_code == "all" %}selected{% endif %}>All</option>
               {% for language, count in author_native_language_filters.items %}
                 <option value="{{ language.code }}"
-                        data-link="?mode={{ mode }}&author_native_lang_code={{ language.code }}&lang_code={{ selected_lang_code }}"
                         {% if selected_author_native_lang_code == language.code %}selected{% endif %}>
                   {% translate language.code %} ({{ count }})
                 </option>
@@ -56,12 +54,9 @@
             <select id="language-select"
                     class="form-select"
                     aria-label="Filter posts by your native languages">
-              <option value="all"
-                      data-link="?mode={{ mode }}&author_native_lang_code={{ selected_author_native_lang_code }}&lang_code=all"
-                      {% if selected_lang_code == "all" %}selected{% endif %}>All</option>
+              <option value="all" {% if selected_lang_code == "all" %}selected{% endif %}>All</option>
               {% for language, count in language_filters.items %}
                 <option value="{{ language.code }}"
-                        data-link="?mode={{ mode }}&author_native_lang_code={{ selected_author_native_lang_code }}&lang_code={{ language.code }}"
                         {% if selected_lang_code == language.code %}selected{% endif %}>
                   {% translate language.code %} ({{ count }})
                 </option>
@@ -107,5 +102,8 @@
   </div>
 {% endblock content %}
 {% block inline_javascript %}
+  <script>
+    var mode = "{{ mode }}"
+  </script>
   <script src="{% static 'js/post_list.js' %}"></script>
 {% endblock inline_javascript %}
