@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 14:11+0000\n"
-"PO-Revision-Date: 2023-12-29 14:14+0000\n"
+"POT-Creation-Date: 2024-01-18 19:40+0000\n"
+"PO-Revision-Date: 2024-01-18 19:43+0000\n"
 "Last-Translator: Lang Correct <support@langcorrect.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -105,11 +105,11 @@ msgstr "Düzeltme Tipi"
 msgid "Correction Types"
 msgstr "Düzeltme Tipleri"
 
-#: langcorrect/corrections/views.py:92
+#: langcorrect/corrections/views.py:95
 msgid "corrected"
 msgstr "Düzeltilmiş"
 
-#: langcorrect/corrections/views.py:100
+#: langcorrect/corrections/views.py:103
 msgid "commented on"
 msgstr "yorum yaptı"
 
@@ -171,7 +171,7 @@ msgstr "cevap verdi"
 msgid "Posts"
 msgstr "Gönderiler"
 
-#: langcorrect/posts/forms.py:29
+#: langcorrect/posts/forms.py:30
 msgid ""
 "You need to write {50 - len(text)} more characters to meet the minimum "
 "requirement."
@@ -179,7 +179,7 @@ msgstr ""
 "Minimum gereksinimi karşılamak için {50 - len(text)} daha fazla karakter "
 "yazmalısınız."
 
-#: langcorrect/posts/forms.py:40 langcorrect/prompts/forms.py:25
+#: langcorrect/posts/forms.py:41 langcorrect/prompts/forms.py:25
 msgid "Tags cannot be longer than 20 characters"
 msgstr "Etiketler 20 karakterden uzun olamaz"
 
@@ -191,9 +191,13 @@ msgstr "Herkes tarafından görülebilir"
 msgid "Viewable only by registered members"
 msgstr "Sadece kayıtlı üyeler tarafından görülebilir"
 
-#: langcorrect/posts/models.py:130
+#: langcorrect/posts/models.py:128
 msgid "submitted a new entry"
 msgstr "yeni bir giriş gönderdi"
+
+#: langcorrect/posts/models.py:145
+msgid "responded to your prompt"
+msgstr "istenileni yanıtladı"
 
 #: langcorrect/posts/validators.py:22
 msgid "Unsupported file extension. Only .jpg and .jpeg are allowed."
@@ -208,15 +212,15 @@ msgstr "Resim boyutu {max_size_mb}MB'dan büyük olmamalıdır."
 msgid "Post successfully updated"
 msgstr "Gönderi başarıyla güncellendi"
 
-#: langcorrect/posts/views.py:189
+#: langcorrect/posts/views.py:184
 msgid "Post successfully added"
 msgstr "Gönderi başarıyla eklendi"
 
-#: langcorrect/posts/views.py:193
+#: langcorrect/posts/views.py:188
 msgid "Your correction ratio is too low."
 msgstr "Düzeltme oranınız çok düşük."
 
-#: langcorrect/posts/views.py:240
+#: langcorrect/posts/views.py:234
 msgid "Post successfully deleted"
 msgstr "Gönderi başarıyla silindi"
 
@@ -790,6 +794,41 @@ msgstr "Tüm zamanlar"
 msgid "View all"
 msgstr "Tümünü gör"
 
+#: langcorrect/templates/corrections/user_corrections.html:10
+#: langcorrect/templates/navbar.html:139
+#, fuzzy
+#| msgid "Corrections"
+msgid "My Corrections"
+msgstr "Düzeltmeler"
+
+#: langcorrect/templates/corrections/user_corrections.html:19
+#: langcorrect/templates/posts/user_posts.html:18
+msgid "Title"
+msgstr "Başlık"
+
+#: langcorrect/templates/corrections/user_corrections.html:20
+#: langcorrect/templates/languages/languagelevel_list.html:13
+#: langcorrect/templates/posts/user_posts.html:19
+#: langcorrect/templates/prompts/user_prompts.html:20
+msgid "Language"
+msgstr "Dil"
+
+#: langcorrect/templates/corrections/user_corrections.html:21
+msgid "Author"
+msgstr "Yazar"
+
+#: langcorrect/templates/corrections/user_corrections.html:22
+#, fuzzy
+#| msgid "Correction ratio"
+msgid "Correction Date"
+msgstr "Düzeltme oranı"
+
+#: langcorrect/templates/corrections/user_corrections.html:23
+#, fuzzy
+#| msgid "Corrections"
+msgid "Corrections Made"
+msgstr "Düzeltmeler"
+
 #: langcorrect/templates/follows/follower_list.html:8
 #: langcorrect/templates/follows/following_list.html:10
 msgid "Followers"
@@ -860,12 +899,6 @@ msgstr "Ekle"
 msgid "Add Language"
 msgstr "Dil Ekle"
 
-#: langcorrect/templates/languages/languagelevel_list.html:13
-#: langcorrect/templates/posts/user_posts.html:19
-#: langcorrect/templates/prompts/user_prompts.html:20
-msgid "Language"
-msgstr "Dil"
-
 #: langcorrect/templates/languages/languagelevel_list.html:14
 msgid "Level"
 msgstr "Seviye"
@@ -919,19 +952,19 @@ msgstr "Orijinal"
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: langcorrect/templates/modals/notifications.html:49
+#: langcorrect/templates/modals/notifications.html:51
 msgid "No notifications yet!"
 msgstr "Henüz bir bildirim yok!"
 
-#: langcorrect/templates/modals/notifications.html:50
+#: langcorrect/templates/modals/notifications.html:52
 msgid "We'll notify you when something arrives!"
 msgstr "Bir şey geldiğinde sizi bilgilendireceğiz!"
 
-#: langcorrect/templates/modals/notifications.html:57
+#: langcorrect/templates/modals/notifications.html:59
 msgid "Delete all notifications"
 msgstr "Tüm bildirimleri sil"
 
-#: langcorrect/templates/modals/notifications.html:58
+#: langcorrect/templates/modals/notifications.html:60
 msgid "Close"
 msgstr "Kapat"
 
@@ -975,38 +1008,38 @@ msgstr "Günlüklerim"
 msgid "My Prompts"
 msgstr "İsteklerim"
 
-#: langcorrect/templates/navbar.html:142
+#: langcorrect/templates/navbar.html:148
 msgid "Logout"
 msgstr "Çıkış Yap"
 
-#: langcorrect/templates/navbar.html:163
+#: langcorrect/templates/navbar.html:169
 msgid "Visit your profile"
 msgstr "Profilinizi ziyaret edin"
 
-#: langcorrect/templates/navbar.html:171
+#: langcorrect/templates/navbar.html:177
 msgid "Member role"
 msgstr "Üye rolü"
 
-#: langcorrect/templates/navbar.html:174
+#: langcorrect/templates/navbar.html:181
 #: langcorrect/templates/pages/manage_subscription.html:13
 #: langcorrect/templates/pages/pricing.html:21
 #: langcorrect/templates/posts/partials/card_badges.html:29
 msgid "Premium"
 msgstr "Premium"
 
-#: langcorrect/templates/navbar.html:176
+#: langcorrect/templates/navbar.html:183
 msgid "Member"
 msgstr "Üye"
 
-#: langcorrect/templates/navbar.html:185
+#: langcorrect/templates/navbar.html:192
 msgid "Total corrections made"
 msgstr "Yapılan toplam düzeltmeler"
 
-#: langcorrect/templates/navbar.html:192
+#: langcorrect/templates/navbar.html:200
 msgid "Total corrections received"
 msgstr "Alınan toplam düzeltmeler"
 
-#: langcorrect/templates/navbar.html:199
+#: langcorrect/templates/navbar.html:207
 msgid "Correction ratio"
 msgstr "Düzeltme oranı"
 
@@ -1344,7 +1377,6 @@ msgid "Correctors"
 msgstr "Düzelticiler"
 
 #: langcorrect/templates/posts/partials/post_card.html:59
-#| msgid "Correct journals written in your native language(s)."
 msgid "You can only correct entries in your native language(s)"
 msgstr "Ana dil(ler)inizde yazılmış günlükleri düzeltin."
 
@@ -1430,12 +1462,16 @@ msgid "Browse journals written by users you are following."
 msgstr "Takip ettiğiniz kullanıcılar tarafından yazılmış günlükleri göz atın."
 
 #: langcorrect/templates/posts/post_list.html:73
+msgid "Server time (UTC)"
+msgstr "Sunucu zamanı (UTC)"
+
+#: langcorrect/templates/posts/post_list.html:77
+msgid "Streaks reset at midnight (00:00)"
+msgstr "Seriler gece yarısı (00:00) sıfırlanır"
+
+#: langcorrect/templates/posts/post_list.html:86
 msgid "Feedback & Feature Requests"
 msgstr "Geribildirim ve Özellik İstekleri"
-
-#: langcorrect/templates/posts/user_posts.html:18
-msgid "Title"
-msgstr "Başlık"
 
 #: langcorrect/templates/posts/user_posts.html:20
 msgid "Tags"
@@ -1574,7 +1610,13 @@ msgstr "Bilgilerim"
 msgid "E-Mail"
 msgstr "E-Posta"
 
-#: langcorrect/templates/users/user_detail.html:139
+#: langcorrect/templates/users/user_detail.html:123
+#, fuzzy
+#| msgid "Set Password"
+msgid "Password"
+msgstr "Şifre Belirle"
+
+#: langcorrect/templates/users/user_detail.html:142
 #, python-format
 msgid ""
 "\n"
