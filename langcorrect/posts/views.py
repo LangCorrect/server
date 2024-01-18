@@ -12,9 +12,13 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
-from langcorrect.languages.models import LanguageLevel
+from langcorrect.languages.models import LanguageLevel, LevelChoices
 from langcorrect.posts.forms import CustomPostForm
-from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
+from langcorrect.posts.helpers import (
+    check_can_create_post,
+    get_post_counts_by_author_native_language,
+    get_post_counts_by_language,
+)
 from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
@@ -40,6 +44,9 @@ class PostListView(ListView):
     def get_lang_code(self):
         return self.request.GET.get("lang_code", None)
 
+    def get_author_native_lang_code(self):
+        return self.request.GET.get("author_native_lang_code", None)
+
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -50,6 +57,7 @@ class PostListView(ListView):
 
         mode = self.get_mode()
         lang_code = self.get_lang_code()
+        author_native_lang_code = self.get_author_native_lang_code()
 
         if mode == "following":
             qs = qs.filter(user__in=current_user.get_following_users_ids)
@@ -61,6 +69,13 @@ class PostListView(ListView):
         if lang_code and lang_code != "all":
             qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
 
+        if author_native_lang_code and author_native_lang_code != "all":
+            print(author_native_lang_code)
+            qs = qs.filter(
+                user__languagelevel__language__code=author_native_lang_code,
+                user__languagelevel__level=LevelChoices.NATIVE,
+            ).order_by("is_corrected", "-created")
+
         return qs
 
     def get_context_data(self, **kwargs):
@@ -69,18 +84,27 @@ class PostListView(ListView):
 
         mode = self.get_mode()
         selected_lang_code = self.get_lang_code()
+        selected_author_native_lang_code = self.get_author_native_lang_code
 
         language_filter_choices = None
+        author_native_language_filter_choices = None
 
         if mode == "learn":
             language_filter_choices = get_post_counts_by_language(current_user.studying_languages, corrected=True)
         elif mode == "teach" and current_user.is_authenticated:
             language_filter_choices = get_post_counts_by_language(current_user.native_languages)
 
+        if current_user.is_authenticated:
+            author_native_language_filter_choices = get_post_counts_by_author_native_language(
+                current_user.studying_languages, selected_lang_code
+            )
+
         context.update(
             {
                 "mode": mode,
                 "language_filters": language_filter_choices,
+                "author_native_language_filters": author_native_language_filter_choices,
+                "selected_author_native_lang_code": selected_author_native_lang_code,
                 "selected_lang_code": selected_lang_code,
             }
         )

@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from langcorrect.contributions.models import Contribution
-from langcorrect.languages.models import Language
+from langcorrect.languages.models import Language, LevelChoices
 from langcorrect.posts.models import Post, PostRow, PostVisibility
 from langcorrect.posts.tests.factories import LANGUAGE_TO_FAKER_LOCALE, PostFactory
 from langcorrect.posts.tests.utils import generate_text, generate_title
@@ -218,6 +218,7 @@ class TestPostListView(TestCase):
     def setUpTestData(cls):
         cls.en_ja_user = UserFactory(native_languages=["en"], studying_languages=["ja"])
         cls.enko_ja_user = UserFactory(native_languages=["en", "ko"], studying_languages=["ja"])
+        cls.ja_ko_user = UserFactory(native_languages=["ja"], studying_languages=["en"])
 
         UserFactory.create_batch(5)
 
@@ -227,6 +228,8 @@ class TestPostListView(TestCase):
         cls.generate_posts_by_code("ja", True, PostVisibility.PUBLIC, 5)
         cls.generate_posts_by_code("ko", False, PostVisibility.MEMBER, 2)
         cls.generate_posts_by_code("ko", True, PostVisibility.PUBLIC, 3)
+
+        PostFactory(user=cls.ja_ko_user)
 
     def test_anonymous_queryset(self):
         response = self.client.get(reverse("posts:list"))
@@ -281,4 +284,24 @@ class TestPostListView(TestCase):
         response = self.client.get(url)
         posts = response.context["object_list"]
         expected_posts = Post.available_objects.filter(language__code=korean_code).order_by("is_corrected", "-created")
+        self.assertQuerySetEqual(posts, expected_posts)
+
+    def test_filter_queryset_by_author_native_language_code(self):
+        """
+        English/Korean native speaker is learning Japanese,
+        so when teaching, wants to find English/Korean posts
+        written by Japanese users.
+        """
+        self.client.force_login(self.enko_ja_user)
+        korean_code = "ko"
+        japanese_code = "ja"
+        params = {"lang_code": korean_code, "author_native_lang_code": japanese_code}
+        url = f"{reverse('posts:list')}?{urlencode(params)}"
+        response = self.client.get(url)
+        posts = response.context["object_list"]
+        expected_posts = Post.available_objects.filter(
+            language__code=korean_code,
+            user__languagelevel__level=LevelChoices.NATIVE,
+            user__languagelevel__language__code=japanese_code,
+        ).order_by("is_corrected", "-created")
         self.assertQuerySetEqual(posts, expected_posts)
