@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const selectedOption =
       selectElement.options[selectElement.options.selectedIndex];
     const url = new URL(window.location.href);
+    url.searchParams.delete('page');
     url.searchParams.set('mode', mode);
     url.searchParams.set(queryParamName, selectedOption.value);
     window.location = url.toString();
