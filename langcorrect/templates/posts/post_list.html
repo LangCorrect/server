@@ -37,16 +37,31 @@
                class="link-secondary text-decoration-none {% if mode == 'following' %}link-dark fw-bold{% endif %}">{% translate "Following" %}</a>
           </div>
           <div class="d-flex gap-3 align-items-center ">
+            <i class="fa-solid fa-comment text-muted"></i>
+            <select id="author-native-language-select"
+                    class="form-select"
+                    aria-label="Filter posts by their author's native languages">
+              <option value="all"
+                      data-link="?mode={{ mode }}&author_native_lang_code=all&lang_code={{ selected_lang_code }}"
+                      {% if selected_author_native_lang_code == "all" %}selected{% endif %}>All</option>
+              {% for language, count in author_native_language_filters.items %}
+                <option value="{{ language.code }}"
+                        data-link="?mode={{ mode }}&author_native_lang_code={{ language.code }}&lang_code={{ selected_lang_code }}"
+                        {% if selected_author_native_lang_code == language.code %}selected{% endif %}>
+                  {% translate language.code %} ({{ count }})
+                </option>
+              {% endfor %}
+            </select>
             <i class="fa-solid fa-globe text-muted"></i>
             <select id="language-select"
                     class="form-select"
-                    aria-label="Default select example">
-              <option value="{{ language.code }}"
-                      data-link="?mode={{ mode }}&lang_code=all"
+                    aria-label="Filter posts by your native languages">
+              <option value="all"
+                      data-link="?mode={{ mode }}&author_native_lang_code={{ selected_author_native_lang_code }}&lang_code=all"
                       {% if selected_lang_code == "all" %}selected{% endif %}>All</option>
               {% for language, count in language_filters.items %}
                 <option value="{{ language.code }}"
-                        data-link="?mode={{ mode }}&lang_code={{ language.code }}"
+                        data-link="?mode={{ mode }}&author_native_lang_code={{ selected_author_native_lang_code }}&lang_code={{ language.code }}"
                         {% if selected_lang_code == language.code %}selected{% endif %}>
                   {% translate language.code %} ({{ count }})
                 </option>
