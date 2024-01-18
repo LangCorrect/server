@@ -29,7 +29,7 @@ def get_post_counts_by_author_native_language(
     """
     data = {}
 
-    if selected_lang_code and selected_lang_code is not None:
+    if selected_lang_code is not None and selected_lang_code != "all":
         selected_lang_code_filter = Q(language__code=selected_lang_code)
     else:
         selected_lang_code_filter = Q()
