@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load humanize %}
+
+<div class="card-footer bg-transparent">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex gap-2">
+      <div class="d-flex align-items-center gap-1">
+        <span class="chip"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              data-bs-title="{{ post.language }}">
+          <i class="fa-solid fa-globe pe-1"></i>  {{ post.language.code }}
+        </span>
+        <span class="chip"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              data-bs-title="{% translate 'Correctors' %}">
+          <i class="fa-regular fa-circle-check pe-1"></i> {{ post.corrected_by_count }}
+        </span>
+      </div>
+    </div>
+    {% if current_user.id == user.id %}
+      <div>
+        <a href="{% url 'posts:delete' post.slug %}"
+           class="btn btn-sm btn-outline-danger">{% translate "Delete" %}</a>
+        <a href="{% url 'posts:update' post.slug %}"
+           class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+      </div>
+    {% elif post.language not in current_user.native_languages %}
+      <div data-bs-toggle="tooltip"
+           data-bs-placement="bottom"
+           data-bs-title="{% translate "You can only correct entries in your native language(s)" %}">
+        <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+          <i class="fa-solid fa-ban"></i>
+          {% translate "Correct" %}
+        </button>
+      </div>
+    {% else %}
+      <a href="{% url 'posts:make-corrections' post.slug %}"
+         class="btn btn-sm {% if already_corrected %} btn-primary {% else %} btn-outline-primary {% endif %}">
+        <i class="fa-regular fa-circle-check"></i>
+        {% if already_corrected %}
+          {% translate "Corrected" %}
+        {% else %}
+          {% translate "Correct" %}
+        {% endif %}
+      </a>
+    {% endif %}
+  </div>
+</div>

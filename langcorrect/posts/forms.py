@@ -22,6 +22,9 @@ class CustomPostForm(forms.ModelForm):
             self.fields["text"].disabled = True
         if not self.user.is_premium_user:
             self.fields["image"].disabled = True
+            self.fields["image"].label = _("Image (Premium Feature)")
+        else:
+            self.fields["image"].label = _("Image (JPEG, JPG, <5MB)")
 
     def clean_text(self):
         text = self.cleaned_data["text"].strip()
