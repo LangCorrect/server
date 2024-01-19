@@ -67,7 +67,7 @@
               <i class="fa-solid fa-language"></i> {% translate "Languages" %}
             </h6>
             <ul class="list-unstyled">
-              {% for ll in object.languagelevel_set.all %}<li>{{ ll }}</li>{% endfor %}
+              {% for ll in languages %}<li>{{ ll }}</li>{% endfor %}
             </ul>
           </div>
           <div class="card-body border-bottom">
