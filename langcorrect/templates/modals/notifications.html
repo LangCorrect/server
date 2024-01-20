@@ -57,7 +57,7 @@
       <div class="modal-footer py-1">
         <a href="{% url 'notifications:mark_all_as_read' %}?next={% url 'home' %}"
            class="btn btn-primary">{% trans "Mark all as read" %}</a>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% trans "View all" %}</button>
+        <a href="{% url 'users:notifications' %}" class="btn btn-primary">{% trans "View all" %}</a>
       </div>
     </div>
   </div>

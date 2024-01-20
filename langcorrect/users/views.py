@@ -6,7 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView, RedirectView, UpdateView
+from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 User = get_user_model()
 
@@ -69,3 +69,17 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class NotificationsViewList(LoginRequiredMixin, ListView):
+    template_name = "notifications/notification_list.html"
+    context_object_name = "notifications"
+    paginate_by = 10
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = user.notifications.all()
+        return qs
+
+
+notifications_view = NotificationsViewList.as_view()

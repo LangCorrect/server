@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+  <div class="list-group list-group-flush mb-3">
+    {% for notification in notifications %}
+      <a href="{% url 'notifications:mark_as_read' notification.slug %}?next={{ notification.action_object.get_absolute_url }}"
+         class="list-group-item list-group-item-action unread-notification">
+        <div class="row d-flex align-items-center py-2">
+          <div class="col-2">
+            {% if notification.data.notification_type == "new_follower" %}
+              <i class="fa-solid fa-circle-user fs-2 fa-fw text-muted"></i>
+            {% elif notification.data.notification_type == "new_post" %}
+              <i class="fa-regular fa-file-lines fs-2 fa-fw text-muted"></i>
+            {% elif notification.data.notification_type == "new_correction" %}
+              <i class="fa-solid fa-circle-check fs-2 fa-fw text-muted"></i>
+            {% elif notification.data.notification_type == "new_comment" %}
+              <i class="fa-solid fa-comment fs-2 fa-fw text-muted"></i>
+            {% elif notification.data.notification_type == "new_reply" %}
+              <i class="fa-solid fa-comment-dots fs-2 fa-fw text-muted"></i>
+            {% elif notification.data.notification_type == "new_prompt_response" %}
+              <i class="fa-solid fa-reply fs-2 fa-fw text-muted"></i>
+            {% endif %}
+          </div>
+          <div class="col-10">
+            <p class="mb-0">
+              {{ notification.actor }} {% translate notification.verb %}
+              <strong>{{ notification.action_object.title }}</strong>
+            </p>
+            <p class="mb-0">
+              <small class="text-muted">{{ notification.timestamp|naturaltime }}</small>
+            </p>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+  {% include "pagination.html" %}
+{% endblock content %}
