@@ -24,6 +24,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         start_date = timezone.make_aware(datetime(now.year, 1, 1))
         end_date = timezone.make_aware(datetime(now.year, 12, 31, 23, 59, 59))
 
+        language_levels_ordered = user.languagelevel_set.order_by("-level")
         post_this_year_count = user.post_set.filter(created__range=(start_date, end_date)).count()
         corrections_this_year_count = user.correctedrow_set.filter(created__range=(start_date, end_date)).count()
         perfects_this_year_count = user.perfectrow_set.filter(created__range=(start_date, end_date)).count()
@@ -37,6 +38,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
                 + prompts_this_year_count,
                 "posts": user.post_set.all()[:10],
                 "is_following": True if self.request.user in user.followers_users else False,
+                "languages": language_levels_ordered,
             }
         )
         return context

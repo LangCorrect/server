@@ -71,7 +71,7 @@
                data-bs-toggle="tooltip"
                data-bs-placement="bottom"
                data-bs-title="{% translate 'Server time (UTC)' %}">
-              <i class="fa-regular fa-clock fa-fw"></i> {% now "H:i:s" %} (UTC)
+              <i class="fa-regular fa-clock fa-fw"></i> <span id="serverTime">{% now "H:i:s" %}</span> (UTC)
             </p>
             <p class="mb-0">
               <small class="text-muted">{% translate "Streaks reset at midnight (00:00)" %}</small>
