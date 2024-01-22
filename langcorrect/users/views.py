@@ -76,7 +76,7 @@ user_redirect_view = UserRedirectView.as_view()
 class NotificationsViewList(LoginRequiredMixin, ListView):
     template_name = "notifications/notification_list.html"
     context_object_name = "notifications"
-    paginate_by = 10
+    paginate_by = 25
 
     def get_queryset(self):
         user = self.request.user
