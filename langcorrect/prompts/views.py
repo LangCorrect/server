@@ -1,13 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
-from slugify import slugify
 
 from langcorrect.languages.models import Language
-from langcorrect.posts.models import Post
+from langcorrect.posts.forms import CustomPostForm
 from langcorrect.prompts.forms import CustomPromptForm
 from langcorrect.prompts.models import Prompt
 
@@ -141,17 +142,28 @@ def convert_prompt_to_journal_entry(request, slug):
         raise PermissionDenied()
 
     prompt = get_object_or_404(Prompt, slug=slug)
-    text = prompt.content
-    prompt_user = prompt.user
-    language = prompt.language
-    slug = slugify(f"{prompt_user.username}-{slug}")
 
-    post = Post.objects.create(
-        user=prompt_user,
-        title=f"Converted Prompt {slug}",
-        text=text,
-        language=language,
-        slug=slugify(slug),
-    )
-    prompt.delete()
-    return redirect("posts:detail", slug=post.slug)
+    if prompt.post_set.exists():
+        error_msg = "Unable to convert this prompt to a post as this prompt has responses."
+        messages.add_message(request, messages.ERROR, error_msg)
+        return redirect("prompts:detail", slug=prompt.slug)
+
+    if request.method == "POST":
+        form = CustomPostForm(user=prompt.user, data=request.POST, is_convert_prompt=True)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = prompt.user
+            instance.save()
+            prompt.delete()
+            return redirect(reverse("posts:detail", kwargs={"slug": instance.slug}))
+    else:
+        form = CustomPostForm(
+            user=prompt.user,
+            initial={
+                "title": f"Converted-prompt-{prompt.user.username}-{prompt.slug}",
+                "text": prompt.content,
+            },
+            is_convert_prompt=True,
+        )
+
+    return render(request, "prompts/convert_prompt.html", {"form": form})
