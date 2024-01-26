@@ -16,7 +16,9 @@
       <div class="modal-body">
         <div class="list-group list-group-flush">
           {% if request.user.notifications.unread %}
-            {% include "notifications/partials/notification_loop.html" with notifications=request.user.notifications.unread %}
+            {% for notification in request.user.notifications.unread %}
+              {% include "notifications/partials/notification.html" with notification=notification %}
+            {% endfor %}
           {% else %}
             <li class="list-group-item">
               <p>{% trans "No notifications yet!" %}</p>

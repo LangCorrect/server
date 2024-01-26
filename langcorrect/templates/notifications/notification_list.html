@@ -2,7 +2,9 @@
 
 {% block content %}
   <div class="list-group list-group-flush mb-3">
-    {% include "./partials/notification_loop.html" with notifications=notifications %}
+    {% for notification in notifications %}
+      {% include "./partials/notification.html" with notification=notification %}
+    {% endfor %}
   </div>
   {% include "pagination.html" %}
 {% endblock content %}
