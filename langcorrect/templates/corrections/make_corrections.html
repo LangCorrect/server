@@ -139,6 +139,7 @@
 {% block modal %}
   {{ block.super }}
   {% include "modals/discard_modal.html" %}
+  {% include "modals/reset_modal.html" %}
   {% include "modals/native_text.html" %}
 {% endblock modal %}
 {% block inline_javascript %}
@@ -271,20 +272,52 @@
       const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
       const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
 
-      correction.action = correction.action === "corrected" ? "none" : "corrected";
-      correctionBox.classList.toggle("d-none");
-      icon.classList.toggle('fa-pen');
-      icon.classList.toggle('fa-undo');
-
       if (correction.action === "none") {
+        correction.action = "corrected";
         correctionTextarea.value = correction.original_text;
         feedbackTextarea.value = "";
+
+        correctionBox.classList.toggle("d-none");
+        icon.classList.toggle('fa-pen');
+        icon.classList.toggle('fa-undo');
+      } else if (correction.action === "corrected") {
+        customConfirm(function(res) {
+          if (res) {
+            correction.action = "none";
+            correctionBox.classList.toggle("d-none");
+            icon.classList.toggle('fa-pen');
+            icon.classList.toggle('fa-undo');
+            perfectBtn.disabled = correction.action === "corrected";
+            console.log(`done ${id}`);
+          }
+        })
       }
 
       autosize.update(correctionTextarea);
       autosize.update(feedbackTextarea);
+    }
 
-      perfectBtn.disabled = correction.action === "corrected";
+    function customConfirm(callback) {
+      const modal = new bootstrap.Modal("#reset-modal");
+      modal.show();
+
+      const modalEl = document.querySelector("#reset-modal");
+      modalEl.querySelector("#reset-modal-cancel").removeEventListener("click", handleResetModalCancel);
+      modalEl.querySelector("#reset-modal-confirm").removeEventListener("click", handleResetModalConfirm);
+      modalEl.querySelector("#reset-modal-cancel").addEventListener("click", handleResetModalCancel);
+      modalEl.querySelector("#reset-modal-confirm").addEventListener("click", handleResetModalConfirm);
+
+      function handleResetModalCancel(e) {
+        e.preventDefault();
+        callback(false);
+        modal.hide();
+      }
+
+      function handleResetModalConfirm(e) {
+        e.preventDefault();
+        callback(true);
+        modal.hide()
+      }
     }
 
     function setupDeleteButtonListeners(corrections) {

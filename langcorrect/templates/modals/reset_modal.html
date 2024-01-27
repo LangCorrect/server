@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<div id="reset-modal" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{% translate "Are you sure?" %}</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">{% translate "The correction for this sentence will be reset" %}</div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+                id="reset-modal-cancel">{% translate "Cancel" %}</button>
+        <button type="button" class="btn btn-danger" id="reset-modal-confirm">{% translate "Reset" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
