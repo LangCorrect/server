@@ -336,27 +336,32 @@
     function handleDeleteButtonClick(e, btn, corrections) {
       e.preventDefault();
 
-      const id = btn.getAttribute("data-sentence-id");
-      const correction = corrections.find(c => c.sentence_id === id);
-      correction.action = "delete";
+      customConfirm(() => {
+        const id = btn.getAttribute("data-sentence-id");
+        const correction = corrections.find(c => c.sentence_id === id);
+        correction.action = "delete";
 
-      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
-      correctionTextarea.disabled = true;
+        const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+        correctionTextarea.disabled = true;
 
-      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
-      feedbackTextarea.disabled = true;
+        const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+        feedbackTextarea.disabled = true;
 
-      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
-      correctionBox.classList.add("d-none");
+        const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+        correctionBox.classList.add("d-none");
 
-      btn.disabled = true;
+        btn.disabled = true;
+      })
     }
 
     function handleDeleteFeedbackButtonClick(e, btn) {
       e.preventDefault();
-      btn.disabled = true;
-      const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
-      deleteFeedbackInput.value = "true";
+
+      customConfirm(() => {
+        btn.disabled = true;
+        const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
+        deleteFeedbackInput.value = "true";
+      })
     }
 
     function setupFormSubmitListener(corrections) {
