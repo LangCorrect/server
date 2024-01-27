@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load humanize %}
 
 <div class="modal fade"
      id="mobileNotifications"
@@ -16,48 +15,22 @@
       </div>
       <div class="modal-body">
         <div class="list-group list-group-flush">
-          {% for notification in request.user.notifications.unread %}
-            <a href="{% url 'notifications:mark_as_read' notification.slug %}?next={{ notification.action_object.get_absolute_url }}"
-               class="list-group-item list-group-item-action unread-notification">
-              <div class="row d-flex align-items-center py-2">
-                <div class="col-2">
-                  {% if notification.data.notification_type == "new_follower" %}
-                    <i class="fa-solid fa-circle-user fs-2 fa-fw text-muted"></i>
-                  {% elif notification.data.notification_type == "new_post" %}
-                    <i class="fa-regular fa-file-lines fs-2 fa-fw text-muted"></i>
-                  {% elif notification.data.notification_type == "new_correction" %}
-                    <i class="fa-solid fa-circle-check fs-2 fa-fw text-muted"></i>
-                  {% elif notification.data.notification_type == "new_comment" %}
-                    <i class="fa-solid fa-comment fs-2 fa-fw text-muted"></i>
-                  {% elif notification.data.notification_type == "new_reply" %}
-                    <i class="fa-solid fa-comment-dots fs-2 fa-fw text-muted"></i>
-                  {% elif notification.data.notification_type == "new_prompt_response" %}
-                    <i class="fa-solid fa-reply fs-2 fa-fw text-muted"></i>
-                  {% endif %}
-                </div>
-                <div class="col-10">
-                  <p class="mb-0">
-                    {{ notification.actor }} {% translate notification.verb %}
-                    <strong>{{ notification.action_object.title }}</strong>
-                  </p>
-                  <p class="mb-0">
-                    <small class="text-muted">{{ notification.timestamp|naturaltime }}</small>
-                  </p>
-                </div>
-              </div>
-            </a>
-          {% empty %}
+          {% if request.user.notifications.unread %}
+            {% for notification in request.user.notifications.unread %}
+              {% include "notifications/partials/notification.html" with notification=notification %}
+            {% endfor %}
+          {% else %}
             <li class="list-group-item">
               <p>{% trans "No notifications yet!" %}</p>
               <p>{% trans "We'll notify you when something arrives!" %}</p>
             </li>
-          {% endfor %}
+          {% endif %}
         </div>
       </div>
       <div class="modal-footer py-1">
         <a href="{% url 'notifications:mark_all_as_read' %}?next={% url 'home' %}"
-           class="btn btn-primary">{% trans "Delete all notifications" %}</a>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+           class="btn btn-primary">{% trans "Mark all as read" %}</a>
+        <a href="{% url 'users:notifications' %}" class="btn btn-primary">{% trans "View all" %}</a>
       </div>
     </div>
   </div>

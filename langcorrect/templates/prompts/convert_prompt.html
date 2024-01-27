@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="alert alert-warning" role="alert">
+    This tool converts prompts into posts, deleting the original prompt. If there are associated responses, manual editing
+    of the posts is required to remove the prompt association.
+    <br />
+    <br />
+    Please ensure you select the correct language for accurate
+    sentence splitting.
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">{% translate "Publish" %}</button>
+    </div>
+  </form>
+{% endblock content %}

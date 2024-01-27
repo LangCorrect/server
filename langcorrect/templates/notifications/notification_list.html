@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="list-group list-group-flush mb-3">
+    {% for notification in notifications %}
+      {% include "./partials/notification.html" with notification=notification %}
+    {% endfor %}
+  </div>
+  {% include "pagination.html" %}
+{% endblock content %}
