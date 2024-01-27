@@ -280,16 +280,14 @@
         correctionBox.classList.toggle("d-none");
         icon.classList.toggle('fa-pen');
         icon.classList.toggle('fa-undo');
+        perfectBtn.disabled = true;
       } else if (correction.action === "corrected") {
-        customConfirm(function(confirmed) {
-          if (confirmed) {
-            correction.action = "none";
-            correctionBox.classList.toggle("d-none");
-            icon.classList.toggle('fa-pen');
-            icon.classList.toggle('fa-undo');
-            perfectBtn.disabled = correction.action === "corrected";
-            console.log(`done ${id}`);
-          }
+        customConfirm(() => {
+          correction.action = "none";
+          correctionBox.classList.toggle("d-none");
+          icon.classList.toggle('fa-pen');
+          icon.classList.toggle('fa-undo');
+          perfectBtn.disabled = false;
         })
       }
 
@@ -300,14 +298,11 @@
     function customConfirm(callback) {
       const modal = new bootstrap.Modal("#reset-modal");
       modal.show();
-
       const modalEl = document.querySelector("#reset-modal");
-      modalEl.querySelector("#reset-modal-cancel").addEventListener("click", handleResetModalCancel);
       modalEl.querySelector("#reset-modal-confirm").addEventListener("click", handleResetModalConfirm);
 
       function removeModal() {
         modal.hide();
-        modalEl.querySelector("#reset-modal-cancel").removeEventListener("click", handleResetModalCancel);
         modalEl.querySelector("#reset-modal-confirm").removeEventListener("click", handleResetModalConfirm);
       }
 
@@ -315,15 +310,9 @@
         removeModal();
       });
 
-      function handleResetModalCancel(e) {
-        e.preventDefault();
-        callback(false);
-        removeModal();
-      }
-
       function handleResetModalConfirm(e) {
         e.preventDefault();
-        callback(true);
+        callback();
         removeModal();
       }
     }
