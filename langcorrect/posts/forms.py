@@ -12,16 +12,20 @@ class CustomPostForm(forms.ModelForm):
         model = Post
         fields = ["title", "text", "native_text", "language", "gender_of_narration", "permission", "tags"]
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, *args, is_convert_prompt=False, **kwargs):
         self.user = user
+        self.is_convert_prompt = is_convert_prompt
         super().__init__(*args, **kwargs)
 
         self.fields["native_text"].required = False
         self.fields["language"].queryset = self.user.studying_languages
+
         if self.instance.is_corrected:
             self.fields["text"].disabled = True
         if not self.user.is_premium_user:
             self.fields["image"].disabled = True
+        if self.is_convert_prompt:
+            self.fields["language"].queryset = self.user.all_languages
 
     def clean_text(self):
         text = self.cleaned_data["text"].strip()
