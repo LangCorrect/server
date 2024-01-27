@@ -281,8 +281,8 @@
         icon.classList.toggle('fa-pen');
         icon.classList.toggle('fa-undo');
       } else if (correction.action === "corrected") {
-        customConfirm(function(res) {
-          if (res) {
+        customConfirm(function(confirmed) {
+          if (confirmed) {
             correction.action = "none";
             correctionBox.classList.toggle("d-none");
             icon.classList.toggle('fa-pen');
@@ -302,21 +302,29 @@
       modal.show();
 
       const modalEl = document.querySelector("#reset-modal");
-      modalEl.querySelector("#reset-modal-cancel").removeEventListener("click", handleResetModalCancel);
-      modalEl.querySelector("#reset-modal-confirm").removeEventListener("click", handleResetModalConfirm);
       modalEl.querySelector("#reset-modal-cancel").addEventListener("click", handleResetModalCancel);
       modalEl.querySelector("#reset-modal-confirm").addEventListener("click", handleResetModalConfirm);
+
+      function removeModal() {
+        modal.hide();
+        modalEl.querySelector("#reset-modal-cancel").removeEventListener("click", handleResetModalCancel);
+        modalEl.querySelector("#reset-modal-confirm").removeEventListener("click", handleResetModalConfirm);
+      }
+
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        removeModal();
+      });
 
       function handleResetModalCancel(e) {
         e.preventDefault();
         callback(false);
-        modal.hide();
+        removeModal();
       }
 
       function handleResetModalConfirm(e) {
         e.preventDefault();
         callback(true);
-        modal.hide()
+        removeModal();
       }
     }
 
