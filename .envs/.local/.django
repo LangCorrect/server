@@ -1,0 +1,23 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=debug
+CELERY_FLOWER_PASSWORD=debug
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY=pk_test_abc
+STRIPE_SECRET_KEY=sk_test_abc
+STRIPE_WEBHOOK_SECRET_ENDPOINT=whsec_abc
+
+# LangCorrect
+SITE_BASE_URL=http://127.0.0.1:8000
+LANGCORRECT_PREMIUM_YEARLY_PRICE_ID=abc
