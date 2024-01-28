@@ -32,6 +32,11 @@ ARG BUILD_ENVIRONMENT
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
+# Install NLP
+RUN apt-get update && apt-get install --no-install-recommends -y mecab libmecab-dev mecab-ipadic-utf8
+RUN pip install 'fugashi[unidic]'
+RUN python -m unidic download
+
 RUN apt-get update && apt-get install --no-install-recommends -y \
     # To run the Makefile
     make \
