@@ -1,10 +1,13 @@
-python-slugify==8.0.1  # https://github.com/un33k/python-slugify
+python-slugify==8.0.2  # https://github.com/un33k/python-slugify
 Pillow==10.2.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==23.1.0  # https://github.com/hynek/argon2_cffi
+whitenoise==6.6.0  # https://github.com/evansd/whitenoise
 redis==5.0.1  # https://github.com/redis/redis-py
 hiredis==2.3.2  # https://github.com/redis/hiredis-py
 celery==5.3.6  # pyup: < 6.0  # https://github.com/celery/celery
 django-celery-beat==2.5.0  # https://github.com/celery/django-celery-beat
+flower==2.0.1  # https://github.com/mher/flower
+uvicorn[standard]==0.27.0  # https://github.com/encode/uvicorn
 django-taggit==4.0.0  # https://github.com/jazzband/django-taggit
 django-rosetta==0.10.0  # https://github.com/mbi/django-rosetta
 django-notifications-hq==1.8.3  # https://github.com/django-notifications/django-notifications
@@ -15,10 +18,10 @@ nltk==3.8.1  # https://www.nltk.org/install.html
 
 # Django
 # ------------------------------------------------------------------------------
-django==4.2.7  # pyup: < 5.0  # https://www.djangoproject.com/
+django==4.2.9  # pyup: < 5.0  # https://www.djangoproject.com/
 django-environ==0.11.2  # https://github.com/joke2k/django-environ
 django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
-django-allauth==0.59.0  # https://github.com/pennersr/django-allauth
+django-allauth==0.60.1  # https://github.com/pennersr/django-allauth
 django-crispy-forms==2.1  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==2023.10  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
