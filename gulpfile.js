@@ -99,13 +99,15 @@ function imgCompression() {
   return src(`${paths.images}/*`)
     .pipe(imagemin()) // Compresses PNG, JPEG, GIF and SVG images
     .pipe(dest(paths.images));
-}
-// Run django server
-function runServer(cb) {
-  const cmd = spawn('python', ['manage.py', 'runserver'], { stdio: 'inherit' });
+} // Run django server
+function asyncRunServer() {
+  const cmd = spawn(
+    'gunicorn',
+    ['config.asgi', '-k', 'uvicorn.workers.UvicornWorker', '--reload'],
+    { stdio: 'inherit' },
+  );
   cmd.on('close', function (code) {
-    console.log('runServer exited with code ' + code);
-    cb(code);
+    console.log('gunicorn exited with code ' + code);
   });
 }
 
@@ -114,9 +116,12 @@ function initBrowserSync() {
   browserSync.init(
     [`${paths.css}/*.css`, `${paths.js}/*.js`, `${paths.templates}/*.html`],
     {
+      // https://www.browsersync.io/docs/options/#option-open
+      // Disable as it doesn't work from inside a container
+      open: false,
       // https://www.browsersync.io/docs/options/#option-proxy
       proxy: {
-        target: '127.0.0.1:8000',
+        target: 'django:8000',
         proxyReq: [
           function (proxyReq, req) {
             // Assign proxy 'host' header same as current request at Browsersync server
@@ -142,7 +147,7 @@ function watchPaths() {
 const generateAssets = parallel(styles, scripts, vendorScripts, imgCompression);
 
 // Set up dev environment
-const dev = parallel(runServer, initBrowserSync, watchPaths);
+const dev = parallel(initBrowserSync, watchPaths);
 
 exports.default = series(generateAssets, dev);
 exports['generate-assets'] = generateAssets;
