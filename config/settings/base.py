@@ -167,6 +167,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -378,8 +379,6 @@ ROSETTA_SHOW_AT_ADMIN_PANEL = True
 AVATAR_BASE_URL = "https://ui-avatars.com/api/?rounded=true&length=1&name="
 
 DJANGO_NOTIFICATIONS_CONFIG = {"USE_JSONFIELD": True}
-
-USE_S3_MEDIA_STORAGE = env.bool("DJANGO_USE_S3_MEDIA_STORAGE", default=False)
 
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
