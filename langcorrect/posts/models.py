@@ -132,6 +132,23 @@ def send_follower_notifications(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Post)
+def send_prompt_author_notifications(sender, instance, created, **kwargs):
+    post = instance
+    user = post.user
+
+    if created and post.prompt:
+        recipient = post.prompt.user
+
+        notify.send(
+            sender=user,
+            recipient=recipient,
+            verb=gettext_noop("responded to your prompt"),
+            action_object=post,
+            notification_type="new_prompt_response",
+        )
+
+
+@receiver(post_save, sender=Post)
 def split_post_into_sentences(sender, instance, created, **kwargs):
     post = instance
     user = post.user

@@ -3,11 +3,9 @@
 -r base.txt
 
 gunicorn==21.2.0  # https://github.com/benoitc/gunicorn
-psycopg[c]==3.1.16  # https://github.com/psycopg/psycopg
-# Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
-sentry-sdk==1.39.1  # https://github.com/getsentry/sentry-python
+psycopg[c]==3.1.17  # https://github.com/psycopg/psycopg
+sentry-sdk==1.39.2  # https://github.com/getsentry/sentry-python
 
 # Django
 # ------------------------------------------------------------------------------
-django-storages[boto3]==1.14.2  # https://github.com/jschneier/django-storages
 django-anymail[sendgrid]==10.2  # https://github.com/anymail/django-anymail

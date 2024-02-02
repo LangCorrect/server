@@ -27,10 +27,28 @@
               {{ prompt.response_count }}
             </span>
           </div>
-          <a href="{% url 'posts:create-prompt-based-post' prompt.slug %}"
-             class="btn btn-primary">
-            <i class="fa-solid fa-reply"></i>
-          {% translate "Respond" %}</a>
+          <div>
+            <a href="{% url 'posts:create-prompt-based-post' prompt.slug %}"
+               class="btn btn-primary">
+              <i class="fa-solid fa-reply"></i>
+            {% translate "Respond" %}</a>
+            {% if request.user.is_staff or request.user.is_moderator %}
+              <div class="btn-group">
+                <button type="button"
+                        class="btn btn-danger dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                  <i class="fa-solid fa-screwdriver-wrench"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item"
+                       href="{% url 'prompts:convert_to_journal' prompt.slug %}">Convert to journal entry</a>
+                  </li>
+                </ul>
+              </div>
+            {% endif %}
+          </div>
         </div>
       </div>
       <hr />
