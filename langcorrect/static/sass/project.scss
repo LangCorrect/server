@@ -347,6 +347,22 @@ main {
   line-height: 1.26;
 }
 
+.dialogs__card__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.dialogs__card__body .text__preview {
+  font-weight: 500;
+  color: var(--bs-secondary);
+}
+
+.dialogs__card__body .unread__count {
+  font-size: 10px;
+}
+
 .chat__container {
   background-color: white;
   display: flex;

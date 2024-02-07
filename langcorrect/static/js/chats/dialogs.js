@@ -65,6 +65,13 @@ export const dialogs = {
     usernameElement.textContent = username;
     previewTextElement.textContent = last_message.text;
 
+    const unreadCountElement = dialogItem.querySelector('.unread__count');
+    unreadCountElement.textContent = unread_count;
+
+    if (unread_count < 1) {
+      unreadCountElement.classList.add('d-none');
+    }
+
     return dialogItem;
   },
 };
