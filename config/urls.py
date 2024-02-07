@@ -73,6 +73,8 @@ urlpatterns = [
         RedirectView.as_view(url="/journals/%(subpath)s", permanent=True),
         name="redirect-to-journals",
     ),
+    path("chats/", include("langcorrect.chats.urls")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 api_urlpatterns_v1 = [path("contributions/", include("langcorrect.contributions.urls"))]
