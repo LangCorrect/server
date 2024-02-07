@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% load static i18n %}
+
+{% block content %}
+  <div class="container">
+    <div class="messenger-wrapper shadow my-5">
+      <aside class="bg-light">
+        <div class="messenger__header">
+          <h5>{% translate "Chats" %}</h5>
+          <button class="btn btn-sm btn-outline-secondary"
+                  id="userModalBtn"
+                  data-bs-target="#exampleModal">
+            <i class="fa-solid fa-plus "></i>
+          </button>
+        </div>
+        <div class="messenger__dialogs__search">
+          <form>
+            <input type="search" placeholder="Search for a dialog" />
+          </form>
+        </div>
+        <div class="dialogs__container">
+          <div id="dialogsContent" class="dialogs__content">
+            <!-- Dialog cards -->
+          </div>
+        </div>
+      </aside>
+      <main>
+        <div class="empty__chat__container">
+          <div class="mb-3">
+            <i class="fa-regular fa-message fa-xl"></i>
+          </div>
+          <p class="mb-0">
+            {% blocktranslate %}
+              Pick a person from the left menu,
+              <br />
+              and start your conversation.
+            {% endblocktranslate %}
+          </p>
+        </div>
+        <div class="chat__container d-none">
+          <div class="chat__header">
+            <div class="px-4">
+              <span class="chat__header__username">
+                <!-- Username -->
+              </span>
+            </div>
+          </div>
+          <div class="chat__messages px-4 py-2">
+            <!-- Messages -->
+          </div>
+          <div class="chat__form bg-light">
+            <form class=" chat-form d-flex flex-column gap-2 h-100 w-100">
+              <input type="hidden" name="other_user_id" />
+              <input type="hidden" name="sender_id" value="{{ request.user.id }}" />
+              <textarea name="text"
+                        placeholder="Write something here..."
+                        class=""
+                        style="height: 100px"></textarea>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-sm btn-primary">{% translate "Send" %}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <template id="dialogsCardTemplate">
+    <div class="dialogs__card">
+      <div class="dialogs__card__header">
+        <div class="dialogs__card__avatar">
+          <div class="avatar__online">
+            <i class="fa-solid fa-circle"></i>
+          </div>
+          <img height="35" width="35" src="" alt="avatar" />
+        </div>
+        <div class="dialogs__card__body">
+          <h5>
+            <!-- Username -->
+          </h5>
+          <p class="text-muted">
+            <!-- Unread count -->
+          </p>
+          <p class="text__preview">
+            <!-- Message preview -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="messageTemplate">
+    <div class="message">
+      <p class="bubble">
+        <!-- message text -->
+      </p>
+    </div>
+  </template>
+  <script src="{% static 'js/chats/main.js' %}" type="module"></script>
+  <!-- <div class="navbar">Navbar</div> -->
+{% endblock content %}
+{% block modal %}
+  {{ block.super }}
+  <div class="modal fade"
+       id="usersModal"
+       tabindex="-1"
+       aria-labelledby="usersModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollablessss">
+      <div class="modal-content user-modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="usersModalLabel">{% translate "Select a user" %}</h1>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="chat__users__form mb-3">
+            <input class="form-control"
+                   type="search"
+                   placeholder="{% translate 'Search for a user...' %}" />
+          </form>
+          <p class="text-primary small fw-bold">
+            {% translate "Available users" %} (<span class="chat__users__count">0</span>)
+          </p>
+          <div class="list-group chat__users">
+            <!-- Users  -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock modal %}

@@ -46,7 +46,7 @@ class UsersListView(LoginRequiredMixin, ListView):
         users = context["object_list"]
 
         data = [{"username": user.get_username(), "pk": str(user.pk)} for user in users]
-        return JsonResponse(data, safe=False, **response_kwargs)
+        return JsonResponse({"data": data}, safe=False, **response_kwargs)
 
 
 class MessagesList(LoginRequiredMixin, ListView):
