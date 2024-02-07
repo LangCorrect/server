@@ -7,6 +7,8 @@ export const messages = {
   otherUserId: null,
   init: async () => {
     pubSub.subscribe('dialogChanged', await messages.handleDialogChange);
+    pubSub.subscribe('outgoingMessage', messages.addOutgoingMessage);
+    pubSub.subscribe('incomingMessage', messages.addIncomingMessage);
   },
   fetchMessages: async ({ userId, username }) => {
     try {
@@ -26,6 +28,28 @@ export const messages = {
     messages.renderMessages();
   },
 
+  addOutgoingMessage: (message) => {
+    messages.list.push(message);
+    messages.renderMessage(message);
+    messages.scrollToBottom();
+  },
+
+  addIncomingMessage: (message) => {
+    messages.list.push(message);
+
+    console.log(
+      '🚀 Recipient:',
+      message.recipient,
+      'activeUser',
+      messages.otherUserId,
+    );
+
+    if (message.sender === messages.otherUserId) {
+      messages.renderMessage(message);
+      messages.scrollToBottom();
+    }
+  },
+
   renderMessages: () => {
     const sortedMessages = messages.list
       .sort((a, b) => a.sent - b.sent)
@@ -41,13 +65,13 @@ export const messages = {
     messageList.textContent = '';
 
     for (const message of sortedMessages) {
-      messages.createMessage(message);
+      messages.renderMessage(message);
     }
 
     messages.scrollToBottom();
   },
 
-  createMessage: ({
+  renderMessage: ({
     id,
     text,
     sent,
@@ -65,6 +89,33 @@ export const messages = {
     message.classList.add(out ? 'outgoing' : 'incoming');
 
     document.querySelector('.chat__messages').appendChild(message);
+  },
+
+  createMessageWithTimestamp: ({
+    id,
+    text,
+    sent,
+    edited,
+    read,
+    sender,
+    recipient,
+    out,
+    sender_username,
+  }) => {
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    return {
+      id,
+      text,
+      sent,
+      read,
+      sender,
+      recipient,
+      out,
+      sender_username,
+      sent: timestamp,
+      edited: timestamp,
+    };
   },
 
   scrollToBottom: () => {
