@@ -1,5 +1,7 @@
 'use strict';
 
+import { replyService } from './services/replyService.js';
+
 document.addEventListener('DOMContentLoaded', (event) => {
   // TODO: move this to ReplyFormHandler?
   function openAccordion(username) {
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       const payload = this.buildPayload();
       try {
-        const data = await new ReplyService(payload).create();
+        const data = await replyService.add(payload);
         this.updateUI(data, payload.recipient);
         this.form.reset();
       } catch (err) {
