@@ -24,6 +24,7 @@ export const messages = {
     messages.otherUserId = userId;
 
     await chatService.markAllMessagesAsRead(userId);
+    pubSub.publish('messagesRead', { userId, count: 0 });
     messages.list = await chatService.getMessagesByUserId(userId);
     messages.renderMessages();
   },

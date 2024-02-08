@@ -7,6 +7,7 @@ export const dialogs = {
   list: [],
   activeDialog: null,
   init: async () => {
+    pubSub.subscribe('messagesRead', dialogs.updateUnreadCount);
     dialogs.list = await chatService.getDialogs();
     dialogs.render();
   },
@@ -27,6 +28,26 @@ export const dialogs = {
 
     dialogs.activeDialog = userId;
     pubSub.publish('dialogChanged', { userId, username });
+  },
+  updateUnreadCount: ({ userId, count }) => {
+    dialogs.list = dialogs.list.map((dialog) => {
+      if (dialog.other_user_id === userId) {
+        return {
+          ...dialog,
+          unread_count: count || 0,
+        };
+      }
+      return dialog;
+    });
+
+    const dialogEle = document.querySelector(`div[data-user-id='${userId}']`);
+    if (dialogEle) {
+      dialogEle.querySelector('.unread__count').textContent = count;
+
+      if (count < 1) {
+        dialogEle.querySelector('.unread__count').classList.add('d-none');
+      }
+    }
   },
   createDialogItem: ({
     id,
