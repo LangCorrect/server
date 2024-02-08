@@ -303,6 +303,12 @@ main {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.dialogs__card__header,
+.dialogs__card__body {
+  pointer-events: none;
 }
 
 .dialogs__card__avatar {
