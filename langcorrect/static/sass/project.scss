@@ -280,7 +280,7 @@ main {
 .dialogs__container {
   background-color: inherit;
   overflow-y: scroll;
-  max-height: calc(100dvh - 40px - 1rem - 1rem - 110px);
+  height: 100%;
 }
 
 .dialogs__content {
