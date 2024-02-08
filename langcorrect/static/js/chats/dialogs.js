@@ -8,6 +8,8 @@ export const dialogs = {
   activeDialog: null,
   init: async () => {
     pubSub.subscribe('messagesRead', dialogs.updateUnreadCount);
+    pubSub.subscribe('outgoingMessage', dialogs.updateLastMessage);
+    pubSub.subscribe('incomingMessage', dialogs.updateLastMessage);
     dialogs.list = await chatService.getDialogs();
     dialogs.render();
   },
@@ -28,6 +30,32 @@ export const dialogs = {
 
     dialogs.activeDialog = userId;
     pubSub.publish('dialogChanged', { userId, username });
+  },
+  updateLastMessage: ({ text, sender, recipient }) => {
+    let userToUpdate;
+
+    dialogs.list = dialogs.list.map((dialog) => {
+      if (
+        dialog.other_user_id === sender ||
+        dialog.other_user_id === recipient
+      ) {
+        userToUpdate = dialog.other_user_id === sender ? sender : recipient;
+        return {
+          ...dialog,
+          last_message: {
+            text: text !== undefined ? text : dialog.last_message.text,
+          },
+        };
+      }
+      return dialog;
+    });
+
+    const dialogEle = document.querySelector(
+      `div[data-user-id='${userToUpdate}']`,
+    );
+    if (dialogEle) {
+      dialogEle.querySelector('.text__preview').textContent = text;
+    }
   },
   updateUnreadCount: ({ userId, count }) => {
     dialogs.list = dialogs.list.map((dialog) => {
