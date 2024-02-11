@@ -1,9 +1,10 @@
 import { chatService } from '../services/chatService.js';
 import { pubSub } from './pubsub.js';
+import { chatSocketHelper } from './socket-handlers.js';
 
 export const messages = {
   list: [],
-  processQueue: [],
+  readQueue: [],
   otherUserId: null,
   init: async () => {
     pubSub.subscribe('dialogChanged', await messages.handleDialogChange);
@@ -39,15 +40,9 @@ export const messages = {
   addIncomingMessage: (message) => {
     messages.list.push(message);
 
-    console.log(
-      '🚀 Recipient:',
-      message.recipient,
-      'activeUser',
-      messages.otherUserId,
-    );
-
     if (message.sender === messages.otherUserId) {
       messages.renderMessage(message);
+      messages.readQueue.push(message);
       messages.scrollToBottom();
     }
   },
@@ -63,6 +58,14 @@ export const messages = {
     const msgEle = document.querySelector(`div[msg-id='${randomId}']`);
     if (msgEle) {
       msgEle.setAttribute('msg-id', dbId);
+    }
+
+    while (messages.readQueue.length > 0) {
+      const msg = messages.readQueue.shift();
+      chatSocketHelper.sendReadReceipt({
+        userId: msg.sender,
+        messageId: msg.id,
+      });
     }
   },
 

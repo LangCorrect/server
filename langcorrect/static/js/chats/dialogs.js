@@ -73,7 +73,7 @@ export const dialogs = {
     if (dialogEle) {
       dialogEle.querySelector('.unread__count').textContent = count;
 
-      if (count < 1) {
+      if (count < 1 || dialogs.activeDialog === userId) {
         dialogEle.querySelector('.unread__count').classList.add('d-none');
       } else {
         dialogEle.querySelector('.unread__count').classList.remove('d-none');
