@@ -59,6 +59,11 @@
         gtag('config', 'G-SE9CZMS0KN');
       </script>
     {% endblock javascript %}
+    {% if not request.user.is_premium_user %}
+      <script async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1124958728437557"
+              crossorigin="anonymous"></script>
+    {% endif %}
   </head>
   <body>
     <div>{% include "navbar.html" %}</div>
