@@ -8,6 +8,7 @@ export const dialogs = {
   activeDialog: null,
   init: async () => {
     pubSub.subscribe('messagesRead', dialogs.updateUnreadCount);
+    pubSub.subscribe('newUnreadCount', dialogs.updateUnreadCount);
     pubSub.subscribe('outgoingMessage', dialogs.updateLastMessage);
     pubSub.subscribe('incomingMessage', dialogs.updateLastMessage);
     dialogs.list = await chatService.getDialogs();
@@ -74,6 +75,8 @@ export const dialogs = {
 
       if (count < 1) {
         dialogEle.querySelector('.unread__count').classList.add('d-none');
+      } else {
+        dialogEle.querySelector('.unread__count').classList.remove('d-none');
       }
     }
   },
