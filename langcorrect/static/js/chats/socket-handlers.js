@@ -43,4 +43,8 @@ export const chatSocketEventHandler = {
   handleNewUnreadCount: ({ sender, unread_count }) => {
     pubSub.publish('newUnreadCount', { userId: sender, count: unread_count });
   },
+  handleMessageIdCreated: (data) => {
+    const { random_id, db_id } = data;
+    pubSub.publish('messageIdCreated', { randomId: random_id, dbId: db_id });
+  },
 };

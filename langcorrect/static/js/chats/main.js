@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       case MessageTypes.NewUnreadCount:
         chatSocketEventHandler.handleNewUnreadCount(data);
         break;
+      case MessageTypes.MessageIdCreated:
+        chatSocketEventHandler.handleMessageIdCreated(data);
+        break;
       default:
         break;
     }

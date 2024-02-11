@@ -9,6 +9,7 @@ export const messages = {
     pubSub.subscribe('dialogChanged', await messages.handleDialogChange);
     pubSub.subscribe('outgoingMessage', messages.addOutgoingMessage);
     pubSub.subscribe('incomingMessage', messages.addIncomingMessage);
+    pubSub.subscribe('messageIdCreated', messages.updateMessageId);
   },
   fetchMessages: async ({ userId, username }) => {
     try {
@@ -51,6 +52,20 @@ export const messages = {
     }
   },
 
+  updateMessageId: ({ randomId, dbId }) => {
+    messages.list = messages.list.map((message) => {
+      if (message.id === randomId) {
+        message.id = dbId;
+      }
+      return message;
+    });
+
+    const msgEle = document.querySelector(`div[msg-id='${randomId}']`);
+    if (msgEle) {
+      msgEle.setAttribute('msg-id', dbId);
+    }
+  },
+
   renderMessages: () => {
     const sortedMessages = messages.list
       .sort((a, b) => a.sent - b.sent)
@@ -85,6 +100,8 @@ export const messages = {
   }) => {
     const template = document.getElementById('messageTemplate');
     const message = template.content.cloneNode(true).querySelector('.message');
+
+    message.setAttribute('msg-id', id);
 
     message.querySelector('.bubble').textContent = text;
     message.classList.add(out ? 'outgoing' : 'incoming');
