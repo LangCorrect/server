@@ -8,10 +8,16 @@
     <div class="container">
       <div class="row d-flex align-items-center">
         <div class="col-12 col-md-5 col-lg-6 order-md-2">
-          <img fetchpriority="high"
-               src="{% static 'images/illustrations/classroom.svg' %}"
-               class="img-fluid"
-               alt="Hero image" />
+          <picture>
+            <source srcset="{% static 'images/illustrations/classroom-480w.webp' %}"
+                    media="(max-width: 600px)" />
+            <source srcset="{% static 'images/illustrations/classroom-837w.webp' %}"
+                    media="(min-width: 601px)" />
+            <img fetchpriority="high"
+                 src="{% static 'images/illustrations/classroom-480w.webp' %}"
+                 alt="Hero image"
+                 class="img-fluid" />
+          </picture>
         </div>
         <div class="col-12 col-md-7 col-lg-6 order-md-1">
           <h1 class="text-center text-md-start fw-bold fs-1">{% translate "Write.  Learn.  Grow." %}</h1>
@@ -35,9 +41,16 @@
     <div class="container">
       <div class="row justify-content-between align-items-center mb-5">
         <div class="col-12 col-md-4 order-md-2 text-center">
-          <img class="img-fluid w-75 w-md-100 mb-6 mb-md-0"
-               src="{% static 'images/illustrations/explore.webp' %}"
-               alt="..." />
+          <picture>
+            <source srcset="{% static 'images/illustrations/explore-480w.webp' %}"
+                    media="(max-width: 600px)" />
+            <source srcset="{% static 'images/illustrations/explore-837w.webp' %}"
+                    media="(min-width: 601px)" />
+            <img fetchpriority="high"
+                 src="{% static 'images/illustrations/explore-480w.webp' %}"
+                 alt="..."
+                 class="img-fluid" />
+          </picture>
         </div>
         <div class="col-12 col-md-7 order-md-1">
           <h2 class="text-white fw-bold index-heading-width">
@@ -130,7 +143,8 @@
           <a href="{% url 'account_signup' %}" class="btn btn-outline-light">{% translate "Start learning" %}</a>
         </div>
         <div class="col-12 col-md-4 text-center">
-          <img src="{% static 'images/illustrations/join.webp' %}"
+          <img height="400"
+               src="{% static 'images/illustrations/join.webp' %}"
                alt="..."
                class="img-fluid mb-6 mb-md-n3" />
         </div>

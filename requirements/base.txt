@@ -1,4 +1,4 @@
-python-slugify==8.0.2  # https://github.com/un33k/python-slugify
+python-slugify==8.0.4  # https://github.com/un33k/python-slugify
 Pillow==10.2.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==23.1.0  # https://github.com/hynek/argon2_cffi
 whitenoise==6.6.0  # https://github.com/evansd/whitenoise
@@ -8,7 +8,7 @@ celery==5.3.6  # pyup: < 6.0  # https://github.com/celery/celery
 django-celery-beat==2.5.0  # https://github.com/celery/django-celery-beat
 flower==2.0.1  # https://github.com/mher/flower
 uvicorn[standard]==0.27.0  # https://github.com/encode/uvicorn
-django-taggit==4.0.0  # https://github.com/jazzband/django-taggit
+django-taggit==5.0.1  # https://github.com/jazzband/django-taggit
 django-rosetta==0.10.0  # https://github.com/mbi/django-rosetta
 django-notifications-hq==1.8.3  # https://github.com/django-notifications/django-notifications
 # fugashi==1.3.0  # https://github.com/polm/fugashi

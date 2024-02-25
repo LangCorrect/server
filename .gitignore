@@ -273,7 +273,17 @@ dump.rdb
 
 ### Project template
 langcorrect/media/
-
+temp_data/
+.ipython/
+project.css
+project.min.css
+vendors.js
+*.min.js
+*.min.js.map
+.env
+.envs/*
+!.envs/.local/
+/static/
 .pytest_cache/
 temp_data/
 /static/
