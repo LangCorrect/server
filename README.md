@@ -35,6 +35,7 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 
 ## Technologies Used
 
+- Docker
 - Django 4.x
 - Python 3.x
 - Bootstrap CSS
@@ -49,192 +50,67 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 - AWS S3 (Optional)
 - CI/CD (GitHub Actions, GitLab CI, etc.)
 
-## Roadmap
-
-- [ ] Migrate core functionality from the oldercode base (in-progress)
-- [ ] Release to production
-- [ ] Re-implement DRF Views
-- [ ] Resume working on the React client
-
-## Getting Started (WIP)
+## Getting Started
 
 ### Prerequisites
 
-### PostgreSQL
-
-PostgreSQL is the default database for this project. If you already have it installed, skip this section. Otherwise, follow the installation steps below based on your operating system:
-
-#### Linux
-
-1.  Install PostgreSQL and utilities
-
-        sudo apt install -y postgresql postgresql-client-common libpq-dev
-
-2.  Start the PostgreSQL service
-
-        sudo service postgresql start
-
-3.  Create Database and User
-
-        sudo -u postgres createuser -s $(whoami)
-        createdb
-
-4.  Verify that it installed correctly:
-
-        psql
-
-#### macOS (Unverified - I was not able to check this as I do not have a mac computer)
-
-1.  Install PostgreSQL and utilities
-
-        brew install postgresql
-
-2.  Pin and Start the Service
-
-        brew pin postgresql
-        brew services start postgresql
-
-3.  Create the Database
-
-        createdb
-
-4.  Verify that it installed correctly:
-
-        psql
-
-#### Troubleshooting
-
-If you encounter the following error:
-
-        psql: error: could not connect to server ...
-
-Try restarting PostgreSQL:
-
-        pg_restart
-
----
-
-### Redis
-
-Redis is used for caching and messaging brokering in this project. If you already have Redis installed, you can skip this section. Otherwise, follow the instructions based on your operating system: https://redis.io/docs/getting-started/installation/.
-
----
+- Docker; if you don’t have it yet, follow the installation instructions;
+- Docker Compose; refer to the official documentation for the installation guide.
+- Pre-commit; refer to the official documentation for the pre-commit.
+- Cookiecutter; refer to the official GitHub repository of Cookiecutter
 
 ### Installation
 
-1.  Clone the repository
+#### Clone the repository
 
-        git clone git@github.com:LangCorrect/server.git
+```sh
+git clone git@github.com:LangCorrect/server.git
+```
 
-1.  Enter the project directory and create a new virtual environment
+#### Build the Stack
 
-        cd server
-        python -m venv venv
-        source venv/bin/activate
+This can take a while, especially the first time you run this particular command on your development system:
 
-1.  Install the project dependencies for local development
+```sh
+docker compose -f local.yml build
+```
 
-        pip install -r requirements/local.txt
+This command will also download and install the required dictionary files. We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.org/) for text parsing. Fugashi parses Japanese text and NLTK parses text in various languages.
 
-1.  Install dictionaries. We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.org/) for text parsing. Fugashi parses Japanese text and NLTK parses text in various languages.
+To emulate a production environment, use `production.yml` instad.
 
-    Fugashi
+#### Run the Stack
 
-        $ python -m unidic download
+```sh
+docker compose -f local.yml up
+```
 
-    NLTK
+The site will be accessible via <http://localhost:3000>.
 
-    I typically tend to install all of the datasets and models, but you'll most likely want to download the popular subset of NLTK data.
+#### Setup pre-commit
 
-        $ python -m nltk.downloader popular
+Make sure to setup pre-commit, otherwise there will be a bunch of CI and Linter errors.
 
-1.  Create the database (if you do not have postgresql already installed there are installation instructions further down the readme)
-
-        psql
-        CREATE DATABASE langcorrect;
-
-1.  Run the migrations
-
-        python manage.py migrate
-
-1.  Install Redis
-
-        sudo apt update && apt upgrade
-        sudo apt install redis-server
-        sudo service redis-server start
-
-1.  Seed the database (view the next section)
-
-1.  Load pre-commit
-
-        pre-commit install
-
-1.  Copy and paste the `.env.example`, rename it to `.env`, and configure it
-
-1.  Start the server
-
-        python manage.py runserver
-
-1.  Start a celery worker (optional)
-
-        celery -A config.celery_app worker --loglevel=info
-
-1.  Forward strip events to the webhook endpoint (optional)
-
-        stripe listen --forward-to localhost:8000/subscriptions/webhook/
-
-### Live Reloading (WIP)
-
-This project uses Gulp for the frontend pipeline. To utilize live reloading, you'll need Node.js (v18).
-
-Instructions
-
-1. Install the dependencies: `npm i`
-1. Start the development server: `npm run dev`
-1. Access the site via http://localhost:3000
+```sh
+pre-commit install
+```
 
 ### Seeding Your Database
 
-This project includes some sample data that you can import into your database. You have two options for doing so:
+Until PR #403 gets merged, there will be no convenient way to populate the database with mock data. You'll need to manually create users, posts, prompts, and corrections.
 
-#### Option 1: Seed the Entire Database (Recommended)
+Note: User registrations require email confirmations. Check your terminal for this link!
 
-This will seed your database with mock data including languages, users, posts, writing prompts, etc. Run:
+### Execute Management Commands
 
-        psql -d langcorrect < fixtures/seed.sql
+As with any shell command that we wish to run in our container, this is done using the `docker compose -f local.yml run --rm` command:
 
-#### Option 2: Load Only the Fixtures (Not Recommended)
+```sh
+docker compose -f local.yml run --rm django python manage.py migrate
+docker compose -f local.yml run --rm django python manage.py createsuperuser
+```
 
-If you only want to load fixtures without any mock data like posts, run:
-
-        python manage.py loaddata fixtures/languages.json
-        python manage.py loaddata fixtures/correction_types.json
-
-### Setting Up Your Users
-
-#### Pre-seeded
-
-For your convenience, the database comes pre-seeded with some basic user accounts. You can use these credentials to log in and explore the application.
-
-| id  | username | password | email                      | role    | description                                |
-| --- | -------- | -------- | -------------------------- | ------- | ------------------------------------------ |
-| 1   | admin    | password | admin@dundermifflin.com    | staff   | Use this to access the admin dashboard     |
-| 2   | michael  | password | mscott@dundermifflin.com   | Premium | Use this to test out premium functionality |
-| 3   | jim      | password | jim@dundermifflin.com      | member  | Use this for standard member access        |
-| 4   | pam      | password | pbeesly@dundermifflin.com  | member  | Use this for standard member access        |
-| 5   | dwight   | password | dschrute@dundermifflin.com | member  | Use this for standard member access        |
-
-#### Creating New Accounts
-
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
-
-- To create a **superuser account**, use this command:
-
-      python manage.py createsuperuser
-
-## Schema Diagram
-
-![schema](https://github.com/LangCorrect/server/blob/main/schema.png)
+Here, django is the target service we are executing the commands against. Also, please note that the docker exec does not work for running management commands.
 
 ## Settings
 
@@ -253,52 +129,28 @@ We use `flake8` for checking Python code for style and syntax errors and `pylint
 
 ### Testing
 
-We use `pytest` for our testing needs and `mypy` for type checking. Code coverage reports are generated using `coverage`.
+#### Pytest
 
-Run the test suite:
+This project uses the [Pytest](https://docs.pytest.org/en/latest/example/simple.html), a framework for easily building simple and scalable tests.
 
-        pytest
-
-Run Django unit tests:
-
-        python manage.py test (for unit test)
-
-Performing type checks on the codebase:
-
-        mypy langcorrect
-
-To run code coverage and generate reports:
-
-        coverage run -m pytest
-        coverage report
-        coverage html
-        open htmlcov/index.html
-
-### Celery
-
-This app utilizes Celery as an asynchronous task queue to efficiently manage background tasks, such as updating user rankings and running periodic tasks via the Beat scheduler.
-
-To run a celery worker:
-
-```bash
-cd langcorrect
-celery -A config.celery_app worker -l info
+```sh
+docker compose -f local.yml run --rm django pytest #runs all tests
+docker compose -f local.yml run --rm django pytest langcorrect/<app> #test specific app
 ```
 
-Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
+#### Coverage
 
-To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. You can start it as a standalone process:
+You should build your tests to provide the highest level of code coverage. You can run the pytest with code coverage by typing in the following command:
 
-```bash
-cd langcorrect
-celery -A config.celery_app beat
+```sh
+docker compose -f local.yml run --rm django coverage run -m pytest
+docker compose -f local.yml run --rm django coverage report
 ```
 
-or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
+#### Unit Tests
 
-```bash
-cd langcorrect
-celery -A config.celery_app worker -B -l info
+```sh
+docker compose -f local.yml run --rm django python manage.py test
 ```
 
 ### Sentry
@@ -330,6 +182,6 @@ Contribution Workflow:
 9. **Open Pull Request:** Open a PR in the original repository and fill in the PR template.
 10. **Address Reviews:** Maintainers will review your PR. Make any requested changes if needed.
 
-If you have any questions or need further clarification on any of the steps, feel free to reach out to our Discord: https://discord.gg/Vk7KcV26Fe.
+If you have any questions or need further clarification on any of the steps, feel free to reach out to our Discord: <https://discord.gg/Vk7KcV26Fe>.
 
 We look forward to your contributions!
