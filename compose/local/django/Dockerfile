@@ -47,7 +47,9 @@ RUN groupadd --gid 1000 dev-user \
 # Install NLP
 RUN apt-get update && apt-get install --no-install-recommends -y mecab libmecab-dev mecab-ipadic-utf8
 RUN pip install 'fugashi[unidic]'
+RUN pip install nltk
 RUN python -m unidic download
+RUN python -m nltk.downloader popular
 
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
