@@ -1,3 +1,4 @@
+# ruff: noqa: DJ001,RUF005
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -6,13 +7,15 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
 
 from langcorrect.languages.models import LevelChoices
 from langcorrect.posts.utils import SentenceSplitter
-from langcorrect.users.models import GenderChoices, User
+from langcorrect.users.models import GenderChoices
+from langcorrect.users.models import User
 
 sentence_splitter = SentenceSplitter()
 
@@ -34,13 +37,30 @@ class Post(TimeStampedModel, SoftDeletableModel):
         "languages.Language",
         on_delete=models.CASCADE,
     )
-    gender_of_narration = models.CharField(choices=GenderChoices.choices, default=GenderChoices.UNKNOWN, max_length=1)
-    permission = models.CharField(choices=PostVisibility.choices, default=PostVisibility.PUBLIC, max_length=6)
+    gender_of_narration = models.CharField(
+        choices=GenderChoices.choices,
+        default=GenderChoices.UNKNOWN,
+        max_length=1,
+    )
+    permission = models.CharField(
+        choices=PostVisibility.choices,
+        default=PostVisibility.PUBLIC,
+        max_length=6,
+    )
     is_draft = models.BooleanField(default=False)
-    prompt = models.ForeignKey("prompts.Prompt", on_delete=models.SET_NULL, null=True, blank=True)
+    prompt = models.ForeignKey(
+        "prompts.Prompt",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
     slug = models.SlugField(max_length=255, null=True)
     tags = TaggableManager(blank=True)
-    language_level = models.CharField(choices=LevelChoices.choices, default=LevelChoices.A1, max_length=2)
+    language_level = models.CharField(
+        choices=LevelChoices.choices,
+        default=LevelChoices.A1,
+        max_length=2,
+    )
     is_corrected = models.BooleanField(default=False)
 
     def get_absolute_url(self) -> str:
@@ -56,7 +76,11 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
             if Post.all_objects.filter(slug=new_slug).exists() or not new_slug:
                 count = 1
-                while Post.all_objects.exclude(id=self.pk).filter(slug=generated_slug).exists():
+                while (
+                    Post.all_objects.exclude(id=self.pk)
+                    .filter(slug=generated_slug)
+                    .exists()
+                ):
                     generated_slug = f"{new_slug}-{count}"
                     count += 1
             self.slug = generated_slug
@@ -94,7 +118,11 @@ class PostRow(TimeStampedModel, SoftDeletableModel):
 
 
 class PostReply(TimeStampedModel, SoftDeletableModel):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user")
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user",
+    )
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     recipient = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -103,9 +131,23 @@ class PostReply(TimeStampedModel, SoftDeletableModel):
         null=True,
     )
     text = models.TextField()
-    corrected_row = models.ForeignKey("corrections.CorrectedRow", on_delete=models.SET_NULL, null=True)
-    perfect_row = models.ForeignKey("corrections.PerfectRow", on_delete=models.SET_NULL, null=True)
-    reply = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="reply_to_comment")
+    corrected_row = models.ForeignKey(
+        "corrections.CorrectedRow",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    perfect_row = models.ForeignKey(
+        "corrections.PerfectRow",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    reply = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="reply_to_comment",
+    )
     dislike = models.BooleanField(default=False)
 
     class Meta:
@@ -119,7 +161,9 @@ def send_follower_notifications(sender, instance, created, **kwargs):
 
     if created:
         recipients = [
-            follower.user for follower in user.follow_to.all() if post.language in follower.user.native_languages
+            follower.user
+            for follower in user.follow_to.all()
+            if post.language in follower.user.native_languages
         ]
 
         notify.send(

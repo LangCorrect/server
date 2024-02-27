@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView
 from rest_framework import permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
@@ -28,7 +29,9 @@ class RankingListView(ListView):
         current_user = self.request.user
 
         if current_user.is_authenticated:
-            context["self_ranking"] = Contribution.available_objects.get(user=current_user)
+            context["self_ranking"] = Contribution.available_objects.get(
+                user=current_user,
+            )
         return context
 
 

@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext_lazy as _
@@ -19,7 +20,9 @@ def validate_jpeg_extension(image: UploadedFile) -> None:
 
     ext = get_file_extension(image)
     if ext.lower() not in VALID_IMAGE_EXTENSIONS:
-        raise ValidationError(_("Unsupported file extension. Only .jpg and .jpeg are allowed."))
+        raise ValidationError(
+            _("Unsupported file extension. Only .jpg and .jpeg are allowed."),
+        )
 
 
 def validate_image_size(image: UploadedFile, max_size_mb: int = 5) -> None:
@@ -35,4 +38,6 @@ def validate_image_size(image: UploadedFile, max_size_mb: int = 5) -> None:
     max_size_bytes = max_size_mb * 1024 * 1024
 
     if image.size > max_size_bytes:
-        raise ValidationError(_(f"Image size should not be more than {max_size_mb}MB."))
+        raise ValidationError(
+            _("Image size should not be more than %sMB.") % max_size_mb,
+        )

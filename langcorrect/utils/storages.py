@@ -1,3 +1,4 @@
+# ruff: noqa: FBT002
 import logging
 from io import BytesIO
 
@@ -6,7 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 
-from langcorrect.utils.generics import generate_unique_filename, get_file_extension
+from langcorrect.utils.generics import generate_unique_filename
+from langcorrect.utils.generics import get_file_extension
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +48,8 @@ class LocalMediaStorage(BaseMediaStorage):
             file_obj (UploadedFile)
 
         Returns:
-            str: The stored file's unique key including the extension (ex: "2f79fb98-93c9-4fe1-a6e2-6d1289bcbc32.jpeg")
+            str: The stored file's unique key including the extension
+                    (ex: "2f79fb98-93c9-4fe1-a6e2-6d1289bcbc32.jpeg")
 
         """
         media_storage = FileSystemStorage()
@@ -74,8 +77,10 @@ class LocalMediaStorage(BaseMediaStorage):
         if media_storage.exists(file_key):
             try:
                 media_storage.delete(file_key)
-            except Exception as e:
-                logger.error(f"Failed to delete file with key ({file_key}) from local storage. Error: {e}")
+            except Exception:
+                logger.exception(
+                    f"Failed to delete file with key ({file_key}) from local storage.",
+                )
 
 
 def get_storage_backend():

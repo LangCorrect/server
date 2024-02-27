@@ -1,7 +1,11 @@
 from django.urls import path
 
-from langcorrect.follows.views import follower_list_view, following_list_view
-from langcorrect.users.views import notifications_view, user_detail_view, user_redirect_view, user_update_view
+from langcorrect.follows.views import follower_list_view
+from langcorrect.follows.views import following_list_view
+from langcorrect.users.views import notifications_view
+from langcorrect.users.views import user_detail_view
+from langcorrect.users.views import user_redirect_view
+from langcorrect.users.views import user_update_view
 
 app_name = "users"
 urlpatterns = [

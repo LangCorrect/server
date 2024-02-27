@@ -19,13 +19,18 @@ class Command(BaseCommand):
             #   -> the email has been automatically added to EmailAddress
             # create: if user has NOT attempted to log in
             #   -> the email has not been added to EmailAddress
-            previously_verified_email, _ = EmailAddress.objects.get_or_create(user=user, email=user.email)
+            previously_verified_email, _ = EmailAddress.objects.get_or_create(
+                user=user,
+                email=user.email,
+            )
 
             # verify and set this email as primary if not already manually done by user
-            if not (previously_verified_email.verified and previously_verified_email.primary):
+            if not (
+                previously_verified_email.verified and previously_verified_email.primary
+            ):
                 try:
                     previously_verified_email.verified = True
                     previously_verified_email.primary = True
                     previously_verified_email.save()
-                except Exception as e:
-                    logger.error(f"Failed to verify email {previously_verified_email.email}: {e}")
+                except Exception:
+                    logger.exception("Failed to verify email")

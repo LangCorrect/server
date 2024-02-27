@@ -285,14 +285,14 @@ vendors.js
 !.envs/.local/
 /static/
 .pytest_cache/
-
-# Default ignored files
-/shelf/
-/workspace.xml
-
-# Editor-based HTTP Client requests
-/httpRequests/
-
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+temp_data/
+/static/
+.ipython/
+project.css
+project.min.css
+vendors.js
+*.min.js
+*.min.js.map
+.env
+.envs/*
+!.envs/.local/

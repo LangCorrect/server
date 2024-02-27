@@ -5,10 +5,10 @@
     "@popperjs/core": "^2.10.2",
     "autoprefixer": "^10.4.0",
     "bootstrap": "^5.2.3",
-    "browser-sync": "^2.27.7",
+    "browser-sync": "^3.0.2",
+    "gulp-concat": "^2.6.1",
     "cssnano": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
@@ -21,7 +21,7 @@
     "sass": "^1.43.4"
   },
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "browserslist": [
     "last 2 versions"

@@ -5,7 +5,10 @@ import stripe
 from django.conf import settings
 from django.utils import timezone
 
-from langcorrect.subscriptions.models import PaymentHistory, PaymentStatus, Product, StripeCustomer
+from langcorrect.subscriptions.models import PaymentHistory
+from langcorrect.subscriptions.models import PaymentStatus
+from langcorrect.subscriptions.models import Product
+from langcorrect.subscriptions.models import StripeCustomer
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -13,7 +16,12 @@ logger = logging.getLogger(__name__)
 
 
 class StripeManager:
-    def __init__(self, customer_id=None, customer_description=None, customer_email=None):
+    def __init__(
+        self,
+        customer_id=None,
+        customer_description=None,
+        customer_email=None,
+    ):
         self.customer_id = customer_id
         self.customer_description = customer_description
         self.customer_email = customer_email
@@ -34,7 +42,10 @@ class StripeManager:
             if existing_customers:
                 customer = existing_customers[0]
             else:
-                customer = stripe.Customer.create(description=self.customer_description, email=self.customer_email)
+                customer = stripe.Customer.create(
+                    description=self.customer_description,
+                    email=self.customer_email,
+                )
 
         self.customer_id = customer.id
         return self.customer_id
@@ -95,7 +106,7 @@ class PremiumManager:
 
             user = StripeCustomer.objects.get(customer_id=customer_id)
 
-            payment_history = PaymentHistory.objects.create(
+            return PaymentHistory.objects.create(
                 stripe_customer=user,
                 subscription_id=subscription_id,
                 session_id=session_id,
@@ -104,10 +115,8 @@ class PremiumManager:
                 status=PaymentStatus.AWAITING_PAYMENT,
                 amount_total=amount_total,
             )
-
-            return payment_history
-        except Exception as e:
-            logger.error(f"An error occurred while creating the order: {str(e)}")
+        except Exception:
+            logger.exception("An error occurred while creating the order")
 
     @staticmethod
     def fulfill_order(session):
@@ -125,8 +134,8 @@ class PremiumManager:
             stripe_customer.current_subscription_id = subscription_id
             stripe_customer.last_subscription_id = subscription_id
             stripe_customer.save()
-        except Exception as e:
-            logger.error(f"An error occurred while fulfilling the order: {str(e)}")
+        except Exception:
+            logger.exception("An error occurred while fulfilling the order")
 
     @staticmethod
     def fail_order(session):
@@ -143,8 +152,8 @@ class PremiumManager:
             stripe_customer.current_subscription_id = None
             stripe_customer.last_subscription_id = None
             stripe_customer.save()
-        except Exception as e:
-            logger.error(f"An error occurred while failing the order: {str(e)}")
+        except Exception:
+            logger.exception("An error occurred while failing the order")
 
     @staticmethod
     def canceled_subscription(subscription):
@@ -161,9 +170,14 @@ class PremiumManager:
             stripe_customer.last_subscription_id = subscription_id
 
             stripe_customer.premium_until = timezone.make_aware(
-                datetime.fromtimestamp(subscription.current_period_end)
+                datetime.fromtimestamp(
+                    subscription.current_period_end,
+                    tz=timezone.utc,
+                ),
             )
-            stripe_customer.ended_at = timezone.make_aware(datetime.fromtimestamp(ended_at))
+            stripe_customer.ended_at = timezone.make_aware(
+                datetime.fromtimestamp(ended_at, tz=timezone.utc),
+            )
             stripe_customer.save()
-        except Exception as e:
-            logger.error(f"An error occurred while canceling the subscription: {str(e)}")
+        except Exception:
+            logger.exception("An error occurred while canceling the subscription")

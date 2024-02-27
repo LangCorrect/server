@@ -1,3 +1,4 @@
+# ruff: noqa: RUF001
 import re
 
 import jieba
@@ -90,8 +91,8 @@ class SentenceSplitter:
         if lang_code in self.nltk_supported_languages:
             lang_name = self.nltk_lang_map.get(lang_code)
             return self._split_sentences_using_nltk(text, lang_name)
-        elif lang_code == "ja":
+        if lang_code == "ja":
             return self._split_sentences_japanese(text)
-        elif lang_code in ["zh-hans", "zh-hant"]:
+        if lang_code in ["zh-hans", "zh-hant"]:
             return self._split_sentences_chinese(text)
         return self._split_sentences_generic(text)

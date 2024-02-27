@@ -1,7 +1,9 @@
+# ruff: noqa: DJ001
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 
 from langcorrect.corrections import diff_match_patch
 
@@ -20,7 +22,12 @@ class CorrectionType(SoftDeletableModel, TimeStampedModel):
 
 class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey("posts.Post", on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(
+        "posts.Post",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
     correction = models.TextField()
     note = models.TextField(default=None, null=True, blank=True)
@@ -41,18 +48,26 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
         dmp = diff_match_patch.diff_match_patch()
         diffs = dmp.diff_main(self.post_row.sentence, self.correction)
         dmp.diff_cleanupSemantic(diffs)
-        html = dmp.diff_prettyHtml(diffs)
-        return html
+        return dmp.diff_prettyHtml(diffs)
 
 
 class PerfectRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey("posts.Post", on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(
+        "posts.Post",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
 
     @property
     def serialize(self):
-        return {"type": "perfect", "correction": self.post_row.sentence, "ordering": self.post_row.order}
+        return {
+            "type": "perfect",
+            "correction": self.post_row.sentence,
+            "ordering": self.post_row.order,
+        }
 
 
 class OverallFeedback(SoftDeletableModel, TimeStampedModel):

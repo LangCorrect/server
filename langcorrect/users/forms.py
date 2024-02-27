@@ -7,7 +7,9 @@ from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
+from langcorrect.languages.models import Language
+from langcorrect.languages.models import LanguageLevel
+from langcorrect.languages.models import LevelChoices
 from langcorrect.users.models import GenderChoices
 
 User = get_user_model()
@@ -50,9 +52,10 @@ class UserSignupForm(SignupForm):
 
     def clean_username(self):
         username = super().clean_username()
+        err_msg = "Username can only contain letters, numbers, and underscores."
 
         if not re.match("^[a-zA-Z0-9_]+$", username):
-            raise django_forms.ValidationError("Username can only contain letters, numbers, and underscores.")
+            raise django_forms.ValidationError(err_msg)
 
         return username
 
@@ -81,10 +84,18 @@ class UserSignupForm(SignupForm):
             return None
 
         # native
-        LanguageLevel.objects.create(user=user, language=native_language, level=LevelChoices.NATIVE)
+        LanguageLevel.objects.create(
+            user=user,
+            language=native_language,
+            level=LevelChoices.NATIVE,
+        )
 
         # studying
-        LanguageLevel.objects.create(user=user, language=studying_language, level=studying_language_level)
+        LanguageLevel.objects.create(
+            user=user,
+            language=studying_language,
+            level=studying_language_level,
+        )
 
         user.gender = self.cleaned_data.get("gender_of_narration")
         user.save()

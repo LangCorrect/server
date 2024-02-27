@@ -1,13 +1,16 @@
+# ruff: noqa: DJ001,S311
 import random
 import string
 
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 from taggit.managers import TaggableManager
 
-from langcorrect.languages.models import Language, LevelChoices
+from langcorrect.languages.models import Language
+from langcorrect.languages.models import LevelChoices
 
 
 class Prompt(SoftDeletableModel, TimeStampedModel):
@@ -25,7 +28,12 @@ class Prompt(SoftDeletableModel, TimeStampedModel):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=255, null=True)
     tags = TaggableManager(blank=True)
-    challenge = models.ForeignKey("challenges.Challenge", on_delete=models.CASCADE, null=True, blank=True)
+    challenge = models.ForeignKey(
+        "challenges.Challenge",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     def create_hash(self):
         def get_random_str():

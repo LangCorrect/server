@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+python manage.py migrate
+python manage.py loaddata fixtures/languages.json
+python manage.py loaddata fixtures/correction_types.json
+
+exec uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'

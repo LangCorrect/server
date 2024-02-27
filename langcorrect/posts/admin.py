@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from langcorrect.posts.models import Post, PostReply, PostRow
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostReply
+from langcorrect.posts.models import PostRow
 
 
 @admin.register(Post)
@@ -28,8 +30,24 @@ class PostRowAdmin(admin.ModelAdmin):
 
 @admin.register(PostReply)
 class PostReplyAdmin(admin.ModelAdmin):
-    readonly_fields = ["user", "recipient", "post", "corrected_row", "perfect_row", "reply", "dislike"]
-    list_display = ["user", "recipient", "post", "text", "get_corrected_row", "get_perfect_row", "get_parent"]
+    readonly_fields = [
+        "user",
+        "recipient",
+        "post",
+        "corrected_row",
+        "perfect_row",
+        "reply",
+        "dislike",
+    ]
+    list_display = [
+        "user",
+        "recipient",
+        "post",
+        "text",
+        "get_corrected_row",
+        "get_perfect_row",
+        "get_parent",
+    ]
     search_fields = ["post__title", "user__username"]
 
     def get_perfect_row(self, obj):

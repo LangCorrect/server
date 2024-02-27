@@ -1,7 +1,8 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from langcorrect.posts.models import Post, PostVisibility
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostVisibility
 
 
 class StaticViewSitemap(Sitemap):

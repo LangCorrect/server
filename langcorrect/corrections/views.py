@@ -1,11 +1,18 @@
+# ruff: noqa: C901,PLR0915,PLR0912
 import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Case, Count, Max, Q, When
-from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models import Case
+from django.db.models import Count
+from django.db.models import Max
+from django.db.models import Q
+from django.db.models import When
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
 from django.utils.translation import gettext_noop
@@ -14,10 +21,13 @@ from notifications.signals import notify
 
 from langcorrect.corrections.constants import FileFormat
 from langcorrect.corrections.helpers import check_can_make_corrections
-from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
+from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.models import OverallFeedback
+from langcorrect.corrections.models import PerfectRow
 from langcorrect.corrections.utils import ExportCorrections
 from langcorrect.decorators import premium_required
-from langcorrect.posts.models import Post, PostRow
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostRow
 from langcorrect.utils.mailing import email_new_correction
 
 
@@ -27,7 +37,7 @@ def make_corrections(request, slug):
     current_user = request.user
 
     if not check_can_make_corrections(current_user, post):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     if request.method == "POST":
         corrections_data = request.POST.get("corrections_data")
@@ -51,13 +61,20 @@ def make_corrections(request, slug):
 
                 if action == "perfect":
                     _, perfect_created = PerfectRow.available_objects.get_or_create(
-                        post=post, post_row=post_row_instance, user=current_user
+                        post=post,
+                        post_row=post_row_instance,
+                        user=current_user,
                     )
                     new_correction_made |= perfect_created
 
                 if action == "corrected":
-                    corrected_row, correctedrow_created = CorrectedRow.available_objects.get_or_create(
-                        post=post, post_row=post_row_instance, user=current_user
+                    (
+                        corrected_row,
+                        correctedrow_created,
+                    ) = CorrectedRow.available_objects.get_or_create(
+                        post=post,
+                        post_row=post_row_instance,
+                        user=current_user,
                     )
                     corrected_row.correction = corrected_text
                     corrected_row.note = feedback
@@ -68,14 +85,21 @@ def make_corrections(request, slug):
                 if action == "delete":
                     # Note: a sentence cannot be both marked as perfect or corrected
                     PerfectRow.available_objects.filter(
-                        post=post, post_row=post_row_instance, user=current_user
+                        post=post,
+                        post_row=post_row_instance,
+                        user=current_user,
                     ).delete()
                     CorrectedRow.available_objects.filter(
-                        post=post, post_row=post_row_instance, user=current_user
+                        post=post,
+                        post_row=post_row_instance,
+                        user=current_user,
                     ).delete()
 
         if overall_feedback:
-            feedback_row, feedback_created = OverallFeedback.available_objects.get_or_create(
+            (
+                feedback_row,
+                feedback_created,
+            ) = OverallFeedback.available_objects.get_or_create(
                 post=post,
                 user=current_user,
             )
@@ -113,23 +137,37 @@ def make_corrections(request, slug):
             post.is_corrected = False
             post.save()
 
-        if new_correction_made and current_user not in previous_correctors and post.user.is_premium_user:
+        if (
+            new_correction_made
+            and current_user not in previous_correctors
+            and post.user.is_premium_user
+        ):
             email_new_correction(post)
 
         return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
-    else:
-        all_post_rows = PostRow.available_objects.filter(post=post, is_actual=True).order_by("order")
+    else:  # noqa: RET505
+        all_post_rows = PostRow.available_objects.filter(
+            post=post,
+            is_actual=True,
+        ).order_by("order")
 
-        overall_feedback = OverallFeedback.available_objects.filter(post=post, user=current_user).first()
+        overall_feedback = OverallFeedback.available_objects.filter(
+            post=post,
+            user=current_user,
+        ).first()
 
         is_edit = False
 
         for post_row in all_post_rows:
             previous_correction = CorrectedRow.available_objects.filter(
-                post_row_id=post_row.id, user=current_user
+                post_row_id=post_row.id,
+                user=current_user,
             ).first()
 
-            previous_perfect = PerfectRow.available_objects.filter(post_row_id=post_row.id, user=current_user).first()
+            previous_perfect = PerfectRow.available_objects.filter(
+                post_row_id=post_row.id,
+                user=current_user,
+            ).first()
 
             post_row.correction = post_row.sentence
             post_row.note = ""
@@ -166,8 +204,6 @@ def export_corrections(request, slug):
     export_format = request.GET.get("format", "").upper()
 
     match export_format:
-        # case FileFormat.ANKI:
-        #     return ExportCorrections(post).export_anki()
         case FileFormat.CSV:
             return ExportCorrections(post).export_csv()
         case FileFormat.PDF:
@@ -185,23 +221,33 @@ class UserCorrectionsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         current_user = self.request.user
 
-        correctedrow_condition = Q(correctedrow__user=current_user, correctedrow__is_removed=False)
-        perfectrow_condition = Q(perfectrow__user=current_user, perfectrow__is_removed=False)
+        correctedrow_condition = Q(
+            correctedrow__user=current_user,
+            correctedrow__is_removed=False,
+        )
+        perfectrow_condition = Q(
+            perfectrow__user=current_user,
+            perfectrow__is_removed=False,
+        )
 
-        qs = Post.available_objects.filter(correctedrow_condition | perfectrow_condition).distinct()
+        qs = Post.available_objects.filter(
+            correctedrow_condition | perfectrow_condition,
+        ).distinct()
 
-        qs = qs.annotate(
-            num_corrections=Count("correctedrow__id", distinct=True, filter=correctedrow_condition)
+        return qs.annotate(
+            num_corrections=Count(
+                "correctedrow__id",
+                distinct=True,
+                filter=correctedrow_condition,
+            )
             + Count("perfectrow__id", distinct=True, filter=perfectrow_condition),
             date_corrected=Max(
                 Case(
                     When(correctedrow__user=current_user, then="correctedrow__created"),
                     When(perfectrow__user=current_user, then="perfectrow__created"),
-                )
+                ),
             ),
         ).order_by("-date_corrected")
-
-        return qs
 
 
 user_corrections_view = UserCorrectionsView.as_view()

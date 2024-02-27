@@ -3,9 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView
+from django.views.generic import DetailView
+from django.views.generic import ListView
 
 from langcorrect.languages.models import Language
 from langcorrect.posts.forms import CustomPostForm
@@ -58,7 +62,7 @@ class PromptListView(LoginRequiredMixin, ListView):
                 "language_filters": language_filter_choices,
                 "selected_lang_code": selected_lang_code,
                 "is_prompt_page": True,
-            }
+            },
         )
 
         return context
@@ -80,20 +84,26 @@ class PromptDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         prompt_responses = self.get_object().post_set.all()
 
-        response_languages = list(prompt_responses.values_list("language__code", flat=True).distinct().order_by())
+        response_languages = list(
+            prompt_responses.values_list("language__code", flat=True)
+            .distinct()
+            .order_by(),
+        )
 
         selected_lang_code = self.get_lang_code()
         language_filter_choices = Language.objects.filter(code__in=response_languages)
 
         if selected_lang_code and selected_lang_code != "all":
-            prompt_responses = prompt_responses.filter(language__code=selected_lang_code)
+            prompt_responses = prompt_responses.filter(
+                language__code=selected_lang_code,
+            )
 
         context.update(
             {
                 "language_filters": language_filter_choices,
                 "selected_lang_code": selected_lang_code,
                 "prompt_responses": prompt_responses,
-            }
+            },
         )
 
         return context
@@ -128,9 +138,7 @@ class UserPromptsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         current_user = self.request.user
-        qs = super().get_queryset().filter(user=current_user)
-
-        return qs
+        return super().get_queryset().filter(user=current_user)
 
 
 user_prompts_view = UserPromptsView.as_view()
@@ -139,17 +147,23 @@ user_prompts_view = UserPromptsView.as_view()
 @login_required
 def convert_prompt_to_journal_entry(request, slug):
     if not (request.user.is_staff or request.user.is_moderator):
-        raise PermissionDenied()
+        raise PermissionDenied
 
     prompt = get_object_or_404(Prompt, slug=slug)
 
     if prompt.post_set.exists():
-        error_msg = "Unable to convert this prompt to a post as this prompt has responses."
+        error_msg = (
+            "Unable to convert this prompt to a post as this prompt has responses."
+        )
         messages.add_message(request, messages.ERROR, error_msg)
         return redirect("prompts:detail", slug=prompt.slug)
 
     if request.method == "POST":
-        form = CustomPostForm(user=prompt.user, data=request.POST, is_convert_prompt=True)
+        form = CustomPostForm(
+            user=prompt.user,
+            data=request.POST,
+            is_convert_prompt=True,
+        )
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = prompt.user

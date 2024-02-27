@@ -1,11 +1,9 @@
 from django.urls import path
 
-from langcorrect.languages.views import (
-    language_level_create_view,
-    language_level_delete_view,
-    language_level_list_view,
-    language_level_update_view,
-)
+from langcorrect.languages.views import language_level_create_view
+from langcorrect.languages.views import language_level_delete_view
+from langcorrect.languages.views import language_level_list_view
+from langcorrect.languages.views import language_level_update_view
 
 app_name = "languages"
 
