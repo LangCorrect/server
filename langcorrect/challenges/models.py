@@ -1,6 +1,8 @@
-from django.db import models  # noqa: F401
+# ruff: noqa: DJ001
+from django.db import models
 from django.utils.text import slugify
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 
 
 class Challenge(TimeStampedModel, SoftDeletableModel):

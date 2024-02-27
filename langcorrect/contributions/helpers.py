@@ -1,5 +1,6 @@
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 from django.db.models import Count
 from django.db.models.functions import TruncDate
@@ -11,12 +12,19 @@ from langcorrect.posts.models import Post
 
 def get_contribution_data(user):
     now = timezone.now()
-    start_date = timezone.make_aware(datetime(now.year, 1, 1))
-    end_date = timezone.make_aware(datetime(now.year, 12, 31, 23, 59, 59))
+    start_date = timezone.make_aware(datetime(now.year, 1, 1, tzinfo=timezone.utc))
+    end_date = timezone.make_aware(
+        datetime(now.year, 12, 31, 23, 59, 59, tzinfo=timezone.utc),
+    )
 
     contribution_data = defaultdict(int)
 
-    models = [user.post_set, user.correctedrow_set, user.perfectrow_set, user.prompt_set]
+    models = [
+        user.post_set,
+        user.correctedrow_set,
+        user.perfectrow_set,
+        user.prompt_set,
+    ]
 
     for model in models:
         aggregated_data = (
@@ -29,9 +37,7 @@ def get_contribution_data(user):
         for entry in aggregated_data:
             contribution_data[entry["date_only"].isoformat()] += entry["total"]
 
-    serialized_data = [{"date": key, "value": value} for key, value in contribution_data.items()]
-
-    return serialized_data
+    return [{"date": key, "value": value} for key, value in contribution_data.items()]
 
 
 def update_user_writing_streak(user):

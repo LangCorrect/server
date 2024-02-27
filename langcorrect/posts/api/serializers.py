@@ -3,7 +3,8 @@ import re
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from langcorrect.posts.models import Post, PostReply
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostReply
 from langcorrect.users.models import User
 
 
@@ -21,14 +22,16 @@ class PostReplySerializer(serializers.ModelSerializer):
         # Replace multiple spaces/tabs with a single space
         s = re.sub(r"[ \t]+", " ", s)
         # Replace more than two consecutive newlines with two newlines
-        s = re.sub(r"\n{3,}", "\n\n", s)
-        return s
+        return re.sub(r"\n{3,}", "\n\n", s)
 
     def validate_text(self, obj):
+        min_length = 10
+        err_msg = f"Message needs to be at least {min_length} characters long"
+
         # Replace all whitespace with a single space
         text_length = re.sub(r"\s+", " ", obj)
-        if len(text_length) < 10:
-            raise serializers.ValidationError("Message needs to be at least 10 characters long")
+        if len(text_length) < min_length:
+            raise serializers.ValidationError(err_msg)
         return self._clean_string(obj)
 
     def get_recipient(self, obj):

@@ -1,3 +1,4 @@
+# ruff: noqa: PT009
 from datetime import timedelta
 
 from django.test import TestCase
@@ -17,7 +18,11 @@ class TestWritingStreaks(TestCase):
         self.en_lang = Language.objects.create(code="en", en_name="English")
 
     def create_post(self, days_ago):
-        Post.objects.create(user=self.user, created=timezone.now() - timedelta(days=days_ago), language=self.en_lang)
+        Post.objects.create(
+            user=self.user,
+            created=timezone.now() - timedelta(days=days_ago),
+            language=self.en_lang,
+        )
 
     def test_one_day_streak(self):
         """
@@ -88,10 +93,10 @@ class TestWritingStreaks(TestCase):
         """
         Test that a long streak of 30 days is correctly identified.
         """
-        THIRTY_DAYS = 30
+        thirty_days = 30
 
-        for i in range(THIRTY_DAYS):
+        for i in range(thirty_days):
             self.create_post(days_ago=i)
         update_user_writing_streak(self.user)
         self.contribution.refresh_from_db()
-        self.assertEqual(self.contribution.writing_streak, THIRTY_DAYS)
+        self.assertEqual(self.contribution.writing_streak, thirty_days)

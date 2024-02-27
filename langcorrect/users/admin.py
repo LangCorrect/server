@@ -4,14 +4,16 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
-from django.contrib.auth import decorators, get_user_model
+from django.contrib.auth import decorators
+from django.contrib.auth import get_user_model
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from langcorrect.users.forms import UserAdminChangeForm, UserAdminCreationForm
+from langcorrect.users.forms import UserAdminChangeForm
+from langcorrect.users.forms import UserAdminCreationForm
 
 User = get_user_model()
 
@@ -42,7 +44,15 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "pk", "is_superuser", "is_active", "gender", "speaks", "studies"]
+    list_display = [
+        "username",
+        "pk",
+        "is_superuser",
+        "is_active",
+        "gender",
+        "speaks",
+        "studies",
+    ]
     search_fields = ["username", "email"]
     ordering = ["-date_joined"]
 
@@ -61,7 +71,7 @@ class UserAdmin(auth_admin.UserAdmin):
             .annotate(date=TruncDay("date_joined"))
             .values("date")
             .annotate(user_count=Count("id"))
-            .order_by("date")
+            .order_by("date"),
         )
 
         as_json = json.dumps(chart_data, cls=DjangoJSONEncoder)

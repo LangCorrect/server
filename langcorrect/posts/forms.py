@@ -2,15 +2,27 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from langcorrect.posts.models import Post
-from langcorrect.posts.validators import validate_image_size, validate_jpeg_extension
+from langcorrect.posts.validators import validate_image_size
+from langcorrect.posts.validators import validate_jpeg_extension
 
 
 class CustomPostForm(forms.ModelForm):
-    image = forms.ImageField(required=False, validators=[validate_jpeg_extension, validate_image_size])
+    image = forms.ImageField(
+        required=False,
+        validators=[validate_jpeg_extension, validate_image_size],
+    )
 
     class Meta:
         model = Post
-        fields = ["title", "text", "native_text", "language", "gender_of_narration", "permission", "tags"]
+        fields = [
+            "title",
+            "text",
+            "native_text",
+            "language",
+            "gender_of_narration",
+            "permission",
+            "tags",
+        ]
 
     def __init__(self, user, *args, is_convert_prompt=False, **kwargs):
         self.user = user
@@ -30,8 +42,16 @@ class CustomPostForm(forms.ModelForm):
     def clean_text(self):
         text = self.cleaned_data["text"].strip()
 
-        if text and len(text) < 50:
-            msg = _(f"You need to write {50 - len(text)} more characters to meet the minimum requirement.")
+        min_char_count = 50
+
+        if text and len(text) < min_char_count:
+            more_chars_needed = min_char_count - len(text)
+            msg = (
+                _(
+                    "You need to write %s more characters to meet the minimum requirement.",  # noqa: E501
+                )
+                % more_chars_needed
+            )
             raise forms.ValidationError(msg)
         return text
 
@@ -41,8 +61,9 @@ class CustomPostForm(forms.ModelForm):
             tags = [t.lower().replace("#", "") for t in tags]
 
         for tag in tags:
-            if len(tag) > 20:
-                msg = _("Tags cannot be longer than 20 characters")
+            max_char_count = 20
+            if len(tag) > max_char_count:
+                msg = _("Tags cannot be longer than %s characters") % max_char_count
                 raise forms.ValidationError(msg)
 
         return tags

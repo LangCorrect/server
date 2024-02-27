@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand
 from django.db.models import Subquery
 
-from langcorrect.corrections.models import CorrectedRow, PerfectRow
+from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.models import PerfectRow
 from langcorrect.posts.models import Post
 
 

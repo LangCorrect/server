@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from django.utils.translation import gettext_noop
 from notifications.signals import notify
-from rest_framework import generics, status
+from rest_framework import generics
+from rest_framework import status
 from rest_framework.response import Response
 
 from langcorrect.posts.api.serializers import PostReplySerializer
@@ -48,7 +50,12 @@ class PostReplyCreateUpdateAPIView(generics.GenericAPIView):
         serializer.save(user=self.request.user)
 
     def get_recipients(self, serializer):
-        recipients = {reply.user for reply in PostReply.available_objects.filter(post=serializer.instance.post)}
+        recipients = {
+            reply.user
+            for reply in PostReply.available_objects.filter(
+                post=serializer.instance.post,
+            )
+        }
         recipients.add(serializer.instance.post.user)
         corrector = get_object_or_404(User, username=self.request.data.get("recipient"))
         recipients.add(corrector)

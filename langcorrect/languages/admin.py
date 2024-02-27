@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from langcorrect.languages.models import Language, LanguageLevel
+from langcorrect.languages.models import Language
+from langcorrect.languages.models import LanguageLevel
 
 
 class NoDeleteAdminMixin:

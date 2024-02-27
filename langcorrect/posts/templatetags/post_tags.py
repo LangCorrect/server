@@ -1,3 +1,4 @@
+# ruff: noqa: PLR0913,FBT002
 from django import template
 
 register = template.Library()
@@ -38,4 +39,9 @@ def render_post_reply_card(instance, current_user):
     user = instance.user
     created = instance.created
 
-    return {"user": user, "current_user": current_user, "created": created, "instance": instance}
+    return {
+        "user": user,
+        "current_user": current_user,
+        "created": created,
+        "instance": instance,
+    }

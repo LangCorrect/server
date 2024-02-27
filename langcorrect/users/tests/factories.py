@@ -1,13 +1,18 @@
+# ruff: noqa: FBT001,S311
 import random
 from collections.abc import Sequence
 from typing import Any
 
 from django.contrib.auth import get_user_model
-from factory import Faker, post_generation
+from factory import Faker
+from factory import post_generation
 from factory.django import DjangoModelFactory
 
-from langcorrect.languages.models import Language, LanguageLevel, LevelChoices
-from langcorrect.languages.tests.utils import create_native_languages, create_studying_languages
+from langcorrect.languages.models import Language
+from langcorrect.languages.models import LanguageLevel
+from langcorrect.languages.models import LevelChoices
+from langcorrect.languages.tests.utils import create_native_languages
+from langcorrect.languages.tests.utils import create_studying_languages
 
 
 class UserFactory(DjangoModelFactory):
@@ -40,7 +45,11 @@ class UserFactory(DjangoModelFactory):
         if extracted:
             for language_code in extracted:
                 language = Language.objects.get(code=language_code)
-                LanguageLevel.objects.get_or_create(user=self, language=language, level=LevelChoices.NATIVE)
+                LanguageLevel.objects.get_or_create(
+                    user=self,
+                    language=language,
+                    level=LevelChoices.NATIVE,
+                )
         else:
             for _ in range(random.randint(1, 3)):
                 create_native_languages(self)

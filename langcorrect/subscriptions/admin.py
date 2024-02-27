@@ -1,6 +1,8 @@
+# ruff: noqa: ERA001
 from django.contrib import admin
 
-from langcorrect.subscriptions.models import PaymentHistory, StripeCustomer
+from langcorrect.subscriptions.models import PaymentHistory
+from langcorrect.subscriptions.models import StripeCustomer
 
 # class ReadOnlyAdmin(admin.ModelAdmin):
 #     def has_delete_permission(self, request, obj=None):
@@ -15,7 +17,14 @@ from langcorrect.subscriptions.models import PaymentHistory, StripeCustomer
 
 @admin.register(StripeCustomer)
 class StripeCustomerAdmin(admin.ModelAdmin):
-    list_display = ["user", "has_active_subscription", "customer_id", "current_subscription_id", "created", "modified"]
+    list_display = [
+        "user",
+        "has_active_subscription",
+        "customer_id",
+        "current_subscription_id",
+        "created",
+        "modified",
+    ]
     search_fields = ["user__username", "customer_id", "current_subscription_id"]
 
 

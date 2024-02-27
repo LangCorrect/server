@@ -9,4 +9,9 @@ def render_prompt_card(instance, current_user):
     created = instance.created
     prompt = instance
 
-    return {"user": user, "created": created, "prompt": prompt, "current_user": current_user}
+    return {
+        "user": user,
+        "created": created,
+        "prompt": prompt,
+        "current_user": current_user,
+    }

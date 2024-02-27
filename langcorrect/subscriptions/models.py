@@ -1,8 +1,10 @@
+# ruff: noqa: DJ001
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 
 
 class Product(models.TextChoices):
@@ -37,7 +39,9 @@ class PaymentHistory(SoftDeletableModel, TimeStampedModel):
     product_id = models.CharField(max_length=255)
     status = models.CharField(choices=PaymentStatus.choices, max_length=1)
     amount_total = models.DecimalField(
-        max_digits=5, decimal_places=2, validators=[MinValueValidator(1)]
+        max_digits=5,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
     )  # stores up to 999.99
     has_used_coupon = models.CharField(max_length=20, blank=True, null=True)
 

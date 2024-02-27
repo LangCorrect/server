@@ -1,21 +1,24 @@
+# ruff: noqa: ERA001
 import logging
 
 import stripe
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
-from langcorrect.subscriptions.helpers import (
-    get_current_subscription,
-    get_stripe_customer,
-    handle_subscription_cancellation,
-    serialize_subscription_info,
-)
+from langcorrect.subscriptions.helpers import get_current_subscription
+from langcorrect.subscriptions.helpers import get_stripe_customer
+from langcorrect.subscriptions.helpers import handle_subscription_cancellation
+from langcorrect.subscriptions.helpers import serialize_subscription_info
 from langcorrect.subscriptions.models import StripeCustomer
-from langcorrect.subscriptions.utils import PremiumManager, StripeManager
+from langcorrect.subscriptions.utils import PremiumManager
+from langcorrect.subscriptions.utils import StripeManager
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -28,7 +31,9 @@ def manage_premium(request):
     subscription = None
     context = {}
 
-    has_active_subscription = stripe_customer and stripe_customer.current_subscription_id
+    has_active_subscription = (
+        stripe_customer and stripe_customer.current_subscription_id
+    )
 
     if request.method == "POST":
         if has_active_subscription:
@@ -36,7 +41,9 @@ def manage_premium(request):
             # uses the key "subscription_status" instead of the normal "status"
             # key. In an effort to save some time and low requests for these
             # pages, we will just fetch the latest subscription instead.
-            temp = handle_subscription_cancellation(stripe_customer.current_subscription_id)
+            temp = handle_subscription_cancellation(
+                stripe_customer.current_subscription_id,
+            )
             sub_id = temp.get("id")
             subscription = StripeManager.retrieve_subscription(sub_id)
             has_active_subscription = False
@@ -54,38 +61,47 @@ def manage_premium(request):
 
 @login_required
 def create_checkout_session(request):
-    if request.method == "POST":
-        try:
-            site_base_url = settings.SITE_BASE_URL
+    if request.method != "POST":
+        return HttpResponseBadRequest
 
-            success_url = site_base_url + reverse_lazy("subscriptions:checkout-success")
-            cancel_url = site_base_url + reverse_lazy("subscriptions:checkout-canceled")
+    try:
+        site_base_url = settings.SITE_BASE_URL
 
-            stripe_customer, _ = StripeCustomer.objects.get_or_create(
-                user=request.user,
-                defaults={"customer_id": StripeManager(customer_email=request.user.email).get_or_create_customer()},
-            )
+        success_url = site_base_url + reverse_lazy("subscriptions:checkout-success")
+        cancel_url = site_base_url + reverse_lazy("subscriptions:checkout-canceled")
 
-            customer_id = stripe_customer.customer_id
+        stripe_customer, _ = StripeCustomer.objects.get_or_create(
+            user=request.user,
+            defaults={
+                "customer_id": StripeManager(
+                    customer_email=request.user.email,
+                ).get_or_create_customer(),
+            },
+        )
 
-            checkout_session = stripe.checkout.Session.create(
-                customer=customer_id,
-                line_items=[
-                    {
-                        "price": settings.LANGCORRECT_PREMIUM_YEARLY_PRICE_ID,
-                        "quantity": 1,
-                    },
-                ],
-                mode="subscription",
-                allow_promotion_codes=True,
-                success_url=success_url,
-                cancel_url=cancel_url,
-            )
-        except Exception as e:
-            logger.error(f"Failed to create a checkout session: {str(e)}")
-            return JsonResponse({"error": "An error occurred while creating a checkout session."}, status=400)
+        customer_id = stripe_customer.customer_id
 
-        return redirect(checkout_session.url, code=303)
+        checkout_session = stripe.checkout.Session.create(
+            customer=customer_id,
+            line_items=[
+                {
+                    "price": settings.LANGCORRECT_PREMIUM_YEARLY_PRICE_ID,
+                    "quantity": 1,
+                },
+            ],
+            mode="subscription",
+            allow_promotion_codes=True,
+            success_url=success_url,
+            cancel_url=cancel_url,
+        )
+    except Exception:
+        logger.exception("Failed to create a checkout session")
+        return JsonResponse(
+            {"error": "An error occurred while creating a checkout session."},
+            status=400,
+        )
+
+    return redirect(checkout_session.url, code=303)
 
 
 @csrf_exempt
@@ -96,12 +112,16 @@ def stripe_webhook(request):
     event = None
 
     try:
-        event = stripe.Webhook.construct_event(payload, sig_header, stripe_webhook_endpoint)
-    except ValueError as e:
-        logger.error(f"Invalid Payload: {str(e)}")
+        event = stripe.Webhook.construct_event(
+            payload,
+            sig_header,
+            stripe_webhook_endpoint,
+        )
+    except ValueError:
+        logger.exception("Invalid Payload")
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        logger.error(f"Invalid Signature: {str(e)}")
+    except stripe.error.SignatureVerificationError:
+        logger.exception("Invalid Signature")
         return HttpResponse(status=400)
 
     # Passed signature verification

@@ -42,12 +42,11 @@ class EmailSender:
             )
             msg.attach_alternative(html_content, "text/html")
             msg.send()
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             if not settings.DEBUG:
                 from sentry_sdk import capture_exception
 
                 capture_exception(e)
-            pass
 
 
 def email_new_correction(post):
@@ -61,9 +60,15 @@ def email_new_correction(post):
     email = user.email
     subject = "[LangCorrect] New Correction!"
 
-    context = {"username": user.display_name, "post_link": f"{settings.SITE_BASE_URL}{post.get_absolute_url()}"}
+    context = {
+        "username": user.display_name,
+        "post_link": f"{settings.SITE_BASE_URL}{post.get_absolute_url()}",
+    }
 
     msg = EmailSender()
     msg.send_email(
-        subject=subject, template_name="emails/new_correction.html", context=context, recipient_list=[email]
+        subject=subject,
+        template_name="emails/new_correction.html",
+        context=context,
+        recipient_list=[email],
     )

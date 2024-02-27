@@ -146,7 +146,8 @@ select = [
 ignore = [
   "S101", # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
   "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
-  "SIM102" # sometimes it's better to nest
+  "SIM102", # sometimes it's better to nest,
+  "G004" # f strings are more readable
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

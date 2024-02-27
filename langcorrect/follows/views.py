@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
@@ -62,10 +63,16 @@ def follow_user(request, username):
     if current_user.id == profile_user.id:
         raise PermissionDenied(_("You cannot follow yourself"))
 
-    is_already_following = Follower.objects.filter(user=current_user, follow_to=profile_user).exists()
+    is_already_following = Follower.objects.filter(
+        user=current_user,
+        follow_to=profile_user,
+    ).exists()
 
     if is_already_following:
-        Follower.objects.filter(user=current_user, follow_to=profile_user).first().delete(soft=False)
+        Follower.objects.filter(
+            user=current_user,
+            follow_to=profile_user,
+        ).first().delete(soft=False)
     else:
         Follower.objects.create(user=current_user, follow_to=profile_user)
         notify.send(

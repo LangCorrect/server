@@ -4,18 +4,31 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView
+from django.views.generic import DeleteView
+from django.views.generic import DetailView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from langcorrect.contributions.helpers import update_user_writing_streak
-from langcorrect.corrections.helpers import get_popular_correctors, populate_user_corrections
-from langcorrect.corrections.models import CorrectedRow, OverallFeedback, PerfectRow
+from langcorrect.corrections.helpers import get_popular_correctors
+from langcorrect.corrections.helpers import populate_user_corrections
+from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.models import OverallFeedback
+from langcorrect.corrections.models import PerfectRow
 from langcorrect.languages.models import LanguageLevel
 from langcorrect.posts.forms import CustomPostForm
-from langcorrect.posts.helpers import check_can_create_post, get_post_counts_by_language
-from langcorrect.posts.models import Post, PostImage, PostReply, PostVisibility
+from langcorrect.posts.helpers import check_can_create_post
+from langcorrect.posts.helpers import get_post_counts_by_language
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostImage
+from langcorrect.posts.models import PostReply
+from langcorrect.posts.models import PostVisibility
 from langcorrect.prompts.models import Prompt
 from langcorrect.users.models import User
 from langcorrect.utils.storages import get_storage_backend
@@ -28,7 +41,10 @@ class PostListView(ListView):
     paginate_by = 25
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated and self.get_mode() in ["following", "learn"]:
+        if not request.user.is_authenticated and self.get_mode() in [
+            "following",
+            "learn",
+        ]:
             url = reverse("account_login")
             params = urlencode({"next": request.get_full_path()})
             return redirect(f"{url}?{params}")
@@ -54,12 +70,18 @@ class PostListView(ListView):
         if mode == "following":
             qs = qs.filter(user__in=current_user.get_following_users_ids)
         elif mode == "learn":
-            qs = qs.filter(language__in=current_user.studying_languages, is_corrected=True).exclude(user=current_user)
+            qs = qs.filter(
+                language__in=current_user.studying_languages,
+                is_corrected=True,
+            ).exclude(user=current_user)
         else:
             qs = qs.filter(language__in=current_user.native_languages)
 
         if lang_code and lang_code != "all":
-            qs = qs.filter(language__code=lang_code).order_by("is_corrected", "-created")
+            qs = qs.filter(language__code=lang_code).order_by(
+                "is_corrected",
+                "-created",
+            )
 
         return qs
 
@@ -73,16 +95,21 @@ class PostListView(ListView):
         language_filter_choices = None
 
         if mode == "learn":
-            language_filter_choices = get_post_counts_by_language(current_user.studying_languages, corrected=True)
+            language_filter_choices = get_post_counts_by_language(
+                current_user.studying_languages,
+                corrected=True,
+            )
         elif mode == "teach" and current_user.is_authenticated:
-            language_filter_choices = get_post_counts_by_language(current_user.native_languages)
+            language_filter_choices = get_post_counts_by_language(
+                current_user.native_languages,
+            )
 
         context.update(
             {
                 "mode": mode,
                 "language_filters": language_filter_choices,
                 "selected_lang_code": selected_lang_code,
-            }
+            },
         )
 
         context["popular_correctors"] = {
@@ -94,7 +121,9 @@ class PostListView(ListView):
 
         if current_user.is_authenticated:
             following_users_ids = current_user.get_following_users_ids
-            context["following_feed"] = Post.available_objects.filter(user__in=following_users_ids)[:5]
+            context["following_feed"] = Post.available_objects.filter(
+                user__in=following_users_ids,
+            )[:5]
 
         return context
 
@@ -111,7 +140,7 @@ class PostDetailView(DetailView):
         obj = super().get_object(queryset=queryset)
 
         if self.request.user.is_anonymous and obj.permission != PostVisibility.PUBLIC:
-            raise PermissionDenied()
+            raise PermissionDenied
         return obj
 
     def get_context_data(self, **kwargs):
@@ -119,13 +148,26 @@ class PostDetailView(DetailView):
         this_post = self.get_object()
 
         corrector_user_ids = set(
-            CorrectedRow.available_objects.filter(post=this_post).values_list("user__id", flat=True)
+            CorrectedRow.available_objects.filter(post=this_post).values_list(
+                "user__id",
+                flat=True,
+            ),
         )
         corrector_user_ids.update(
-            list(PerfectRow.available_objects.filter(post=this_post).values_list("user__id", flat=True))
+            list(
+                PerfectRow.available_objects.filter(post=this_post).values_list(
+                    "user__id",
+                    flat=True,
+                ),
+            ),
         )
         corrector_user_ids.update(
-            list(OverallFeedback.available_objects.filter(post=this_post).values_list("user__id", flat=True))
+            list(
+                OverallFeedback.available_objects.filter(post=this_post).values_list(
+                    "user__id",
+                    flat=True,
+                ),
+            ),
         )
 
         correctors = User.objects.filter(id__in=corrector_user_ids)
@@ -142,12 +184,18 @@ class PostDetailView(DetailView):
             .prefetch_related("post_row", "post", "user")
         )
 
-        feedback_rows = OverallFeedback.available_objects.filter(user__in=correctors, post=this_post)
+        feedback_rows = OverallFeedback.available_objects.filter(
+            user__in=correctors,
+            post=this_post,
+        )
 
         postreply_rows = PostReply.available_objects.filter(post=this_post)
 
         context["user_corrections"] = populate_user_corrections(
-            perfect_rows, corrected_rows, feedback_rows, postreply_rows
+            perfect_rows,
+            corrected_rows,
+            feedback_rows,
+            postreply_rows,
         )
         return context
 
@@ -184,7 +232,9 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = _("Post successfully added")
 
     def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated and not check_can_create_post(self.request.user):
+        if self.request.user.is_authenticated and not check_can_create_post(
+            self.request.user,
+        ):
             raise PermissionDenied(_("Your correction ratio is too low."))
         return super().dispatch(request, *args, **kwargs)
 
@@ -211,7 +261,10 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         if prompt:
             form.instance.prompt = prompt
 
-        language_level = LanguageLevel.objects.get(user=current_user, language=form.instance.language)
+        language_level = LanguageLevel.objects.get(
+            user=current_user,
+            language=form.instance.language,
+        )
         form.instance.language_level = language_level.level
 
         self.object = form.save()
@@ -219,7 +272,11 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         if image_obj and current_user.is_premium_user:
             storage_backend = get_storage_backend()
             file_key = storage_backend.save(image_obj)
-            PostImage.available_objects.create(user=current_user, post=self.object, file_key=file_key)
+            PostImage.available_objects.create(
+                user=current_user,
+                post=self.object,
+                file_key=file_key,
+            )
 
         update_user_writing_streak(self.object.user)
 
@@ -259,8 +316,7 @@ class UserSubmittedPosts(LoginRequiredMixin, ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super().get_queryset().filter(user=self.request.user)
-        return qs
+        return super().get_queryset().filter(user=self.request.user)
 
 
 user_posts_view = UserSubmittedPosts.as_view()

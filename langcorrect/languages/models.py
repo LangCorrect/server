@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import SoftDeletableModel, TimeStampedModel
+from model_utils.models import SoftDeletableModel
+from model_utils.models import TimeStampedModel
 
 
 class LevelChoices(models.TextChoices):
@@ -32,7 +33,11 @@ class LanguageLevel(TimeStampedModel, SoftDeletableModel):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    level = models.CharField(max_length=2, choices=LevelChoices.choices, default=LevelChoices.A1)
+    level = models.CharField(
+        max_length=2,
+        choices=LevelChoices.choices,
+        default=LevelChoices.A1,
+    )
 
     def __str__(self):
         return f"{self.language} ({self.get_level_display()})"

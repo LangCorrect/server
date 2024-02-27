@@ -1,3 +1,4 @@
+# ruff: noqa: DJ001
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -9,8 +10,10 @@ from django.utils.translation import gettext_lazy as _
 
 from config.settings.base import AVATAR_BASE_URL
 from langcorrect.contributions.models import Contribution
-from langcorrect.corrections.models import CorrectedRow, PerfectRow
-from langcorrect.languages.models import Language, LevelChoices
+from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.models import PerfectRow
+from langcorrect.languages.models import Language
+from langcorrect.languages.models import LevelChoices
 
 
 class GenderChoices(models.TextChoices):
@@ -27,7 +30,11 @@ class User(AbstractUser):
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
 
-    gender = models.CharField(choices=GenderChoices.choices, default=GenderChoices.UNKNOWN, max_length=1)
+    gender = models.CharField(
+        choices=GenderChoices.choices,
+        default=GenderChoices.UNKNOWN,
+        max_length=1,
+    )
     nick_name = models.CharField(_("Nick name"), max_length=26, null=True, blank=True)
     bio = models.TextField(_("Bio"), max_length=2000, blank=True, default="")
     staff_notes = models.TextField(blank=True, null=True)
@@ -74,7 +81,9 @@ class User(AbstractUser):
 
     @property
     def native_languages(self):
-        lang_codes = self.languagelevel_set.filter(level=LevelChoices.NATIVE).values_list("language__code", flat=True)
+        lang_codes = self.languagelevel_set.filter(
+            level=LevelChoices.NATIVE,
+        ).values_list("language__code", flat=True)
         return Language.objects.filter(code__in=lang_codes)
 
     @property
@@ -104,7 +113,10 @@ class User(AbstractUser):
     @property
     def correction_ratio(self):
         try:
-            return round(self.corrections_made_count / self.corrections_received_count, 2)
+            return round(
+                self.corrections_made_count / self.corrections_received_count,
+                2,
+            )
         except ZeroDivisionError:
             return "∞"
 
@@ -113,7 +125,8 @@ class User(AbstractUser):
         try:
             stripe_customer = self.stripecustomer
             return stripe_customer.has_active_subscription or (
-                stripe_customer.premium_until and stripe_customer.premium_until > timezone.now()
+                stripe_customer.premium_until
+                and stripe_customer.premium_until > timezone.now()
             )
         except ObjectDoesNotExist:
             return False

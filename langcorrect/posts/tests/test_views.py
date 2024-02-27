@@ -1,3 +1,4 @@
+# ruff: noqa: PT009, FBT003
 from unittest.mock import patch
 from urllib.parse import urlencode
 
@@ -6,9 +7,13 @@ from django.urls import reverse
 
 from langcorrect.contributions.models import Contribution
 from langcorrect.languages.models import Language
-from langcorrect.posts.models import Post, PostRow, PostVisibility
-from langcorrect.posts.tests.factories import LANGUAGE_TO_FAKER_LOCALE, PostFactory
-from langcorrect.posts.tests.utils import generate_text, generate_title
+from langcorrect.posts.models import Post
+from langcorrect.posts.models import PostRow
+from langcorrect.posts.models import PostVisibility
+from langcorrect.posts.tests.factories import LANGUAGE_TO_FAKER_LOCALE
+from langcorrect.posts.tests.factories import PostFactory
+from langcorrect.posts.tests.utils import generate_text
+from langcorrect.posts.tests.utils import generate_title
 from langcorrect.users.tests.factories import UserFactory
 
 
@@ -28,14 +33,13 @@ class TestPostCreateView(TestCase):
 
         faker_locale = LANGUAGE_TO_FAKER_LOCALE.get(target_language.code)
 
-        data = {
+        return {
             "title": title if title else generate_title(faker_locale),
             "text": text if text else generate_text(faker_locale),
             "language": language_id if language_id else target_language.id,
             "gender_of_narration": "M",
             "permission": "public",
         }
-        return data
 
     @patch("langcorrect.posts.views.check_can_create_post")
     def test_can_access_page_good_ratio(self, mock_check_can_create_post):
@@ -122,7 +126,11 @@ class TestPostUpdateView(TestCase):
         )
 
     def submit_form(self, form_data):
-        return self.client.post(reverse("posts:update", kwargs={"slug": self.post.slug}), form_data, follow=True)
+        return self.client.post(
+            reverse("posts:update", kwargs={"slug": self.post.slug}),
+            form_data,
+            follow=True,
+        )
 
     def build_form_payload(self, title=None, text=None, language_id=None):
         all_studying_languages = self.user1.studying_languages
@@ -130,14 +138,13 @@ class TestPostUpdateView(TestCase):
 
         faker_locale = LANGUAGE_TO_FAKER_LOCALE.get(target_language.code)
 
-        data = {
+        return {
             "title": title if title else generate_title(faker_locale),
             "text": text if text else generate_text(faker_locale),
             "language": language_id if language_id else target_language.id,
             "gender_of_narration": "M",
             "permission": "public",
         }
-        return data
 
     def test_no_additional_rows_created(self):
         self.client.force_login(self.user1)
@@ -198,12 +205,18 @@ class TestPostUpdateView(TestCase):
             language_id=self.post.language.id,
         )
         self.submit_form(data)
-        actual_post_row_count = PostRow.available_objects.filter(post=self.post, is_actual=True).count()
+        actual_post_row_count = PostRow.available_objects.filter(
+            post=self.post,
+            is_actual=True,
+        ).count()
 
         expected_count = 6
         self.assertEqual(expected_count, actual_post_row_count)
 
-        hidden_rows_count = PostRow.available_objects.filter(post=self.post, is_actual=False).count()
+        hidden_rows_count = PostRow.available_objects.filter(
+            post=self.post,
+            is_actual=False,
+        ).count()
         self.assertEqual(1, hidden_rows_count)
 
 
@@ -212,12 +225,20 @@ class TestPostListView(TestCase):
 
     @classmethod
     def generate_posts_by_code(cls, lang_code, is_corrected, permission, amount):
-        PostFactory.create_batch(amount, is_corrected=is_corrected, permission=permission, set_language=lang_code)
+        PostFactory.create_batch(
+            amount,
+            is_corrected=is_corrected,
+            permission=permission,
+            set_language=lang_code,
+        )
 
     @classmethod
     def setUpTestData(cls):
         cls.en_ja_user = UserFactory(native_languages=["en"], studying_languages=["ja"])
-        cls.enko_ja_user = UserFactory(native_languages=["en", "ko"], studying_languages=["ja"])
+        cls.enko_ja_user = UserFactory(
+            native_languages=["en", "ko"],
+            studying_languages=["ja"],
+        )
 
         UserFactory.create_batch(5)
 
@@ -231,7 +252,10 @@ class TestPostListView(TestCase):
     def test_anonymous_queryset(self):
         response = self.client.get(reverse("posts:list"))
         posts = response.context["object_list"]
-        expected_posts = Post.available_objects.filter(permission=PostVisibility.PUBLIC, is_corrected=True)
+        expected_posts = Post.available_objects.filter(
+            permission=PostVisibility.PUBLIC,
+            is_corrected=True,
+        )
         self.assertQuerySetEqual(posts, expected_posts)
 
     def test_authenticated_queryset(self):
@@ -280,5 +304,7 @@ class TestPostListView(TestCase):
         url = f"{reverse('posts:list')}?{urlencode(params)}"
         response = self.client.get(url)
         posts = response.context["object_list"]
-        expected_posts = Post.available_objects.filter(language__code=korean_code).order_by("is_corrected", "-created")
+        expected_posts = Post.available_objects.filter(
+            language__code=korean_code,
+        ).order_by("is_corrected", "-created")
         self.assertQuerySetEqual(posts, expected_posts)

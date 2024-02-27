@@ -17,12 +17,13 @@ class CustomPromptForm(forms.ModelForm):
 
     def clean_tags(self):
         tags = self.cleaned_data.get("tags", None)
+        max_length = 20
         if tags:
             tags = [t.lower().replace("#", "") for t in tags]
 
         for tag in tags:
-            if len(tag) > 20:
-                msg = _("Tags cannot be longer than 20 characters")
+            if len(tag) > max_length:
+                msg = _("Tags cannot be longer than %s characters") % max_length
                 raise forms.ValidationError(msg)
 
         return tags

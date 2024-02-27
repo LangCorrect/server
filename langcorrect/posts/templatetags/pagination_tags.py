@@ -1,3 +1,4 @@
+# ruff: noqa: C901, PERF401
 from django import template
 
 register = template.Library()
