@@ -1,3 +1,4 @@
+# ruff: noqa
 import notifications.urls
 from django.conf import settings
 from django.conf.urls.static import static
@@ -20,11 +21,21 @@ from .sitemaps import PostSiteMap, StaticViewSitemap
 sitemaps = {"posts": PostSiteMap, "static": StaticViewSitemap}
 
 urlpatterns = [
-    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots"),
-    path("ads.txt", TemplateView.as_view(template_name="ads.txt", content_type="text/plain"), name="ads"),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        name="robots",
+    ),
+    path(
+        "ads.txt",
+        TemplateView.as_view(template_name="ads.txt", content_type="text/plain"),
+        name="ads",
+    ),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", view=index_page_view, name="home"),
-    path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    path(
+        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
+    ),
     path(
         "community-guidelines/",
         TemplateView.as_view(template_name="pages/community_guidelines.html"),
@@ -59,14 +70,20 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     path("rankings/", view=rankings_list_view, name="rankings"),
-    path("pricing/", TemplateView.as_view(template_name="pages/pricing.html"), name="pricing"),
+    path(
+        "pricing/",
+        TemplateView.as_view(template_name="pages/pricing.html"),
+        name="pricing",
+    ),
     path("follows/", include("langcorrect.follows.urls")),
     path("subscriptions/", include("langcorrect.subscriptions.urls")),
     path("prompts/", include("langcorrect.prompts.urls")),
     path("languages/", include("langcorrect.languages.urls")),
     path("rosetta/", include("rosetta.urls")),
     path("journals/", include("langcorrect.posts.urls")),
-    path("inbox/notifications/", include(notifications.urls, namespace="notifications")),
+    path(
+        "inbox/notifications/", include(notifications.urls, namespace="notifications")
+    ),
     path("submissions/posts", user_posts_view, name="user_posts"),
     path("submissions/prompts", user_prompts_view, name="user_prompts"),
     path("submissions/corrections", user_corrections_view, name="user_corrections"),

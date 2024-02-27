@@ -2,20 +2,20 @@
 {
   "name": "langcorrect_dev",
   "dockerComposeFile": [
-    "../local.yml"
+      "../local.yml"
   ],
   "init": true,
   "mounts": [
-    {
-      "source": "./.devcontainer/bash_history",
-      "target": "/home/dev-user/.bash_history",
-      "type": "bind"
-    },
-    {
-      "source": "~/.ssh",
-      "target": "/home/dev-user/.ssh",
-      "type": "bind"
-    }
+      {
+          "source": "./.devcontainer/bash_history",
+          "target": "/home/dev-user/.bash_history",
+          "type": "bind"
+      },
+      {
+          "source": "~/.ssh",
+          "target": "/home/dev-user/.ssh",
+          "type": "bind"
+      }
   ],
   // Tells devcontainer.json supporting services / tools whether they should run
   // /bin/sh -c "while sleep 1000; do :; done" when starting the container instead of the container’s default command
@@ -26,50 +26,38 @@
   "workspaceFolder": "/app",
   // Set *default* container specific settings.json values on container create.
   "customizations": {
-    "vscode": {
-      "settings": {
-        "editor.formatOnSave": true,
-        "[python]": {
-          "analysis.autoImportCompletions": true,
-          "analysis.typeCheckingMode": "basic",
-          "defaultInterpreterPath": "/usr/local/bin/python",
-          "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+      "vscode": {
+          "settings": {
+              "editor.formatOnSave": true,
+              "[python]": {
+                  "analysis.autoImportCompletions": true,
+                  "analysis.typeCheckingMode": "basic",
+                  "defaultInterpreterPath": "/usr/local/bin/python",
+                  "editor.codeActionsOnSave": {
+                      "source.organizeImports": "always"
+                  },
+                  "editor.defaultFormatter": "charliermarsh.ruff",
+                  "languageServer": "Pylance",
+                  "linting.enabled": true,
+                  "linting.mypyEnabled": true,
+                  "linting.mypyPath": "/usr/local/bin/mypy",
+              }
           },
-          // Uncomment when fixed
-          // https://github.com/microsoft/vscode-remote-release/issues/8474
-          // "editor.defaultFormatter": "ms-python.black-formatter",
-          "formatting.blackPath": "/usr/local/bin/black",
-          "formatting.provider": "black",
-          "languageServer": "Pylance",
-          // "linting.banditPath": "/usr/local/py-utils/bin/bandit",
-          "linting.enabled": true,
-          "linting.flake8Enabled": true,
-          "linting.flake8Path": "/usr/local/bin/flake8",
-          "linting.mypyEnabled": true,
-          "linting.mypyPath": "/usr/local/bin/mypy",
-          "linting.pycodestylePath": "/usr/local/bin/pycodestyle",
-          // "linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
-          "linting.pylintEnabled": true,
-          "linting.pylintPath": "/usr/local/bin/pylint"
-        }
-      },
-      // https://code.visualstudio.com/docs/remote/devcontainerjson-reference#_vs-code-specific-properties
-      // Add the IDs of extensions you want installed when the container is created.
-      "extensions": [
-        "davidanson.vscode-markdownlint",
-        "mrmlnc.vscode-duplicate",
-        "visualstudioexptteam.vscodeintellicode",
-        "visualstudioexptteam.intellicode-api-usage-examples",
-        // python
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.isort",
-        "ms-python.black-formatter",
-        // django
-        "batisteo.vscode-django"
-      ]
-    }
+          // https://code.visualstudio.com/docs/remote/devcontainerjson-reference#_vs-code-specific-properties
+          // Add the IDs of extensions you want installed when the container is created.
+          "extensions": [
+              "davidanson.vscode-markdownlint",
+              "mrmlnc.vscode-duplicate",
+              "visualstudioexptteam.vscodeintellicode",
+              "visualstudioexptteam.intellicode-api-usage-examples",
+              // python
+              "ms-python.python",
+              "ms-python.vscode-pylance",
+              "charliermarsh.ruff",
+              // django
+              "batisteo.vscode-django"
+          ]
+      }
   },
   // Uncomment the next line if you want start specific services in your Docker Compose config.
   // "runServices": [],

@@ -1,3 +1,4 @@
+# ruff: noqa
 """
 ASGI config for langcorrect project.
 
@@ -29,7 +30,7 @@ django_application = get_asgi_application()
 # application = HelloWorldApplication(application)
 
 # Import websocket application here, so apps from django_application are loaded first
-from config.websocket import websocket_application  # noqa isort:skip
+from config.websocket import websocket_application
 
 
 async def application(scope, receive, send):
