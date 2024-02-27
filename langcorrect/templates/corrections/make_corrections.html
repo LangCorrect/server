@@ -47,7 +47,15 @@
                data-original-sentence="{{ post_row.sentence }}"
                data-action="{{ post_row.action }}">
             <div class="card-body border-bottom">
-              <span lang="{{ post.language.code }}" class="js-sentence">{{ post_row.sentence }}</span>
+              <span lang="{{ post.language.code }}" class="js-sentence">
+                {% if post_row.is_title %}
+                  <span class="badge text-bg-light pointer"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        data-bs-title="{% translate 'Ensure post titles are correctly formatted' %}">{% translate "Post title" %}</span>
+                {% endif %}
+                {{ post_row.sentence }}
+              </span>
             </div>
             <div class="card-body {% if not post_row.show_form %}d-none{% endif %} "
                  data-correction-box="{{ post_row.id }}">

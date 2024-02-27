@@ -174,6 +174,7 @@ def make_corrections(request, slug):
             post_row.show_form = False
             post_row.is_action_taken = False
             post_row.action = "none"
+            post_row.is_title = post_row.order == 0
 
             if previous_correction:
                 post_row.correction = previous_correction.correction
