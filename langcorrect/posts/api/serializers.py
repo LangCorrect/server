@@ -2,10 +2,38 @@ import re
 
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer
+from taggit.serializers import TagListSerializerField
 
+from langcorrect.languages.serializers import LanguageSerializer
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostReply
+from langcorrect.users.api.serializers import BasicUserSerializer
 from langcorrect.users.models import User
+
+
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
+    tags = TagListSerializerField()
+    language = LanguageSerializer()
+    user = BasicUserSerializer()
+
+    class Meta:
+        model = Post
+        fields = [
+            "created",
+            "modified",
+            "title",
+            "text",
+            "native_text",
+            "gender_of_narration",
+            "slug",
+            "language_level",
+            "is_corrected",
+            "language",
+            "permission",
+            "user",
+            "tags",
+        ]
 
 
 class PostReplySerializer(serializers.ModelSerializer):
