@@ -17,7 +17,7 @@ unidic==1.1.0  # https://pypi.org/project/unidic/
 nltk==3.8.1  # https://www.nltk.org/install.html
 weasyprint==60.2  # https://doc.courtbouillon.org/weasyprint/
 genanki==0.13.1  # https://github.com/kerrickstaley/genanki
-stripe==6.1.0  # https://github.com/stripe/stripe-python
+stripe==8.5.0  # https://github.com/stripe/stripe-python
 
 # Django
 # ------------------------------------------------------------------------------
