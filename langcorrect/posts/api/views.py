@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from config.api.permissions import IsOwnerOrStaff
+from config.api.permissions import CanViewPost, IsOwnerOrStaff
 from langcorrect.posts.api.serializers import PostReplySerializer
 from langcorrect.posts.api.serializers import PostSerializer
 from langcorrect.posts.models import Post
@@ -78,7 +78,7 @@ class PostDetailViewSet(
         if self.request.method in ["PUT", "PATCH", "DELETE"]:
             permission_classes = [IsOwnerOrStaff]
         else:
-            permission_classes = []
+            permission_classes = [CanViewPost]
 
         return [permission() for permission in permission_classes]
 
