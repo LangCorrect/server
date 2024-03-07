@@ -200,3 +200,35 @@ class TestPostViewSet(APITestCase):
         url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
         response = self.client.get(url)
         assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_auth_user_can_view_public_post(self):
+        """Test that an auth user can view public posts."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.PUBLIC,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.masato)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["title"] == "Test Post 1"
+
+    def test_auth_user_can_view_member_post(self):
+        """Test that an auth user can view member posts."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.masato)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["title"] == "Test Post 1"
