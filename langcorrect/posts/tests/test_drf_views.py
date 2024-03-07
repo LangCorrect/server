@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from langcorrect.languages.models import LevelChoices
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostVisibility
 from langcorrect.users.tests.factories import UserFactory
@@ -282,3 +283,115 @@ class TestPostViewSet(APITestCase):
         url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
         response = self.client.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    def test_non_owner_cannot_update_post(self):
+        """Test that a user who does not own the post cannot update it."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.masato)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"title": "New Title"})
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_owner_can_edit_post(self):
+        """Test that the owner of the post can edit it."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.daniel)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"title": "New Title"})
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["title"] == "New Title"
+
+    def test_staff_can_edit_post(self):
+        """Test that a staff member can edit the post."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.staff)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"title": "New Title"})
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["title"] == "New Title"
+
+    def test_non_owner_cannot_put_post(self):
+        """Test that a user who does not own the post cannot replace it."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.masato)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.put(url, {"title": "New Title", "text": "New Text"})
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_slug_not_editable(self):
+        """Test that the post slug cannot be edited."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.daniel)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"slug": "new-slug"})
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["slug"] != "new-slug"
+
+    def test_is_corrected_not_editable(self):
+        """Test that the 'is_corrected' field cannot be edited."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+            is_corrected=False,
+        )
+
+        self.client.force_authenticate(user=self.daniel)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"is_corrected": True})
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["is_corrected"] is False
+
+    def test_language_level_not_editable(self):
+        """Test that the 'language_level' field cannot be edited."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+            language_level=LevelChoices.A1,
+        )
+
+        self.client.force_authenticate(user=self.daniel)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.patch(url, {"language_level": LevelChoices.C1})
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["language_level"] == LevelChoices.A1
