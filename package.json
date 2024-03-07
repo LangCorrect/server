@@ -7,7 +7,7 @@
     "bootstrap": "^5.3.3",
     "browser-sync": "^3.0.2",
     "gulp-concat": "^2.6.1",
-    "cssnano": "^6.0.5",
+    "cssnano": "^6.1.0",
     "gulp": "^4.0.2",
     "gulp-imagemin": "^9.0.0",
     "gulp-plumber": "^1.2.1",
