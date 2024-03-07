@@ -171,3 +171,32 @@ class TestPostViewSet(APITestCase):
         assert len(response.data["results"]) == expected_results_count
         assert response.data["results"][0]["title"] == "Test Post 3"
         assert response.data["results"][1]["title"] == "Test Post 2"
+
+    def test_anon_user_can_view_public_posts(self):
+        """Test that an anon user can view public posts."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.PUBLIC,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["title"] == "Test Post 1"
+
+    def test_anon_user_cannot_view_member_posts(self):
+        """Test that an anon user cannot view member posts."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
