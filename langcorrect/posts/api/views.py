@@ -10,7 +10,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from config.api.permissions import CanViewPost, IsOwnerOrStaff
+from config.api.permissions import CanViewPost
+from config.api.permissions import IsOwnerOrStaff
 from langcorrect.posts.api.serializers import PostReplySerializer
 from langcorrect.posts.api.serializers import PostSerializer
 from langcorrect.posts.models import Post

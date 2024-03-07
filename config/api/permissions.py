@@ -22,5 +22,4 @@ class CanViewPost(permissions.BasePermission):
             and request.user.is_authenticated
         ):
             return True
-        else:
-            return False
+        return False
