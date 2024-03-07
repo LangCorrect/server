@@ -41,6 +41,13 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
             "user",
             "tags",
         ]
+        read_only_fields = [
+            "slug",
+            "created",
+            "modified",
+            "is_corrected",
+            "language_level",
+        ]
 
     def validate_lang_code(self, value):
         try:
