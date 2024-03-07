@@ -26,6 +26,11 @@ class TestPostViewSet(APITestCase):
             studying_languages=["es", "de"],
             native_languages=["fr"],
         )
+        self.staff = UserFactory.create(
+            studying_languages=["ja", "ko"],
+            native_languages=["en", "de"],
+            is_staff=True,
+        )
 
     def test_get_queryset_anonymous_user(self):
         """Test that an anon user can only see public and corrected posts."""
@@ -232,3 +237,48 @@ class TestPostViewSet(APITestCase):
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert response.data["title"] == "Test Post 1"
+
+    def test_non_owner_cannot_delete_post(self):
+        """Test that a user who does not own the post cannot delete it."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.masato)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.delete(url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_owner_can_delete_post(self):
+        """Test that the owner of the post can delete it."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.daniel)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.delete(url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    def test_staff_can_delete_post(self):
+        """Test that a staff member can delete the post."""
+
+        post = Post.objects.create(
+            title="Test Post 1",
+            permission=PostVisibility.MEMBER,
+            user=self.daniel,
+            language=self.daniel.studying_languages.first(),
+        )
+
+        self.client.force_authenticate(user=self.staff)
+        url = reverse("api:post-detail-detail", kwargs={"slug": post.slug})
+        response = self.client.delete(url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
