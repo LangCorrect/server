@@ -59,7 +59,7 @@ def validate_text_length(value, min_char_count=50):
         )
 
 
-def validate_tags(tags):
+def validate_tags(tags, max_char_count=20):
     """Ensures that the tags are valid.
 
     Args:
@@ -67,14 +67,22 @@ def validate_tags(tags):
 
     Raises:
         ValidationError: If the tags are not valid.
-    """
-    cleaned_tags = [t.lower().replace("#", "") for t in tags]
 
-    for tag in cleaned_tags:
-        max_char_count = 20
-        if len(tag) > max_char_count:
+    Note:
+        There is no minimum character count for tags because in some languages
+        (like Japanese), a single character can represent a whole word or concept.
+        For example, the kanji "車" represents the word "car".
+    """
+    results = []
+
+    for tag in tags:
+        cleaned_tag = tag.lower().replace("#", "").strip()
+        if len(cleaned_tag) > max_char_count:
             raise ValidationError(
                 _("Tags cannot be longer than %s characters. (%s)")
-                % (max_char_count, tag),
+                % (max_char_count, cleaned_tag),
             )
-    return cleaned_tags
+        if len(cleaned_tag) > 0:
+            results.append(cleaned_tag)
+
+    return results
