@@ -41,3 +41,40 @@ def validate_image_size(image: UploadedFile, max_size_mb: int = 5) -> None:
         raise ValidationError(
             _("Image size should not be more than %sMB.") % max_size_mb,
         )
+
+
+def validate_text_length(value, min_char_count=50):
+    """Ensures that the text length is at least a specified minimum character count.
+
+    Args:
+        value (str): The text to validate.
+        min_char_count (int, optional): The minimum character count. Defaults to 50.
+
+    Raises:
+        ValidationError: If the text length is less than the specified minimum character count.
+    """
+    if len(value) < min_char_count:
+        raise ValidationError(
+            _("Text length should be at least %s characters.") % min_char_count,
+        )
+
+
+def validate_tags(tags):
+    """Ensures that the tags are valid.
+
+    Args:
+        tags (list[str]): The tags to validate.
+
+    Raises:
+        ValidationError: If the tags are not valid.
+    """
+    cleaned_tags = [t.lower().replace("#", "") for t in tags]
+
+    for tag in cleaned_tags:
+        max_char_count = 20
+        if len(tag) > max_char_count:
+            raise ValidationError(
+                _("Tags cannot be longer than %s characters. (%s)")
+                % (max_char_count, tag),
+            )
+    return cleaned_tags
