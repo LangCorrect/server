@@ -61,7 +61,7 @@ class TestPostViewSet(APITestCase):
 
         expected_results_count = 2
 
-        url = reverse("api:post-list")
+        url = reverse("api:post-list-list")
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == expected_results_count
@@ -97,7 +97,7 @@ class TestPostViewSet(APITestCase):
         expected_results_count = 1
 
         self.client.force_authenticate(user=self.daniel)
-        url = reverse("api:post-list")
+        url = reverse("api:post-list-list")
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == expected_results_count
@@ -132,7 +132,7 @@ class TestPostViewSet(APITestCase):
         expected_results_count = 1
 
         self.client.force_authenticate(user=self.daniel)
-        url = reverse("api:post-list")
+        url = reverse("api:post-list-list")
         response = self.client.get(url, {"search": "3"})
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == expected_results_count
@@ -159,7 +159,7 @@ class TestPostViewSet(APITestCase):
 
         expected_results_count = 1
         self.client.force_authenticate(user=self.daniel)
-        url = reverse("api:post-list")
+        url = reverse("api:post-list-list")
         response = self.client.get(url, {"langs": "en"})
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == expected_results_count
