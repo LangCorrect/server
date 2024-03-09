@@ -11,6 +11,8 @@ from rest_framework.viewsets import GenericViewSet
 from langcorrect.posts.api.serializers import PostSerializer
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostVisibility
+from langcorrect.prompts.models import Prompt
+from langcorrect.prompts.serializers import PromptSerializer
 
 from .serializers import UserSerializer
 
@@ -49,3 +51,17 @@ class UserPostsListAPIView(ListAPIView):
             queryset = queryset.filter(permission=PostVisibility.PUBLIC)
 
         return queryset
+
+
+class UserPromptsListAPIView(ListAPIView):
+    serializer_class = PromptSerializer
+    queryset = Prompt.available_objects.all()
+    permission_classes = []
+
+    def get_queryset(self):
+        author = self.kwargs.get("username")
+        return (
+            self.queryset.filter(user__username=author)
+            .select_related("user")
+            .prefetch_related("tags")
+        )
