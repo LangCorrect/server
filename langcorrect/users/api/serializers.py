@@ -25,4 +25,5 @@ class BasicUserSerializer(serializers.ModelSerializer):
             "is_premium_user",
             "writing_streak",
             "avatar",
+            "bio",
         ]

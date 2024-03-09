@@ -94,7 +94,10 @@ urlpatterns = [
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-api_urlpatterns_v1 = [path("contributions/", include("langcorrect.contributions.urls"))]
+api_urlpatterns_v1 = [
+    path("contributions/", include("langcorrect.contributions.urls")),
+    path("users/", include("langcorrect.users.api.urls")),
+]
 
 
 # API URLS
