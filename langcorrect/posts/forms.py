@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from langcorrect.posts.models import Post
 from langcorrect.posts.validators import validate_image_size
 from langcorrect.posts.validators import validate_jpeg_extension
+from langcorrect.posts.validators import validate_text_length
 
 
 class CustomPostForm(forms.ModelForm):
@@ -11,6 +12,7 @@ class CustomPostForm(forms.ModelForm):
         required=False,
         validators=[validate_jpeg_extension, validate_image_size],
     )
+    text = forms.CharField(validators=[validate_text_length])
 
     class Meta:
         model = Post
@@ -38,22 +40,6 @@ class CustomPostForm(forms.ModelForm):
             self.fields["image"].disabled = True
         if self.is_convert_prompt:
             self.fields["language"].queryset = self.user.all_languages
-
-    def clean_text(self):
-        text = self.cleaned_data["text"].strip()
-
-        min_char_count = 50
-
-        if text and len(text) < min_char_count:
-            more_chars_needed = min_char_count - len(text)
-            msg = (
-                _(
-                    "You need to write %s more characters to meet the minimum requirement.",  # noqa: E501
-                )
-                % more_chars_needed
-            )
-            raise forms.ValidationError(msg)
-        return text
 
     def clean_tags(self):
         tags = self.cleaned_data.get("tags", None)
