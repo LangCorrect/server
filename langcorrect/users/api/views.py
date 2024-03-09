@@ -11,8 +11,8 @@ from rest_framework.viewsets import GenericViewSet
 from langcorrect.posts.api.serializers import PostSerializer
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostVisibility
+from langcorrect.prompts.api.serializers import PromptSerializer
 from langcorrect.prompts.models import Prompt
-from langcorrect.prompts.serializers import PromptSerializer
 
 from .serializers import UserSerializer
 

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
 
+from langcorrect.languages.models import Language
 from langcorrect.languages.serializers import LanguageSerializer
 from langcorrect.posts.validators import validate_tags
 from langcorrect.prompts.models import Prompt
@@ -29,7 +30,7 @@ class BasePromptSerializer(serializers.ModelSerializer):
             "user",
         ]
 
-    tags = TagListSerializerField(validators=[validate_tags])
+    tags = TagListSerializerField(validators=[validate_tags], required=False)
     language = LanguageSerializer(read_only=True)
     user = BasicUserSerializer(read_only=True)
     response_count = serializers.SerializerMethodField()
@@ -39,4 +40,27 @@ class BasePromptSerializer(serializers.ModelSerializer):
 
 
 class PromptSerializer(BasePromptSerializer):
-    pass
+    class Meta(BasePromptSerializer.Meta):
+        fields = [*BasePromptSerializer.Meta.fields, "lang_code"]
+
+    lang_code = serializers.CharField(write_only=True)
+
+    def validate_lang_code(self, value):
+        try:
+            language = Language.objects.get(code=value)
+        except Language.DoesNotExist as err:
+            err_msg = "Invalid language code provided."
+            raise serializers.ValidationError(err_msg) from err
+
+        request = self.context.get("request")
+        current_user = request.user
+        if language not in current_user.all_languages:
+            err_msg = "You can only post in languages you know."
+            raise serializers.ValidationError(err_msg)
+
+        return language
+
+    def create(self, validated_data):
+        language = validated_data.pop("lang_code")
+        validated_data["language"] = language
+        return super().create(validated_data)
