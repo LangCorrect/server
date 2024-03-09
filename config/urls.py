@@ -97,6 +97,7 @@ urlpatterns = [
 api_urlpatterns_v1 = [
     path("contributions/", include("langcorrect.contributions.urls")),
     path("users/", include("langcorrect.users.api.urls")),
+    path("prompts/", include("langcorrect.prompts.api.urls")),
 ]
 
 
