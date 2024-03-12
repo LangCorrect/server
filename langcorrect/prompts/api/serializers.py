@@ -22,6 +22,7 @@ class BasePromptSerializer(serializers.ModelSerializer):
             "tags",
             "response_count",
             "user",
+            "challenge",
         ]
         read_only_fields = [
             "slug",
@@ -59,6 +60,13 @@ class PromptSerializer(BasePromptSerializer):
             raise serializers.ValidationError(err_msg)
 
         return language
+
+    def validate_challenge(self, value):
+        if value and not self.context["request"].user.is_staff:
+            err_msg = "You cannot attach a challenge to a prompt."
+            raise serializers.ValidationError(err_msg)
+
+        return value
 
     def create(self, validated_data):
         language = validated_data.pop("lang_code")
