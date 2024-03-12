@@ -144,3 +144,133 @@ class PromptListCreateAPIViewTestCase(APITestCase):
         }
         response = self.client.post(self.url, data)
         assert response.status_code == status.HTTP_201_CREATED
+
+
+class PromptRetrieveUpdateDestroyAPIViewTestCase(APITestCase):
+    fixtures = ["fixtures/tests/languages.json"]
+
+    def setUp(self):
+        self.daniel = UserFactory.create(
+            studying_languages=["ja", "ko"],
+            native_languages=["en", "de"],
+        )
+        self.mike = UserFactory.create(
+            studying_languages=["ja"],
+            native_languages=["de"],
+        )
+        self.staff = UserFactory.create(
+            studying_languages=["ja", "ko"],
+            native_languages=["en", "de"],
+            is_staff=True,
+        )
+        self.prompt_daniel = Prompt.objects.create(
+            content="This is a prompt",
+            language=self.daniel.studying_languages.get(code="ja"),
+            user=self.daniel,
+        )
+        self.prompt_daniel_url = reverse(
+            "prompt-retrieve-update-destroy",
+            kwargs={"slug": self.prompt_daniel.slug},
+        )
+
+    def test_anon_user_cannot_view_prompt(self):
+        """
+        Test that an anonymous user cannot view a prompt.
+        """
+        response = self.client.get(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_auth_user_can_view_prompt(self):
+        """
+        Test that an authenticated user can view a prompt.
+        """
+        self.client.force_authenticate(self.mike)
+        response = self.client.get(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["content"] == "This is a prompt"
+
+    def test_anon_cannot_update_prompt(self):
+        """
+        Test that an anonymous user cannot update a prompt.
+        """
+        data = {
+            "content": "This is an updated prompt",
+            "lang_code": "de",
+        }
+        response = self.client.patch(self.prompt_daniel_url, data)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_non_owner_cannot_update_prompt(self):
+        """
+        Test that a non-owner user cannot update a prompt.
+        """
+        data = {
+            "content": "This is an updated prompt",
+            "lang_code": "de",
+        }
+        self.client.force_authenticate(self.mike)
+        response = self.client.patch(self.prompt_daniel_url, data)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_owner_can_update_prompt(self):
+        """
+        Test that an owner user can update a prompt.
+        """
+        data = {
+            "content": "This is an updated prompt",
+            "lang_code": "de",
+        }
+        self.client.force_authenticate(self.daniel)
+        response = self.client.patch(self.prompt_daniel_url, data)
+        assert response.status_code == status.HTTP_200_OK
+        self.prompt_daniel.refresh_from_db()
+        assert self.prompt_daniel.content == "This is an updated prompt"
+        assert self.prompt_daniel.language.code == "de"
+
+    def test_staff_can_update_prompt(self):
+        """
+        Test that a staff user can update a prompt.
+        """
+        data = {
+            "content": "This is an updated prompt 2",
+            "lang_code": "es",
+        }
+        self.client.force_authenticate(self.staff)
+        response = self.client.patch(self.prompt_daniel_url, data)
+        assert response.status_code == status.HTTP_200_OK
+        self.prompt_daniel.refresh_from_db()
+        assert self.prompt_daniel.content == "This is an updated prompt 2"
+        assert self.prompt_daniel.language.code == "es"
+
+    def test_anon_cannot_delete_prompt(self):
+        """
+        Test that an anonymous user cannot delete a prompt.
+        """
+        response = self.client.delete(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_non_owner_cannot_delete_prompt(self):
+        """
+        Test that a non-owner user cannot delete a prompt.
+        """
+        self.client.force_authenticate(self.mike)
+        response = self.client.delete(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_owner_can_delete_prompt(self):
+        """
+        Test that an owner user can delete a prompt.
+        """
+        self.client.force_authenticate(self.daniel)
+        response = self.client.delete(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert Prompt.objects.count() == 0
+
+    def test_staff_can_delete_prompt(self):
+        """
+        Test that a staff user can delete a prompt.
+        """
+        self.client.force_authenticate(self.staff)
+        response = self.client.delete(self.prompt_daniel_url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert Prompt.objects.count() == 0
