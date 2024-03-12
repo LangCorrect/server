@@ -55,7 +55,8 @@ class PromptSerializer(BasePromptSerializer):
 
         request = self.context.get("request")
         current_user = request.user
-        if language not in current_user.all_languages:
+
+        if language not in current_user.all_languages and not current_user.is_staff:
             err_msg = "You can only post in languages you know."
             raise serializers.ValidationError(err_msg)
 
