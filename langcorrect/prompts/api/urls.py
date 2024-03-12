@@ -8,6 +8,6 @@ urlpatterns = [
     path(
         "<str:slug>/",
         view=PromptRetrieveUpdateDestroyAPIView.as_view(),
-        name="prompt-detail",
+        name="prompt-retrieve-update-destroy",
     ),
 ]

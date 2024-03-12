@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework import permissions
 
 from config.api.permissions import IsOwnerOrStaff
 from langcorrect.prompts.api.serializers import PromptSerializer
@@ -44,6 +45,14 @@ class PromptRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
             "language",
             "challenge",
         ).prefetch_related("tags")
+
+    def get_permissions(self):
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
+            permission_classes = [IsOwnerOrStaff]
+        else:
+            permission_classes = [permissions.IsAuthenticated]
+
+        return [permission() for permission in permission_classes]
 
     def perform_update(self, serializer):
         updates = {}
