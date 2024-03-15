@@ -8,8 +8,12 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import RedirectView, TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from rest_framework.authtoken.views import obtain_auth_token
-
+from config.settings.views import (
+    DeleteTokenCookiesLogoutView,
+    RefreshTokenWithCookiesView,
+    TokenObtainPairWithCookiesView,
+    VerifyTokenWithCookiesView,
+)
 from config.views import index_page_view
 from langcorrect.contributions.views import rankings_list_view
 from langcorrect.corrections.views import user_corrections_view
@@ -95,6 +99,20 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 api_urlpatterns_v1 = [
+    path(
+        "auth/token/",
+        TokenObtainPairWithCookiesView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "auth/token/refresh/",
+        RefreshTokenWithCookiesView.as_view(),
+        name="token_refresh",
+    ),
+    path(
+        "auth/token/verify/", VerifyTokenWithCookiesView.as_view(), name="token_verify"
+    ),
+    path("auth/logout/", DeleteTokenCookiesLogoutView.as_view(), name="token_logout"),
     path("contributions/", include("langcorrect.contributions.urls")),
     path("users/", include("langcorrect.users.api.urls")),
     path("prompts/", include("langcorrect.prompts.api.urls")),
@@ -103,11 +121,8 @@ api_urlpatterns_v1 = [
 
 # API URLS
 urlpatterns += [
-    # API base url
     path("api/v1/", include("config.api_router")),
     path("api/v1/", include(api_urlpatterns_v1)),
-    # DRF auth token
-    path("auth-token/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",
