@@ -34,12 +34,6 @@ EMAIL_BACKEND = env(
     default="django.core.mail.backends.console.EmailBackend",
 )
 
-# WhiteNoise
-# ------------------------------------------------------------------------------
-# http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
-INSTALLED_APPS = ["whitenoise.runserver_nostatic", *INSTALLED_APPS]
-
-
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
