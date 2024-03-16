@@ -12,10 +12,8 @@ from langcorrect.posts.models import Post
 
 def get_contribution_data(user):
     now = timezone.now()
-    start_date = timezone.make_aware(datetime(now.year, 1, 1, tzinfo=timezone.utc))
-    end_date = timezone.make_aware(
-        datetime(now.year, 12, 31, 23, 59, 59, tzinfo=timezone.utc),
-    )
+    start_date = datetime(now.year, 1, 1, tzinfo=timezone.utc)
+    end_date = datetime(now.year, 12, 31, 23, 59, 59, tzinfo=timezone.utc)
 
     contribution_data = defaultdict(int)
 
