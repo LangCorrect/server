@@ -37,7 +37,6 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 
 ## Technologies Used
 
-- Docker
 - Django 4.x
 - Python 3.x
 - Bootstrap CSS
@@ -56,8 +55,7 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 
 ### Prerequisites
 
-- Docker; if you don’t have it yet, follow the installation instructions;
-- Docker Compose; refer to the official documentation for the installation guide.
+- PostgreSQL; refer to the official documentation for installation.
 - Pre-commit; refer to the official documentation for the pre-commit.
 - Cookiecutter; refer to the official GitHub repository of Cookiecutter
 
@@ -69,25 +67,40 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 git clone git@github.com:LangCorrect/server.git
 ```
 
-#### Build the Stack
-
-This can take a while, especially the first time you run this particular command on your development system:
+#### Create and activate a virtual environment
 
 ```sh
-docker compose -f local.yml build
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-This command will also download and install the required dictionary files. We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.org/) for text parsing. Fugashi parses Japanese text and NLTK parses text in various languages.
-
-To emulate a production environment, use `production.yml` instad.
-
-#### Run the Stack
+#### Install project dependencies
 
 ```sh
-docker compose -f local.yml up
+pip install -r requirements/local.txt
 ```
 
-The site will be accessible via <http://localhost:3000>.
+#### Install dictionaries
+
+We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.org/) for text parsing. Fugashi parses Japanese text and NLTK parses text in various languages.
+
+```sh
+python -m unidic download
+python -m nltk.downloader popular
+```
+
+#### Create the database
+
+```sh
+psql
+CREATE DATABASE langcorrect;
+```
+
+#### Run the migrations
+
+```sh
+python manage.py migrate
+```
 
 #### Setup pre-commit
 
@@ -97,22 +110,22 @@ Make sure to setup pre-commit, otherwise there will be a bunch of CI and Linter 
 pre-commit install
 ```
 
-### Seeding Your Database
-
-Until PR #403 gets merged, there will be no convenient way to populate the database with mock data. You'll need to manually create users, posts, prompts, and corrections.
-
-Note: User registrations require email confirmations. Check your terminal for this link!
-
-### Execute Management Commands
-
-As with any shell command that we wish to run in our container, this is done using the `docker compose -f local.yml run --rm` command:
+#### Install fixtures
 
 ```sh
-docker compose -f local.yml run --rm django python manage.py migrate
-docker compose -f local.yml run --rm django python manage.py createsuperuser
+python manage.py loaddata fixtures/languages.json
+python manage.py loaddata fixtures/correction_types.json
 ```
 
-Here, django is the target service we are executing the commands against. Also, please note that the docker exec does not work for running management commands.
+#### Run the server
+
+```sh
+python manage.py runserver
+```
+
+The site will be accessible via <http://localhost:8000>.
+
+Note: User registrations require email confirmations. Check your terminal for this link!
 
 ## Settings
 
@@ -136,8 +149,8 @@ We use `flake8` for checking Python code for style and syntax errors and `pylint
 This project uses the [Pytest](https://docs.pytest.org/en/latest/example/simple.html), a framework for easily building simple and scalable tests.
 
 ```sh
-docker compose -f local.yml run --rm django pytest #runs all tests
-docker compose -f local.yml run --rm django pytest langcorrect/<app> #test specific app
+python manage.py pytest #runs all tests
+python manage.py pytest langcorrect/<app> #test specific app
 ```
 
 #### Coverage
@@ -145,14 +158,14 @@ docker compose -f local.yml run --rm django pytest langcorrect/<app> #test speci
 You should build your tests to provide the highest level of code coverage. You can run the pytest with code coverage by typing in the following command:
 
 ```sh
-docker compose -f local.yml run --rm django coverage run -m pytest
-docker compose -f local.yml run --rm django coverage report
+python manage.py coverage run -m pytest
+python manage.py coverage report
 ```
 
 #### Unit Tests
 
 ```sh
-docker compose -f local.yml run --rm django python manage.py test
+python manage.py test
 ```
 
 ### Sentry
