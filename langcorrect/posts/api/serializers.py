@@ -2,10 +2,71 @@ import re
 
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from taggit.serializers import TaggitSerializer
+from taggit.serializers import TagListSerializerField
 
+from langcorrect.languages.models import Language
+from langcorrect.languages.serializers import LanguageSerializer
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostReply
+from langcorrect.posts.validators import validate_tags
+from langcorrect.posts.validators import validate_text_length
+from langcorrect.users.api.serializers import BasicUserSerializer
 from langcorrect.users.models import User
+
+
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
+    tags = TagListSerializerField(validators=[validate_tags])
+    language = LanguageSerializer(read_only=True)
+    lang_code = serializers.CharField(write_only=True)
+    user = BasicUserSerializer(read_only=True)
+    text = serializers.CharField(validators=[validate_text_length])
+    native_text = serializers.CharField(required=False)
+
+    class Meta:
+        model = Post
+        fields = [
+            "created",
+            "modified",
+            "title",
+            "text",
+            "native_text",
+            "gender_of_narration",
+            "slug",
+            "language_level",
+            "is_corrected",
+            "language",
+            "lang_code",
+            "permission",
+            "user",
+            "tags",
+        ]
+        read_only_fields = [
+            "slug",
+            "created",
+            "modified",
+            "is_corrected",
+            "language_level",
+        ]
+
+    def validate_lang_code(self, value):
+        try:
+            language = Language.objects.get(code=value)
+        except Language.DoesNotExist as err:
+            err_msg = "Invalid language code provided."
+            raise serializers.ValidationError(err_msg) from err
+
+        request = self.context.get("request")
+        current_user = request.user
+        if language not in current_user.studying_languages:
+            err_msg = "You can only post in languages you are studying."
+            raise serializers.ValidationError(err_msg)
+        return language
+
+    def create(self, validated_data):
+        language = validated_data.pop("lang_code")
+        validated_data["language"] = language
+        return super().create(validated_data)
 
 
 class PostReplySerializer(serializers.ModelSerializer):
