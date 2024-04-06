@@ -98,38 +98,42 @@ urlpatterns = [
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-api_urlpatterns_v1 = [
-    path(
-        "auth/token/",
-        TokenObtainPairWithCookiesView.as_view(),
-        name="token_obtain_pair",
-    ),
-    path(
-        "auth/token/refresh/",
-        RefreshTokenWithCookiesView.as_view(),
-        name="token_refresh",
-    ),
-    path(
-        "auth/token/verify/", VerifyTokenWithCookiesView.as_view(), name="token_verify"
-    ),
-    path("auth/logout/", DeleteTokenCookiesLogoutView.as_view(), name="token_logout"),
-    path("contributions/", include("langcorrect.contributions.urls")),
-    path("users/", include("langcorrect.users.api.urls")),
-    path("prompts/", include("langcorrect.prompts.api.urls")),
-]
 
+if settings.LANGCORRECT_ENABLE_API:
+    api_urlpatterns_v1 = [
+        path(
+            "auth/token/",
+            TokenObtainPairWithCookiesView.as_view(),
+            name="token_obtain_pair",
+        ),
+        path(
+            "auth/token/refresh/",
+            RefreshTokenWithCookiesView.as_view(),
+            name="token_refresh",
+        ),
+        path(
+            "auth/token/verify/",
+            VerifyTokenWithCookiesView.as_view(),
+            name="token_verify",
+        ),
+        path(
+            "auth/logout/", DeleteTokenCookiesLogoutView.as_view(), name="token_logout"
+        ),
+        path("contributions/", include("langcorrect.contributions.urls")),
+        path("users/", include("langcorrect.users.api.urls")),
+        path("prompts/", include("langcorrect.prompts.api.urls")),
+    ]
 
-# API URLS
-urlpatterns += [
-    path("api/v1/", include("config.api_router")),
-    path("api/v1/", include(api_urlpatterns_v1)),
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
-    ),
-]
+    urlpatterns += [
+        path("api/v1/", include("config.api_router")),
+        path("api/v1/", include(api_urlpatterns_v1)),
+        path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+        path(
+            "api/docs/",
+            SpectacularSwaggerView.as_view(url_name="api-schema"),
+            name="api-docs",
+        ),
+    ]
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
