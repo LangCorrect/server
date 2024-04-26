@@ -33,6 +33,10 @@
              class="btn btn-outline-secondary">
             <i class="fas fa-file-pdf"></i> PDF
           </a>
+          <a href="{% url 'posts:export-corrections' post.slug %}?format=JSON"
+             class="btn btn-outline-secondary">
+            <i class="fas fa-file-code"></i> &nbsp;JSON
+          </a>
         </div>
       </div>
     </div>
