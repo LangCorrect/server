@@ -78,7 +78,7 @@ class ExportCorrections:
                 output.flush()
 
                 temp_path = Path(output.name)
-                with temp_path.open(output.name, "rb") as f:
+                with temp_path.open("rb") as f:
                     response.write(f.read())
             return response
         except Exception:
