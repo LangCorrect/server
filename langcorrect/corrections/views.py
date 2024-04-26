@@ -209,6 +209,8 @@ def export_corrections(request, slug):
             return ExportCorrections(post).export_csv()
         case FileFormat.PDF:
             return ExportCorrections(post).export_pdf()
+        case FileFormat.JSON:
+            return ExportCorrections(post).export_json()
         case _:
             messages.warning(request, translate("Invalid export format specified."))
             return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))

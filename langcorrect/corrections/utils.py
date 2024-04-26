@@ -78,12 +78,42 @@ class ExportCorrections:
                 output.flush()
 
                 temp_path = Path(output.name)
-                with temp_path.open(output.name, "rb") as f:
+                with temp_path.open("rb") as f:
                     response.write(f.read())
             return response
         except Exception:
             logger.exception("Failed to export corrections as a PDF.")
             return HttpResponse(
                 "An error occurred while generating the PDF.",
+                status=500,
+            )
+
+    def export_json(self) -> HttpResponse:
+        try:
+            post_rows = [
+                {
+                    "original_sentence": post_row.sentence,
+                    "corrections": [
+                        {
+                            "corrected_sentence": correction.correction,
+                            "correction_feedback": correction.note,
+                            "corrector": correction.user.username,
+                        }
+                        for correction in post_row.correctedrow_set.all()
+                    ],
+                }
+                for post_row in self.post_rows
+            ]
+
+            yyyy_mm_dd = self.post.created.strftime("%Y-%m-%d")
+
+            response = HttpResponse(content_type="application/json")
+            response["Content-Disposition"] = f"attachment; filename={yyyy_mm_dd}.json"
+            response.write(post_rows)
+            return response
+        except Exception:
+            logger.exception("Failed to export corrections as a JSON.")
+            return HttpResponse(
+                "An error occurred while generating the JSON.",
                 status=500,
             )
