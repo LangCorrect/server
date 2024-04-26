@@ -87,23 +87,23 @@ class ExportCorrections:
                 "An error occurred while generating the PDF.",
                 status=500,
             )
-    
+
     def export_json(self) -> HttpResponse:
         try:
-            post_rows = []
-            for post_row in self.post_rows:
-                corrections = []
-                for correction in post_row.correctedrow_set.all():
-                    corrections.append(
+            post_rows = [
+                {
+                    "original_sentence": post_row.sentence,
+                    "corrections": [
                         {
-                            "original_sentence": post_row.sentence,
                             "corrected_sentence": correction.correction,
                             "correction_feedback": correction.note,
                             "corrector": correction.user.username,
                         }
-                    )
-                if corrections:
-                    post_rows.append(corrections)
+                        for correction in post_row.correctedrow_set.all()
+                    ],
+                }
+                for post_row in self.post_rows
+            ]
 
             yyyy_mm_dd = self.post.created.strftime("%Y-%m-%d")
 
@@ -112,8 +112,8 @@ class ExportCorrections:
             response.write(post_rows)
             return response
         except Exception:
-            logger.exception("Failed to export corrections as a PDF.")
+            logger.exception("Failed to export corrections as a JSON.")
             return HttpResponse(
-                "An error occurred while generating the PDF.",
+                "An error occurred while generating the JSON.",
                 status=500,
             )
