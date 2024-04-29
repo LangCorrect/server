@@ -8,10 +8,12 @@ from langcorrect.subscriptions.utils import StripeManager
 
 def timezone_aware_datatime_from_timestamp(value):
     if isinstance(value, datetime):
-        return value
+        if timezone.is_aware(value):
+            return value
+        return timezone.make_aware(value, timezone.utc)
 
     if value:
-        return timezone.make_aware(datetime.fromtimestamp(value, tz=timezone.utc))
+        return datetime.fromtimestamp(value, tz=timezone.utc)
     return "-"
 
 
