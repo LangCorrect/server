@@ -13,13 +13,21 @@ def calculate_rankings():
     """
     A Celery task to calculate user rankings based on total contributions.
     """
+    contributions = (
+        Contribution.available_objects.select_related("user")
+        .prefetch_related(
+            "user__post_set",
+            "user__prompt_set",
+        )
+        .all()
+    )
 
     with transaction.atomic():
         # update contributions
-        for contribution in Contribution.available_objects.select_related("user").all():
-            posts_count = contribution.user.post_set.all().count()
+        for contribution in contributions:
+            posts_count = contribution.user.post_set.count()
+            prompts_count = contribution.user.prompt_set.count()
             corrections_count = contribution.user.corrections_made_count
-            prompts_count = contribution.user.prompt_set.all().count()
             total_points = posts_count + corrections_count + prompts_count
 
             contribution.total_points = total_points
