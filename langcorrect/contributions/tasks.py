@@ -23,25 +23,39 @@ def calculate_rankings():
     )
 
     with transaction.atomic():
-        # update contributions
+        contribution_updates = []
+
         for contribution in contributions:
             posts_count = contribution.user.post_set.count()
             prompts_count = contribution.user.prompt_set.count()
             corrections_count = contribution.user.corrections_made_count
             total_points = posts_count + corrections_count + prompts_count
 
-            contribution.total_points = total_points
-            contribution.post_count = posts_count
-            contribution.correction_count = corrections_count
-            contribution.prompt_count = prompts_count
-            contribution.save()
+            contribution_updates.append(
+                Contribution(
+                    id=contribution.id,
+                    total_points=total_points,
+                    post_count=posts_count,
+                    correction_count=corrections_count,
+                    prompt_count=prompts_count,
+                ),
+            )
 
-        # calculate rankings
+        Contribution.objects.bulk_update(
+            contribution_updates,
+            ["total_points", "post_count", "correction_count", "prompt_count"],
+        )
+
+        ranking_updates = []
         current_rank = 1
-        for contribution in Contribution.available_objects.all():
-            contribution.rank = current_rank
-            contribution.save()
+
+        for contribution in Contribution.available_objects.order_by("-total_points"):
+            ranking_updates.append(
+                Contribution(id=contribution.id, rank=current_rank),
+            )
             current_rank += 1
+
+        Contribution.objects.bulk_update(ranking_updates, ["rank"])
 
 
 @celery_app.task()
