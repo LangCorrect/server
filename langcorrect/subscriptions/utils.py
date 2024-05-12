@@ -169,15 +169,12 @@ class PremiumManager:
             stripe_customer.current_subscription_id = None
             stripe_customer.last_subscription_id = subscription_id
 
-            stripe_customer.premium_until = timezone.make_aware(
-                datetime.fromtimestamp(
-                    subscription.current_period_end,
-                    tz=timezone.utc,
-                ),
+            stripe_customer.premium_until = datetime.fromtimestamp(
+                subscription.current_period_end,
+                tz=timezone.utc,
             )
-            stripe_customer.ended_at = timezone.make_aware(
-                datetime.fromtimestamp(ended_at, tz=timezone.utc),
-            )
+            stripe_customer.ended_at = datetime.fromtimestamp(ended_at, tz=timezone.utc)
+
             stripe_customer.save()
         except Exception:
             logger.exception("An error occurred while canceling the subscription")

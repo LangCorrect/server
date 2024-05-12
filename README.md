@@ -127,6 +127,18 @@ The site will be accessible via <http://localhost:8000>.
 
 Note: User registrations require email confirmations. Check your terminal for this link!
 
+#### Start a celery worker (optional)
+
+```sh
+celery -A config.celery_app worker --loglevel=info
+```
+
+#### Forward Stripe events to the webhook endpoint (optional)
+
+```sh
+stripe listen --forward-to localhost:8000/subscriptions/webhook/
+```
+
 ## Settings
 
 This project was started with Cookiecutter Django. To see a table of configurable settings visit [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
@@ -166,6 +178,39 @@ python manage.py coverage report
 
 ```sh
 python manage.py test
+```
+
+#### Forward strip events to the webhook endpoint (optional)
+
+```sh
+stripe listen --forward-to localhost:8000/subscriptions/webhook/
+```
+
+#### Celery
+
+This app utilizes Celery as an asynchronous task queue to efficiently manage background tasks, such as updating user rankings and running periodic tasks via the Beat scheduler.
+
+To run a celery worker:
+
+```bash
+cd langcorrect
+celery -A config.celery_app worker -l info
+```
+
+Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
+
+To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. You can start it as a standalone process:
+
+```bash
+cd langcorrect
+celery -A config.celery_app beat
+```
+
+or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
+
+```bash
+cd langcorrect
+celery -A config.celery_app worker -B -l info
 ```
 
 ### Sentry

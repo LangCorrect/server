@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 from django.db import transaction
 
 from config import celery_app
@@ -13,27 +14,57 @@ def calculate_rankings():
     """
     A Celery task to calculate user rankings based on total contributions.
     """
+    contributions = Contribution.available_objects.select_related(
+        "user",
+    ).prefetch_related(
+        "user__post_set",
+        "user__prompt_set",
+        "user__perfectrow_set",
+        "user__correctedrow_set",
+    )
 
-    with transaction.atomic():
-        # update contributions
-        for contribution in Contribution.available_objects.select_related("user").all():
-            posts_count = contribution.user.post_set.all().count()
-            corrections_count = contribution.user.corrections_made_count
-            prompts_count = contribution.user.prompt_set.all().count()
-            total_points = posts_count + corrections_count + prompts_count
+    paginator = Paginator(contributions, 500)
 
-            contribution.total_points = total_points
-            contribution.post_count = posts_count
-            contribution.correction_count = corrections_count
-            contribution.prompt_count = prompts_count
-            contribution.save()
+    for page_number in paginator.page_range:
+        page = paginator.page(page_number)
+        with transaction.atomic():
+            contribution_updates = []
 
-        # calculate rankings
-        current_rank = 1
-        for contribution in Contribution.available_objects.all():
-            contribution.rank = current_rank
-            contribution.save()
-            current_rank += 1
+            for contribution in page.object_list:
+                posts_count = contribution.user.post_set.count()
+                prompts_count = contribution.user.prompt_set.count()
+
+                corrections_count = (
+                    contribution.user.correctedrow_set.count()
+                    + contribution.user.perfectrow_set.count()
+                )
+
+                total_points = posts_count + corrections_count + prompts_count
+
+                contribution_updates.append(
+                    Contribution(
+                        id=contribution.id,
+                        total_points=total_points,
+                        post_count=posts_count,
+                        correction_count=corrections_count,
+                        prompt_count=prompts_count,
+                    ),
+                )
+
+            Contribution.objects.bulk_update(
+                contribution_updates,
+                ["total_points", "post_count", "correction_count", "prompt_count"],
+            )
+
+    ranking_updates = []
+    current_rank = 1
+    for contribution in Contribution.available_objects.order_by("-total_points"):
+        ranking_updates.append(
+            Contribution(id=contribution.id, rank=current_rank),
+        )
+        current_rank += 1
+
+    Contribution.objects.bulk_update(ranking_updates, ["rank"])
 
 
 @celery_app.task()
