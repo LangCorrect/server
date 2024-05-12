@@ -19,6 +19,8 @@ def calculate_rankings():
     ).prefetch_related(
         "user__post_set",
         "user__prompt_set",
+        "user__perfectrow_set",
+        "user__correctedrow_set",
     )
 
     paginator = Paginator(contributions, 500)
@@ -31,7 +33,12 @@ def calculate_rankings():
             for contribution in page.object_list:
                 posts_count = contribution.user.post_set.count()
                 prompts_count = contribution.user.prompt_set.count()
-                corrections_count = contribution.user.corrections_made_count
+
+                corrections_count = (
+                    contribution.user.correctedrow_set.count()
+                    + contribution.user.perfectrow_set.count()
+                )
+
                 total_points = posts_count + corrections_count + prompts_count
 
                 contribution_updates.append(
