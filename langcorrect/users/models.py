@@ -10,8 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from config.settings.base import AVATAR_BASE_URL
 from langcorrect.contributions.models import Contribution
-from langcorrect.corrections.models import CorrectedRow
-from langcorrect.corrections.models import PerfectRow
+from langcorrect.corrections.models import PostRowFeedback
 from langcorrect.languages.models import Language
 from langcorrect.languages.models import LevelChoices
 
@@ -101,14 +100,11 @@ class User(AbstractUser):
 
     @property
     def corrections_made_count(self):
-        return self.correctedrow_set.all().count() + self.perfectrow_set.all().count()
+        return self.postrowfeedback_set.count()
 
     @property
     def corrections_received_count(self):
-        return (
-            CorrectedRow.available_objects.filter(post__user=self).count()
-            + PerfectRow.available_objects.filter(post__user=self).count()
-        )
+        return PostRowFeedback.available_objects.filter(post__user=self).count()
 
     @property
     def correction_ratio(self):
