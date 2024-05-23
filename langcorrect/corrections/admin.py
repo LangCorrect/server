@@ -4,11 +4,17 @@ from langcorrect.corrections.models import CorrectedRow
 from langcorrect.corrections.models import CorrectionType
 from langcorrect.corrections.models import OverallFeedback
 from langcorrect.corrections.models import PerfectRow
+from langcorrect.corrections.models import PostRowFeedback
 
 
 @admin.register(CorrectionType)
 class CorrectionTypeAdmin(admin.ModelAdmin):
     list_display = ["name", "description"]
+
+
+@admin.register(PostRowFeedback)
+class PostRowFeedbackAdmin(admin.ModelAdmin):
+    list_display = ["user", "post", "post_row", "feedback_type", "correction", "note"]
 
 
 @admin.register(CorrectedRow)
