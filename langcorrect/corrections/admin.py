@@ -15,6 +15,7 @@ class CorrectionTypeAdmin(admin.ModelAdmin):
 @admin.register(PostRowFeedback)
 class PostRowFeedbackAdmin(admin.ModelAdmin):
     list_display = ["user", "post", "post_row", "feedback_type", "correction", "note"]
+    readonly_fields = ["user", "post", "post_row", "feedback_type"]
 
 
 @admin.register(CorrectedRow)
