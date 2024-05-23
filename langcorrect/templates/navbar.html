@@ -197,7 +197,7 @@
               data-bs-placement="bottom"
               title="{% translate 'Total corrections received' %}">
             <i class="fas fa-arrow-down fa-fw"></i>
-            <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
+            {{ request.user.corrections_received_count }}
           </li>
           <li class="list-inline-item"
               data-bs-toggle="tooltip"
