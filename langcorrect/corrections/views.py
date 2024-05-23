@@ -5,11 +5,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Case
 from django.db.models import Count
 from django.db.models import Max
 from django.db.models import Q
-from django.db.models import When
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -24,6 +22,7 @@ from langcorrect.corrections.helpers import check_can_make_corrections
 from langcorrect.corrections.models import CorrectedRow
 from langcorrect.corrections.models import OverallFeedback
 from langcorrect.corrections.models import PerfectRow
+from langcorrect.corrections.models import PostRowFeedback
 from langcorrect.corrections.utils import ExportCorrections
 from langcorrect.decorators import premium_required
 from langcorrect.posts.models import Post
@@ -217,40 +216,36 @@ def export_corrections(request, slug):
 
 
 class UserCorrectionsView(LoginRequiredMixin, ListView):
-    model = Post
+    model = PostRowFeedback
     template_name = "corrections/user_corrections.html"
-    paginate_by = 20
+    paginate_by = 50
 
     def get_queryset(self):
         current_user = self.request.user
 
-        correctedrow_condition = Q(
-            correctedrow__user=current_user,
-            correctedrow__is_removed=False,
-        )
-        perfectrow_condition = Q(
-            perfectrow__user=current_user,
-            perfectrow__is_removed=False,
+        feedback_qs = PostRowFeedback.available_objects.filter(user=current_user)
+
+        posts_with_corrections = feedback_qs.values("post").annotate(
+            corrections_count=Count("id"),
+            latest_correction_date=Max("created"),
         )
 
-        qs = Post.available_objects.filter(
-            correctedrow_condition | perfectrow_condition,
-        ).distinct()
-
-        return qs.annotate(
-            num_corrections=Count(
-                "correctedrow__id",
-                distinct=True,
-                filter=correctedrow_condition,
-            )
-            + Count("perfectrow__id", distinct=True, filter=perfectrow_condition),
-            date_corrected=Max(
-                Case(
-                    When(correctedrow__user=current_user, then="correctedrow__created"),
-                    When(perfectrow__user=current_user, then="perfectrow__created"),
+        post_ids = posts_with_corrections.values_list("post", flat=True)
+        posts = (
+            Post.available_objects.filter(id__in=post_ids)
+            .annotate(
+                num_corrections=Count(
+                    "postrowfeedback", filter=Q(postrowfeedback__user=current_user)
                 ),
-            ),
-        ).order_by("-date_corrected")
+                date_corrected=Max(
+                    "postrowfeedback__created",
+                    filter=Q(postrowfeedback__user=current_user),
+                ),
+            )
+            .order_by("-date_corrected")
+        )
+
+        return posts
 
 
 user_corrections_view = UserCorrectionsView.as_view()
