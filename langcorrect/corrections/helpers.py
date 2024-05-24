@@ -1,4 +1,5 @@
 import itertools as it
+from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
 from operator import itemgetter
@@ -7,75 +8,56 @@ from django.db.models import Count
 from django.utils import timezone
 
 from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.models import OverallFeedback
 from langcorrect.corrections.models import PerfectRow
 from langcorrect.users.models import User
 
 
-def _sort_key(correction_dict):
-    return correction_dict["ordering"]
+def _initialize_user_correction_data():
+    return {
+        "corrections": [],
+        "overall_feedback": "",
+        "replies": [],
+    }
 
 
-def order_user_corrections_by_post_row(user_corrections):
-    for user in user_corrections:
-        user_corrections[user]["corrections"].sort(key=_sort_key)
+def _add_to_user_corrections(user_corrections, corrections, overall_feedbacks, replies):
+    for correction in corrections:
+        user_corrections[correction.user]["corrections"].append(correction.serialize)
+
+    for feedback in overall_feedbacks:
+        user_corrections[feedback.user]["overall_feedback"] = feedback.comment
+
+    for reply in replies:
+        user_corrections[reply.recipient]["replies"].append(reply)
+
     return user_corrections
 
 
-def populate_user_corrections(
-    perfect_rows,
-    corrected_rows,
-    feedback_rows,
-    postreply_rows,
-):
-    user_corrections = {}
+def _order_user_corrections_by_post_row(user_corrections):
+    for user in user_corrections:
+        user_corrections[user]["corrections"].sort(key=lambda x: x["ordering"])
+    return user_corrections
 
-    for row in perfect_rows:
-        data = row.serialize
-        user = row.user
 
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
+def serialize_user_corrections_for_post(post):
+    user_corrections = defaultdict(_initialize_user_correction_data)
 
-    for row in corrected_rows:
-        data = row.serialize
-        user = row.user
+    corrections = post.postrowfeedback_set.all()
+    overall_feedbacks = OverallFeedback.objects.filter(post=post)
+    replies = post.postreply_set.all()
 
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
+    user_corrections = _add_to_user_corrections(
+        user_corrections,
+        corrections,
+        overall_feedbacks,
+        replies,
+    )
 
-    for feedback in feedback_rows:
-        user = feedback.user
-
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["overall_feedback"] = feedback.comment
-
-    for reply in postreply_rows:
-        recipient = reply.recipient
-
-        if recipient not in user_corrections:
-            user_corrections[recipient] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[recipient]["replies"].append(reply)
-
-    return order_user_corrections_by_post_row(user_corrections)
+    # More efficient than converting defaultdict to dict
+    # https://stackoverflow.com/a/12842716
+    user_corrections.default_factory = None
+    return _order_user_corrections_by_post_row(user_corrections)
 
 
 def check_can_make_corrections(current_user, post):
