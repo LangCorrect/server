@@ -19,8 +19,7 @@ def get_contribution_data(user):
 
     models = [
         user.post_set,
-        user.correctedrow_set,
-        user.perfectrow_set,
+        user.postrowfeedback_set,
         user.prompt_set,
     ]
 
