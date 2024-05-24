@@ -29,7 +29,8 @@ class PostRowFeedback(SoftDeletableModel, TimeStampedModel):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["post_row", "user"], name="unique_user_post_row_feedback"
+                fields=["post_row", "user"],
+                name="unique_user_post_row_feedback",
             ),
         ]
 
@@ -58,10 +59,26 @@ class PostRowFeedback(SoftDeletableModel, TimeStampedModel):
                 )
 
     @property
+    def serialize(self):
+        return {
+            "type": self.feedback_type,
+            "correction": self.display_correction,
+            "note": self.note,
+            "correction_types": self.correction_types,
+            "ordering": self.post_row.order,
+        }
+
+    @property
     def display_correction(self):
-        pass
+        if self.feedback_type != self.FeedbackType.CORRECTED:
+            return self.post_row.sentence
+        dmp = diff_match_patch.diff_match_patch()
+        diffs = dmp.diff_main(self.post_row.sentence, self.correction)
+        dmp.diff_cleanupSemantic(diffs)
+        return dmp.diff_prettyHtml(diffs)
 
 
+# TODO: DEPRECATED
 class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(
@@ -75,27 +92,8 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     note = models.TextField(default=None, null=True, blank=True)
     correction_types = models.ManyToManyField(CorrectionType)
 
-    def __repr__(self):
-        return f"<{self.user.username} - {self.post_row.sentence} - {self.correction} removed:{self.is_removed} />"
 
-    @property
-    def serialize(self):
-        return {
-            "type": "corrected",
-            "correction": self.display_correction,
-            "note": self.note,
-            "correction_types": self.correction_types,
-            "ordering": self.post_row.order,
-        }
-
-    @property
-    def display_correction(self):
-        dmp = diff_match_patch.diff_match_patch()
-        diffs = dmp.diff_main(self.post_row.sentence, self.correction)
-        dmp.diff_cleanupSemantic(diffs)
-        return dmp.diff_prettyHtml(diffs)
-
-
+# TODO: DEPRECATED
 class PerfectRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(
@@ -105,17 +103,6 @@ class PerfectRow(SoftDeletableModel, TimeStampedModel):
         blank=True,
     )
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
-
-    @property
-    def serialize(self):
-        return {
-            "type": "perfect",
-            "correction": self.post_row.sentence,
-            "ordering": self.post_row.order,
-        }
-
-    def __repr__(self):
-        return f"<{self.user.username} - {self.post_row.sentence} removed:{self.is_removed} />"
 
 
 class OverallFeedback(SoftDeletableModel, TimeStampedModel):
