@@ -7,10 +7,8 @@ from operator import itemgetter
 from django.db.models import Count
 from django.utils import timezone
 
-from langcorrect.corrections.models import CorrectedRow
 from langcorrect.corrections.models import OverallFeedback
-from langcorrect.corrections.models import PerfectRow
-from langcorrect.users.models import User
+from langcorrect.corrections.models import PostRowFeedback
 
 
 def _initialize_user_correction_data():
@@ -153,21 +151,24 @@ def get_popular_correctors(period=None, limit=10):
 
     filters = get_date_range_filters(period)
 
-    correctors = list(
-        PerfectRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
-    ) + list(
-        CorrectedRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
+    popular_correctors = (
+        PostRowFeedback.objects.filter(**filters)
+        .values(
+            "user__username",
+            "user__nick_name",
+        )
+        .annotate(num_corrections=Count("user"))
+        .order_by("-num_corrections")[:limit]
     )
 
-    popular_correctors = aggregate_users(correctors)[:limit]
     for popular_corrector in popular_correctors:
-        display_name = User.objects.get(
-            username=popular_corrector["username"],
-        ).display_name
+        username = popular_corrector["user__username"]
+        nick_name = popular_corrector["user__nick_name"]
+        display_name = nick_name if nick_name else username
+        num_corrections = popular_corrector["num_corrections"]
+
+        popular_corrector["username"] = username
         popular_corrector["display_name"] = display_name
+        popular_corrector["num_corrections"] = num_corrections
 
     return popular_correctors
