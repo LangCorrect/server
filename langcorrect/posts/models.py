@@ -6,12 +6,12 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import gettext_noop
 from model_utils.models import SoftDeletableModel
 from model_utils.models import TimeStampedModel
-from notifications.signals import notify
 from taggit.managers import TaggableManager
 
+from langcorrect.corrections.constants import NotificationTypes
+from langcorrect.corrections.helpers import create_notification
 from langcorrect.languages.models import LevelChoices
 from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices
@@ -89,7 +89,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
     @property
     def get_correctors(self):
-        user_ids = self.postrowfeedback_set.values_list("user_id", flat=True)
+        user_ids = self.postrowfeedback_set.values_list("user_id", flat=True).distinct()
         return User.objects.filter(id__in=user_ids)
 
     @property
@@ -164,13 +164,7 @@ def send_follower_notifications(sender, instance, created, **kwargs):
             if post.language in follower.user.native_languages
         ]
 
-        notify.send(
-            sender=user,
-            recipient=recipients,
-            verb=gettext_noop("submitted a new entry"),
-            action_object=post,
-            notification_type="new_post",
-        )
+        create_notification(user, recipients, post, NotificationTypes.NEW_POST)
 
 
 @receiver(post_save, sender=Post)
@@ -181,12 +175,11 @@ def send_prompt_author_notifications(sender, instance, created, **kwargs):
     if created and post.prompt:
         recipient = post.prompt.user
 
-        notify.send(
-            sender=user,
-            recipient=recipient,
-            verb=gettext_noop("responded to your prompt"),
-            action_object=post,
-            notification_type="new_prompt_response",
+        create_notification(
+            user,
+            recipient,
+            post,
+            NotificationTypes.NEW_PROMPT_RESPONSE,
         )
 
 

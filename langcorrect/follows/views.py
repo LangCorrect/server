@@ -6,11 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
-from notifications.signals import notify
 
+from langcorrect.corrections.constants import NotificationTypes
+from langcorrect.corrections.helpers import create_notification
 from langcorrect.follows.models import Follower
 
 User = get_user_model()
@@ -75,12 +75,11 @@ def follow_user(request, username):
         ).first().delete(soft=False)
     else:
         Follower.objects.create(user=current_user, follow_to=profile_user)
-        notify.send(
-            sender=current_user,
-            recipient=profile_user,
-            verb=gettext_noop("followed you"),
-            action_object=current_user,
-            notification_type="new_follower",
+        create_notification(
+            current_user,
+            profile_user,
+            current_user,
+            NotificationTypes.NEW_FOLLOWER,
         )
 
     return redirect(reverse_lazy("users:detail", kwargs={"username": username}))

@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.utils.translation import gettext_noop
-from notifications.signals import notify
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 
+from langcorrect.corrections.constants import NotificationTypes
+from langcorrect.corrections.helpers import create_notification
 from langcorrect.posts.api.serializers import PostReplySerializer
 from langcorrect.posts.models import PostReply
 
@@ -27,12 +27,11 @@ class PostReplyCreateUpdateAPIView(generics.GenericAPIView):
 
             recipients = self.get_recipients(serializer)
 
-            notify.send(
-                sender=reply_author,
-                recipient=list(recipients),
-                verb=gettext_noop("replied on"),
-                action_object=post,
-                notification_type="new_reply",
+            create_notification(
+                reply_author,
+                list(recipients),
+                post,
+                NotificationTypes.NEW_REPLY,
             )
 
             return render(
