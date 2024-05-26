@@ -177,6 +177,69 @@ def get_popular_correctors(period=None, limit=10):
     return popular_correctors
 
 
+def check_if_correction_exists(user, post, post_row):
+    return PostRowFeedback.all_objects.filter(
+        user=user,
+        post=post,
+        post_row=post_row,
+    ).exists()
+
+
+def check_if_overall_feedback_exists(user, post):
+    return OverallFeedback.objects.filter(
+        user=user,
+        post=post,
+    ).exists()
+
+
+def delete_correction(user, post, post_row):
+    PostRowFeedback.available_objects.get(
+        user=user,
+        post=post,
+        post_row=post_row,
+    ).delete()
+
+
+def add_or_update_correction(
+    user,
+    post,
+    post_row,
+    feedback_type,
+    correction="",
+    note="",
+    correction_types=None,
+):
+    if check_if_correction_exists(user, post, post_row):
+        existing_correction = PostRowFeedback.all_objects.get(
+            user=user,
+            post=post,
+            post_row=post_row,
+        )
+        existing_correction.feedback_type = feedback_type
+        existing_correction.correction = correction
+        existing_correction.note = note
+
+        if existing_correction.is_removed:
+            existing_correction.is_removed = False
+
+        existing_correction.save()
+        return False
+    else:
+        new_correction = PostRowFeedback.available_objects.create(
+            user=user,
+            post=post,
+            post_row=post_row,
+            feedback_type=feedback_type,
+            correction=correction,
+            note=note,
+        )
+
+        if correction_types:
+            new_correction.correction_types.set(correction_types)
+
+        return True
+
+
 def create_notification(
     sender,
     recipient,
