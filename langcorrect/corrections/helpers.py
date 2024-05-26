@@ -6,7 +6,10 @@ from operator import itemgetter
 
 from django.db.models import Count
 from django.utils import timezone
+from django.utils.translation import gettext_noop
+from notifications.signals import notify
 
+from langcorrect.corrections.constants import NotificationTypes
 from langcorrect.corrections.models import OverallFeedback
 from langcorrect.corrections.models import PostRowFeedback
 
@@ -172,3 +175,62 @@ def get_popular_correctors(period=None, limit=10):
         popular_corrector["num_corrections"] = num_corrections
 
     return popular_correctors
+
+
+def create_notification(
+    sender,
+    recipient,
+    action_object,
+    notification_type: NotificationTypes,
+):
+    match type:
+        case NotificationTypes.NEW_CORRECTION:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("corrected"),
+                action_object=object,
+                notification_type=NotificationTypes.NEW_CORRECTION,
+            )
+        case NotificationTypes.UPDATE_CORRECTION:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("updated their corrections on"),
+                action_object=object,
+                notification_type=NotificationTypes.UPDATE_CORRECTION,
+            )
+        case NotificationTypes.NEW_COMMENT:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("commented on"),
+                action_object=object,
+                notification_type=NotificationTypes.NEW_COMMENT,
+            )
+        case NotificationTypes.NEW_POST:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("posted"),
+                action_object=object,
+                notification_type=NotificationTypes.NEW_POST,
+            )
+        case NotificationTypes.NEW_REPLY:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("replied on"),
+                action_object=object,
+                notification_type=NotificationTypes.NEW_REPLY,
+            )
+        case NotificationTypes.NEW_FOLLOWER:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("followed you"),
+                action_object=object,
+                notification_type=NotificationTypes.NEW_FOLLOWER,
+            )
+        case _:
+            pass
