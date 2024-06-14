@@ -41,3 +41,48 @@ def validate_image_size(image: UploadedFile, max_size_mb: int = 5) -> None:
         raise ValidationError(
             _("Image size should not be more than %sMB.") % max_size_mb,
         )
+
+
+def validate_text_length(value, min_char_count=50):
+    """Ensures that the text length is at least a specified minimum character count.
+
+    Args:
+        value (str): The text to validate.
+        min_char_count (int, optional): The minimum character count. Defaults to 50.
+
+    Raises:
+        ValidationError: If the text length is less than the specified minimum character count.
+    """
+    if len(value) < min_char_count:
+        raise ValidationError(
+            _("Text length should be at least %s characters.") % min_char_count,
+        )
+
+
+def validate_tags(tags, max_char_count=20):
+    """Ensures that the tags are valid.
+
+    Args:
+        tags (list[str]): The tags to validate.
+
+    Raises:
+        ValidationError: If the tags are not valid.
+
+    Note:
+        There is no minimum character count for tags because in some languages
+        (like Japanese), a single character can represent a whole word or concept.
+        For example, the kanji "車" represents the word "car".
+    """
+    results = []
+
+    for tag in tags:
+        cleaned_tag = tag.lower().replace("#", "").strip()
+        if len(cleaned_tag) > max_char_count:
+            raise ValidationError(
+                _("Tags cannot be longer than %s characters. (%s)")
+                % (max_char_count, cleaned_tag),
+            )
+        if len(cleaned_tag) > 0:
+            results.append(cleaned_tag)
+
+    return results

@@ -9,6 +9,7 @@ from faker import Faker
 
 from langcorrect.languages.models import Language
 from langcorrect.languages.models import LanguageLevel
+from langcorrect.languages.models import LevelChoices
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostVisibility
 from langcorrect.posts.tests.utils import generate_text
@@ -32,7 +33,7 @@ LANGUAGE_TO_FAKER_LOCALE = {
 
 
 class PostFactory(DjangoModelFactory):
-    user = LazyAttribute(lambda x: random.choice(User.objects.all()))
+    user = LazyAttribute(lambda _: User.objects.order_by("?").first())
     title = LazyAttribute(
         lambda x: generate_title(LANGUAGE_TO_FAKER_LOCALE.get(x.language.code)),
     )
@@ -53,7 +54,9 @@ class PostFactory(DjangoModelFactory):
     permission = LazyAttribute(
         lambda _: fake.random_element(elements=PostVisibility.choices)[0],
     )
-    is_corrected = LazyAttribute(lambda _: fake.boolean())
+    language_level = LazyAttribute(
+        lambda _: fake.random_element(elements=LevelChoices.choices)[0],
+    )
 
     @post_generation
     def set_language(self, create, extracted, **kwargs):
