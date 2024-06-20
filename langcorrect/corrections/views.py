@@ -77,6 +77,12 @@ def _handle_overall_feedback(user, post, feedback, delete=False):  # noqa:FBT002
             post=post,
             comment=feedback,
         )
+        create_notification(
+            user,
+            post.user,
+            post,
+            NotificationTypes.NEW_COMMENT,
+        )
 
 
 @login_required
