@@ -200,7 +200,23 @@ def delete_correction(user, post, post_row):
     ).delete()
 
 
-def add_or_update_correction(
+def delete_overall_feedback(user, post):
+    OverallFeedback.available_objects.get(
+        user=user,
+        post=post,
+    ).delete()
+
+
+def update_overall_feedback(user, post, feedback):
+    obj = OverallFeedback.available_objects.get(
+        user=user,
+        post=post,
+    )
+    obj.comment = feedback
+    obj.save()
+
+
+def add_or_update_correction(  # noqa:PLR0913
     user,
     post,
     post_row,
@@ -224,35 +240,35 @@ def add_or_update_correction(
 
         existing_correction.save()
         return False
-    else:
-        new_correction = PostRowFeedback.available_objects.create(
-            user=user,
-            post=post,
-            post_row=post_row,
-            feedback_type=feedback_type,
-            correction=correction,
-            note=note,
-        )
 
-        if correction_types:
-            new_correction.correction_types.set(correction_types)
+    new_correction = PostRowFeedback.available_objects.create(
+        user=user,
+        post=post,
+        post_row=post_row,
+        feedback_type=feedback_type,
+        correction=correction,
+        note=note,
+    )
 
-        return True
+    if correction_types:
+        new_correction.correction_types.set(correction_types)
+
+    return True
 
 
 def create_notification(
     sender,
     recipient,
     action_object,
-    notification_type: NotificationTypes,
+    n_type: NotificationTypes,
 ):
-    match type:
+    match n_type:
         case NotificationTypes.NEW_CORRECTION:
             notify.send(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("corrected"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.NEW_CORRECTION,
             )
         case NotificationTypes.UPDATE_CORRECTION:
@@ -260,7 +276,7 @@ def create_notification(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("updated their corrections on"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.UPDATE_CORRECTION,
             )
         case NotificationTypes.NEW_COMMENT:
@@ -268,7 +284,7 @@ def create_notification(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("commented on"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.NEW_COMMENT,
             )
         case NotificationTypes.NEW_POST:
@@ -276,7 +292,7 @@ def create_notification(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("posted"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.NEW_POST,
             )
         case NotificationTypes.NEW_REPLY:
@@ -284,7 +300,7 @@ def create_notification(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("replied on"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.NEW_REPLY,
             )
         case NotificationTypes.NEW_FOLLOWER:
@@ -292,8 +308,9 @@ def create_notification(
                 sender=sender,
                 recipient=recipient,
                 verb=gettext_noop("followed you"),
-                action_object=object,
+                action_object=action_object,
                 notification_type=NotificationTypes.NEW_FOLLOWER,
             )
         case _:
+            # TODO: add logger for non existant
             pass

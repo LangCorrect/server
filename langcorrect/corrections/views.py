@@ -22,6 +22,8 @@ from langcorrect.corrections.helpers import check_can_make_corrections
 from langcorrect.corrections.helpers import check_if_overall_feedback_exists
 from langcorrect.corrections.helpers import create_notification
 from langcorrect.corrections.helpers import delete_correction
+from langcorrect.corrections.helpers import delete_overall_feedback
+from langcorrect.corrections.helpers import update_overall_feedback
 from langcorrect.corrections.models import OverallFeedback
 from langcorrect.corrections.models import PostRowFeedback
 from langcorrect.corrections.utils import ExportCorrections
@@ -36,7 +38,7 @@ def _handle_correction_data(user, post, correction):
     corrected_text = correction["corrected_text"]
     feedback = correction["feedback"]
     action = correction["action"]
-    correction_types = None
+    correction_types = None  # noqa: F841
 
     correction_created = False
 
@@ -64,21 +66,13 @@ def _handle_correction_data(user, post, correction):
     return correction_created
 
 
-def _handle_overall_feedback(user, post, feedback, delete=False):
+def _handle_overall_feedback(user, post, feedback, delete=False):  # noqa:FBT002
     if delete:
-        OverallFeedback.objects.get(
-            user=user,
-            post=post,
-        ).delete()
+        delete_overall_feedback(user, post)
     elif check_if_overall_feedback_exists(user, post):
-        existing_feedback = OverallFeedback.objects.get(
-            user=user,
-            post=post,
-        )
-        existing_feedback.comment = feedback
-        existing_feedback.save()
+        update_overall_feedback(user, post, feedback)
     else:
-        new_feedback = OverallFeedback.objects.create(
+        OverallFeedback.objects.create(
             user=user,
             post=post,
             comment=feedback,
@@ -239,7 +233,7 @@ class UserCorrectionsView(LoginRequiredMixin, ListView):
         )
 
         post_ids = posts_with_corrections.values_list("post", flat=True)
-        posts = (
+        return (
             Post.available_objects.filter(id__in=post_ids)
             .annotate(
                 num_corrections=Count(
@@ -253,8 +247,6 @@ class UserCorrectionsView(LoginRequiredMixin, ListView):
             )
             .order_by("-date_corrected")
         )
-
-        return posts
 
 
 user_corrections_view = UserCorrectionsView.as_view()
