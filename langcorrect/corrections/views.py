@@ -5,30 +5,84 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.db.models import Case
 from django.db.models import Count
 from django.db.models import Max
 from django.db.models import Q
-from django.db.models import When
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as translate
-from django.utils.translation import gettext_noop
 from django.views.generic import ListView
-from notifications.signals import notify
 
 from langcorrect.corrections.constants import FileFormat
+from langcorrect.corrections.constants import NotificationTypes
+from langcorrect.corrections.helpers import add_or_update_correction
 from langcorrect.corrections.helpers import check_can_make_corrections
-from langcorrect.corrections.models import CorrectedRow
+from langcorrect.corrections.helpers import check_if_overall_feedback_exists
+from langcorrect.corrections.helpers import create_notification
+from langcorrect.corrections.helpers import delete_correction
+from langcorrect.corrections.helpers import delete_overall_feedback
+from langcorrect.corrections.helpers import update_overall_feedback
 from langcorrect.corrections.models import OverallFeedback
-from langcorrect.corrections.models import PerfectRow
+from langcorrect.corrections.models import PostRowFeedback
 from langcorrect.corrections.utils import ExportCorrections
 from langcorrect.decorators import premium_required
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostRow
 from langcorrect.utils.mailing import email_new_correction
+
+
+def _handle_correction_data(user, post, correction):
+    sentence_id = correction["sentence_id"]
+    corrected_text = correction["corrected_text"]
+    feedback = correction["feedback"]
+    action = correction["action"]
+    correction_types = None  # noqa: F841
+
+    correction_created = False
+
+    post_row = PostRow.objects.get(id=sentence_id)
+
+    if action == "perfect":
+        correction_created |= add_or_update_correction(
+            user,
+            post,
+            post_row,
+            PostRowFeedback.FeedbackType.PERFECT,
+        )
+    elif action == "corrected":
+        correction_created |= add_or_update_correction(
+            user,
+            post,
+            post_row,
+            PostRowFeedback.FeedbackType.CORRECTED,
+            corrected_text,
+            feedback,
+        )
+    elif action == "delete":
+        delete_correction(user, post, post_row)
+
+    return correction_created
+
+
+def _handle_overall_feedback(user, post, feedback, delete=False):  # noqa:FBT002
+    if delete:
+        delete_overall_feedback(user, post)
+    elif check_if_overall_feedback_exists(user, post):
+        update_overall_feedback(user, post, feedback)
+    else:
+        OverallFeedback.objects.create(
+            user=user,
+            post=post,
+            comment=feedback,
+        )
+        create_notification(
+            user,
+            post.user,
+            post,
+            NotificationTypes.NEW_COMMENT,
+        )
 
 
 @login_required
@@ -44,105 +98,59 @@ def make_corrections(request, slug):
         overall_feedback = request.POST.get("overall_feedback", None)
         delete_overall_feedback = request.POST.get("delete_overall_feedback", None)
 
-        previous_correctors = post.get_correctors
+        previous_correctors = list(post.get_correctors)
         new_correction_made = False
         new_feedback_given = False
 
         if corrections_data:
             corrections = json.loads(corrections_data)
-
             for correction in corrections:
-                sentence_id = correction["sentence_id"]
-                corrected_text = correction["corrected_text"]
-                feedback = correction["feedback"]
-                action = correction["action"]
-
-                post_row_instance = PostRow.objects.get(id=sentence_id)
-
-                if action == "perfect":
-                    _, perfect_created = PerfectRow.available_objects.get_or_create(
-                        post=post,
-                        post_row=post_row_instance,
-                        user=current_user,
-                    )
-                    new_correction_made |= perfect_created
-
-                if action == "corrected":
-                    (
-                        corrected_row,
-                        correctedrow_created,
-                    ) = CorrectedRow.available_objects.get_or_create(
-                        post=post,
-                        post_row=post_row_instance,
-                        user=current_user,
-                    )
-                    corrected_row.correction = corrected_text
-                    corrected_row.note = feedback
-                    corrected_row.save()
-
-                    new_correction_made |= correctedrow_created
-
-                if action == "delete":
-                    # Note: a sentence cannot be both marked as perfect or corrected
-                    PerfectRow.available_objects.filter(
-                        post=post,
-                        post_row=post_row_instance,
-                        user=current_user,
-                    ).delete()
-                    CorrectedRow.available_objects.filter(
-                        post=post,
-                        post_row=post_row_instance,
-                        user=current_user,
-                    ).delete()
+                new_correction_made |= _handle_correction_data(
+                    current_user,
+                    post,
+                    correction,
+                )
 
         if overall_feedback:
-            (
-                feedback_row,
-                feedback_created,
-            ) = OverallFeedback.available_objects.get_or_create(
-                post=post,
-                user=current_user,
+            _handle_overall_feedback(
+                current_user,
+                post,
+                overall_feedback,
+                delete_overall_feedback == "true",
             )
-            feedback_row.comment = overall_feedback
-            feedback_row.save()
-
-            new_feedback_given |= feedback_created
-
-            if delete_overall_feedback == "true":
-                feedback_row.delete()
-
-        if current_user not in previous_correctors:
-            if new_correction_made:
-                notify.send(
-                    sender=current_user,
-                    recipient=post.user,
-                    verb=gettext_noop("corrected"),
-                    action_object=post,
-                    notification_type="new_correction",
-                )
-            elif new_feedback_given:
-                notify.send(
-                    sender=current_user,
-                    recipient=post.user,
-                    verb=gettext_noop("commented on"),
-                    action_object=post,
-                    notification_type="new_comment",
-                )
 
         if new_correction_made:
             post.is_corrected = True
             post.save()
-
         elif post.get_correctors.count() == 0:
             post.is_corrected = False
             post.save()
 
-        if (
-            new_correction_made
-            and current_user not in previous_correctors
-            and post.user.is_premium_user
-        ):
-            email_new_correction(post)
+        if current_user not in previous_correctors:
+            if new_correction_made:
+                create_notification(
+                    current_user,
+                    post.user,
+                    post,
+                    NotificationTypes.NEW_CORRECTION,
+                )
+
+                if post.user.is_premium_user:
+                    email_new_correction(post)
+            elif new_feedback_given:
+                create_notification(
+                    current_user,
+                    post.user,
+                    post,
+                    NotificationTypes.NEW_COMMENT,
+                )
+        else:
+            create_notification(
+                current_user,
+                post.user,
+                post,
+                NotificationTypes.UPDATE_CORRECTION,
+            )
 
         return redirect(reverse("posts:detail", kwargs={"slug": post.slug}))
     else:  # noqa: RET505
@@ -159,16 +167,6 @@ def make_corrections(request, slug):
         is_edit = False
 
         for post_row in all_post_rows:
-            previous_correction = CorrectedRow.available_objects.filter(
-                post_row_id=post_row.id,
-                user=current_user,
-            ).first()
-
-            previous_perfect = PerfectRow.available_objects.filter(
-                post_row_id=post_row.id,
-                user=current_user,
-            ).first()
-
             post_row.correction = post_row.sentence
             post_row.note = ""
             post_row.show_form = False
@@ -176,17 +174,26 @@ def make_corrections(request, slug):
             post_row.action = "none"
             post_row.is_title = post_row.order == 0
 
+            previous_correction = PostRowFeedback.available_objects.filter(
+                user=current_user,
+                post=post,
+                post_row=post_row,
+            ).first()
+
             if previous_correction:
-                post_row.correction = previous_correction.correction
-                post_row.note = previous_correction.note
-                post_row.show_form = True
                 post_row.is_action_taken = True
-                post_row.action = "corrected"
                 is_edit |= True
-            elif previous_perfect:
-                post_row.is_action_taken = True
-                post_row.action = "perfect"
-                is_edit |= True
+
+                if (
+                    previous_correction.feedback_type
+                    == PostRowFeedback.FeedbackType.PERFECT
+                ):
+                    post_row.action = "perfect"
+                else:
+                    post_row.action = "corrected"
+                    post_row.show_form = True
+                    post_row.correction = previous_correction.correction
+                    post_row.note = previous_correction.note
 
     context = {}
     context["post_rows"] = all_post_rows
@@ -217,40 +224,35 @@ def export_corrections(request, slug):
 
 
 class UserCorrectionsView(LoginRequiredMixin, ListView):
-    model = Post
+    model = PostRowFeedback
     template_name = "corrections/user_corrections.html"
-    paginate_by = 20
+    paginate_by = 50
 
     def get_queryset(self):
         current_user = self.request.user
 
-        correctedrow_condition = Q(
-            correctedrow__user=current_user,
-            correctedrow__is_removed=False,
-        )
-        perfectrow_condition = Q(
-            perfectrow__user=current_user,
-            perfectrow__is_removed=False,
+        feedback_qs = PostRowFeedback.available_objects.filter(user=current_user)
+
+        posts_with_corrections = feedback_qs.values("post").annotate(
+            corrections_count=Count("id"),
+            latest_correction_date=Max("created"),
         )
 
-        qs = Post.available_objects.filter(
-            correctedrow_condition | perfectrow_condition,
-        ).distinct()
-
-        return qs.annotate(
-            num_corrections=Count(
-                "correctedrow__id",
-                distinct=True,
-                filter=correctedrow_condition,
-            )
-            + Count("perfectrow__id", distinct=True, filter=perfectrow_condition),
-            date_corrected=Max(
-                Case(
-                    When(correctedrow__user=current_user, then="correctedrow__created"),
-                    When(perfectrow__user=current_user, then="perfectrow__created"),
+        post_ids = posts_with_corrections.values_list("post", flat=True)
+        return (
+            Post.available_objects.filter(id__in=post_ids)
+            .annotate(
+                num_corrections=Count(
+                    "postrowfeedback",
+                    filter=Q(postrowfeedback__user=current_user),
                 ),
-            ),
-        ).order_by("-date_corrected")
+                date_corrected=Max(
+                    "postrowfeedback__created",
+                    filter=Q(postrowfeedback__user=current_user),
+                ),
+            )
+            .order_by("-date_corrected")
+        )
 
 
 user_corrections_view = UserCorrectionsView.as_view()

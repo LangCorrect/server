@@ -1,5 +1,6 @@
 # ruff: noqa: DJ001
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import SoftDeletableModel
@@ -20,6 +21,64 @@ class CorrectionType(SoftDeletableModel, TimeStampedModel):
         return self.name
 
 
+class PostRowFeedback(SoftDeletableModel, TimeStampedModel):
+    class FeedbackType(models.TextChoices):
+        PERFECT = "perfect", _("Perfect")
+        CORRECTED = "corrected", _("Corrected")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["post_row", "user"],
+                name="unique_user_post_row_feedback",
+            ),
+        ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey("posts.Post", on_delete=models.CASCADE)
+    post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
+    feedback_type = models.CharField(max_length=10, choices=FeedbackType.choices)
+    correction = models.TextField(default="", blank=True)
+    note = models.TextField(default="", blank=True)
+    correction_types = models.ManyToManyField(CorrectionType, blank=True)
+
+    def clean(self):
+        if self.feedback_type == self.FeedbackType.PERFECT:
+            if self.correction:
+                raise ValidationError(
+                    _("A sentence marked as 'Perfect' cannot have a correction."),
+                )
+            if self.correction_types.exists():
+                raise ValidationError(
+                    _("A sentence marked as 'Perfect' cannot have correction types."),
+                )
+        elif self.feedback_type == self.FeedbackType.CORRECTED:
+            if not self.correction:
+                raise ValidationError(
+                    _("A sentence marked as 'Corrected' must have a correction."),
+                )
+
+    @property
+    def serialize(self):
+        return {
+            "type": self.feedback_type,
+            "correction": self.display_correction,
+            "note": self.note,
+            "correction_types": self.correction_types,
+            "ordering": self.post_row.order,
+        }
+
+    @property
+    def display_correction(self):
+        if self.feedback_type != self.FeedbackType.CORRECTED:
+            return self.post_row.sentence
+        dmp = diff_match_patch.diff_match_patch()
+        diffs = dmp.diff_main(self.post_row.sentence, self.correction)
+        dmp.diff_cleanupSemantic(diffs)
+        return dmp.diff_prettyHtml(diffs)
+
+
+# TODO: DEPRECATED
 class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(
@@ -33,24 +92,8 @@ class CorrectedRow(SoftDeletableModel, TimeStampedModel):
     note = models.TextField(default=None, null=True, blank=True)
     correction_types = models.ManyToManyField(CorrectionType)
 
-    @property
-    def serialize(self):
-        return {
-            "type": "corrected",
-            "correction": self.display_correction,
-            "note": self.note,
-            "correction_types": self.correction_types,
-            "ordering": self.post_row.order,
-        }
 
-    @property
-    def display_correction(self):
-        dmp = diff_match_patch.diff_match_patch()
-        diffs = dmp.diff_main(self.post_row.sentence, self.correction)
-        dmp.diff_cleanupSemantic(diffs)
-        return dmp.diff_prettyHtml(diffs)
-
-
+# TODO: DEPRECATED
 class PerfectRow(SoftDeletableModel, TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(
@@ -60,14 +103,6 @@ class PerfectRow(SoftDeletableModel, TimeStampedModel):
         blank=True,
     )
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
-
-    @property
-    def serialize(self):
-        return {
-            "type": "perfect",
-            "correction": self.post_row.sentence,
-            "ordering": self.post_row.order,
-        }
 
 
 class OverallFeedback(SoftDeletableModel, TimeStampedModel):

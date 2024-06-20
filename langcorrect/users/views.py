@@ -28,25 +28,25 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         end_date = timezone.make_aware(datetime(now.year, 12, 31, 23, 59, 59))  # noqa: DTZ001
 
         language_levels_ordered = user.languagelevel_set.order_by("-level")
+
         post_this_year_count = user.post_set.filter(
             created__range=(start_date, end_date),
         ).count()
-        corrections_this_year_count = user.correctedrow_set.filter(
+        corrections_this_year_count = user.postrowfeedback_set.filter(
             created__range=(start_date, end_date),
         ).count()
-        perfects_this_year_count = user.perfectrow_set.filter(
-            created__range=(start_date, end_date),
-        ).count()
+
         prompts_this_year_count = user.prompt_set.filter(
             created__range=(start_date, end_date),
         ).count()
 
+        total_contributions = (
+            post_this_year_count + corrections_this_year_count + prompts_this_year_count
+        )
+
         context.update(
             {
-                "totalContributions": post_this_year_count
-                + corrections_this_year_count
-                + perfects_this_year_count
-                + prompts_this_year_count,
+                "totalContributions": total_contributions,
                 "posts": user.post_set.all()[:10],
                 "is_following": self.request.user in user.followers_users,
                 "languages": language_levels_ordered,

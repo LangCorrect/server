@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 
 from config.settings.base import SITE_BASE_URL
+from langcorrect.corrections.models import PostRowFeedback
 from langcorrect.posts.models import PostRow
 
 logger = logging.getLogger(__name__)
@@ -40,7 +41,11 @@ class ExportCorrections:
         writer.writerow(CSV_HEADERS)
 
         for post_row in self.post_rows:
-            for correction in post_row.correctedrow_set.all():
+            corrections = post_row.postrowfeedback_set.filter(
+                feedback_type=PostRowFeedback.FeedbackType.CORRECTED,
+            )
+
+            for correction in corrections:
                 writer.writerow(
                     [
                         post_row.sentence,
@@ -99,7 +104,9 @@ class ExportCorrections:
                             "correction_feedback": correction.note,
                             "corrector": correction.user.username,
                         }
-                        for correction in post_row.correctedrow_set.all()
+                        for correction in post_row.postrowfeedback_set.filter(
+                            feedback_type=PostRowFeedback.FeedbackType.CORRECTED,
+                        )
                     ],
                 }
                 for post_row in self.post_rows

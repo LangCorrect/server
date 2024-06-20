@@ -1,81 +1,64 @@
 import itertools as it
+from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
 from operator import itemgetter
 
 from django.db.models import Count
 from django.utils import timezone
+from django.utils.translation import gettext_noop
+from notifications.signals import notify
 
-from langcorrect.corrections.models import CorrectedRow
-from langcorrect.corrections.models import PerfectRow
-from langcorrect.users.models import User
-
-
-def _sort_key(correction_dict):
-    return correction_dict["ordering"]
+from langcorrect.corrections.constants import NotificationTypes
+from langcorrect.corrections.models import OverallFeedback
+from langcorrect.corrections.models import PostRowFeedback
 
 
-def order_user_corrections_by_post_row(user_corrections):
-    for user in user_corrections:
-        user_corrections[user]["corrections"].sort(key=_sort_key)
+def _initialize_user_correction_data():
+    return {
+        "corrections": [],
+        "overall_feedback": "",
+        "replies": [],
+    }
+
+
+def _add_to_user_corrections(user_corrections, corrections, overall_feedbacks, replies):
+    for correction in corrections:
+        user_corrections[correction.user]["corrections"].append(correction.serialize)
+
+    for feedback in overall_feedbacks:
+        user_corrections[feedback.user]["overall_feedback"] = feedback.comment
+
+    for reply in replies:
+        user_corrections[reply.recipient]["replies"].append(reply)
+
     return user_corrections
 
 
-def populate_user_corrections(
-    perfect_rows,
-    corrected_rows,
-    feedback_rows,
-    postreply_rows,
-):
-    user_corrections = {}
+def _order_user_corrections_by_post_row(user_corrections):
+    for user in user_corrections:
+        user_corrections[user]["corrections"].sort(key=lambda x: x["ordering"])
+    return user_corrections
 
-    for row in perfect_rows:
-        data = row.serialize
-        user = row.user
 
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
+def serialize_user_corrections_for_post(post):
+    user_corrections = defaultdict(_initialize_user_correction_data)
 
-    for row in corrected_rows:
-        data = row.serialize
-        user = row.user
+    corrections = post.postrowfeedback_set.all()
+    overall_feedbacks = OverallFeedback.objects.filter(post=post)
+    replies = post.postreply_set.all()
 
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
+    user_corrections = _add_to_user_corrections(
+        user_corrections,
+        corrections,
+        overall_feedbacks,
+        replies,
+    )
 
-    for feedback in feedback_rows:
-        user = feedback.user
-
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["overall_feedback"] = feedback.comment
-
-    for reply in postreply_rows:
-        recipient = reply.recipient
-
-        if recipient not in user_corrections:
-            user_corrections[recipient] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[recipient]["replies"].append(reply)
-
-    return order_user_corrections_by_post_row(user_corrections)
+    # More efficient than converting defaultdict to dict
+    # https://stackoverflow.com/a/12842716
+    user_corrections.default_factory = None
+    return _order_user_corrections_by_post_row(user_corrections)
 
 
 def check_can_make_corrections(current_user, post):
@@ -171,21 +154,163 @@ def get_popular_correctors(period=None, limit=10):
 
     filters = get_date_range_filters(period)
 
-    correctors = list(
-        PerfectRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
-    ) + list(
-        CorrectedRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
+    popular_correctors = (
+        PostRowFeedback.objects.filter(**filters)
+        .values(
+            "user__username",
+            "user__nick_name",
+        )
+        .annotate(num_corrections=Count("user"))
+        .order_by("-num_corrections")[:limit]
     )
 
-    popular_correctors = aggregate_users(correctors)[:limit]
     for popular_corrector in popular_correctors:
-        display_name = User.objects.get(
-            username=popular_corrector["username"],
-        ).display_name
+        username = popular_corrector["user__username"]
+        nick_name = popular_corrector["user__nick_name"]
+        display_name = nick_name if nick_name else username
+        num_corrections = popular_corrector["num_corrections"]
+
+        popular_corrector["username"] = username
         popular_corrector["display_name"] = display_name
+        popular_corrector["num_corrections"] = num_corrections
 
     return popular_correctors
+
+
+def check_if_correction_exists(user, post, post_row):
+    return PostRowFeedback.all_objects.filter(
+        user=user,
+        post=post,
+        post_row=post_row,
+    ).exists()
+
+
+def check_if_overall_feedback_exists(user, post):
+    return OverallFeedback.objects.filter(
+        user=user,
+        post=post,
+    ).exists()
+
+
+def delete_correction(user, post, post_row):
+    PostRowFeedback.available_objects.get(
+        user=user,
+        post=post,
+        post_row=post_row,
+    ).delete()
+
+
+def delete_overall_feedback(user, post):
+    OverallFeedback.available_objects.get(
+        user=user,
+        post=post,
+    ).delete()
+
+
+def update_overall_feedback(user, post, feedback):
+    obj = OverallFeedback.available_objects.get(
+        user=user,
+        post=post,
+    )
+    obj.comment = feedback
+    obj.save()
+
+
+def add_or_update_correction(  # noqa:PLR0913
+    user,
+    post,
+    post_row,
+    feedback_type,
+    correction="",
+    note="",
+    correction_types=None,
+):
+    if check_if_correction_exists(user, post, post_row):
+        existing_correction = PostRowFeedback.all_objects.get(
+            user=user,
+            post=post,
+            post_row=post_row,
+        )
+        existing_correction.feedback_type = feedback_type
+        existing_correction.correction = correction
+        existing_correction.note = note
+
+        if existing_correction.is_removed:
+            existing_correction.is_removed = False
+
+        existing_correction.save()
+        return False
+
+    new_correction = PostRowFeedback.available_objects.create(
+        user=user,
+        post=post,
+        post_row=post_row,
+        feedback_type=feedback_type,
+        correction=correction,
+        note=note,
+    )
+
+    if correction_types:
+        new_correction.correction_types.set(correction_types)
+
+    return True
+
+
+def create_notification(
+    sender,
+    recipient,
+    action_object,
+    n_type: NotificationTypes,
+):
+    match n_type:
+        case NotificationTypes.NEW_CORRECTION:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("corrected"),
+                action_object=action_object,
+                notification_type=NotificationTypes.NEW_CORRECTION,
+            )
+        case NotificationTypes.UPDATE_CORRECTION:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("updated their corrections on"),
+                action_object=action_object,
+                notification_type=NotificationTypes.UPDATE_CORRECTION,
+            )
+        case NotificationTypes.NEW_COMMENT:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("commented on"),
+                action_object=action_object,
+                notification_type=NotificationTypes.NEW_COMMENT,
+            )
+        case NotificationTypes.NEW_POST:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("posted"),
+                action_object=action_object,
+                notification_type=NotificationTypes.NEW_POST,
+            )
+        case NotificationTypes.NEW_REPLY:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("replied on"),
+                action_object=action_object,
+                notification_type=NotificationTypes.NEW_REPLY,
+            )
+        case NotificationTypes.NEW_FOLLOWER:
+            notify.send(
+                sender=sender,
+                recipient=recipient,
+                verb=gettext_noop("followed you"),
+                action_object=action_object,
+                notification_type=NotificationTypes.NEW_FOLLOWER,
+            )
+        case _:
+            # TODO: add logger for non existant
+            pass
