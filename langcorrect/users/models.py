@@ -112,9 +112,11 @@ class User(AbstractUser):
 
     @property
     def correction_ratio(self):
+        total_written_sentences = self.postrow_set.count()
+
         try:
             return round(
-                self.corrections_made_count / self.corrections_received_count,
+                self.corrections_made_count / total_written_sentences,
                 2,
             )
         except ZeroDivisionError:

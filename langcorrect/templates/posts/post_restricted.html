@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Whoops! Posting Temporarily Restricted.</h5>
+      <p>
+        You cannot create a new post at this time. This restriction helps maintain a balanced community where everyone receives and provides corrections.
+      </p>
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingWhy">
+            <button class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseWhy"
+                    aria-expanded="true"
+                    aria-controls="collapseWhy">Why Can't I Post?</button>
+          </h2>
+          <div id="collapseWhy"
+               class="accordion-collapse collapse show"
+               aria-labelledby="headingWhy"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <p>
+                Your current correction ratio (<b>{{ user_ratio }}</b>) does not meet the minimum requirement (<b>{{ min_correction_ratio }}</b>) to post new entries. You have written <b>{{ user_total_sentences }}</b> sentences and made <b>{{ user_total_corrections_made }}</b> corrections. This ensures users contribute to the community by making corrections before posting more of their own entries.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingRatio">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseRatio"
+                    aria-expanded="false"
+                    aria-controls="collapseRatio">Understanding the Correction Ratio</button>
+          </h2>
+          <div id="collapseRatio"
+               class="accordion-collapse collapse"
+               aria-labelledby="headingRatio"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <ul>
+                <li>
+                  <b>Ratio Calculation:</b> <code>Corrections Made / Sentences Written</code>
+                </li>
+                <li>
+                  <b>Minimum Requirement:</b> A ratio of at least <b>{{ min_correction_ratio }}</b> is needed to post new entries.
+                </li>
+                <li>
+                  <b>Exceptions:</b> Posting restriction is bypassed if:
+                  <ul>
+                    <li>You have a premium membership.</li>
+                    <li>There are no uncorrected entries in your native languages.</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingHow">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseHow"
+                    aria-expanded="false"
+                    aria-controls="collapseHow">How Can I Post Again?</button>
+          </h2>
+          <div id="collapseHow"
+               class="accordion-collapse collapse"
+               aria-labelledby="headingHow"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <p>
+                To post again, <a href="{% url 'posts:list' %}">review and correct entries written by other users</a>.
+              </p>
+              <img src="https://upload.wikimedia.org/wikipedia/en/f/ff/SuccessKid.jpg"
+                   class="img-fluid"
+                   alt="image of success kid" />
+              <p>
+                <small>Image courtesy of Wikipedia</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFindRatio">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFindRatio"
+                    aria-expanded="false"
+                    aria-controls="collapseFindRatio">How Can I Find My Ratio?</button>
+          </h2>
+          <div id="collapseFindRatio"
+               class="accordion-collapse collapse"
+               aria-labelledby="headingFindRatio"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <ul>
+                <li>You can view your ratios in two ways:</li>
+                <li>1. By looking at the navbar</li>
+                <li>2. By visiting your profile</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingPremium">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapsePremium"
+                    aria-expanded="false"
+                    aria-controls="collapsePremium">Unlock Unlimited Posting with Premium</button>
+          </h2>
+          <div id="collapsePremium"
+               class="accordion-collapse collapse"
+               aria-labelledby="headingPremium"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <p>
+                Upgrade to <a href="{% url 'pricing' %}" class="link-primary link-offset-3">LangCorrect Premium</a> to enjoy exemption from ratio watch and many other benefits.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSupport">
+            <button class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseSupport"
+                    aria-expanded="false"
+                    aria-controls="collapseSupport">Need Help?</button>
+          </h2>
+          <div id="collapseSupport"
+               class="accordion-collapse collapse"
+               aria-labelledby="headingSupport"
+               data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <p>If you need further assistance or have any questions, please contact our support team.</p>
+              <a href="mailto:support@langcorrect.com"
+                 class="btn btn-sm btn-secondary">Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

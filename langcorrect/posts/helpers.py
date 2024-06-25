@@ -33,13 +33,13 @@ def check_can_create_post(user):
         uncorrected_count = native_language[1]
         if uncorrected_count > 0:
             has_uncorrected_posts = True
+            break
 
     if (
         user.is_premium_user
         or user_ratio == "∞"
         or (
-            user.correction_ratio > settings.MINIMUM_CORRECTION_RATIO
-            or not has_uncorrected_posts
+            user_ratio >= settings.MINIMUM_CORRECTION_RATIO or not has_uncorrected_posts
         )
     ):
         return True
