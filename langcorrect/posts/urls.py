@@ -3,6 +3,7 @@ from django.urls import path
 from langcorrect.corrections.views import export_corrections
 from langcorrect.corrections.views import make_corrections
 from langcorrect.posts.api.views import PostReplyCreateUpdateAPIView
+from langcorrect.posts.views import PostRestrictedView
 from langcorrect.posts.views import post_create_view
 from langcorrect.posts.views import post_delete_view
 from langcorrect.posts.views import post_detail_view
@@ -18,6 +19,7 @@ urlpatterns = [
         view=post_create_view,
         name="create-prompt-based-post",
     ),
+    path("~restricted/", PostRestrictedView.as_view(), name="restricted"),
     path(
         "~post_reply/",
         PostReplyCreateUpdateAPIView.as_view(),
