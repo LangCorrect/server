@@ -57,7 +57,7 @@ class TestPostCreateView(TestCase):
         self.client.force_login(self.user1)
 
         response = self.client.get(reverse("posts:create"))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
 
     def test_cannot_access_page_anonymous_user(self):
         response = self.client.get(reverse("posts:create"))
