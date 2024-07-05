@@ -17,13 +17,3 @@ function showErrorToast(message) {
     className: 'bg-warning',
   }).showToast();
 }
-
-// Google Analytics
-
-window.dataLayer = window.dataLayer || [];
-
-function gtag() {
-  dataLayer.push(arguments);
-}
-gtag('js', new Date());
-gtag('config', 'G-SE9CZMS0KN');

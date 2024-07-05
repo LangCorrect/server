@@ -25,7 +25,7 @@ class PostReplySerializer(serializers.ModelSerializer):
         return re.sub(r"\n{3,}", "\n\n", s)
 
     def validate_text(self, obj):
-        min_length = 10
+        min_length = 1
         err_msg = f"Message needs to be at least {min_length} characters long"
 
         # Replace all whitespace with a single space

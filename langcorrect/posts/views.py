@@ -1,5 +1,6 @@
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
@@ -13,6 +14,7 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from langcorrect.contributions.helpers import update_user_writing_streak
@@ -183,7 +185,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         if self.request.user.is_authenticated and not check_can_create_post(
             self.request.user,
         ):
-            raise PermissionDenied(_("Your correction ratio is too low."))
+            return redirect(reverse("posts:restricted"))
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -268,3 +270,17 @@ class UserSubmittedPosts(LoginRequiredMixin, ListView):
 
 
 user_posts_view = UserSubmittedPosts.as_view()
+
+
+class PostRestrictedView(LoginRequiredMixin, TemplateView):
+    template_name = "posts/post_restricted.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user_ratio"] = self.request.user.correction_ratio
+        context["user_total_sentences"] = self.request.user.postrow_set.count()
+        context[
+            "user_total_corrections_made"
+        ] = self.request.user.corrections_made_count
+        context["min_correction_ratio"] = settings.MINIMUM_CORRECTION_RATIO
+        return context
