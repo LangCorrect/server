@@ -98,6 +98,24 @@ class Post(TimeStampedModel, SoftDeletableModel):
     def corrected_by_count(self):
         return len(self.get_correctors)
 
+    @property
+    def correctors(self):
+        return set(self.postusercorrection_set.values_list("user__username", flat=True))
+
+    @property
+    def correctors_count(self):
+        return self.postusercorrection_set.values("user").distinct().count()
+
+    @property
+    def get_correctors_new(self):
+        return list(
+            self.postusercorrection_set.values_list("user__username", flat=True),
+        )
+
+    @property
+    def get_correctors_count_new(self):
+        return len(self.get_correctors_new)
+
 
 class PostImage(TimeStampedModel, SoftDeletableModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
