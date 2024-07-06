@@ -11,6 +11,8 @@ from django.views.generic import ListView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
+from langcorrect.corrections.models import PostCorrection
+
 User = get_user_model()
 
 
@@ -31,22 +33,23 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         post_this_year_count = user.post_set.filter(
             created__range=(start_date, end_date),
         ).count()
-        corrections_this_year_count = user.correctedrow_set.filter(
+
+        corrections_this_year_count = PostCorrection.available_objects.filter(
+            user_correction__user=user,
             created__range=(start_date, end_date),
         ).count()
-        perfects_this_year_count = user.perfectrow_set.filter(
-            created__range=(start_date, end_date),
-        ).count()
+
         prompts_this_year_count = user.prompt_set.filter(
             created__range=(start_date, end_date),
         ).count()
 
+        total_contributions = (
+            post_this_year_count + corrections_this_year_count + prompts_this_year_count
+        )
+
         context.update(
             {
-                "totalContributions": post_this_year_count
-                + corrections_this_year_count
-                + perfects_this_year_count
-                + prompts_this_year_count,
+                "totalContributions": total_contributions,
                 "posts": user.post_set.all()[:10],
                 "is_following": self.request.user in user.followers_users,
                 "languages": language_levels_ordered,
