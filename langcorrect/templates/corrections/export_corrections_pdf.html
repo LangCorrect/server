@@ -11,7 +11,6 @@
           rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
           crossorigin="anonymous" />
-    <link href="{% static 'css/project.css' %}" rel="stylesheet" />
     <title>{{ post.title }}</title>
   </head>
   <body>
@@ -19,8 +18,22 @@
       * {
         font-size: 12px;
       }
+
+      body {
+        background-color: white;
+      }
+
+      ins {
+        text-decoration: none;
+      }
+
+      ins,
+      del {
+        padding: 0 3px;
+        font-weight: 600;
+      }
     </style>
-    <div class="card">
+    <div class="card mb-3">
       <div class="card-header bg-transparent text-center">
         {{ post.title }} by {{ post.user.username }} ({{ post.created|naturalday }})
       </div>
@@ -37,32 +50,34 @@
         </div>
       </div>
     </div>
-    <div class="card mt-2">
-      <div class="card-header bg-transparent text-center">Corrections</div>
-      <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Original</th>
+          <th scope="col">Corrected</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for post_row in post_rows %}
-          {% if post_row.correctedrow_set.all %}
-            <div class="row border-bottom mb-1">
-              <div class="col-6">
-                <p>{{ post_row.sentence }}</p>
-              </div>
-              <div class="col-6">
-                {% if post_row.perfectrow_set.all.count > 0 %}
-                  <p>This sentence has been marked as perfect! x{{ post_row.perfectrow_set.all.count }}</p>
-                {% endif %}
-                <div class="d-grid gap-2">
-                  {% for correction in post_row.correctedrow_set.all %}
-                    <div>
-                      <p class="mb-0">{{ correction.display_correction|safe }}</p>
+          <tr>
+            <td>{{ post_row.sentence }}</td>
+            <td>
+              {% if post_row.postcorrection_set.exists %}
+                {% for correction in post_row.postcorrection_set.all %}
+                  {% if correction.feedback_type == "perfect" %}
+                    <p>This sentence has been marked as perfect!</p>
+                  {% else %}
+                    <div class="border mb-2 p-1">
+                      <p>{{ correction.display_correction|safe }}</p>
                       <p class="text-muted">{{ correction.note }}</p>
                     </div>
-                  {% endfor %}
-                </div>
-              </div>
-            </div>
-          {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </td>
+          </tr>
         {% endfor %}
-      </div>
-    </div>
+      </tbody>
+    </table>
   </body>
 </html>

@@ -15,9 +15,10 @@ from langcorrect.posts.models import PostRow
 logger = logging.getLogger(__name__)
 
 CSV_HEADERS = [
-    "Original Sentence",
-    "Corrected Sentence",
-    "Correction Feedback",
+    "Original",
+    "Correction",
+    "Feedback",
+    "Type",
     "Corrector",
 ]
 EXCLUDE_TITLE_ROW = 0
@@ -40,13 +41,14 @@ class ExportCorrections:
         writer.writerow(CSV_HEADERS)
 
         for post_row in self.post_rows:
-            for correction in post_row.correctedrow_set.all():
+            for post_correction in post_row.postcorrection_set.all():
                 writer.writerow(
                     [
                         post_row.sentence,
-                        correction.correction,
-                        correction.note,
-                        correction.user.username,
+                        post_correction.correction,
+                        post_correction.note,
+                        post_correction.feedback_type,
+                        post_correction.user_correction.user.display_name,
                     ],
                 )
 
