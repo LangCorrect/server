@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 
-{% load prompt_tags %}
-{% load static %}
 {% load i18n %}
 {% load humanize %}
-{% load post_tags %}
 
 {% block title %}
   {% translate "My Corrections" %} · LangCorrect
@@ -12,7 +9,7 @@
 {% block content %}
   {% if object_list %}
     <div class="table-responsive">
-      <table class="table table-hover table-striped">
+      <table class="table table-bordered table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -21,22 +18,22 @@
             <th scope="col">{% translate "Author" %}</th>
             <th scope="col">{% translate "Correction Date" %}</th>
             <th scope="col">{% translate "Corrections Made" %}</th>
+            <th scope="col">{% translate "Action" %}</th>
           </tr>
         </thead>
         <tbody>
-          {% for post in object_list %}
-            <tr class="clickable-row"
-                role="button"
-                data-link="{{ post.get_absolute_url }}">
+          {% for post_user_correction in object_list %}
+            <tr>
               <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
+              <td>{{ post_user_correction.post.title }}</td>
+              <td>{{ post_user_correction.post.language.code }}</td>
+              <td>{{ post_user_correction.post.user.display_name }}</td>
+              <td>{{ post_user_correction.created| naturalday }}</td>
+              <td>{{ post_user_correction.postcorrection_set.count }}</td>
               <td>
-                <a class="link-dark text-decoration-none"
-                   href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                <a href="{{ post_user_correction.post.get_absolute_url }}"
+                   class="btn btn-sm btn-outline-secondary">{% translate "Visit" %}</a>
               </td>
-              <td>{{ post.language.code }}</td>
-              <td>{{ post.user.display_name }}</td>
-              <td>{{ post.date_corrected | naturalday }}</td>
-              <td>{{ post.num_corrections }}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -48,6 +45,3 @@
     {% include "no_content_card.html" with message="You haven't made any corrections." btn_message="Browse entries to correct" link=button_url %}
   {% endif %}
 {% endblock content %}
-{% block inline_javascript %}
-  <script src="{% static 'js/clickable_table_row.js' %}"></script>
-{% endblock inline_javascript %}
