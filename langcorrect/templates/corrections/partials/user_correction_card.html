@@ -14,23 +14,23 @@
     </div>
   {% endif %}
   <div class="accordion accordion-flush border-top {% if replies|length == 0 %}d-none{% endif %}"
-       id="accordion-{{ user.username }}">
+       id="accordion-{{ user_correction.id }}">
     <div class="accordion-item border-bottom">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseOne-{{ user }}"
+                data-bs-target="#flush-collapseOne-{{ user_correction.id }}"
                 aria-expanded="false"
-                aria-controls="flush-collapseOne-{{ user }}">
-          Replies (<span id="reply-count-{{ user }}">{{ replies|length }}</span>)
+                aria-controls="flush-collapseOne-{{ user_correction.id }}">
+          Replies (<span id="reply-count-{{ user_correction.id }}">{{ replies|length }}</span>)
         </button>
       </h2>
-      <div id="flush-collapseOne-{{ user }}"
+      <div id="flush-collapseOne-{{ user_correction.id }}"
            class="accordion-collapse collapse"
            data-bs-parent="#accordionFlushExample">
         <div class="accordion-body">
-          <div id="reply-list-{{ user }}" class="d-grid gap-3 mb-3">
+          <div id="reply-list-{{ user_correction.id }}" class="d-grid gap-3 mb-3">
             {% for reply in replies %}
               {% with user=user current_user=current_user %}
                 {% render_post_reply_card instance=reply current_user=current_user %}
@@ -47,7 +47,7 @@
           class="post-reply-form">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
       <input type="hidden" name="post" value="{{ post.slug }}" />
-      <input type="hidden" name="recipient" value="{{ user.username }}" />
+      <input type="hidden" name="user_correction" value="{{ user_correction.id }}" />
       <div class="d-flex flex-column gap-3 px-3 py-4">
         <textarea style="height: 100px"
                   placeholder="Write a message..."

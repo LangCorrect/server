@@ -1,9 +1,8 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  // TODO: move this to ReplyFormHandler?
-  function openAccordion(username) {
-    const accordionId = `flush-collapseOne-${username}`;
+  function openAccordion(userCorrectionId) {
+    const accordionId = `flush-collapseOne-${userCorrectionId}`;
     const ele = document.getElementById(accordionId);
 
     if (ele) {
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const payload = this.buildPayload();
       try {
         const data = await new ReplyService(payload).create();
-        this.updateUI(data, payload.recipient);
+        this.updateUI(data, payload.user_correction);
         this.form.reset();
       } catch (err) {
         showErrorToast(err.message);
@@ -61,22 +60,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
       return {
         post: this.form.querySelector("input[name='post']").value,
         text: this.form.querySelector("textarea[name='text']").value,
-        recipient: this.form.querySelector("input[name='recipient']").value,
+        user_correction: this.form.querySelector(
+          "input[name='user_correction']",
+        ).value,
       };
     }
 
-    updateUI(data, recipient) {
-      const targetList = document.getElementById(`reply-list-${recipient}`);
-      const targetAccordion = document.getElementById(`accordion-${recipient}`);
+    updateUI(data, userCorrectionId) {
+      const targetList = document.getElementById(
+        `reply-list-${userCorrectionId}`,
+      );
+      const targetAccordion = document.getElementById(
+        `accordion-${userCorrectionId}`,
+      );
+
       const replyCountSpan = document.getElementById(
-        `reply-count-${recipient}`,
+        `reply-count-${userCorrectionId}`,
       );
 
       targetList.innerHTML += data;
       if (targetAccordion.classList.contains('d-none')) {
         targetAccordion.classList.remove('d-none');
       }
-      openAccordion(recipient);
+      openAccordion(userCorrectionId);
       replyCountSpan.textContent = parseInt(replyCountSpan.textContent) + 1;
     }
   }
