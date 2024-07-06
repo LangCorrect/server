@@ -8,8 +8,6 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
-from langcorrect.corrections.models import CorrectedRow
-from langcorrect.corrections.models import PerfectRow
 from langcorrect.corrections.models import PostCorrection
 from langcorrect.corrections.models import PostUserCorrection
 from langcorrect.posts.models import Post
@@ -314,30 +312,3 @@ def aggregate_users(correctors):
         results.append({"username": username, "num_corrections": total_count})
 
     return sorted(results, key=itemgetter("num_corrections"), reverse=True)
-
-
-def get_popular_correctors(period=None, limit=10):
-    # TODO: Remove this; Replaced with get_top_correctors()
-    if period is None:
-        return -1
-
-    filters = get_date_range_filters(period)
-
-    correctors = list(
-        PerfectRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
-    ) + list(
-        CorrectedRow.available_objects.filter(**filters)
-        .values("user__username")
-        .annotate(num_corrections=Count("user")),
-    )
-
-    popular_correctors = aggregate_users(correctors)[:limit]
-    for popular_corrector in popular_correctors:
-        display_name = User.objects.get(
-            username=popular_corrector["username"],
-        ).display_name
-        popular_corrector["display_name"] = display_name
-
-    return popular_correctors
