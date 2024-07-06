@@ -7,6 +7,7 @@ from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from langcorrect.contributions.models import Contribution
+from langcorrect.corrections.models import PostCorrection
 from langcorrect.posts.models import Post
 
 
@@ -19,9 +20,8 @@ def get_contribution_data(user):
 
     models = [
         user.post_set,
-        user.correctedrow_set,
-        user.perfectrow_set,
         user.prompt_set,
+        PostCorrection.available_objects.filter(user_correction__user=user),
     ]
 
     for model in models:
