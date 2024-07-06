@@ -7,10 +7,10 @@
   {% for correction in corrections %}
     {% include "corrections/partials/correction.html" %}
   {% endfor %}
-  {% if overall_feedback %}
+  {% if user_correction.overall_feedback %}
     <div class="p-3">
       <p class="fw-bold">Feedback</p>
-      <p>{{ overall_feedback|linebreaks }}</p>
+      <p>{{ user_correction.overall_feedback|linebreaks }}</p>
     </div>
   {% endif %}
   <div class="accordion accordion-flush border-top {% if replies|length == 0 %}d-none{% endif %}"
