@@ -100,7 +100,7 @@ class ExportCorrections:
                         {
                             "corrected_sentence": post_correction.correction,
                             "correction_feedback": post_correction.note,
-                            "corrector": post_correction.user_correction.user.display_name,
+                            "corrector": post_correction.user_correction.user.display_name,  # noqa: E501
                         }
                         for post_correction in post_row.postcorrection_set.all()
                     ],

@@ -41,9 +41,7 @@ def calculate_rankings(batch_size=20):
                     contribution_updates,
                     ["total_points", "post_count", "correction_count", "prompt_count"],
                 )
-                # processed += len(contribution_updates)
             contribution_updates = []
-            # print(f"Processed {processed}/{total} contributions")
 
     if contribution_updates:
         with transaction.atomic():
