@@ -4,6 +4,17 @@ from django.conf import settings
 from langcorrect.posts.models import Post
 
 
+def update_post_correction_status(post: Post, *, status: bool) -> None:
+    correction_count = post.get_correctors.count()
+
+    if correction_count == 0:
+        post.is_corrected = False
+    else:
+        post.is_corrected = status
+
+    post.save()
+
+
 def get_post_counts_by_language(languages, corrected=False):
     data = {}
 

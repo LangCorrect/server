@@ -1,5 +1,3 @@
-## NOTE: We're switching to an API only backend. The client repository will be made available at a later date.
-
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
@@ -50,6 +48,31 @@ _Note_: This is not an exhaustive list of features. LangCorrect is continually e
 - Sentry
 - AWS S3 (Optional)
 - CI/CD (GitHub Actions, GitLab CI, etc.)
+
+## Folder Structure (WIP)
+
+```
+langcorrect/ - Project-specific code
+    constants/ - Project-wide constants
+    helpers/ - Project-wide helpers
+    templates/ - All project templates
+    static/ - All project static files
+    <app>/ - Specific app folders
+        constants/ - App-specific constants
+        helpers/ - App-specific helpers
+        api/ - wip App-specific API files
+```
+
+## Road Map (WIP)
+
+- [>] Update DB Schema for more efficient queries and organization
+- [] Migrate data and codebase to use new DB schema
+- [] Release API
+- [] Release Next.js client
+- [] Release Messenger
+- [] Remove deprecated project templates
+- [] Containerize project (again...)
+- [] Work on getting test coverage ~80%
 
 ## Getting Started
 
