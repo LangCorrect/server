@@ -11,7 +11,7 @@
 {% endblock title %}
 {% block content %}
   <div class="table-responsive">
-    <table class="table table-hover table-striped">
+    <table class="table table-bordered table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -19,21 +19,21 @@
           <th scope="col">{% translate "Responses" %}</th>
           <th scope="col">{% translate "Language" %}</th>
           <th scope="col">{% translate "Created" %}</th>
+          <th scope="col">{% translate "Action" %}</th>
         </tr>
       </thead>
       <tbody>
         {% for prompt in object_list %}
-          <tr class="clickable-row"
-              role="button"
-              data-link="{{ prompt.get_absolute_url }}">
+          <tr>
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
-            <td>
-              <a class="link-dark text-decoration-none"
-                 href="{{ prompt.get_absolute_url }}">{{ prompt.content }}</a>
-            </td>
+            <td>{{ prompt.content }}</td>
             <td>{{ prompt.response_count }}</td>
             <td>{{ prompt.language.code }}</td>
             <td>{{ prompt.created | naturalday }}</td>
+            <td>
+              <a href="{{ prompt.get_absolute_url }}"
+                 class="btn btn-sm btn-outline-secondary">{% translate "Visit" %}</a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
@@ -41,6 +41,3 @@
   </div>
   {% include "pagination.html" %}
 {% endblock content %}
-{% block inline_javascript %}
-  <script src="{% static 'js/clickable_table_row.js' %}"></script>
-{% endblock inline_javascript %}
