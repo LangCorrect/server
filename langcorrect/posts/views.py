@@ -18,7 +18,7 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from langcorrect.contributions.helpers import update_user_writing_streak
-from langcorrect.corrections.helpers import get_popular_correctors
+from langcorrect.corrections.helpers import get_top_correctors
 from langcorrect.corrections.helpers import populate_user_corrections
 from langcorrect.corrections.models import CorrectedRow
 from langcorrect.corrections.models import OverallFeedback
@@ -115,10 +115,10 @@ class PostListView(ListView):
         )
 
         context["popular_correctors"] = {
-            "today": get_popular_correctors(period="today"),
-            "this_week": get_popular_correctors(period="this_week"),
-            "this_month": get_popular_correctors(period="this_month"),
-            "all_time": get_popular_correctors(period="all_time"),
+            "today": get_top_correctors(period="daily"),
+            "this_week": get_top_correctors(period="weekly"),
+            "this_month": get_top_correctors(period="monthly"),
+            "all_time": get_top_correctors(period="all_time"),
         }
 
         if current_user.is_authenticated:
