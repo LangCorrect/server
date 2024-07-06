@@ -28,6 +28,12 @@ class PostUserCorrection(TimeStampedModel, SoftDeletableModel):
 
     class Meta:
         ordering = ["-created"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "post"],
+                name="unique_user_post",
+            ),
+        ]
 
 
 class PostCorrection(TimeStampedModel, SoftDeletableModel):
