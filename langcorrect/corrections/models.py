@@ -49,7 +49,11 @@ class PostCorrection(TimeStampedModel, SoftDeletableModel):
             ),
         ]
 
-    user_correction = models.ForeignKey(PostUserCorrection, on_delete=models.CASCADE)
+    user_correction = models.ForeignKey(
+        PostUserCorrection,
+        on_delete=models.CASCADE,
+        related_name="corrections",
+    )
     post_row = models.ForeignKey("posts.PostRow", on_delete=models.CASCADE)
     correction = models.TextField(default="", blank=True)
     note = models.TextField(default="", blank=True)

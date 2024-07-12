@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.inclusion_tag("corrections/partials/user_correction_card.html")
 def render_user_correction_card(user_correction, current_user):
-    corrections = user_correction.postcorrection_set.all()
+    corrections = user_correction.corrections.all()
     replies = user_correction.comments.all()
 
     return {
