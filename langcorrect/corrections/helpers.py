@@ -5,6 +5,7 @@ from operator import itemgetter
 from typing import Literal
 
 from django.db.models import Count
+from django.db.models import Prefetch
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
@@ -130,7 +131,14 @@ def get_corrected_sentence(post_row: PostRow, user: User) -> PostCorrection | No
 
 
 def get_post_user_corrections(post: Post) -> QuerySet[PostUserCorrection]:
-    return PostUserCorrection.available_objects.filter(post=post).select_related("user")
+    post_correction_qs = PostCorrection.objects.filter(
+        user_correction__post=post,
+    ).order_by("post_row__order")
+    return (
+        PostUserCorrection.available_objects.filter(post=post)
+        .select_related("user")
+        .prefetch_related(Prefetch("corrections", queryset=post_correction_qs))
+    )
 
 
 def get_top_correctors(period: Literal["daily", "weekly", "monthly", "all_time"]):
