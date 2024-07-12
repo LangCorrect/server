@@ -88,35 +88,12 @@ class Post(TimeStampedModel, SoftDeletableModel):
         super().save(*args, **kwargs)
 
     @property
-    def get_correctors(self):
-        # TODO: Remove; Replaced with correctors property
-        corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
-        perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
-        user_ids = set(corrected_user_ids).union(perfect_user_ids)
-        return User.objects.filter(id__in=user_ids)
-
-    @property
-    def corrected_by_count(self):
-        # TODO: Remove; Replaced with correctors_count property
-        return len(self.get_correctors)
-
-    @property
     def correctors(self):
-        return set(self.postusercorrection_set.values_list("user__username", flat=True))
+        return User.objects.filter(postusercorrection__post=self)
 
     @property
     def correctors_count(self):
-        return self.postusercorrection_set.values("user").distinct().count()
-
-    @property
-    def get_correctors_new(self):
-        return list(
-            self.postusercorrection_set.values_list("user__username", flat=True),
-        )
-
-    @property
-    def get_correctors_count_new(self):
-        return len(self.get_correctors_new)
+        return self.postusercorrection_set.count()
 
 
 class PostImage(TimeStampedModel, SoftDeletableModel):
@@ -135,43 +112,6 @@ class PostRow(TimeStampedModel, SoftDeletableModel):
     sentence = models.TextField()
     is_actual = models.BooleanField(default=True)
     order = models.IntegerField(default=None, null=True)
-
-
-class PostReply(TimeStampedModel, SoftDeletableModel):
-    user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="user",
-    )
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    recipient = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="which_user",
-        null=True,
-    )
-    text = models.TextField()
-    corrected_row = models.ForeignKey(
-        "corrections.CorrectedRow",
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-    perfect_row = models.ForeignKey(
-        "corrections.PerfectRow",
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-    reply = models.ForeignKey(
-        "self",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="reply_to_comment",
-    )
-    dislike = models.BooleanField(default=False)
-
-    class Meta:
-        ordering = ["created"]
 
 
 @receiver(post_save, sender=Post)

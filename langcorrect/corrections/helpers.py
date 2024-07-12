@@ -1,7 +1,5 @@
-import itertools as it
 from datetime import datetime
 from datetime import timedelta
-from operator import itemgetter
 from typing import Literal
 
 from django.db.models import Count
@@ -164,77 +162,6 @@ def get_top_correctors(period: Literal["daily", "weekly", "monthly", "all_time"]
     )
 
 
-#  ==================== OLD CODE ====================
-# TODO: Check what can be removed / deprecated
-
-
-def _sort_key(correction_dict):
-    return correction_dict["ordering"]
-
-
-def order_user_corrections_by_post_row(user_corrections):
-    for user in user_corrections:
-        user_corrections[user]["corrections"].sort(key=_sort_key)
-    return user_corrections
-
-
-def populate_user_corrections(
-    perfect_rows,
-    corrected_rows,
-    feedback_rows,
-    postreply_rows,
-):
-    user_corrections = {}
-
-    for row in perfect_rows:
-        data = row.serialize
-        user = row.user
-
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
-
-    for row in corrected_rows:
-        data = row.serialize
-        user = row.user
-
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["corrections"].append(data)
-
-    for feedback in feedback_rows:
-        user = feedback.user
-
-        if user not in user_corrections:
-            user_corrections[user] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[user]["overall_feedback"] = feedback.comment
-
-    for reply in postreply_rows:
-        recipient = reply.recipient
-
-        if recipient not in user_corrections:
-            user_corrections[recipient] = {
-                "corrections": [],
-                "overall_feedback": "",
-                "replies": [],
-            }
-        user_corrections[recipient]["replies"].append(reply)
-
-    return order_user_corrections_by_post_row(user_corrections)
-
-
 def check_can_make_corrections(current_user, post):
     if post.user == current_user:
         return False
@@ -286,37 +213,3 @@ def get_date_range_filters(period):
         pass
 
     return filters
-
-
-def aggregate_users(correctors):
-    """
-    Aggregates the num_corrections made by each user.
-
-    Args:
-        correctors (list): [
-            {'user__username': 'jim', 'num_corrections': 2},
-            {'user__username': 'admin', 'num_corrections': 9},
-            {'user__username': 'jim', 'num_corrections': 2}
-        ]
-
-    Returns:
-        list: A sorted list in desc order based on num_corrections:
-        [
-            {'username': 'admin', 'num_corrections': 9},
-            {'username': 'jim', 'num_corrections': 4}
-        ]
-    """
-
-    results = []
-    groups = it.groupby(
-        sorted(correctors, key=itemgetter("user__username")),
-        key=itemgetter("user__username"),
-    )
-
-    for username, user_entries in groups:
-        total_count = 0
-        for entry in user_entries:
-            total_count += entry["num_corrections"]
-        results.append({"username": username, "num_corrections": total_count})
-
-    return sorted(results, key=itemgetter("num_corrections"), reverse=True)
