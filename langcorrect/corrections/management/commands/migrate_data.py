@@ -11,6 +11,7 @@ from langcorrect.corrections.models import PostCorrection
 from langcorrect.corrections.models import PostUserCorrection
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostReply
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -19,16 +20,35 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             self.stdout.write("Starting data migration...")
-            with transaction.atomic():
-                # NOTE: Don't mess with the order of these calls
-                self.populate_post_user_corrections()
-                self.populate_post_corrections()
-                self.populate_comments()
+            # with transaction.atomic():
+            # NOTE: Don't mess with the order of these calls
+            self.populate_post_user_corrections()
+            self.populate_post_corrections()
+            self.populate_comments()
             self.stdout.write(
                 self.style.SUCCESS("Data migration completed successfully."),
             )
         except Exception as e:
             self.stderr.write(self.style.ERROR(f"Error during migration: {e}"))
+
+    def get_earliest_correction_date(self, post, user):
+        perfect_row = PerfectRow.available_objects.filter(
+            user=user,
+            post=post,
+        ).first()
+        corrected_row = CorrectedRow.available_objects.filter(
+            user=user,
+            post=post,
+        ).first()
+
+        if perfect_row and corrected_row:
+            return min(perfect_row.created, corrected_row.created)
+        elif perfect_row:
+            return perfect_row.created
+        elif corrected_row:
+            return corrected_row.created
+        else:
+            return timezone.now()
 
     def populate_post_user_corrections(self):
         all_posts = Post.all_objects.all().order_by("created")
@@ -42,7 +62,12 @@ class Command(BaseCommand):
                     post=post,
                 ).first()
 
+                earliest_correction_date = self.get_earliest_correction_date(
+                    post, corrector
+                )
+
                 PostUserCorrection.objects.create(
+                    created=earliest_correction_date,
                     user=corrector,
                     post=post,
                     overall_feedback=overall_feedback.comment
