@@ -94,9 +94,9 @@
            aria-labelledby="pills-grouped-by-user-tab"
            tabindex="0">
         <div class="d-flex flex-column gap-2">
-          {% for corrector, data in user_corrections.items %}
+          {% for user_correction in user_corrections %}
             {% with user=corrector current_user=request.user %}
-              {% render_user_correction_card user=user current_user=current_user post=post correction_data=data %}
+              {% render_user_correction_card user_correction=user_correction current_user=current_user %}
             {% endwith %}
           {% endfor %}
         </div>

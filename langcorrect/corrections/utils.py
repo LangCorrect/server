@@ -1,5 +1,6 @@
 # ruff: noqa: TRY300,BLE001
 import csv
+import json
 import logging
 import tempfile
 from io import StringIO
@@ -15,9 +16,10 @@ from langcorrect.posts.models import PostRow
 logger = logging.getLogger(__name__)
 
 CSV_HEADERS = [
-    "Original Sentence",
-    "Corrected Sentence",
-    "Correction Feedback",
+    "Original",
+    "Correction",
+    "Feedback",
+    "Type",
     "Corrector",
 ]
 EXCLUDE_TITLE_ROW = 0
@@ -40,13 +42,14 @@ class ExportCorrections:
         writer.writerow(CSV_HEADERS)
 
         for post_row in self.post_rows:
-            for correction in post_row.correctedrow_set.all():
+            for post_correction in post_row.postcorrection_set.all():
                 writer.writerow(
                     [
                         post_row.sentence,
-                        correction.correction,
-                        correction.note,
-                        correction.user.username,
+                        post_correction.correction,
+                        post_correction.note,
+                        post_correction.feedback_type,
+                        post_correction.user_correction.user.display_name,
                     ],
                 )
 
@@ -95,11 +98,11 @@ class ExportCorrections:
                     "original_sentence": post_row.sentence,
                     "corrections": [
                         {
-                            "corrected_sentence": correction.correction,
-                            "correction_feedback": correction.note,
-                            "corrector": correction.user.username,
+                            "corrected_sentence": post_correction.correction,
+                            "correction_feedback": post_correction.note,
+                            "corrector": post_correction.user_correction.user.display_name,  # noqa: E501
                         }
-                        for correction in post_row.correctedrow_set.all()
+                        for post_correction in post_row.postcorrection_set.all()
                     ],
                 }
                 for post_row in self.post_rows
@@ -109,7 +112,7 @@ class ExportCorrections:
 
             response = HttpResponse(content_type="application/json")
             response["Content-Disposition"] = f"attachment; filename={yyyy_mm_dd}.json"
-            response.write(post_rows)
+            response.write(json.dumps(post_rows, indent=4))
             return response
         except Exception:
             logger.exception("Failed to export corrections as a JSON.")

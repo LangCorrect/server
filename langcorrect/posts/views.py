@@ -18,21 +18,16 @@ from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from langcorrect.contributions.helpers import update_user_writing_streak
-from langcorrect.corrections.helpers import get_popular_correctors
-from langcorrect.corrections.helpers import populate_user_corrections
-from langcorrect.corrections.models import CorrectedRow
-from langcorrect.corrections.models import OverallFeedback
-from langcorrect.corrections.models import PerfectRow
+from langcorrect.corrections.helpers import get_post_user_corrections
+from langcorrect.corrections.helpers import get_top_correctors
 from langcorrect.languages.models import LanguageLevel
 from langcorrect.posts.forms import CustomPostForm
 from langcorrect.posts.helpers import check_can_create_post
 from langcorrect.posts.helpers import get_post_counts_by_language
 from langcorrect.posts.models import Post
 from langcorrect.posts.models import PostImage
-from langcorrect.posts.models import PostReply
 from langcorrect.posts.models import PostVisibility
 from langcorrect.prompts.models import Prompt
-from langcorrect.users.models import User
 from langcorrect.utils.storages import get_storage_backend
 
 
@@ -115,10 +110,10 @@ class PostListView(ListView):
         )
 
         context["popular_correctors"] = {
-            "today": get_popular_correctors(period="today"),
-            "this_week": get_popular_correctors(period="this_week"),
-            "this_month": get_popular_correctors(period="this_month"),
-            "all_time": get_popular_correctors(period="all_time"),
+            "today": get_top_correctors(period="daily"),
+            "this_week": get_top_correctors(period="weekly"),
+            "this_month": get_top_correctors(period="monthly"),
+            "all_time": get_top_correctors(period="all_time"),
         }
 
         if current_user.is_authenticated:
@@ -148,57 +143,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_post = self.get_object()
-
-        corrector_user_ids = set(
-            CorrectedRow.available_objects.filter(post=this_post).values_list(
-                "user__id",
-                flat=True,
-            ),
-        )
-        corrector_user_ids.update(
-            list(
-                PerfectRow.available_objects.filter(post=this_post).values_list(
-                    "user__id",
-                    flat=True,
-                ),
-            ),
-        )
-        corrector_user_ids.update(
-            list(
-                OverallFeedback.available_objects.filter(post=this_post).values_list(
-                    "user__id",
-                    flat=True,
-                ),
-            ),
-        )
-
-        correctors = User.objects.filter(id__in=corrector_user_ids)
-
-        corrected_rows = (
-            CorrectedRow.available_objects.filter(user__in=correctors, post=this_post)
-            .select_related("post_row", "post", "user")
-            .prefetch_related("post_row", "post", "user")
-        )
-
-        perfect_rows = (
-            PerfectRow.available_objects.filter(user__in=correctors, post=this_post)
-            .select_related("post_row", "post", "user")
-            .prefetch_related("post_row", "post", "user")
-        )
-
-        feedback_rows = OverallFeedback.available_objects.filter(
-            user__in=correctors,
-            post=this_post,
-        )
-
-        postreply_rows = PostReply.available_objects.filter(post=this_post)
-
-        context["user_corrections"] = populate_user_corrections(
-            perfect_rows,
-            corrected_rows,
-            feedback_rows,
-            postreply_rows,
-        )
+        context["user_corrections"] = get_post_user_corrections(this_post)
         return context
 
 

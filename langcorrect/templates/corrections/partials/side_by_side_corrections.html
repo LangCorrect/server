@@ -12,23 +12,20 @@
       <tr>
         <td>{{ post_row.sentence }}</td>
         <td>
-          {% if post_row.perfectrow_set.exists %}
-            <p class="text-success">
-              {% blocktranslate with user_count=post_row.perfectrow_set.all.count %}
-            {{ user_count }} users have marked this sentence as perfect!
-          {% endblocktranslate %}
-            </p>
+          {% if post_row.postcorrection_set.exists %}
+            {% for correction in post_row.postcorrection_set.all %}
+              {% if correction.feedback_type == "perfect" %}
+                <p class="text-success">{% translate "This sentence has been marked as perfect!" %}</p>
+              {% else %}
+                <div class="border mb-2 p-1">
+                  <p>{{ correction.display_correction|safe }}</p>
+                  <p class="text-muted">{{ correction.note }}</p>
+                </div>
+              {% endif %}
+            {% endfor %}
           {% endif %}
-          {% for correction in post_row.correctedrow_set.all %}
-            <div class="card mb-2">
-              <div class="card-body">
-                <p>{{ correction.display_correction|safe }}</p>
-                {% if correction.note %}<p class="border p-2">{{ correction.note }}</p>{% endif %}
-              </div>
-            </div>
-          {% endfor %}
         </td>
-      {% endfor %}
-    </tr>
+      </tr>
+    {% endfor %}
   </tbody>
 </table>

@@ -4,17 +4,17 @@ register = template.Library()
 
 
 @register.inclusion_tag("corrections/partials/user_correction_card.html")
-def render_user_correction_card(user, current_user, post, correction_data):
-    corrections = correction_data.get("corrections")
-    replies = correction_data.get("replies")
-    overall_feedback = correction_data.get("overall_feedback")
+def render_user_correction_card(user_correction, current_user):
+    corrections = user_correction.corrections.all()
+    replies = user_correction.comments.all()
+
     return {
-        "user": user,
+        "user": user_correction.user,
         "current_user": current_user,
-        "post": post,
+        "user_correction": user_correction,
+        "post": user_correction.post,
         "corrections": corrections,
         "replies": replies,
-        "overall_feedback": overall_feedback,
     }
 
 

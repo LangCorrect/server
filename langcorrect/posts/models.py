@@ -89,6 +89,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
     @property
     def get_correctors(self):
+        # TODO: Remove; Replaced with correctors property
         corrected_user_ids = self.correctedrow_set.values_list("user_id", flat=True)
         perfect_user_ids = self.perfectrow_set.values_list("user_id", flat=True)
         user_ids = set(corrected_user_ids).union(perfect_user_ids)
@@ -96,7 +97,26 @@ class Post(TimeStampedModel, SoftDeletableModel):
 
     @property
     def corrected_by_count(self):
+        # TODO: Remove; Replaced with correctors_count property
         return len(self.get_correctors)
+
+    @property
+    def correctors(self):
+        return set(self.postusercorrection_set.values_list("user__username", flat=True))
+
+    @property
+    def correctors_count(self):
+        return self.postusercorrection_set.values("user").distinct().count()
+
+    @property
+    def get_correctors_new(self):
+        return list(
+            self.postusercorrection_set.values_list("user__username", flat=True),
+        )
+
+    @property
+    def get_correctors_count_new(self):
+        return len(self.get_correctors_new)
 
 
 class PostImage(TimeStampedModel, SoftDeletableModel):

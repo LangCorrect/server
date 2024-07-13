@@ -3,15 +3,14 @@
 <div class="card">
   {% include "posts/partials/card_header.html" %}
   <div class="card-body">
-    {% if instance.perfect_row or instance.corrected_row or instance.reply %}
+    {% if instance.correction or instance.parent %}
       <div class="border-start border-5 py-2 px-3">
-        {% if instance.perfect_row %}
-          <p class="text-success">{{ instance.perfect_row }}</p>
-        {% elif instance.corrected_row %}
-          <p>{{ instance.corrected_row.display_correction|safe }}</p>
-          <p class="text-muted">{{ instance.corrected_row.note|linebreaksbr }}</p>
-        {% elif instance.reply %}
-          <p class="text-muted">{{ instance.reply.text }}</p>
+        {% if instance.correction.feedback_type == "perfect" %}
+          <p class="text-success">{{ instance.correction.post_row.sentence }}</p>
+        {% elif instance.correction.feedback_type == "corrected" %}
+          <p>{{ instance.correction.display_correction|safe }}</p>
+        {% elif instance.parent %}
+          <p class="text-muted">{{ instance.parent.text }}</p>
         {% endif %}
       </div>
     {% endif %}

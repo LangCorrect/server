@@ -1,8 +1,8 @@
 from django.urls import path
 
+from langcorrect.corrections.api.views import CommentCreateUpdateAPIView
 from langcorrect.corrections.views import export_corrections
 from langcorrect.corrections.views import make_corrections
-from langcorrect.posts.api.views import PostReplyCreateUpdateAPIView
 from langcorrect.posts.views import PostRestrictedView
 from langcorrect.posts.views import post_create_view
 from langcorrect.posts.views import post_delete_view
@@ -22,7 +22,7 @@ urlpatterns = [
     path("~restricted/", PostRestrictedView.as_view(), name="restricted"),
     path(
         "~post_reply/",
-        PostReplyCreateUpdateAPIView.as_view(),
+        CommentCreateUpdateAPIView.as_view(),
         name="create-update-reply",
     ),
     path("<str:slug>/", view=post_detail_view, name="detail"),
