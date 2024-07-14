@@ -57,6 +57,9 @@ class PostListView(ListView):
         qs = (
             super()
             .get_queryset()
+            .select_related(
+                "user__contribution",
+            )
             .prefetch_related(
                 "tags",
             )

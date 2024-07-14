@@ -135,7 +135,7 @@ class User(AbstractUser):
 
     @property
     def writing_streak(self):
-        return Contribution.objects.get(user=self).writing_streak
+        return self.contribution.writing_streak
 
     @property
     def display_name(self):
