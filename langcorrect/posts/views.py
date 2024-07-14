@@ -54,7 +54,13 @@ class PostListView(ListView):
         return self.request.GET.get("lang_code", None)
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = (
+            super()
+            .get_queryset()
+            .prefetch_related(
+                "tags",
+            )
+        )
 
         current_user = self.request.user
 
