@@ -5,7 +5,7 @@ from langcorrect.posts.models import Post
 
 
 def update_post_correction_status(post: Post, *, status: bool) -> None:
-    correction_count = post.get_correctors.count()
+    correction_count = post.correctors_count
 
     if correction_count == 0:
         post.is_corrected = False

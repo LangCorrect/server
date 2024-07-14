@@ -26,11 +26,6 @@ urlpatterns = [
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
         name="robots",
     ),
-    path(
-        "ads.txt",
-        TemplateView.as_view(template_name="ads.txt", content_type="text/plain"),
-        name="ads",
-    ),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", view=index_page_view, name="home"),
     path(

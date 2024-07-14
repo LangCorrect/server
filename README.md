@@ -65,8 +65,8 @@ langcorrect/ - Project-specific code
 
 ## Road Map (WIP)
 
-- [>] Update DB Schema for more efficient queries and organization
-- [] Migrate data and codebase to use new DB schema
+- [x] Update DB Schema for more efficient queries and organization
+- [x] Migrate data and codebase to use new DB schema
 - [] Release API
 - [] Release Next.js client
 - [] Release Messenger
