@@ -76,7 +76,7 @@ def _remove_post_user_correction_if_empty(user_correction: PostUserCorrection):
 
     if (
         not user_correction.overall_feedback
-        and not user_correction.postcorrection_set.exists()
+        and not user_correction.corrections.exists()
     ):
         user_correction.delete()
 
