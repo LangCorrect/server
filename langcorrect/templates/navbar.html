@@ -1,211 +1,211 @@
 {% load i18n %}
 {% load static %}
-{% load notifications_tags %}
 
-{% notifications_unread as unread_count %}
-<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
-  <div class="container  align-items-center">
-    <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="{% static 'images/logo/logo-mark-purple.svg' %}"
-           alt="logo"
-           width="38" />
-    </a>
-    <div class="d-flex gap-2 align-items-center">
-      <a href="{% url 'posts:create' %}"
-         class="btn btn-outline-primary d-md-none px-2">
-        <i class="fa-solid fa-pen px-1"></i>
-        {% translate "Write" %}
+{% with request.user.notifications.unread.count as unread_count %}
+  <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
+    <div class="container  align-items-center">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{% static 'images/logo/logo-mark-purple.svg' %}"
+             alt="logo"
+             width="38" />
       </a>
-      {% if request.user.is_authenticated %}
-        <button id="notification-button"
-                class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2 d-md-none"
-                data-bs-toggle="modal"
-                data-bs-target="#mobileNotifications">
-          <i class="fas fa-bell fa-fw"></i>
-          {{ unread_count }}
-        </button>
-      {% endif %}
-      <button class="navbar-toggler p-2"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarCollapse"
-              aria-controls="navbarCollapse"
-              aria-expanded="false"
-              aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold text-primary{% endif %}"
-             href="{% url 'posts:list' %}">{% translate "Home" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if is_prompt_page %}active fw-bold text-primary{% endif %}"
-             href="{% url 'prompts:list' %}">{% translate "Prompts" %}</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"
-             href="https://community.langcorrect.com/"
-             role="button"
-             data-bs-toggle="dropdown"
-             aria-expanded="false">{% translate "Community" %}</a>
-          <ul class="dropdown-menu create-dropdown p-0"
-              aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a class="dropdown-item px-3 py-2" href="{% url 'rankings' %}"><i class="fas fa-trophy fa-fw"></i> {% translate "Rankings" %}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        {% if request.user.is_anonymous %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_login' %}">
-              {% translate "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
-            </a>
-          </li>
-        {% endif %}
+      <div class="d-flex gap-2 align-items-center">
+        <a href="{% url 'posts:create' %}"
+           class="btn btn-outline-primary d-md-none px-2">
+          <i class="fa-solid fa-pen px-1"></i>
+          {% translate "Write" %}
+        </a>
         {% if request.user.is_authenticated %}
-          <li class="d-none d-md-block me-2">
-            <a href="{% url 'posts:create' %}" class="btn btn-outline-primary">
-              <i class="fas fa-pen fa-fw"></i>
-              {% translate "Write" %}
-            </a>
-          </li>
-          <li class="d-none d-md-block">
-            <button id="notification-button"
-                    class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#mobileNotifications">
-              <i class="fas fa-bell fa-fw"></i>
-              {{ unread_count }}
-            </button>
-          </li>
-          <li class="dropdown d-inline-block mt-2 mt-md-0">
-            <div class="pointer" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{{ request.user.avatar }}" alt="profile" height="38" />
-            </div>
-            <div class="dropdown-menu dropdown-menu-end py-0 mt-2 z-9999">
-              <a class="dropdown-item py-2 bg-transparent"
-                 href="{{ request.user.get_absolute_url }}">
-                <div class="d-flex align-items-center">
-                  <img src="{{ request.user.avatar }}" alt="profile" height="38" />
-                  <div class="ms-3">
-                    <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
-                      <strong>{{ request.user.display_name }}</strong>
-                    </p>
-                    <p class="mb-0 text-muted">
-                      <small>{{ request.user.email }}</small>
-                    </p>
-                  </div>
-                </div>
-              </a>
-              <div class="dropdown-divider m-0"></div>
-              <ul class="list-unstyled">
-                <li>
-                  {% if request.user.is_premium_user %}
-                    <a class="dropdown-item py-2 text-premium"
-                       href="{% url 'subscriptions:manage-subscription' %}">
-                      <i class="fas fa-crown fa-fw"></i>
-                      {% translate "Manage Premium" %}
-                    </a>
-                  {% else %}
-                    <a class="dropdown-item py-2 text-premium" href="{% url 'pricing' %}">
-                      <i class="fas fa-crown fa-fw"></i>
-                      {% translate "Get Premium" %}
-                    </a>
-                  {% endif %}
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="{% url 'user_posts' %}">
-                    <i class="fas fa-file-alt fa-fw"></i>
-                    {% translate "My Journals" %}
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="{% url 'user_prompts' %}">
-                    <i class="fas fa-signature fa-fw"></i>
-                    {% translate "My Prompts" %}
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="{% url 'user_corrections' %}">
-                    <i class="fa-regular fa-circle-check"></i>
-                    {% translate "My Corrections" %}
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider m-0" />
-                </li>
-                <li>
-                  <a class="dropdown-item py-2" href="{% url 'account_logout' %}">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    {% translate "Logout" %}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
+          <button id="notification-button"
+                  class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2 d-md-none"
+                  data-bs-toggle="modal"
+                  data-bs-target="#mobileNotifications">
+            <i class="fas fa-bell fa-fw"></i>
+            {{ unread_count }}
+          </button>
         {% endif %}
-      </ul>
-    </div>
-  </div>
-</nav>
-{% if request.user.is_authenticated %}
-  <!-- Ratio bar -->
-  <div class="bg-primary text-white">
-    <div class="container">
-      <div class="d-flex flex-wrap py-2">
-        <!-- User info -->
-        <ul class="list-inline m-0 me-2">
-          <li class="list-inline-item"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="{% translate 'Visit your profile' %}">
-            <i class="fas fa-user fa-fw"></i>
-            <a href="{% url 'users:detail' request.user.username %}"
-               class="text-decoration-none text-white">{{ request.user.display_name }}</a>
+        <button class="navbar-toggler p-2"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if mode == 'teach' or mode == 'learn' or mode == 'following' %}active fw-bold text-primary{% endif %}"
+               href="{% url 'posts:list' %}">{% translate "Home" %}</a>
           </li>
-          <li class="list-inline-item"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="{% translate 'Member role' %}">
-            <i class="fas fa-users fa-fw"></i>
-            {% if request.user.is_premium_user %}
-              <a href="{% url 'subscriptions:manage-subscription' %}"
-                 class="text-decoration-none text-white">{% translate "Premium" %}</a>
-            {% else %}
-              <a href="{% url 'pricing' %}" class="text-decoration-none text-white">{% translate "Member" %}</a>
-            {% endif %}
+          <li class="nav-item">
+            <a class="nav-link {% if is_prompt_page %}active fw-bold text-primary{% endif %}"
+               href="{% url 'prompts:list' %}">{% translate "Prompts" %}</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="https://community.langcorrect.com/"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">{% translate "Community" %}</a>
+            <ul class="dropdown-menu create-dropdown p-0"
+                aria-labelledby="navbarDropdownMenuLink">
+              <li>
+                <a class="dropdown-item px-3 py-2" href="{% url 'rankings' %}"><i class="fas fa-trophy fa-fw"></i> {% translate "Rankings" %}</a>
+              </li>
+            </ul>
           </li>
         </ul>
-        <!-- Stats -->
-        <ul class="list-inline m-0">
-          <li class="list-inline-item"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="{% translate 'Total corrections made' %}">
-            <i class="fas fa-arrow-up fa-fw"></i>
-            <a href="{% url 'user_corrections' %}"
-               class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
-          </li>
-          <li class="list-inline-item"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="{% translate 'Total corrections received' %}">
-            <i class="fas fa-arrow-down fa-fw"></i>
-            <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
-          </li>
-          <li class="list-inline-item"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="{% translate 'Correction ratio' %}">
-            <i class="fas fa-percent fa-fw"></i> {{ request.user.correction_ratio }}
-          </li>
+        <ul class="navbar-nav">
+          {% if request.user.is_anonymous %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_login' %}">
+                {% translate "Sign In" %} <i class="fas fa-sign-in-alt fa-fw"></i>
+              </a>
+            </li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+            <li class="d-none d-md-block me-2">
+              <a href="{% url 'posts:create' %}" class="btn btn-outline-primary">
+                <i class="fas fa-pen fa-fw"></i>
+                {% translate "Write" %}
+              </a>
+            </li>
+            <li class="d-none d-md-block">
+              <button id="notification-button"
+                      class="btn {% if unread_count %} btn-primary {% else %} text-muted {% endif %} me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#mobileNotifications">
+                <i class="fas fa-bell fa-fw"></i>
+                {{ unread_count }}
+              </button>
+            </li>
+            <li class="dropdown d-inline-block mt-2 mt-md-0">
+              <div class="pointer" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ request.user.avatar }}" alt="profile" height="38" />
+              </div>
+              <div class="dropdown-menu dropdown-menu-end py-0 mt-2 z-9999">
+                <a class="dropdown-item py-2 bg-transparent"
+                   href="{{ request.user.get_absolute_url }}">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ request.user.avatar }}" alt="profile" height="38" />
+                    <div class="ms-3">
+                      <p class="mb-0 {% if request.user.is_premium_user %}text-premium{% else %}text-muted{% endif %}">
+                        <strong>{{ request.user.display_name }}</strong>
+                      </p>
+                      <p class="mb-0 text-muted">
+                        <small>{{ request.user.email }}</small>
+                      </p>
+                    </div>
+                  </div>
+                </a>
+                <div class="dropdown-divider m-0"></div>
+                <ul class="list-unstyled">
+                  <li>
+                    {% if request.user.is_premium_user %}
+                      <a class="dropdown-item py-2 text-premium"
+                         href="{% url 'subscriptions:manage-subscription' %}">
+                        <i class="fas fa-crown fa-fw"></i>
+                        {% translate "Manage Premium" %}
+                      </a>
+                    {% else %}
+                      <a class="dropdown-item py-2 text-premium" href="{% url 'pricing' %}">
+                        <i class="fas fa-crown fa-fw"></i>
+                        {% translate "Get Premium" %}
+                      </a>
+                    {% endif %}
+                  </li>
+                  <li>
+                    <a class="dropdown-item py-2" href="{% url 'user_posts' %}">
+                      <i class="fas fa-file-alt fa-fw"></i>
+                      {% translate "My Journals" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item py-2" href="{% url 'user_prompts' %}">
+                      <i class="fas fa-signature fa-fw"></i>
+                      {% translate "My Prompts" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item py-2" href="{% url 'user_corrections' %}">
+                      <i class="fa-regular fa-circle-check"></i>
+                      {% translate "My Corrections" %}
+                    </a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider m-0" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item py-2" href="{% url 'account_logout' %}">
+                      <i class="fa-solid fa-right-from-bracket"></i>
+                      {% translate "Logout" %}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>
-  </div>
-{% endif %}
+  </nav>
+  {% if request.user.is_authenticated %}
+    <!-- Ratio bar -->
+    <div class="bg-primary text-white">
+      <div class="container">
+        <div class="d-flex flex-wrap py-2">
+          <!-- User info -->
+          <ul class="list-inline m-0 me-2">
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Visit your profile' %}">
+              <i class="fas fa-user fa-fw"></i>
+              <a href="{% url 'users:detail' request.user.username %}"
+                 class="text-decoration-none text-white">{{ request.user.display_name }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Member role' %}">
+              <i class="fas fa-users fa-fw"></i>
+              {% if request.user.is_premium_user %}
+                <a href="{% url 'subscriptions:manage-subscription' %}"
+                   class="text-decoration-none text-white">{% translate "Premium" %}</a>
+              {% else %}
+                <a href="{% url 'pricing' %}" class="text-decoration-none text-white">{% translate "Member" %}</a>
+              {% endif %}
+            </li>
+          </ul>
+          <!-- Stats -->
+          <ul class="list-inline m-0">
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Total corrections made' %}">
+              <i class="fas fa-arrow-up fa-fw"></i>
+              <a href="{% url 'user_corrections' %}"
+                 class="text-decoration-none text-white">{{ request.user.corrections_made_count }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Total corrections received' %}">
+              <i class="fas fa-arrow-down fa-fw"></i>
+              <a href="#" class="text-decoration-none text-white">{{ request.user.corrections_received_count }}</a>
+            </li>
+            <li class="list-inline-item"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{% translate 'Correction ratio' %}">
+              <i class="fas fa-percent fa-fw"></i> {{ request.user.correction_ratio }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endwith %}
