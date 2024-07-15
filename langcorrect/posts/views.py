@@ -58,9 +58,14 @@ class PostListView(ListView):
             super()
             .get_queryset()
             .select_related(
+                "user",
                 "user__contribution",
+                "user__stripecustomer",
+                "language",
+                "prompt",
             )
             .prefetch_related(
+                "postimage_set",
                 "tags",
             )
         )
