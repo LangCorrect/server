@@ -130,12 +130,6 @@ class PostListView(ListView):
             "all_time": get_top_correctors(period="all_time"),
         }
 
-        if current_user.is_authenticated:
-            following_users_ids = current_user.get_following_users_ids
-            context["following_feed"] = Post.available_objects.filter(
-                user__in=following_users_ids,
-            )[:5]
-
         return context
 
 
