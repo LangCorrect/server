@@ -28,6 +28,9 @@ class PostVisibility(models.TextChoices):
 class Post(TimeStampedModel, SoftDeletableModel):
     class Meta:
         ordering = ["-created"]
+        indexes = [
+            models.Index(fields=["-created"]),
+        ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=60)
