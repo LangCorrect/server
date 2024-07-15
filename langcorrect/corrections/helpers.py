@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 from typing import Literal
 
+from django.core.cache import cache
 from django.db.models import Count
 from django.db.models import Prefetch
 from django.db.models.query import QuerySet
@@ -144,13 +145,19 @@ def get_top_correctors(period: Literal["daily", "weekly", "monthly", "all_time"]
         msg = "Invalid time period."
         raise ValueError(msg)
 
+    cache_key = f"top_correctors_{period}"
+    top_correctors = cache.get(cache_key)
+
+    if top_correctors is not None:
+        return top_correctors
+
     start_date = start_dates.get(period)()
     corrections = PostCorrection.available_objects.all()
 
     if start_date:
         corrections = corrections.filter(created__gte=start_date)
 
-    return (
+    top_correctors = (
         corrections.values(
             "user_correction__user__username",
             "user_correction__user__nick_name",
@@ -160,6 +167,11 @@ def get_top_correctors(period: Literal["daily", "weekly", "monthly", "all_time"]
         )
         .order_by("-correction_count")[:10]
     )
+
+    top_correctors = list(top_correctors)
+    cache.set(cache_key, top_correctors, timeout=60 * 5)
+
+    return top_correctors
 
 
 def check_can_make_corrections(current_user, post):
