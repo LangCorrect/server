@@ -1,6 +1,5 @@
 # ruff: noqa: DJ001
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -124,18 +123,17 @@ class User(AbstractUser):
 
     @property
     def is_premium_user(self):
-        try:
+        if hasattr(self, "stripecustomer"):
             stripe_customer = self.stripecustomer
             return stripe_customer.has_active_subscription or (
                 stripe_customer.premium_until
                 and stripe_customer.premium_until > timezone.now()
             )
-        except ObjectDoesNotExist:
-            return False
+        return False
 
     @property
     def writing_streak(self):
-        return Contribution.objects.get(user=self).writing_streak
+        return self.contribution.writing_streak
 
     @property
     def display_name(self):
