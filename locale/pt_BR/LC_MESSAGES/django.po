@@ -1,5 +1,5 @@
 # Translations for the LangCorrect project
-# Copyright (C) 2023 Daniel Zeljko
+# Copyright (C) 2023-2024 Daniel Zeljko
 # Daniel Zeljko <support@langcorrect.com>, 2023.
 #
 #, fuzzy
