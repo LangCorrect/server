@@ -147,6 +147,7 @@
 {% block modal %}
   {{ block.super }}
   {% include "modals/discard_modal.html" %}
+  {% include "modals/reset_modal.html" %}
   {% include "modals/native_text.html" %}
 {% endblock modal %}
 {% block inline_javascript %}
@@ -279,20 +280,49 @@
       const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
       const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
 
-      correction.action = correction.action === "corrected" ? "none" : "corrected";
-      correctionBox.classList.toggle("d-none");
-      icon.classList.toggle('fa-pen');
-      icon.classList.toggle('fa-undo');
-
       if (correction.action === "none") {
+        correction.action = "corrected";
         correctionTextarea.value = correction.original_text;
         feedbackTextarea.value = "";
+
+        correctionBox.classList.toggle("d-none");
+        icon.classList.toggle('fa-pen');
+        icon.classList.toggle('fa-undo');
+        perfectBtn.disabled = true;
+      } else if (correction.action === "corrected") {
+        customConfirm(() => {
+          correction.action = "none";
+          correctionBox.classList.toggle("d-none");
+          icon.classList.toggle('fa-pen');
+          icon.classList.toggle('fa-undo');
+          perfectBtn.disabled = false;
+        })
       }
 
       autosize.update(correctionTextarea);
       autosize.update(feedbackTextarea);
+    }
 
-      perfectBtn.disabled = correction.action === "corrected";
+    function customConfirm(callback) {
+      const modal = new bootstrap.Modal("#reset-modal");
+      modal.show();
+      const modalEl = document.querySelector("#reset-modal");
+      modalEl.querySelector("#reset-modal-confirm").addEventListener("click", handleResetModalConfirm);
+
+      function removeModal() {
+        modal.hide();
+        modalEl.querySelector("#reset-modal-confirm").removeEventListener("click", handleResetModalConfirm);
+      }
+
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        removeModal();
+      });
+
+      function handleResetModalConfirm(e) {
+        e.preventDefault();
+        callback();
+        removeModal();
+      }
     }
 
     function setupDeleteButtonListeners(corrections) {
@@ -314,27 +344,32 @@
     function handleDeleteButtonClick(e, btn, corrections) {
       e.preventDefault();
 
-      const id = btn.getAttribute("data-sentence-id");
-      const correction = corrections.find(c => c.sentence_id === id);
-      correction.action = "delete";
+      customConfirm(() => {
+        const id = btn.getAttribute("data-sentence-id");
+        const correction = corrections.find(c => c.sentence_id === id);
+        correction.action = "delete";
 
-      const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
-      correctionTextarea.disabled = true;
+        const correctionTextarea = document.getElementById(`js-correction-row-${id}`);
+        correctionTextarea.disabled = true;
 
-      const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
-      feedbackTextarea.disabled = true;
+        const feedbackTextarea = document.getElementById(`js-correction-note-${id}`);
+        feedbackTextarea.disabled = true;
 
-      const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
-      correctionBox.classList.add("d-none");
+        const correctionBox = document.querySelector(`[data-correction-box="${id}"]`);
+        correctionBox.classList.add("d-none");
 
-      btn.disabled = true;
+        btn.disabled = true;
+      })
     }
 
     function handleDeleteFeedbackButtonClick(e, btn) {
       e.preventDefault();
-      btn.disabled = true;
-      const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
-      deleteFeedbackInput.value = "true";
+
+      customConfirm(() => {
+        btn.disabled = true;
+        const deleteFeedbackInput = document.getElementById("deleteOverallFeedback");
+        deleteFeedbackInput.value = "true";
+      })
     }
 
     function setupFormSubmitListener(corrections) {
