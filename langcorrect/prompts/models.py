@@ -1,6 +1,7 @@
 # ruff: noqa: DJ001,S311
 import random
 import string
+import uuid
 
 from django.conf import settings
 from django.db import models
@@ -34,6 +35,7 @@ class Prompt(SoftDeletableModel, TimeStampedModel):
         null=True,
         blank=True,
     )
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     def create_hash(self):
         def get_random_str():

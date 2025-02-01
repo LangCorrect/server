@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -22,6 +24,7 @@ class Language(TimeStampedModel, SoftDeletableModel):
     en_name = models.CharField(max_length=120, unique=True)
     family_code = models.CharField(default="N/A")
     code = models.CharField(max_length=7, unique=True)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return f"{_(self.en_name)}"
