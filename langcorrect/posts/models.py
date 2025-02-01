@@ -1,4 +1,6 @@
 # ruff: noqa: DJ001,RUF005
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -65,6 +67,7 @@ class Post(TimeStampedModel, SoftDeletableModel):
         max_length=2,
     )
     is_corrected = models.BooleanField(default=False)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     def get_absolute_url(self) -> str:
         return reverse("posts:detail", kwargs={"slug": self.slug})
@@ -115,6 +118,7 @@ class PostRow(TimeStampedModel, SoftDeletableModel):
     sentence = models.TextField()
     is_actual = models.BooleanField(default=True)
     order = models.IntegerField(default=None, null=True)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
 
 @receiver(post_save, sender=Post)

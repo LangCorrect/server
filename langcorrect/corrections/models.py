@@ -1,4 +1,6 @@
 # ruff: noqa: DJ001
+import uuid
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -25,6 +27,7 @@ class PostUserCorrection(TimeStampedModel, SoftDeletableModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey("posts.Post", on_delete=models.CASCADE)
     overall_feedback = models.TextField(null=True, blank=True)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     class Meta:
         ordering = ["-created"]
@@ -59,6 +62,7 @@ class PostCorrection(TimeStampedModel, SoftDeletableModel):
     note = models.TextField(default="", blank=True)
     correction_types = models.ManyToManyField(CorrectionType, blank=True)
     feedback_type = models.CharField(max_length=10, choices=FeedbackType.choices)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     def clean(self):
         if self.feedback_type == self.FeedbackType.PERFECT:
@@ -112,6 +116,7 @@ class Comment(TimeStampedModel, SoftDeletableModel):
         on_delete=models.CASCADE,
         related_name="replies",
     )
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     class Meta:
         ordering = ["created"]

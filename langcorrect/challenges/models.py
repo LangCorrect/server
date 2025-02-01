@@ -1,4 +1,6 @@
 # ruff: noqa: DJ001
+import uuid
+
 from django.db import models
 from django.utils.text import slugify
 from model_utils.models import SoftDeletableModel
@@ -13,6 +15,7 @@ class Challenge(TimeStampedModel, SoftDeletableModel):
     end_date = models.DateTimeField(null=True, blank=True)
     slug = models.SlugField(max_length=255, null=True)
     is_active = models.BooleanField(default=False)
+    uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return self.title
