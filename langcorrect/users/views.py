@@ -1,8 +1,13 @@
 from datetime import datetime
 
+from allauth.account.models import EmailAddress
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -10,6 +15,7 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
+from subscriptions.utils import StripeManager
 
 from langcorrect.corrections.models import PostCorrection
 
@@ -100,3 +106,40 @@ class NotificationsViewList(LoginRequiredMixin, ListView):
 
 
 notifications_view = NotificationsViewList.as_view()
+
+
+@login_required
+def user_delete_view(request):
+    current_user = request.user
+
+    if request.method == "POST":
+        with transaction.atomic():
+            EmailAddress.objects.get(user=current_user).delete()
+
+            has_active_subscription = (
+                current_user.stripecustomer.has_active_subscription
+            )
+            if has_active_subscription:
+                StripeManager.cancel_subscription(
+                    current_user.stripe_customer.current_subscription_id,
+                )
+
+            current_user.username = f"deleted_user_{current_user.pk}"
+            current_user.nick_name = ""
+            current_user.bio = ""
+            current_user.staff_notes = ""
+            current_user.is_verified = False
+            current_user.is_volunteer = False
+            current_user.is_premium = False
+            current_user.is_moderator = False
+            current_user.is_lifetime_vip = False
+            current_user.is_max_studying = False
+            current_user.first_name = ""
+            current_user.last_name = ""
+            current_user.email = f"deleted_user_{current_user.pk}@langcorrect.com"
+            current_user.is_active = False
+
+            current_user.save()
+        return redirect("/")
+
+    return render(request, "users/user_delete.html")
