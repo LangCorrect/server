@@ -1,6 +1,7 @@
+import logging
 from datetime import datetime
 
-from allauth.account.models import EmailAddress
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,9 +16,15 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
-from subscriptions.utils import StripeManager
 
 from langcorrect.corrections.models import PostCorrection
+from langcorrect.users.helpers import anonymize_user
+from langcorrect.users.helpers import cancel_subscription
+from langcorrect.users.helpers import delete_user_follows
+from langcorrect.users.helpers import delete_user_notifications
+
+logger = logging.getLogger(__name__)
+
 
 User = get_user_model()
 
@@ -110,36 +117,43 @@ notifications_view = NotificationsViewList.as_view()
 
 @login_required
 def user_delete_view(request):
+    """
+    TODO: Ideally I would like to have a system user that inherits all data
+    from the user that is being deleted. This way, we can properly delete
+    users and cleanup the db.
+    """
     current_user = request.user
 
     if request.method == "POST":
-        with transaction.atomic():
-            EmailAddress.objects.get(user=current_user).delete()
+        try:
+            with transaction.atomic():
+                delete_user_notifications(current_user)
+                delete_user_follows(current_user)
 
-            has_active_subscription = (
-                current_user.stripecustomer.has_active_subscription
+                is_sub_cancelled = cancel_subscription(current_user)
+                if not is_sub_cancelled:
+                    messages.error(
+                        request,
+                        _(
+                            "An error occured while cancelling your "
+                            "subscription. Your account has not been deleted. "
+                            "Please contact support.",
+                        ),
+                    )
+                else:
+                    anonymize_user(current_user)
+                    messages.success(
+                        request,
+                        _("Your account has been deleted successfully."),
+                    )
+
+                return redirect("/")
+
+        except Exception:
+            logger.exception(
+                "Error deleting user %s",
+                current_user.username,
             )
-            if has_active_subscription:
-                StripeManager.cancel_subscription(
-                    current_user.stripe_customer.current_subscription_id,
-                )
-
-            current_user.username = f"deleted_user_{current_user.pk}"
-            current_user.nick_name = ""
-            current_user.bio = ""
-            current_user.staff_notes = ""
-            current_user.is_verified = False
-            current_user.is_volunteer = False
-            current_user.is_premium = False
-            current_user.is_moderator = False
-            current_user.is_lifetime_vip = False
-            current_user.is_max_studying = False
-            current_user.first_name = ""
-            current_user.last_name = ""
-            current_user.email = f"deleted_user_{current_user.pk}@langcorrect.com"
-            current_user.is_active = False
-
-            current_user.save()
-        return redirect("/")
+            return redirect("/")
 
     return render(request, "users/user_delete.html")
