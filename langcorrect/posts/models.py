@@ -19,6 +19,9 @@ from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices
 from langcorrect.users.models import User
 
+from model_utils.managers import SoftDeletableManager
+
+
 sentence_splitter = SentenceSplitter()
 
 
@@ -27,13 +30,17 @@ class PostVisibility(models.TextChoices):
     MEMBER = "member", _("Viewable only by registered members")
 
 
+class ActiveUserSoftDeleteManager(SoftDeletableManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(user__is_active=True)
+
 class Post(TimeStampedModel, SoftDeletableModel):
     class Meta:
         ordering = ["-created"]
         indexes = [
             models.Index(fields=["-created"]),
         ]
-
+    objects = ActiveUserSoftDeleteManager()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=60)
     text = models.TextField()
