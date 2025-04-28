@@ -9,3 +9,8 @@ updates:
     # Every weekday
     schedule:
       interval: 'daily'
+  # Update python packages
+  - package-ecosystem: 'pip'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
