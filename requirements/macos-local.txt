@@ -81,7 +81,7 @@ MarkupSafe==3.0.2
 matplotlib-inline==0.1.7
 mypy==1.8.0
 mypy-extensions==1.0.0
-nltk==3.8.1
+nltk==3.9.1
 nodeenv==1.9.1
 oauthlib==3.2.2
 packaging==24.2
