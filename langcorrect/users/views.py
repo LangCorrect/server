@@ -135,7 +135,7 @@ def user_delete_view(request):
                     messages.error(
                         request,
                         _(
-                            "An error occured while cancelling your "
+                            "An error occurred while cancelling your "
                             "subscription. Your account has not been deleted. "
                             "Please contact support.",
                         ),
