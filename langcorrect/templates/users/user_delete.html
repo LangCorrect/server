@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Delete Account</h1>
+      <p>Deleting your account is a permanent action. Please review the following before proceeding:</p>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">
+          <strong>Your email address will be deleted.</strong> You will no longer be able to log in or recover the account.
+        </li>
+        <li class="list-group-item">
+          <strong>Your subscription will be cancelled.</strong> If you have an active subscription, it will be terminated.
+        </li>
+        <li class="list-group-item">
+          <strong>Your profile information will be anonymized.</strong> This includes your username, name, nickname, and bio.
+        </li>
+        <li class="list-group-item">
+          <strong>Your account will be deactivated.</strong> It will no longer be accessible.
+        </li>
+        <li class="list-group-item">
+          <strong>Your posts and corrections will remain.</strong> These help maintain the accuracy (e.g. correction ratios) and integrity of the platform.
+        </li>
+      </ul>
+      <div class="alert alert-danger" role="alert">
+        This action is <strong>permanent and cannot be undone.</strong>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <a class="btn btn-success me-2"
+           href="{% url 'users:detail' request.user.username %}">Cancel</a>
+        <button class="btn btn-danger" type="submit">Delete Account</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

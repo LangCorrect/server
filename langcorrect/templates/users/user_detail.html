@@ -121,6 +121,7 @@
               <a class="btn btn-primary"
                  href="{% url 'account_change_password' %}"
                  role="button">{% translate "Password" %}</a>
+              <a class="btn btn-danger" href="{% url 'users:delete' %}" role="button">{% translate "Delete Account" %}</a>
             </div>
           </div>
         {% endif %}

@@ -1,8 +1,14 @@
+import logging
 from datetime import datetime
 
+from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +18,13 @@ from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
 from langcorrect.corrections.models import PostCorrection
+from langcorrect.users.helpers import anonymize_user
+from langcorrect.users.helpers import cancel_subscription
+from langcorrect.users.helpers import delete_user_follows
+from langcorrect.users.helpers import delete_user_notifications
+
+logger = logging.getLogger(__name__)
+
 
 User = get_user_model()
 
@@ -100,3 +113,47 @@ class NotificationsViewList(LoginRequiredMixin, ListView):
 
 
 notifications_view = NotificationsViewList.as_view()
+
+
+@login_required
+def user_delete_view(request):
+    """
+    TODO: Ideally I would like to have a system user that inherits all data
+    from the user that is being deleted. This way, we can properly delete
+    users and cleanup the db.
+    """
+    current_user = request.user
+
+    if request.method == "POST":
+        try:
+            with transaction.atomic():
+                delete_user_notifications(current_user)
+                delete_user_follows(current_user)
+
+                is_sub_cancelled = cancel_subscription(current_user)
+                if not is_sub_cancelled:
+                    messages.error(
+                        request,
+                        _(
+                            "An error occurred while cancelling your "
+                            "subscription. Your account has not been deleted. "
+                            "Please contact support.",
+                        ),
+                    )
+                else:
+                    anonymize_user(current_user)
+                    messages.success(
+                        request,
+                        _("Your account has been deleted successfully."),
+                    )
+
+                return redirect("/")
+
+        except Exception:
+            logger.exception(
+                "Error deleting user %s",
+                current_user.username,
+            )
+            return redirect("/")
+
+    return render(request, "users/user_delete.html")
