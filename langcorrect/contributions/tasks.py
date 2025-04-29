@@ -7,6 +7,7 @@ from langcorrect.contributions.helpers import update_contribution_rankings
 from langcorrect.contributions.helpers import update_user_writing_streak
 from langcorrect.contributions.models import Contribution
 from langcorrect.users.helpers import get_active_user_ids
+from langcorrect.users.helpers import get_active_users
 
 User = get_user_model()
 
@@ -40,12 +41,8 @@ def calculate_contribution_points(batch_size=20, days=60):
 
 @celery_app.task()
 def calculate_writing_streaks():
-    """
-    A Celery task to calculate user writing streaks.
-    """
-
-    with transaction.atomic():
-        for user in User.objects.all():
+    for user in get_active_users(days=90).select_related("contribution"):
+        with transaction.atomic():
             update_user_writing_streak(user)
 
 
