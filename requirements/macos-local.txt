@@ -134,7 +134,7 @@ tinycss2==1.4.0
 tqdm==4.67.1
 traitlets==5.14.3
 types-pytz==2024.2.0.20241221
-types-PyYAML==6.0.12.20241230
+types-PyYAML==6.0.12.20250402
 types-requests==2.32.0.20241016
 typing_extensions==4.12.2
 tzdata==2024.2
