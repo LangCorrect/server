@@ -1,34 +1,36 @@
 {% load i18n %}
 
-<div class="d-flex align-items-center gap-1">
-  <span class="d-flex align-items-center"
-        data-bs-toggle="tooltip"
-        data-bs-placement="bottom"
-        data-bs-title="{% translate 'Writing Streak' %}">
-    <span class="fa-stack small">
-      <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-      <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
+{% if user.is_active %}
+  <div class="d-flex align-items-center gap-1">
+    <span class="d-flex align-items-center"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          data-bs-title="{% translate 'Writing Streak' %}">
+      <span class="fa-stack small">
+        <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+        <i class="fa-solid fa-fire fa-stack-1x fa-inverse text-danger"></i>
+      </span>
+      {{ user.writing_streak }}
     </span>
-    {{ user.writing_streak }}
-  </span>
-  {% for studying_language in current_user.studying_languages %}
-    {% if studying_language in user.native_languages %}
+    {% for studying_language in current_user.studying_languages %}
+      {% if studying_language in user.native_languages %}
+        <span class="fa-stack small"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              data-bs-title="{% translate 'Language Match' %}">
+          <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
+          <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
+        </span>
+      {% endif %}
+    {% endfor %}
+    {% if user.is_premium_user %}
       <span class="fa-stack small"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
-            data-bs-title="{% translate 'Language Match' %}">
+            data-bs-title="{% translate 'Premium' %}">
         <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-        <i class="fa-solid fa-handshake fa-stack-1x fa-inverse text-primary"></i>
+        <i class="fa-solid fa-crown fa-stack-1x fa-inverse text-premium"></i>
       </span>
     {% endif %}
-  {% endfor %}
-  {% if user.is_premium_user %}
-    <span class="fa-stack small"
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          data-bs-title="{% translate 'Premium' %}">
-      <i class="fa-solid fa-circle fa-stack-2x text-light outlined"></i>
-      <i class="fa-solid fa-crown fa-stack-1x fa-inverse text-premium"></i>
-    </span>
-  {% endif %}
-</div>
+  </div>
+{% endif %}
