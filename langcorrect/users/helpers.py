@@ -1,9 +1,24 @@
 import logging
+from datetime import timedelta
+
+from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 from langcorrect.subscriptions.utils import StripeManager
 from langcorrect.users.models import GenderChoices
 
 logger = logging.getLogger(__name__)
+
+User = get_user_model()
+
+
+def get_active_user_ids(days=30):
+    active_days = timezone.now() - timedelta(days=days)
+    return list(
+        User.objects.filter(
+            last_login__gte=active_days,
+        ).values_list("id", flat=True),
+    )
 
 
 def delete_user_notifications(user):
