@@ -9,13 +9,13 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
-from model_utils.managers import SoftDeletableManager
 from model_utils.models import SoftDeletableModel
 from model_utils.models import TimeStampedModel
 from notifications.signals import notify
 from taggit.managers import TaggableManager
 
 from langcorrect.languages.models import LevelChoices
+from langcorrect.managers import ActiveUserSoftDeleteManager
 from langcorrect.posts.utils import SentenceSplitter
 from langcorrect.users.models import GenderChoices
 from langcorrect.users.models import User
@@ -26,11 +26,6 @@ sentence_splitter = SentenceSplitter()
 class PostVisibility(models.TextChoices):
     PUBLIC = "public", _("Viewable by everyone")
     MEMBER = "member", _("Viewable only by registered members")
-
-
-class ActiveUserSoftDeleteManager(SoftDeletableManager):
-    def get_queryset(self):
-        return super().get_queryset().filter(user__is_active=True)
 
 
 class Post(TimeStampedModel, SoftDeletableModel):

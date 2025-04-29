@@ -2,6 +2,7 @@
 import uuid
 
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -14,6 +15,11 @@ from langcorrect.contributions.models import Contribution
 from langcorrect.corrections.models import PostCorrection
 from langcorrect.languages.models import Language
 from langcorrect.languages.models import LevelChoices
+
+
+class ActiveUserManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
 
 
 class GenderChoices(models.TextChoices):
@@ -45,6 +51,8 @@ class User(AbstractUser):
     is_lifetime_vip = models.BooleanField(default=False)
     is_max_studying = models.BooleanField(default=False)
     uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
+
+    objects = ActiveUserManager()
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
