@@ -70,7 +70,9 @@ jobs:
           pip install -r requirements/local.txt
 
       - name: Setup NLTK
-        run: python -m nltk.downloader punkt
+        run: |
+          python -m nltk.downloader punkt
+          python -m nltk.downloader punkt_tab
 
       - name: Setup Fugashi
         run: python -m unidic download
