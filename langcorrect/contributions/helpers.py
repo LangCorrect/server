@@ -113,6 +113,5 @@ def update_user_writing_streak(user):
 
         last_published_date = post_date
 
-    contribution = Contribution.objects.get(user=user)
-    contribution.writing_streak = streak
-    contribution.save()
+    user.contribution.writing_streak = streak
+    user.contribution.save(update_fields=["writing_streak"])

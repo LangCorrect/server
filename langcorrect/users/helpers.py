@@ -21,6 +21,11 @@ def get_active_user_ids(days=30):
     )
 
 
+def get_active_users(days=30):
+    active_days = timezone.now() - timedelta(days=days)
+    return User.objects.filter(last_login__gte=active_days)
+
+
 def delete_user_notifications(user):
     if user is not None:
         if user.notifications.exists():
