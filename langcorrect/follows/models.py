@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from model_utils.models import SoftDeletableModel
 from model_utils.models import TimeStampedModel
 
 
-class Follower(TimeStampedModel, SoftDeletableModel):
+class Follower(TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
