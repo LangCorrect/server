@@ -18,10 +18,8 @@ from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
 from langcorrect.corrections.models import PostCorrection
-from langcorrect.users.helpers import anonymize_user
 from langcorrect.users.helpers import cancel_subscription
-from langcorrect.users.helpers import delete_user_follows
-from langcorrect.users.helpers import delete_user_notifications
+from langcorrect.utils.management import DataManagement
 
 logger = logging.getLogger(__name__)
 
@@ -118,18 +116,55 @@ notifications_view = NotificationsViewList.as_view()
 @login_required
 def user_delete_view(request):
     """
-    TODO: Ideally I would like to have a system user that inherits all data
-    from the user that is being deleted. This way, we can properly delete
-    users and cleanup the db.
+    Permanently deleted info:
+    - email address (cascade delete)
+    - notifications (cascade delete)
+    - language levels (cascade delete)
+    - contribution (cascade delete)
+    - profile info (username, password, first and last name, etc.)
+
+    Anonymized info:
+    - posts
+    - corrections
+    - comments
+    - prompts
+
     """
     current_user = request.user
 
     if request.method == "POST":
         try:
             with transaction.atomic():
-                delete_user_notifications(current_user)
-                delete_user_follows(current_user)
+                system_user = User.objects.get(username="system")
 
+                # posts
+                DataManagement.migrate_posts(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+                DataManagement.delete_post_images(from_user=current_user)
+
+                # prompts
+                DataManagement.migrate_prompts(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                # corrections
+                DataManagement.migrate_corrections(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                # comments
+                DataManagement.migrate_comments(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                current_user.delete()
+
+                # subscription
                 is_sub_cancelled = cancel_subscription(current_user)
                 if not is_sub_cancelled:
                     messages.error(
@@ -141,7 +176,6 @@ def user_delete_view(request):
                         ),
                     )
                 else:
-                    anonymize_user(current_user)
                     messages.success(
                         request,
                         _("Your account has been deleted successfully."),
