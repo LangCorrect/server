@@ -50,6 +50,7 @@ class User(AbstractUser):
     is_moderator = models.BooleanField(default=False)
     is_lifetime_vip = models.BooleanField(default=False)
     is_max_studying = models.BooleanField(default=False)
+    is_system = models.BooleanField(default=False)
     uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     objects = ActiveUserManager()
