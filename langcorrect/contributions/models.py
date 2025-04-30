@@ -1,13 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from model_utils.models import SoftDeletableModel
 from model_utils.models import TimeStampedModel
 
-from langcorrect.managers import ActiveUserSoftDeleteManager
 
-
-class Contribution(SoftDeletableModel, TimeStampedModel):
+class Contribution(TimeStampedModel):
     class Meta:
         ordering = ["-total_points"]
 
@@ -18,7 +15,6 @@ class Contribution(SoftDeletableModel, TimeStampedModel):
     prompt_count = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
     writing_streak = models.IntegerField(default=0)
-    objects = ActiveUserSoftDeleteManager()
 
     @property
     def get_average_per_day(self):

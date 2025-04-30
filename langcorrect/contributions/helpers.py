@@ -41,7 +41,7 @@ def get_contribution_counts(user_ids=None):
 
 
 def update_contribution_rankings(batch_size=20):
-    contributions = Contribution.available_objects.all().order_by("-total_points")
+    contributions = Contribution.objects.all().order_by("-total_points")
     ranking_updates = []
     current_rank = 1
 

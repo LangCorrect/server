@@ -29,7 +29,7 @@ class RankingListView(ListView):
         current_user = self.request.user
 
         if current_user.is_authenticated:
-            context["self_ranking"] = Contribution.available_objects.get(
+            context["self_ranking"] = Contribution.objects.get(
                 user=current_user,
             )
         return context
