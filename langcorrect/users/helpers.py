@@ -57,3 +57,7 @@ def cancel_subscription(user):
         sub_id,
     )
     return True
+
+
+def is_system_user(user):
+    return getattr(user, "is_system", False)
