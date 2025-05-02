@@ -188,6 +188,12 @@ def user_delete_view(request):
                 "Error deleting user %s",
                 current_user.username,
             )
+            messages.error(
+                request,
+                _(
+                    "An error occurred while deleting your account.",
+                ),
+            )
             return redirect("/")
 
     return render(request, "users/user_delete.html")
