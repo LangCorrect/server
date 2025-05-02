@@ -134,6 +134,7 @@ def user_delete_view(request):
 
     if request.method == "POST":
         try:
+            cancel_subscription(current_user)
             with transaction.atomic():
                 system_user = User.objects.get(username="system")
 
@@ -164,22 +165,10 @@ def user_delete_view(request):
 
                 current_user.delete()
 
-                # subscription
-                is_sub_cancelled = cancel_subscription(current_user)
-                if not is_sub_cancelled:
-                    messages.error(
-                        request,
-                        _(
-                            "An error occurred while cancelling your "
-                            "subscription. Your account has not been deleted. "
-                            "Please contact support.",
-                        ),
-                    )
-                else:
-                    messages.success(
-                        request,
-                        _("Your account has been deleted successfully."),
-                    )
+                messages.success(
+                    request,
+                    _("Your account has been deleted successfully."),
+                )
 
                 return redirect("/")
 
