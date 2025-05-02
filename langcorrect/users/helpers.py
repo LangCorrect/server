@@ -1,16 +1,20 @@
+# ruff: noqa: RSE102
+
 import logging
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from langcorrect.subscriptions.exceptions import MissingSubscriptionIdError
+from langcorrect.subscriptions.exceptions import SubscriptionCancellationError
 from langcorrect.subscriptions.utils import StripeManager
+from langcorrect.users.exceptions import UserIsNoneError
 
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
-USER_IS_EMPTY_ERR_MSG = "User cannot be None"
 USER_IS_PREMIUM_BUT_NO_SUB_ID_ERR_MSG = (
     "%s has an active subscription flag, but no sub ID."
 )
@@ -34,7 +38,7 @@ def get_active_users(days=30):
 
 def cancel_subscription(user):
     if user is None:
-        raise ValueError(USER_IS_EMPTY_ERR_MSG)
+        raise UserIsNoneError()
 
     # Users who do not proceed to the checkout page will not
     # have a StripeCustomer object
@@ -47,15 +51,15 @@ def cancel_subscription(user):
 
     sub_id = stripe_customer.current_subscription_id
     if sub_id is None:
-        raise ValueError(
-            USER_IS_PREMIUM_BUT_NO_SUB_ID_ERR_MSG,
-            user.username,
-        )
+        raise MissingSubscriptionIdError()
     try:
         StripeManager.cancel_subscription(sub_id)
-    except Exception:
-        raise ValueError(SUBSCRIPTION_CANCELLATION_ERR_MSG, user.username)
+    except Exception as err:  # noqa: BLE001
+        raise SubscriptionCancellationError(
+            message=f"Error cancelling subscription for user {user.username}",
+        ) from err
 
+    # TODO: remove this after testing
     logger.info(
         SUBSCRIPTION_CANCELLED_SUCCESS_MSG,
         user.username,

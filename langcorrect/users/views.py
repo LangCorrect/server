@@ -1,3 +1,5 @@
+# ruff: noqa: PLR0911
+
 import logging
 from datetime import datetime
 
@@ -18,6 +20,10 @@ from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
 from langcorrect.corrections.models import PostCorrection
+from langcorrect.subscriptions.exceptions import MissingSubscriptionIdError
+from langcorrect.subscriptions.exceptions import SubscriptionCancellationError
+from langcorrect.users.exceptions import MissingSystemUserError
+from langcorrect.users.exceptions import UserIsNoneError
 from langcorrect.users.helpers import cancel_subscription
 from langcorrect.utils.management import DataManagement
 
@@ -25,6 +31,14 @@ logger = logging.getLogger(__name__)
 
 
 User = get_user_model()
+
+ACCOUNT_DELETION_ERR_MSG = _("An error occurred while deleting your account.")
+SYSTEM_ACCOUNT_MISSING_MIGRATION_ERR_MSG = (
+    "Cannot migrate data because system user is missing."
+)
+UNKNOWN_ACCOUNT_DELETION_ERR_MSG = _(
+    "An unknown error occurred while deleting your account.",
+)
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -135,6 +149,7 @@ def user_delete_view(request):
     if request.method == "POST":
         try:
             cancel_subscription(current_user)
+
             with transaction.atomic():
                 system_user = User.objects.get(username="system")
 
@@ -172,16 +187,24 @@ def user_delete_view(request):
 
                 return redirect("/")
 
-        except Exception:
-            logger.exception(
-                "Error deleting user %s",
-                current_user.username,
-            )
+        except UserIsNoneError:
+            # This should never happen
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except MissingSystemUserError:
+            # TODO: add system user in seed.py
+            messages.error(request, SYSTEM_ACCOUNT_MISSING_MIGRATION_ERR_MSG)
+            return redirect("/")
+        except MissingSubscriptionIdError:
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except SubscriptionCancellationError:
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except Exception:  # noqa: BLE001
             messages.error(
                 request,
-                _(
-                    "An error occurred while deleting your account.",
-                ),
+                UNKNOWN_ACCOUNT_DELETION_ERR_MSG,
             )
             return redirect("/")
 
