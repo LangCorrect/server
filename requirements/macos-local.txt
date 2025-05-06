@@ -116,7 +116,7 @@ pytz==2024.2
 PyYAML==6.0.2
 redis==5.0.1
 referencing==0.35.1
-regex==2023.12.25
+regex==2024.11.6
 requests==2.32.3
 requests-oauthlib==2.0.0
 rpds-py==0.22.3
