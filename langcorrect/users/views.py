@@ -151,7 +151,13 @@ def user_delete_view(request):
             cancel_subscription(current_user)
 
             with transaction.atomic():
-                system_user = User.objects.get(username="system")
+
+                try:
+                    system_user = User.objects.get(username="system")
+                except User.DoesNotExist:
+                    raise MissingSystemUserError(
+                        "System user does not exist. Cannot migrate data.",
+                    )
 
                 # posts
                 DataManagement.migrate_posts(
