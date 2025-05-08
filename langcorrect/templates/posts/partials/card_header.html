@@ -4,19 +4,19 @@
 <div class="card-header bg-transparent">
   <div class="d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
-      {% if user.is_active %}
+      {% if user.is_system %}
+        <i class="fa-solid fa-ghost text-primary fa-lg"></i>
+      {% else %}
         <a href="{{ user.get_absolute_url }}">
           <img src="{{ user.avatar }}" alt="{{ user.display_name }}'s avatar" />
         </a>
-      {% else %}
-        <i class="fa-solid fa-ghost text-primary fa-lg"></i>
       {% endif %}
       <div>
-        {% if user.is_active %}
+        {% if user.is_system %}
+          <span class="text-primary">Kindred Spirit</span>
+        {% else %}
           <a href="{{ user.get_absolute_url }}"
              class="card-title mb-0 text-decoration-none {% if user.is_premium_user %}text-premium{% else %}text-reset{% endif %}">{{ user.display_name }}</a>
-        {% else %}
-          <span class="text-primary">Kindred Spirit</span>
         {% endif %}
         <p class="mb-0 small text-muted">{{ created|naturalday }}</p>
       </div>
