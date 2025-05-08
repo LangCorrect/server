@@ -91,7 +91,7 @@ class LanguageLevelDeleteView(
 
     def form_valid(self, form):
         obj = self.get_object()
-        obj.delete(soft=False)
+        obj.delete()
         return HttpResponseRedirect(self.get_success_url())
 
 
