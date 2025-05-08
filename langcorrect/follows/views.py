@@ -72,7 +72,7 @@ def follow_user(request, username):
         Follower.objects.filter(
             user=current_user,
             follow_to=profile_user,
-        ).first().delete(soft=False)
+        ).first().delete()
     else:
         Follower.objects.create(user=current_user, follow_to=profile_user)
         notify.send(
