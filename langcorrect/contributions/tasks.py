@@ -22,7 +22,7 @@ def calculate_contribution_points(batch_size=20, days=60):
         user_correction_counts,
     ) = get_contribution_counts(user_ids=active_user_ids)
 
-    contributions = Contribution.available_objects.filter(
+    contributions = Contribution.objects.filter(
         user_id__in=active_user_ids,
     ).select_related("user")
 

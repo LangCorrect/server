@@ -30,7 +30,7 @@ class Language(TimeStampedModel, SoftDeletableModel):
         return f"{_(self.en_name)}"
 
 
-class LanguageLevel(TimeStampedModel, SoftDeletableModel):
+class LanguageLevel(TimeStampedModel):
     class Meta:
         unique_together = ("user", "language")
 

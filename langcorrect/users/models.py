@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -15,6 +16,8 @@ from langcorrect.contributions.models import Contribution
 from langcorrect.corrections.models import PostCorrection
 from langcorrect.languages.models import Language
 from langcorrect.languages.models import LevelChoices
+
+CANNOT_DELETE_SYSTEM_USER_ERR_MSG = "System user cannot be deleted."
 
 
 class ActiveUserManager(UserManager):
@@ -50,9 +53,15 @@ class User(AbstractUser):
     is_moderator = models.BooleanField(default=False)
     is_lifetime_vip = models.BooleanField(default=False)
     is_max_studying = models.BooleanField(default=False)
+    is_system = models.BooleanField(default=False)
     uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     objects = ActiveUserManager()
+
+    def delete(self, *args, **kwargs):
+        if self.is_system:
+            raise PermissionDenied(CANNOT_DELETE_SYSTEM_USER_ERR_MSG)
+        return super().delete(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.

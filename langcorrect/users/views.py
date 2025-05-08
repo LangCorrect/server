@@ -1,3 +1,5 @@
+# ruff: noqa: PLR0911
+
 import logging
 from datetime import datetime
 
@@ -18,15 +20,25 @@ from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
 from langcorrect.corrections.models import PostCorrection
-from langcorrect.users.helpers import anonymize_user
+from langcorrect.subscriptions.exceptions import MissingSubscriptionIdError
+from langcorrect.subscriptions.exceptions import SubscriptionCancellationError
+from langcorrect.users.exceptions import MissingSystemUserError
+from langcorrect.users.exceptions import UserIsNoneError
 from langcorrect.users.helpers import cancel_subscription
-from langcorrect.users.helpers import delete_user_follows
-from langcorrect.users.helpers import delete_user_notifications
+from langcorrect.utils.management import DataManagement
 
 logger = logging.getLogger(__name__)
 
 
 User = get_user_model()
+
+ACCOUNT_DELETION_ERR_MSG = _("An error occurred while deleting your account.")
+SYSTEM_ACCOUNT_MISSING_MIGRATION_ERR_MSG = (
+    "Cannot migrate data because system user is missing."
+)
+UNKNOWN_ACCOUNT_DELETION_ERR_MSG = _(
+    "An unknown error occurred while deleting your account.",
+)
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -118,41 +130,84 @@ notifications_view = NotificationsViewList.as_view()
 @login_required
 def user_delete_view(request):
     """
-    TODO: Ideally I would like to have a system user that inherits all data
-    from the user that is being deleted. This way, we can properly delete
-    users and cleanup the db.
+    Permanently deleted info:
+    - email address (cascade delete)
+    - notifications (cascade delete)
+    - language levels (cascade delete)
+    - contribution (cascade delete)
+    - profile info (username, password, first and last name, etc.)
+
+    Anonymized info:
+    - posts
+    - corrections
+    - comments
+    - prompts
+
     """
     current_user = request.user
 
     if request.method == "POST":
         try:
-            with transaction.atomic():
-                delete_user_notifications(current_user)
-                delete_user_follows(current_user)
+            cancel_subscription(current_user)
 
-                is_sub_cancelled = cancel_subscription(current_user)
-                if not is_sub_cancelled:
-                    messages.error(
-                        request,
-                        _(
-                            "An error occurred while cancelling your "
-                            "subscription. Your account has not been deleted. "
-                            "Please contact support.",
-                        ),
-                    )
-                else:
-                    anonymize_user(current_user)
-                    messages.success(
-                        request,
-                        _("Your account has been deleted successfully."),
-                    )
+            with transaction.atomic():
+                try:
+                    system_user = User.objects.get(username="system")
+                except User.DoesNotExist as err:
+                    raise MissingSystemUserError() from err  # noqa: RSE102
+
+                # posts
+                DataManagement.migrate_posts(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+                DataManagement.delete_post_images(from_user=current_user)
+
+                # prompts
+                DataManagement.migrate_prompts(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                # corrections
+                DataManagement.migrate_corrections(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                # comments
+                DataManagement.migrate_comments(
+                    from_user=current_user,
+                    to_user=system_user,
+                )
+
+                current_user.delete()
+
+                messages.success(
+                    request,
+                    _("Your account has been deleted successfully."),
+                )
 
                 return redirect("/")
 
-        except Exception:
-            logger.exception(
-                "Error deleting user %s",
-                current_user.username,
+        except UserIsNoneError:
+            # This should never happen
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except MissingSystemUserError:
+            # TODO: add system user in seed.py
+            messages.error(request, SYSTEM_ACCOUNT_MISSING_MIGRATION_ERR_MSG)
+            return redirect("/")
+        except MissingSubscriptionIdError:
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except SubscriptionCancellationError:
+            messages.error(request, ACCOUNT_DELETION_ERR_MSG)
+            return redirect("/")
+        except Exception:  # noqa: BLE001
+            messages.error(
+                request,
+                UNKNOWN_ACCOUNT_DELETION_ERR_MSG,
             )
             return redirect("/")
 
