@@ -25,6 +25,10 @@ class ActiveUserManager(UserManager):
         return super().get_queryset().filter(is_active=True)
 
 
+class AllUserManager(UserManager):
+    pass
+
+
 class GenderChoices(models.TextChoices):
     MALE = "M", _("Male")
     FEMALE = "F", _("Female")
@@ -57,6 +61,7 @@ class User(AbstractUser):
     uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
 
     objects = ActiveUserManager()
+    all_objects = AllUserManager()
 
     def delete(self, *args, **kwargs):
         if self.is_system:
