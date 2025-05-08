@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% if user.is_active %}
+{% if not user.is_system %}
   <div class="d-flex align-items-center gap-1">
     <span class="d-flex align-items-center"
           data-bs-toggle="tooltip"
