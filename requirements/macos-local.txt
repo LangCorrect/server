@@ -58,7 +58,7 @@ fonttools==4.55.3
 frozendict==2.4.6
 fugashi==1.4.0
 genanki==0.13.1
-hiredis==2.3.2
+hiredis==3.2.1
 html-tag-names==0.1.2
 html-void-elements==0.1.0
 html5lib==1.1
