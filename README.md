@@ -11,7 +11,7 @@ View the live website [here](https://langcorrect.com).
 
 Welcome to the LangCorrect repository! This community-driven platform is designed to help users master writing in foreign languages. Ideal for language learners in search of practice and native speakers willing to lend a hand, LangCorrect offers a friendly, engaging environment where you can connect, share, and learn.
 
-This repository houses the source code for the LangCorrect web application, developed using Django for the backend and the Django templating engine for the frontend. Additionally, a React client is currently in development; you can access its repository by clicking on [LangCorrect React Client](https://github.com/LangCorrect/react-client-mui).
+This repository houses the source code for the LangCorrect web application, developed using Django for the backend and the Django templating engine for the frontend.
 
 Interested in the features we offer or looking to contribute? Read on to find out more.
 
@@ -67,12 +67,12 @@ langcorrect/ - Project-specific code
 
 - [x] Update DB Schema for more efficient queries and organization
 - [x] Migrate data and codebase to use new DB schema
-- [] Release API
-- [] Release Next.js client
-- [] Release Messenger
-- [] Remove deprecated project templates
-- [] Containerize project (again...)
-- [] Work on getting test coverage ~80%
+- [ ] Release API
+- [ ] Release Next.js client
+- [ ] Release Messenger
+- [ ] Remove deprecated project templates
+- [ ] Containerize project (again...)
+- [ ] Work on getting test coverage ~80%
 
 ## Getting Started
 
@@ -80,7 +80,8 @@ langcorrect/ - Project-specific code
 
 - PostgreSQL; refer to the official documentation for installation.
 - Pre-commit; refer to the official documentation for the pre-commit.
-- Cookiecutter; refer to the official GitHub repository of Cookiecutter
+- Cookiecutter; refer to the official GitHub repository of Cookiecutter.
+- Gulp.js; refer to the official documentation for installation.
 
 ### Installation
 
@@ -109,7 +110,7 @@ We use [Fugashi](https://github.com/polm/fugashi) and [NLTK](https://www.nltk.or
 
 ```sh
 python -m unidic download
-python -m nltk.downloader popular
+python -m nltk.downloader popular punkt_tab
 ```
 
 #### Create the database
@@ -133,11 +134,10 @@ Make sure to setup pre-commit, otherwise there will be a bunch of CI and Linter 
 pre-commit install
 ```
 
-#### Install fixtures
+#### Generate frontend assets
 
 ```sh
-python manage.py loaddata fixtures/languages.json
-python manage.py loaddata fixtures/correction_types.json
+gulp generate-assets
 ```
 
 #### Run the server
@@ -184,8 +184,8 @@ We use `flake8` for checking Python code for style and syntax errors and `pylint
 This project uses the [Pytest](https://docs.pytest.org/en/latest/example/simple.html), a framework for easily building simple and scalable tests.
 
 ```sh
-python manage.py pytest #runs all tests
-python manage.py pytest langcorrect/<app> #test specific app
+pytest #runs all tests
+pytest langcorrect/<app> #test specific app
 ```
 
 #### Coverage
@@ -193,8 +193,8 @@ python manage.py pytest langcorrect/<app> #test specific app
 You should build your tests to provide the highest level of code coverage. You can run the pytest with code coverage by typing in the following command:
 
 ```sh
-python manage.py coverage run -m pytest
-python manage.py coverage report
+coverage run -m pytest
+coverage report
 ```
 
 #### Unit Tests
@@ -265,6 +265,6 @@ Contribution Workflow:
 9. **Open Pull Request:** Open a PR in the original repository and fill in the PR template.
 10. **Address Reviews:** Maintainers will review your PR. Make any requested changes if needed.
 
-If you have any questions or need further clarification on any of the steps, feel free to reach out to our Discord: <https://discord.gg/Vk7KcV26Fe>.
+If you have any questions or need further clarification on any of the steps, feel free to reach out to our Discord: <https://discord.gg/SsJexjK>.
 
 We look forward to your contributions!
